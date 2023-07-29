@@ -1,0 +1,17 @@
+footer {
+    left: 0.2em;
+    right: 0.2em;
+    width: auto;
+    margin: 0 auto;
+    background: rgba(0, 0, 0, 0.2);
+    margin-bottom: 0.2em;
+    border: 0.1em solid #aaa;
+    border: solid 0.1em;
+    border-radius: 0.1em;
+    display: block;
+}
+
+footer {
+    position: sticky;
+    bottom: 0.2em;
+}

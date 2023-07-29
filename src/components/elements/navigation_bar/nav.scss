@@ -1,0 +1,146 @@
+$NavHeight: 2.5em;
+$QuickAnim: 0.2s;
+
+nav {
+    left: 0.2em;
+    right: 0.2em;
+    top: 0.2em;
+    margin: 0 auto;
+    font-size: 1.1em;
+    position: fixed;
+    display: block;
+    width: auto;
+    height: $NavHeight;
+    background-color: rgba(0, 0, 0, 0.2);
+    border: solid 0.1em;
+    border-radius: 0.1em;
+    transition: background-color $QuickAnim ease; 
+}
+
+nav:hover {
+    background-color: rgba(0, 0, 0, 0.6);
+}
+
+#GameIcon {
+    margin-left: 0.5em;
+    padding: 0.1em;
+    width: 2.25em;
+    height: 2.25em;
+    display: block;
+    float: left;
+}
+
+#AuthorizationIcon {
+    margin-right: 1em;
+    width: 1.8em;
+    float: right;
+    border: solid 0.1em #aaa;
+    padding: 0.25em;
+    transform: scale(1.05);
+    transition: transform 0.2s ease, color 0.2s ease;
+}
+
+#AuthorizationIcon:hover {
+    color: white;
+    transform: scale(1.15);
+}
+
+#LeftPart, #RightPart {
+    position: static;
+    display: inline-block;
+    line-height: $NavHeight;
+    margin: 0;
+}
+
+#LeftPart {
+    float: left;
+}
+
+#RightPart {
+    float: right;
+}
+
+#LeftPart div, #RightPart div {
+    display: inline-block;
+}
+
+#LeftPart > a {
+    margin-left: 1.5em;
+}
+
+#RightPart > a {
+    margin-right: 1.5em;
+}
+
+/*#LeftPart a, #RightPart a {
+
+}*/
+
+.mainLink {
+    display: inline-block;
+    text-decoration: none;
+    color: #AAAAAA;
+    /*    border: solid 0.1em transparent;*/
+    box-shadow: 0 0 0 0.1em #aaa;
+    border-radius: 0.05em;
+    padding: 0 1em;
+    transform: scale(1);
+    transition: transform 0.2s ease, color 0.2s ease, border 0.05s ease;
+}
+
+#LeftPart > a:hover, #RightPart > a:hover {
+    color: white;
+    transform: scale(1.1);
+    border-color: #aaa;
+    transition: border-color 0.2s ease, transform 0.2s ease;
+}
+
+#LeftPart > a:not(:first-child), #RightPart > a:first-child {
+    padding-right: 0;
+}
+
+.Arrow {
+    padding: 0;
+    opacity: 0;
+    transform: scaleX(0) rotate(-90deg) translateX(0.05em);
+    transition: padding 0.2s ease, opacity 0.2s ease, transform 0.2s ease;
+}
+
+.mainLink:hover .Arrow {
+    padding: 0 0.55em;
+    opacity: 1;
+    transform: scaleX(1) rotate(-90deg) translateX(0.05em);
+}
+
+.mainLink:hover .Arrow:hover {
+    transform: scaleX(1) rotate(0) translateY(0.1em);
+
+}
+#LeftPart a:active, #RightPart a:active, #AuthorizationIcon:active {
+    transform: scale(1.05);
+    background-color: rgba(0, 0, 0, 0.2);
+    transition: transform 0.15s ease, background-color 0.2s ease;
+}
+
+.GuidebookSM {
+    position: absolute;
+    top: 100%;
+}
+
+/*.subLink {
+    transform: scaleX(1.2);
+    position: relative;
+    margin-left: -11.5em;
+    text-decoration: none;
+    text-align: justify;
+    display: block;
+    border: 0.1em solid #aaa;
+    width: 227px;
+    text-indent: 0.5em;
+}*/
+
+//<div id="GuidebookSM">
+//    <Link className="subLink" to="/Items">Предметы</Link>
+//    <Link className="subLink" to="/Creatures">Обитатели</Link>
+//    <Link className="subLink" to="/Locations">Локации</Link>
+//</div>

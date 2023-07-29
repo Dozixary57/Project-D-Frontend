@@ -1,0 +1,34 @@
+.slider-container {
+    margin: 0 auto;
+    width: 70vw;
+    height: 55vh;
+    display: block;
+    background-color: black;
+}
+
+.slider-image, .slider-video {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+
+
+.slider-indicators {
+    position: relative;
+    text-align: center;
+    margin-top: -1.7em;
+    display: block;
+    color: transparent;
+}
+
+.active {
+    background-color: transparent;
+    box-shadow: 0 0 0 0.2em #aaa inset;
+    padding: 0.5em 0.7em;
+    color: transparent;
+    border: transparent;
+}
+.slider-btn-prev, .slider-btn-next {
+    font-family: 'F77 Minecraft';
+}

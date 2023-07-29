@@ -1,0 +1,63 @@
+.itmContTitl {
+	margin: 0.6em 0.4em;
+}
+
+.Definition {
+	box-shadow: 0 0 0 0.1em inset;
+	border-bottom-left-radius: 0.1em;
+	border-bottom-right-radius: 0.1em;
+}
+
+/*.Definition hr {
+	width: auto;
+}
+
+.Definition p {
+	margin: 0;
+	padding: 0.3em;
+}
+.Definition p:first-child {
+	padding-top: 0.6em;
+}
+.Definition p:last-child {
+	padding-bottom: 0.4em;
+}*/
+
+.AltMainForItem {
+	background-color: transparent;
+}
+
+.TextData {
+	width: 49em;
+	float: left;
+	padding: 0.1em 0.5em;
+	background-color: rgba(0, 0, 0, 0.2);
+	
+
+}
+
+.TextData > p {
+	margin: 0.5em 1.5em;
+	text-indent: 2em;
+	line-height: 1.5em;
+}
+
+.VisualData {
+	width: 14em;
+	float: right;
+	top: 0;
+	right: 0;
+	background-color: rgba(0, 0, 0, 0.2);
+	//border-top: solid 0.1em #aaa;
+	//border-right: solid 0.1em #aaa;
+	//border-top-right-radius: 0.1em;
+}
+
+.VisualData img {
+	width: 100%;
+	//box-shadow: 0 0 0 0.1em;
+}
+
+.ItemCover {
+	padding: 0.5em;
+}
