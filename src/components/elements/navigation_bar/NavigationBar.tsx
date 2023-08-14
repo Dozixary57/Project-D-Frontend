@@ -17,7 +17,7 @@ export function NavBar() {
                     {/*    <Link className="subLink" to="">Последние события</Link>*/}
                     {/*</div>*/}
                 </div>
-                <Link to="/Signin"><img id="AuthorizationIcon" src={require('../../images/AuthorizationIcon.png')} alt="AuthorizationIcon" /></Link>
+                <Link to="/Login"><img id="AuthorizationIcon" src={require('../../images/AuthorizationIcon.png')} alt="AuthorizationIcon" /></Link>
                 <div id="RightPart">
                     <Link id="ReceiveM" className="mainLink" to="/Receive">Receive<div className="Arrow">▾</div></Link>
                     {/*<div id="ReceiveSM" className="subMenu">*/}

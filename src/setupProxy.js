@@ -27,7 +27,7 @@ module.exports = function (fastify) {
     );
 
     fastify.use(
-        '/Authentication/Signin',
+        '/Authentication/Login',
         createProxyMiddleware({
             target: 'http://localhost:5000',
             changeOrigin: true,

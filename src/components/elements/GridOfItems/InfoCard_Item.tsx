@@ -48,15 +48,8 @@ export function InfoCard_Item() {
     
     
     const renderItem = (item: Item, coverUrl: string) => {
-        // const TiltOptions = {
-        //     reverse: true,  // reverse the tilt direction
-        //     max: 50,     // max tilt rotation (degrees)
-        //     perspective: 300,   // Transform perspective, the lower the more extreme the tilt gets.
-        //     scale: 1,
-        //     reset: true,    // If the tilt effect has to be reset on exit.
-        // }
         return (
-            <Link to={`/Content/Item/${item.Title}`} className='LinkStyle'>
+            <Link key={item._id} to={`/Content/Item/${item.Title}`} className='LinkStyle'>
                 <div className='CardOfItem'>
                     <figure className='Card'>
                         <ParallaxTilt tiltMaxAngleX={35} tiltMaxAngleY={35} perspective={400} tiltReverse={true} className="ParallaxEffectCard">

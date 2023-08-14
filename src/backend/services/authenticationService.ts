@@ -1,15 +1,16 @@
 ﻿import axios from 'axios';
 
 const AuthenticationService = {
-    postSigninData: async (username: string, password: string) => {
+    postLoginData: async (username: string, password: string) => {
         const data = {
-            username: username,
-            password: password
+            Username: username,
+            Password: password
         };
         const headers = {
             'Content-Type': 'application/json'
         };
-        await axios.post(`/Authentication/Signin`, data, { headers });
+        const res = await axios.post(`/Authentication/Login`, data, { headers });
+        return res.data || []
     }
 }
 
