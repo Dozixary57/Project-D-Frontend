@@ -1,8 +1,8 @@
 import { Helmet } from "react-helmet";
 import { NavBar } from "../components/elements/navigation_bar/NavigationBar";
-import "../components/styles/general_styles/RegistrationPage.scss"
+import "./SignupPage.scss"
 import {useState} from "react";
-import authenticationService from "../backend/services/authenticationService";
+import authService from "../backend/services/authService";
 import {Link} from "react-router-dom";
 
 const SingupPage = () => {
@@ -43,7 +43,7 @@ const SingupPage = () => {
                 <title>Sign Up | DizaQute</title>
             </Helmet>
             <NavBar/>
-            <main className="AltMain">
+            <main className="SignupPageMain">
                 <form id="Signup" onSubmit={handleSubmit}>
                     <fieldset>
                         <legend>Sign Up</legend>
@@ -111,6 +111,10 @@ const SingupPage = () => {
                                 </Link>,
                                 and I give my consent to the processing of personal data.
                             </label>
+                        </div>
+                        <div className="checkboxSSI">
+                            <input type="checkbox" name="checkbox2"/>
+                            <label htmlFor="checkbox2">Instant login</label>
                         </div>
                         <div>
                             <input type="submit" value="Sign Up" className="dataSubmit"/>

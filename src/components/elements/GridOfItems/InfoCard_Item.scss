@@ -1,14 +1,5 @@
 $cardSize: 6em;
 
-.GridOfItems {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(6em, 8.2em));
-    grid-template-rows: repeat(auto-fit, minmax(6em, 8.2em));
-    grid-gap: 0.5em;
-    padding: 1em;
-    justify-content: center;
-}
-
 .CardOfItem { 
     width: $cardSize;
     height: $cardSize;

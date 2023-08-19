@@ -12,135 +12,166 @@ nav {
     width: auto;
     height: $NavHeight;
     background-color: rgba(0, 0, 0, 0.2);
-    border: solid 0.1em;
-    border-radius: 0.1em;
-    transition: background-color $QuickAnim ease; 
+    border-radius: 0.25em;
+    transition: background-color $QuickAnim ease;
+    backdrop-filter: blur(0.1em);
+    z-index: 1;
 }
 
 nav:hover {
-    background-color: rgba(0, 0, 0, 0.6);
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+nav div {
+    display: inline-block;
 }
 
 #GameIcon {
-    margin-left: 0.5em;
-    padding: 0.1em;
-    width: 2.25em;
-    height: 2.25em;
-    display: block;
+    margin: 0 0.5em;
+    padding: 0.15em;
+    width: 2.20em;
+    height: 2.20em;
+    display: inline-block;
     float: left;
 }
 
-#AuthorizationIcon {
-    margin-right: 1em;
-    width: 1.8em;
+.Account {
+    position: relative;
+    height: 2.5em;
+    margin-right: 0.5em;
+    width: auto;
     float: right;
-    border: solid 0.1em #aaa;
-    padding: 0.25em;
-    transform: scale(1.05);
+    border-radius: 0.25em;
+    transform: scale(0.95);
     transition: transform 0.2s ease, color 0.2s ease;
-}
-
-#AuthorizationIcon:hover {
-    color: white;
-    transform: scale(1.15);
-}
-
-#LeftPart, #RightPart {
-    position: static;
     display: inline-block;
-    line-height: $NavHeight;
-    margin: 0;
+    scale: 0.9;
+    transition: all 0.2s ease-in-out;
 }
 
-#LeftPart {
-    float: left;
-}
-
-#RightPart {
-    float: right;
-}
-
-#LeftPart div, #RightPart div {
-    display: inline-block;
-}
-
-#LeftPart > a {
-    margin-left: 1.5em;
-}
-
-#RightPart > a {
-    margin-right: 1.5em;
-}
-
-/*#LeftPart a, #RightPart a {
-
-}*/
-
-.mainLink {
-    display: inline-block;
+.Account a {
     text-decoration: none;
-    color: #AAAAAA;
-    /*    border: solid 0.1em transparent;*/
-    box-shadow: 0 0 0 0.1em #aaa;
-    border-radius: 0.05em;
-    padding: 0 1em;
-    transform: scale(1);
-    transition: transform 0.2s ease, color 0.2s ease, border 0.05s ease;
+    color: #AAA;
 }
 
-#LeftPart > a:hover, #RightPart > a:hover {
+.Account:hover {
+    transform: scale(1.05);
+    background-color: #2a1e16;
+}
+.Account:hover .ProfileName {
     color: white;
-    transform: scale(1.1);
-    border-color: #aaa;
-    transition: border-color 0.2s ease, transform 0.2s ease;
 }
 
-#LeftPart > a:not(:first-child), #RightPart > a:first-child {
-    padding-right: 0;
+.ProfileContainer {
+    display: flex;
+    align-items: center;
+}
+
+.ProfileIcon {
+    width: 2.5em;
+    border-top-right-radius: 0.25em;
+    border-bottom-right-radius: 0.25em;
+}
+
+.ProfileName {
+    padding: 0.5em;
+}
+
+
+.ProfileIcon {
+    width: 2.5em;
+}
+
+.AuthorizationImg {
+    height: 1.75em;
+    width: 1.75em;
+    padding: 0.4em;
+}
+
+.LinksGroup {
+    display: grid;
+    grid-template-columns: auto auto;
+}
+
+
+.leftSide, .rightSide {
+    display: grid;
+    align-items: center;
+}
+.leftSide {
+    grid-template-columns: auto auto auto;
+    justify-items: start;
+}
+
+.rightSide {
+    grid-template-columns: auto auto;
+    justify-items: end;
+}
+
+.singleLink {
+    padding: 0.7em 1em;
+}
+
+.LinkButtonContainer {
+    color: #AAA;
+    border-radius: 0.25em;
+    transform: scale(0.85);
+    transition: transform 0.2s ease;
+    cursor: pointer;
+}
+
+.LinkButtonContainer:hover {
+    color: white;
+    transform: scale(0.95);
+    background-color: #2a1e16;
+}
+
+.LinkButtonContainer > a {
+    color: #AAAAAA;
+    text-decoration: none;
+}
+
+.LinkButtonContainer:hover > a {
+    color: white;
+}
+
+.LinkButtonContainer:active {
+    transform: scale(0.85);
+    background-color: #261b13;
+    transition: all 50ms ease-in-out;
+}
+
+.linkButton {
+    padding: 0.7em 0.4em 0.7em 0.8em;
+}
+
+.submenuButton {
+    box-sizing: border-box;
+    padding: 0.7em 0.5em;
+    border-top-right-radius: 0.25em;
+    border-bottom-right-radius: 0.25em;
+    border-left: 0.1em solid transparent;
+    opacity: 0;
+    transform: scaleX(1);
+    transition: all 0.2s ease-in-out;
+
+}
+
+.LinkButtonContainer:hover .submenuButton {
+    padding: 0.7em 0.5em;
+    border-left-color: #19120d;
+    opacity: 1;
+}
+
+.LinkButtonContainer:hover .submenuButton:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+.LinkButtonContainer:hover .submenuButton:hover .Arrow {
+    transform: scaleX(1) translate(0.02em, 0.1em) rotate(0deg);
 }
 
 .Arrow {
-    padding: 0;
-    opacity: 0;
-    transform: scaleX(0) rotate(-90deg) translateX(0.05em);
-    transition: padding 0.2s ease, opacity 0.2s ease, transform 0.2s ease;
+    transform: scaleX(1) translate(0.1em, -0.05em) rotate(-90deg);
+    transition: all 0.15s ease-in-out;
 }
-
-.mainLink:hover .Arrow {
-    padding: 0 0.55em;
-    opacity: 1;
-    transform: scaleX(1) rotate(-90deg) translateX(0.05em);
-}
-
-.mainLink:hover .Arrow:hover {
-    transform: scaleX(1) rotate(0) translateY(0.1em);
-
-}
-#LeftPart a:active, #RightPart a:active, #AuthorizationIcon:active {
-    transform: scale(1.05);
-    background-color: rgba(0, 0, 0, 0.2);
-    transition: transform 0.15s ease, background-color 0.2s ease;
-}
-
-.GuidebookSM {
-    position: absolute;
-    top: 100%;
-}
-
-/*.subLink {
-    transform: scaleX(1.2);
-    position: relative;
-    margin-left: -11.5em;
-    text-decoration: none;
-    text-align: justify;
-    display: block;
-    border: 0.1em solid #aaa;
-    width: 227px;
-    text-indent: 0.5em;
-}*/
-
-//<div id="GuidebookSM">
-//    <Link className="subLink" to="/Items">Предметы</Link>
-//    <Link className="subLink" to="/Creatures">Обитатели</Link>
-//    <Link className="subLink" to="/Locations">Локации</Link>
-//</div>

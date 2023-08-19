@@ -5,24 +5,54 @@ export function NavBar() {
     return (
         <>
             <nav>
-                <Link to="/About"><img id="GameIcon" src={require('../../images/LogoProjectD.png')} alt="LogoIcon" /></Link>
-                <div id="LeftPart">
-                    <Link className="mainLink" to="/Home">Home</Link>
-                    <Link id="GuidebookM" className="mainLink" to="/Content">Content<div className="Arrow">▾</div></Link>
-                    {/*<div id="GuidebookSM" className="subMenu">*/}
-                    {/*    <Link className="subLink" to="/Items">Предметы</Link>*/}
-                    {/*</div>*/}
-                    <Link id="NewsM" className="mainLink" to="/News">News<div className="Arrow">▾</div></Link>
-                    {/*<div id="NewsSM" className="subMenu">*/}
-                    {/*    <Link className="subLink" to="">Последние события</Link>*/}
-                    {/*</div>*/}
-                </div>
-                <Link to="/Login"><img id="AuthorizationIcon" src={require('../../images/AuthorizationIcon.png')} alt="AuthorizationIcon" /></Link>
-                <div id="RightPart">
-                    <Link id="ReceiveM" className="mainLink" to="/Receive">Receive<div className="Arrow">▾</div></Link>
-                    {/*<div id="ReceiveSM" className="subMenu">*/}
-                    {/*    <Link className="subLink" to="">Скачать</Link>*/}
-                    {/*</div>*/}
+            <Link to="/About"><img id="GameIcon" src={require('../../images/LogoProjectD.png')} alt="LogoIcon" /></Link>
+                <div className="LinksGroup">
+                    <div className="leftSide">
+                        <Link to="/Home">
+                            <div className="LinkButtonContainer">
+                                <div className="singleLink">Home</div>
+                            </div>
+                        </Link>
+                        <Link to="/Content">
+                            <div className="LinkButtonContainer">
+                                <div className="linkButton">Content</div>
+                                <div className="submenuButton">
+                                    <div className="Arrow">▾</div>
+                                </div>
+                            </div>
+                        </Link>
+                        <Link to="/News">
+                            <div className="LinkButtonContainer">
+                                <div className="linkButton">News</div>
+                                <div className="submenuButton">
+                                    <div className="Arrow">▾</div>
+                                </div>
+                            </div>
+                        </Link>
+                    </div>
+                    <div className="rightSide">
+                        <Link id="ReceiveM" className="submenuLink" to="/Receive">
+                            <div className="LinkButtonContainer">
+                                <div className="linkButton">Receive</div>
+                                <div className="submenuButton">
+                                    <div className="Arrow">▾</div>
+                                </div>
+                            </div>
+                        </Link>
+                        <div className="Account">{localStorage.getItem('AccessToken')?
+                            (<Link to="/Account">
+                                <div className="ProfileContainer">
+                                    <label className="ProfileName">Dozixary57</label>
+                                    <img className="ProfileIcon" src={require('../../images/ThePlagueDoctor.png')} />
+                                </div>
+                            </Link>)
+                            :
+                            (<Link to="/Login">
+                                <img className="AuthorizationImg" src={require('../../images/AuthorizationIcon.png')} alt="AuthorizationIcon" />
+                            </Link>)
+                        }</div>
+                    </div>
+
                 </div>
             </nav>
         </>

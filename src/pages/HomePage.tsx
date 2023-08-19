@@ -2,19 +2,20 @@ import { Helmet } from "react-helmet";
 import { FooterBar } from "../components/elements/footer_bar/FooterBar";
 import { NavBar } from "../components/elements/navigation_bar/NavigationBar";
 import { Slider } from "../components/elements/slider/Slider";
+import "./HomePage.scss"
 
 const HomePage = () => {
     return (
         <>
             <Helmet>
                 <meta charSet="utf-8" />
-                <title>DizaQute | Home</title>
+                <title>Home | Project D</title>
             </Helmet>
             <NavBar />
-            <main>
+            <div className="sliderBlock">
                 <Slider />
-            </main>
-            <main>
+            </div>
+            <main className="HomePageMain">
                 <p>Home page</p>
                 <p>Home page</p>
                 <p>Home page</p>

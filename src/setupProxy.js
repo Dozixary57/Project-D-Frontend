@@ -33,4 +33,12 @@ module.exports = function (fastify) {
             changeOrigin: true,
         })
     );
+
+    fastify.use(
+        '/Authentication/Logout',
+        createProxyMiddleware({
+            target: 'http://localhost:5000',
+            changeOrigin: true,
+        })
+    );
 };
