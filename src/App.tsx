@@ -8,7 +8,6 @@ import { CreaturesPage } from './pages/CreaturesPage';
 import { ContentPage } from './pages/ContentPage';
 import { HomePage } from './pages/HomePage';
 import { ItemsPage } from './pages/ItemsPage';
-import { LandingPage } from './pages/LandingPage';
 import { LocationsPage } from './pages/LocationsPage';
 import { NewsPage } from './pages/NewsPage';
 import { NowherePage } from './pages/NowherePage';
@@ -18,6 +17,7 @@ import { TestPage } from './pages/TESTpage';
 import { Spoiler } from './pages/\uD83D\uDCE6';
 import {AgreementsPage} from "./pages/AgreementsPage";
 import {SingupPage} from "./pages/SignupPage";
+import {LandingPage} from "./pages/LandingPage";
 
 function App() {
         return (

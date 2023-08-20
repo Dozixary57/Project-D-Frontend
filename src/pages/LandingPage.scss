@@ -4,34 +4,72 @@
   position: absolute;
   width: 100%;
   height: 100%;
+  background-attachment: fixed;
   background-image: url('../components/images/Background.png');
 
+  ::-webkit-scrollbar {
+    width: 0.4em;
+  }
+  ::-webkit-scrollbar-button {
+    display: none;
+  }
+  ::-webkit-scrollbar-track {
+    background-color: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    border-radius: 0.1em;
+    background-color: #AAAAAA;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background-color: white;
+  }
+  ::-webkit-scrollbar-corner {
+    display: none;
+  }
+
   .introBox {
-    overflow-x: hidden;
     position: relative;
-    background: radial-gradient(at 50% 0%, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0));
+    padding: 0.05em 1em 0 1em;
+    background: radial-gradient(at 50% 0%, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.2));
     border-radius: 0.2em;
-    margin: 30vh auto 0 auto;
-    width: 60vw;
-    height: 30vw;
+    margin: 35vh auto 0 auto;
+    min-width: auto;
+    max-width: 40em;
+    min-height: auto;
+    max-height: 70vh;
     text-indent: 2em;
     letter-spacing: 0.1em;
     word-spacing: 0.05em;
+    backdrop-filter: blur(0.08em);
   }
   .introBox p {
+    overflow-x: hidden;
+    height: auto;
     color: white;
-    padding: 0 1em;
     font-size: 1.2em;
     text-align: justify;
+    transition: all 0.2s ease-in-out;
+    border-radius: 0.1em;
+  }
+  .introBox p:hover {
+    background-color: rgba(0, 0, 0, 0.4);
+    box-shadow: 0 0 0.8em 0.8em rgba(0, 0, 0, 0.4);
   }
   .buttonsContainer {
+    justify-content: center;
+    display: flex;
+    flex-direction: row;
+    align-items: center; /* Выравнивание по центру по вертикали */
     text-align: center;
+    padding: 0 0 1em 0;
   }
   .buttonsContainer button {
     color: #AAA;
     padding: 0.8em;
     background: rgba(0, 0, 0, 0.2);
-    border: 0.2em solid #AAA;
+    box-shadow: 0 0 0 0.15em #AAA inset;
+    border: none;
+    border-radius: 0.05em;
     font-size: 1em;
     font-family: 'F77 Minecraft', PressStart2P-Regular, 'Cascadia Mono', sans-serif;
     cursor: pointer;
@@ -39,125 +77,53 @@
     transition: all 50ms ease-in-out;
   }
   .buttonsContainer button:hover {
+    color: white;
+    background-color: rgba(255, 255, 255, 0.02);
     scale: (1.05);
+    box-shadow: 0 0 0 0.15em white inset;
   }
   .buttonsContainer button:active {
     scale: (0.95);
   }
 }
 
-
-
 .descriptionMain {
+  background-size: cover;
+  background-position: center;
+  position: absolute;
+  width: 100%;
+  margin: 0 auto;
+  background-image: url('../components/images/Background.png');
+  main {
+    width: 75%;
+    margin: 0 auto;
+
+  }
+  .backButtonContainer {
+    position: relative;
+    width: 100%;
+    height: auto;
+    display: flex;
+    justify-content: center; /* Горизонтальное центрирование */
+    align-items: center; /* Вертикальное центрирование */
+  }
+  .backButton {
+    position: absolute;
+    color: white;
+    border: 0.2em solid white;
+    padding: 2em 0.8em 0.6em 0.8em;
+    font-size: 1em;
+    background: rgba(0, 0, 0, 0.8);
+    transition: all 0.1s ease-in-out;
+    opacity: 0.4;
+  }
+  .backButton:hover {
+    transform: translateY(1em);
+    background: rgba(0, 0, 0, 0.6);
+    opacity: 1;
+  }
+  p {
+    margin: 0;
+  }
 }
 
-
-
-/*.introductionMain {
-  width: 100vw;
-  height: 100vh;
-  #LogoContainer {
-
-    width: 100%;
-    display: flex;
-    position: absolute;
-    #GameLogo {
-      transform: translateX(0) rotate(0);
-      margin: 6vh auto;
-      background-attachment: fixed;
-      width: 40vw;
-      z-index: 2;
-      animation: GameLogoDynamicAnim 10s linear infinite;
-    }
-  }
-
-  @keyframes GameLogoDynamicAnim {
-    0% {
-      transform: translateY(0) rotate(0);
-    }
-    25% {
-      transform: translateY(0.8vh) rotate(-2deg);
-    }
-    50% {
-      transform: rotate(2deg);
-    }
-    75% {
-      transform: translateY(-0.8vh) rotate(-2deg);
-    }
-    100% {
-      transform: translateY(0vh) rotate(0);
-    }
-  }
-  #LandingPage {
-    overflow: hidden;
-    text-align: center;
-    font-size: 1.4em;
-
-    #BeginText {
-      overflow: scroll;
-    }
-
-    p {
-      height: 26vh;
-      padding: 2vh 2vh 0 6vh;
-      text-align: justify;
-    }
-
-    #Content {
-      overflow-x: hidden;
-      z-index: 3;
-      position: relative;
-      background: radial-gradient(at 50% 0%, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0));
-      border-radius: 0.2em;
-      margin: 30vh auto 0 auto;
-      width: 60vw;
-      height: 30vw;
-      line-height: 1.2em;
-      text-indent: 2em;
-      letter-spacing: 0.1em;
-      word-spacing: 0.05em;
-    }
-
-
-
-    :first-letter {
-      text-transform: uppercase;
-    }
-
-    .beginButton {
-      bottom: 0vh;
-      position: relative;
-      color: #aaa;
-      font-size: 1.2em;
-      border: solid 0.1em #aaa;
-      border-radius: 0.05em;
-      background-color: rgba(0, 0, 0, 0.2);
-      padding: 0.2em 0.4em;
-      z-index: 3;
-    }
-
-    .beginButton:hover {
-      cursor: pointer;
-    }
-  }
-  #MainImg {
-    width: 100vw;
-    height: 100vh;
-    background-attachment: fixed;
-    position: absolute;
-    z-index: 0;
-  }
-
-
-  #JuridInfo {
-    position: fixed;
-    display: flex;
-    bottom: 0;
-    margin-bottom: 0;
-    z-index: 3;
-    background-color: rgba(20, 20, 20, 0.8);
-    width: 100%;
-    padding: 0.4em;
-    vertical-align: middle;
-  }
-}*/

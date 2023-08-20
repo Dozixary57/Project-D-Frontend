@@ -5,15 +5,18 @@ import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter } from 'react-router-dom';
 import "./index.css"
+import {ContextProvider} from "./ContextProvider";
 
 const root = ReactDOM.createRoot(
     document.getElementById('root') as HTMLElement
 );
 root.render(
     <React.StrictMode>
-        <BrowserRouter>
-            <App />
-        </BrowserRouter>
+        <ContextProvider>
+            <BrowserRouter>
+                <App />
+            </BrowserRouter>
+        </ContextProvider>
     </React.StrictMode>
 );
 
