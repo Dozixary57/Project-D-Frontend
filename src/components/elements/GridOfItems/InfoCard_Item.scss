@@ -77,3 +77,15 @@ figcaption {
         position: fixed;
     }
 }
+
+.dataLoadingSpriteContainer {
+    width: 100%;
+    padding: 15vw 0;
+    img {
+        width: 5em;
+        height: 5em;
+    }
+    p {
+        margin: 0;
+    }
+}

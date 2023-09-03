@@ -11,6 +11,14 @@ module.exports = function (fastify) {
     );
 
     fastify.use(
+        '/Items-WS',
+        createProxyMiddleware({
+            target: 'ws://localhost:5000',
+            changeOrigin: true,
+        })
+    );
+
+    fastify.use(
         '/Item/:id',
         createProxyMiddleware({
             target: 'http://localhost:5000',

@@ -1,0 +1,14 @@
+                        /*
+                            interface DocumentWithViewTransition extends Document {
+                                startViewTransition: (callback: () => Promise<void>) => any;
+                            }
+                            const documentWithViewTransition = document as DocumentWithViewTransition;
+                        */
+
+                                /*
+                                                                documentWithViewTransition.startViewTransition(async () => {
+                                                                    flushSync(() => {
+                                */
+                                // setIntroductionView( prevVariable => !prevVariable)
+                                /*                                    });
+                                                                });*/
