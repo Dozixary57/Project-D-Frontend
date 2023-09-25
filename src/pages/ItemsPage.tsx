@@ -2,6 +2,7 @@
 import { InfoCard_Item } from "../components/elements/GridOfItems/InfoCard_Item";
 import { NavBar } from "../components/elements/navigation_bar/NavigationBar";
 import "./ItemsPage.scss"
+import {SearchFilter} from "../components/SearchFilter/SearchFilter";
 
 const ItemsPage = () => {
     return (
@@ -12,12 +13,12 @@ const ItemsPage = () => {
             </Helmet>
             <NavBar />
             <main className="ItemPageMain">
-                <div>
-                    <div style={{ backgroundColor: 'rgba(0, 0, 0, 0.2)', display: 'inline-block' }}><div style={{ float: 'left', width: '80%' }}>Предметы</div><div style={{ float: 'right' }}>Сортировать</div></div>
-                        <div style={{ textAlign: 'center' }}>
-                            <InfoCard_Item />
-                        </div>
-                    </div>
+                <SearchFilter />
+                {/*<div style={{ backgroundColor: 'rgba(0, 0, 0, 0.2)', display: 'inline-block' }}><div style={{ float: 'left', width: '80%' }}>Предметы</div><div style={{ float: 'right' }}>Сортировать</div></div>*/}
+                <div className="GridOfItems">
+                    <InfoCard_Item />
+                </div>
+
             </main>
         </>
     )

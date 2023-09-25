@@ -1,10 +1,9 @@
 $NavHeight: 2.5em;
-$QuickAnim: 0.2s;
 
 nav {
     left: 0.2em;
     right: 0.2em;
-    top: 0.2em;
+    top: 0.3em;
     margin: 0 auto;
     font-size: 1.1em;
     position: fixed;
@@ -13,13 +12,17 @@ nav {
     height: $NavHeight;
     background-color: rgba(0, 0, 0, 0.2);
     border-radius: 0.25em;
-    transition: background-color $QuickAnim ease;
+    transition: background-color 0.2s ease;
     backdrop-filter: blur(0.1em);
     z-index: 1;
 }
 
 nav:hover {
-    background-color: rgba(0, 0, 0, 0.4);
+    background-color: rgba(0, 0, 0, 0.6);
+}
+
+.navInAction {
+    background-color: rgba(0, 0, 0, 0.6);
 }
 
 nav div {
@@ -67,19 +70,17 @@ nav div {
     align-items: center;
 }
 
-.ProfileIcon {
+.ProfileIconContainer {
     width: 2.5em;
-    border-top-right-radius: 0.25em;
-    border-bottom-right-radius: 0.25em;
 }
+
+.ProfileContainer img {
+    width: 100%;
+    //border-radius: 1em;
+    clip-path: polygon(28% 0%, 72% 0%, 100% 28%, 100% 72%, 72% 100%, 28% 100%, 0% 72%, 0% 28%);}
 
 .ProfileName {
     padding: 0.5em;
-}
-
-
-.ProfileIcon {
-    width: 2.5em;
 }
 
 .AuthorizationImg {
@@ -118,6 +119,7 @@ nav div {
     transform: scale(0.85);
     transition: transform 0.2s ease;
     cursor: pointer;
+    z-index: 2;
 }
 
 .LinkButtonContainer:hover {
@@ -141,6 +143,12 @@ nav div {
     transition: all 50ms ease-in-out;
 }
 
+.LinkButtonContainerInAction {
+    color: white;
+    transform: scale(0.95);
+    background-color: #2a1e16;
+}
+
 .linkButton {
     padding: 0.7em 0.4em 0.7em 0.8em;
 }
@@ -157,21 +165,85 @@ nav div {
 
 }
 
+.submenuButtonInAction {
+    padding: 0.7em 0.5em;
+    border-left-color: #19120d;
+    opacity: 1;
+}
+
 .LinkButtonContainer:hover .submenuButton {
     padding: 0.7em 0.5em;
     border-left-color: #19120d;
     opacity: 1;
 }
 
-.LinkButtonContainer:hover .submenuButton:hover {
+/*.LinkButtonContainer:hover .submenuButton:hover {
     background-color: rgba(255, 255, 255, 0.05);
+}*/
+
+.Arrow {
+    transform: scaleX(1) translate(0.1em, -0.05em) rotate(-90deg);
+    transition: all 0.15s ease-in-out;
 }
 
 .LinkButtonContainer:hover .submenuButton:hover .Arrow {
     transform: scaleX(1) translate(0.02em, 0.1em) rotate(0deg);
 }
 
-.Arrow {
-    transform: scaleX(1) translate(0.1em, -0.05em) rotate(-90deg);
-    transition: all 0.15s ease-in-out;
+.ArrowInAction {
+    transform: scaleX(1) translate(0.02em, 0.1em) rotate(0deg);
+}
+
+.subMenuLayout {
+    padding-top: 0.15em;
+    background-color: transparent; //#19120DFF
+    border-bottom-left-radius: 0.25em;
+    border-bottom-right-radius: 0.25em;
+    z-index: 1;
+}
+
+/*.subMenuLayout:hover .subMenu {
+    background-color: rgba(0, 0, 0, 0.4);
+}*/
+
+.subMenu {
+    font-size: 0.8em;
+    box-sizing: border-box;
+    //background-color: rgba(0, 0, 0, 0.2);
+    border-bottom-left-radius: 0.25em;
+    border-bottom-right-radius: 0.25em;
+    //padding: 0.2em 0.6em;
+    padding: 0.2em 0;
+    //backdrop-filter: blur(0.1em);
+}
+
+.subMenu div {
+    color: #AAA;
+    padding: 0.04em 0.2em;
+    margin: 0.2em 0;
+    border-radius: 0.25em;
+    text-indent: 0.4em;
+    background-color: rgba(0, 0, 0, 0.6);
+    transition: all 0.2s ease-in-out;
+}
+
+.subMenu div div {
+    color: #AAA;
+    padding-top: 0.6em;
+    padding-bottom: 0.6em;
+    border-radius: 0.25em;
+    text-indent: 0.4em;
+    transition: all 0.2s ease-in-out;
+    scale: 0.95;
+    background-color: transparent;
+}
+
+.subMenu div div:hover {
+    scale: 1.01 1.1;
+    background-color: #2a1e16;
+    color: white;
+}
+
+.subMenu a {
+    text-decoration: none;
 }

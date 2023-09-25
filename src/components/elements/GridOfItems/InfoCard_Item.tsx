@@ -83,17 +83,16 @@ export function InfoCard_Item() {
 
     return (
         <>
-                {(items && items.length > 0) ? (
-                    <div className="GridOfItems">
-                        { items.map((item: Items) => renderItem(item)) }
-                    </div>
-                ) : (
-                    <div className="dataLoadingSpriteContainer">
-                        <img src={dataLoadingSprite} alt="Loading..."/>
-                        <p>Loading...</p>
-                    </div>
-                )}
-
+            {(items && items.length > 0) ? (
+                <>
+                    { items.map((item: Items) => renderItem(item)) }
+                </>
+            ) : (
+                <div className="dataLoadingSpriteContainer" style={{textAlign: "center"}}>
+                    <img src={dataLoadingSprite} alt="Loading..."/>
+                    <p>Loading...</p>
+                </div>
+            )}
         </>
     )
 }
