@@ -3,7 +3,8 @@ import itemService from '../backend/services/itemService';
 import { useParams } from 'react-router-dom';
 import { Helmet } from "react-helmet";
 import { NavBar } from "../components/elements/navigation_bar/NavigationBar";
-import "../components/styles/object_info_page_styles.scss"
+import "./ObjectInfoPage.scss"
+import {DataForNavigation, PrevButton, NextButton} from "../components/elements/ObjectNavigation/ObjectNavigation";
 
 interface Item {
     _id: string;
@@ -28,28 +29,33 @@ const ObjectInfoPage = () => {
         };
 
         fetchData();
-    }, [])
+    }, [titleId])
 
     const renderItem = () => {
         return (
-            <>
-                <div className="TextData">
-                    <h2 className="itmContTitl">{`${item.Title}`}</h2>
-                    <p>Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text</p>
+            <main className="ObjectInfoPage">
+                <PrevButton />
+                <div className="Content">
+                    <div className="TextData">
+                        <h2 className="itemTitle">{item.Title}</h2>
+                        <h5 className="itemInfoLastUpd">Last update: 11/1/2023 </h5>
+                        <p className="mainText">Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text</p>
 
-                </div>
-                <div className="VisualData">
-                    <div className="ItemCover">
-                        <img src={item.CoverURL} alt={item.Title} />
                     </div>
-{/*                    <div className="Definition">
-                        <p>{`Value: ${item.Value}`}</p>
-                        <hr />
-                        <p></p>
-                    </div>*/}
+                    <div className="VisualData">
+                        <div className="ItemCover">
+                            <img src={item.CoverURL} alt={item.Title} />
+                        </div>
+    {/*                    <div className="Definition">
+                            <p>{`Value: ${item.Value}`}</p>
+                            <hr />
+                            <p></p>
+                        </div>*/}
+                    </div>
                 </div>
-            </>
-        );
+                <NextButton />
+            </main>
+    );
     };
 
     return (
@@ -60,9 +66,10 @@ const ObjectInfoPage = () => {
                     <title>{`${item.Title} | DizaQute`}</title>
                 </Helmet>
                 <NavBar />
-                <main className="AltMainForItem">
+                <>
+                    <DataForNavigation />
                     {renderItem()}
-                </main>
+                </>
             </>
         ) : (
             <p>No items found</p>

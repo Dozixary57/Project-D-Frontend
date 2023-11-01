@@ -6,18 +6,26 @@ import reportWebVitals from './reportWebVitals';
 import { BrowserRouter } from 'react-router-dom';
 import "./index.css"
 import {ContextProvider} from "./ContextProvider";
+import { Provider } from "react-redux";
+import {store} from "./ReduxStore/store";
+import {BetaLabel} from "./components/elements/BetaLabel/BetaLabel";
 
 const root = ReactDOM.createRoot(
     document.getElementById('root') as HTMLElement
 );
 root.render(
-    <React.StrictMode>
-        <ContextProvider>
-            <BrowserRouter>
-                <App />
-            </BrowserRouter>
-        </ContextProvider>
-    </React.StrictMode>
+    <>
+        <BetaLabel />
+        <React.StrictMode>
+            <Provider store={ store }>
+                <ContextProvider>
+                    <BrowserRouter>
+                        <App />
+                    </BrowserRouter>
+                </ContextProvider>
+            </Provider>
+        </React.StrictMode>
+    </>
 );
 
 // If you want your app to work offline and load faster, you can change

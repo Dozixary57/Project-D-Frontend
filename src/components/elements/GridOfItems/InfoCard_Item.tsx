@@ -65,19 +65,16 @@ export function InfoCard_Item() {
 
     const renderItem = (items: Items) => {
         return (
-            <>
-                <Link key={items._id} to={`/Content/Item/${items.Title}`} className='LinkStyle'>
-                    <div className='CardOfItem'>
-                        <figure className='Card'>
-                            <ParallaxTilt tiltMaxAngleX={35} tiltMaxAngleY={35} perspective={400} tiltReverse={true} className="ParallaxEffectCard">
-                                <img className="ParallaxEffectItem" src={items.CoverURL} alt={items.Title} />
-                                <figcaption className="ParallaxEffectTitle">{items.Title}</figcaption>
-                            </ParallaxTilt>
-                        </figure>
-                    </div>
-                </Link>
-            </>
-
+            <Link key={items._id} to={`/Content/Item/${items.Title.replace(/ /g, "_")}`} className='LinkStyle'>
+                <div className='CardOfItem'>
+                    <figure className='Card'>
+                        <ParallaxTilt tiltMaxAngleX={35} tiltMaxAngleY={35} perspective={400} tiltReverse={true} className="ParallaxEffectCard">
+                            <img className="ParallaxEffectItem" src={items.CoverURL} alt={items.Title} />
+                            <figcaption className="ParallaxEffectTitle">{items.Title}</figcaption>
+                        </ParallaxTilt>
+                    </figure>
+                </div>
+            </Link>
         );
     };
 

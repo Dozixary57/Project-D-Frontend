@@ -36,6 +36,11 @@ body {
   display: none;
 }
 
+::selection {
+  background: #AAA;
+  color: #1c0f00;
+}
+
 @font-face {
   font-family: 'F77 Minecraft';
   src: url('./fonts/F77 Minecraft.ttf');
