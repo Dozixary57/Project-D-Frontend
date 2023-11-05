@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import {Link} from 'react-router-dom';
 import itemService from '../../../backend/services/itemService';
-import dataLoadingSprite from '../../images/DataLoadingSprite.webp';
+import dataLoadingSprite from '../../../images/DataLoadingSprite.webp';
 
 import WebSocket from 'react-use-websocket'
 
@@ -69,7 +69,7 @@ export function InfoCard_Item() {
                 <div className='CardOfItem'>
                     <figure className='Card'>
                         <ParallaxTilt tiltMaxAngleX={35} tiltMaxAngleY={35} perspective={400} tiltReverse={true} className="ParallaxEffectCard">
-                            <img className="ParallaxEffectItem" src={items.CoverURL} alt={items.Title} />
+                            <img className="ParallaxEffectItem" src={items.CoverURL ? items.CoverURL : require('../../../images/objects/NoThumbnailObjectIcon.png')} alt={items.Title} />
                             <figcaption className="ParallaxEffectTitle">{items.Title}</figcaption>
                         </ParallaxTilt>
                     </figure>

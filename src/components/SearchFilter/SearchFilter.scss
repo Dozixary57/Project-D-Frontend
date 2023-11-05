@@ -65,12 +65,12 @@
 }
 
 .SearchFilter .FilterTool {
-  background: url("../images/SearchFilterIcon.png") no-repeat center;
+  background: url("../../images/SearchFilterIcon.png") no-repeat center;
   background-size: cover;
   border: none;
 }
 .SearchFilter .ViewTool {
-  background: url("../images/SearchViewIcon.png") no-repeat center;
+  background: url("../../images/SearchViewIcon.png") no-repeat center;
   background-size: cover;
   border: none;
 }
@@ -112,14 +112,14 @@
 }
 
 .SearchViewPanel .GridView {
-  background: url("../images/GridViewIcon.png") no-repeat center;
+  background: url("../../images/GridViewIcon.png") no-repeat center;
   background-size: cover;
   border: none;
   filter: invert(71%) sepia(1%) saturate(1280%) hue-rotate(44deg) brightness(97%) contrast(90%);
   transition: all 0.1s ease-in-out;
 }
 .SearchViewPanel .ListView {
-  background: url("../images/ListViewIcon.png") no-repeat center;
+  background: url("../../images/ListViewIcon.png") no-repeat center;
   background-size: cover;
   border: none;
   filter: invert(71%) sepia(1%) saturate(1280%) hue-rotate(44deg) brightness(97%) contrast(90%);
@@ -127,14 +127,14 @@
 }
 
 .SearchViewPanel .PartitionOn {
-  background: url("../images/PartitionOn.png") no-repeat center;
+  background: url("../../images/PartitionOn.png") no-repeat center;
   background-size: cover;
   border: none;
   filter: invert(71%) sepia(1%) saturate(1280%) hue-rotate(44deg) brightness(97%) contrast(90%);
   transition: all 0.1s ease-in-out;
 }
 .SearchViewPanel .PartitionOff {
-  background: url("../images/PartitionOff.png") no-repeat center;
+  background: url("../../images/PartitionOff.png") no-repeat center;
   background-size: cover;
   border: none;
   filter: invert(71%) sepia(1%) saturate(1280%) hue-rotate(44deg) brightness(97%) contrast(90%);
@@ -177,11 +177,11 @@
         filter: invert(71%) sepia(1%) saturate(1280%) hue-rotate(44deg) brightness(97%) contrast(90%);
       }
       .FilterOn {
-        background: url("../images/CheckboxOnIcon.png") no-repeat center;
+        background: url("../../images/CheckboxOnIcon.png") no-repeat center;
         background-size: cover;
       }
       .FilterOff {
-        background: url("../images/CheckboxOffIcon.png") no-repeat center;
+        background: url("../../images/CheckboxOffIcon.png") no-repeat center;
         background-size: cover;
       }
 

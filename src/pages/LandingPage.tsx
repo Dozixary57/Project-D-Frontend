@@ -127,7 +127,7 @@ const LandingPage = () => {
                                     <p>wqekmcxks wkcmk kwm km kw mkm km km kerm km k</p>
                                 </div>
                                 <div>
-                                    <img src={require('../components/images/ThePlagueDoctor.png')}/>
+                                    <img src={require('../images/ThePlagueDoctor.png')}/>
                                 </div>
                             </section>
                             <section>
@@ -136,7 +136,7 @@ const LandingPage = () => {
                                     <p>wqekmcxks wkcmk kwm km kw mkm km km kerm km k</p>
                                 </div>
                                 <div>
-                                    <img src={require('../components/images/ThePlagueDoctor.png')}/>
+                                    <img src={require('../images/ThePlagueDoctor.png')}/>
                                 </div>
                             </section>
                             <section>
@@ -145,7 +145,7 @@ const LandingPage = () => {
                                     <p>wqekmcxks wkcmk kwm km kw mkm km km kerm km k</p>
                                 </div>
                                 <div>
-                                    <img src={require('../components/images/ThePlagueDoctor.png')}/>
+                                    <img src={require('../images/ThePlagueDoctor.png')}/>
                                 </div>
                             </section>
                             <p style={{marginTop: '100em'}}>cw</p>

@@ -11,7 +11,7 @@ export function NavBar() {
         <>
             <PageProgressBar />
             <nav className={activeSubmenu ? "navInAction" : ""}>
-                <Link to="/About"><img id="GameIcon" src={require('../../images/LogoProjectD.png')} alt="LogoIcon" /></Link>
+                <Link to="/About"><img id="GameIcon" src={require('../../../images/LogoProjectD.png')} alt="LogoIcon" /></Link>
                 <div className="LinksGroup">
                     <div className="leftSide">
                         <Link to="/Home">
@@ -95,13 +95,13 @@ export function NavBar() {
                                 <div className="ProfileContainer">
                                     <label className="ProfileName">Dozixary57</label>
                                     <div className="ProfileIconContainer">
-                                        <img src={require('../../images/ThePlagueDoctor.png')} />
+                                        <img src={require('../../../images/ThePlagueDoctor.png')} />
                                     </div>
                                 </div>
                             </Link>)
                             :
                             (<Link to="/Login">
-                                <img className="AuthorizationImg" src={require('../../images/AuthorizationIcon.png')} alt="AuthorizationIcon" />
+                                <img className="AuthorizationImg" src={require('../../../images/AuthorizationIcon.png')} alt="AuthorizationIcon" />
                             </Link>)
                         }</div>
                     </div>

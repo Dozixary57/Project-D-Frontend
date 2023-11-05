@@ -97,7 +97,7 @@ const SingupPage = () => {
                         </div>
                         <div className="externalAuthorization">
                             <button type="button" className="gAuthorization">
-                                <img src={require("../components/images/Google.png")} alt="G"/>
+                                <img src={require("../images/Google.png")} alt="G"/>
                             </button>
                         </div>
                         <div className="checkboxSSI">

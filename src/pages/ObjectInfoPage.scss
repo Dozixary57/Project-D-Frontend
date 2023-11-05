@@ -11,22 +11,32 @@
     margin: 0 auto;
 
     display: grid;
-    grid-template-columns: 70% 30%;
+    grid-template-columns: 75% 25%;
+    grid-template-rows: repeat(3, auto);
+    grid-column-gap: 0;
     align-items: start;
+
     //background-color: rgba(21, 167, 183, 0.8);
 
+    .ObjectTitle {
+      grid-area: 1 / 1 / 2 / 3;
+      font-size: 1.8em;
+      text-align: center;
+      padding: 0.5em 0;
+      border-radius: 0.2em;
+      background-color: rgba(0, 0, 0, 0.2);
+      margin: 0 0 0.5em 0;
+    }
+
     .TextData {
+      grid-area: 2 / 1 / 4 / 2;
       position: relative;
-      width: 100%;
-      float: left;
-      padding: 0.1em 0.5em;
+      width: auto;
+      margin-right: 1em;
       border-radius: 0.2em;
       justify-self: start;
       background-color: rgba(0, 0, 0, 0.2);
 
-      .itemTitle {
-        margin: 0.6em 0.4em;
-      }
       .itemInfoLastUpd {
         position: absolute;
         top: 0;
@@ -35,31 +45,85 @@
         color: rgba(170, 170, 170, 0.5);
       }
 
-      .mainText {
-        margin: 0.5em 1.5em;
-        text-indent: 2em;
-        line-height: 1.5em;
+      .descriptionData {
+        .descriptionHeader {
+          margin: 0;
+          padding: 0.6em 0.4em;
+        }
+        .descriptionText {
+          margin: 0;
+          padding: 0.5em 1.5em;
+          text-indent: 2em;
+          line-height: 1.5em;
+        }
       }
     }
 
     .VisualData {
-      width: auto;
-      margin-left: 2em;
+      grid-area: 2 / 2 / 3 / 3;
+
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      grid-template-rows: auto auto;
+      grid-row-gap: 0.25em;
+
+      width: 100%;
       border-radius: 0.2em;
       justify-self: end;
-      background-color: rgba(0, 0, 0, 0.2);
       //border-top: solid 0.1em #aaa;
       //border-right: solid 0.1em #aaa;
       //border-top-right-radius: 0.1em;
 
-      .ItemCover {
+      .objectTabs {
+        border-radius: 0.2em;
+        border: none;
+        width: auto;
+        height: auto;
+        background-color: rgba(0, 0, 0, 0.2);
+
+        img {
+          padding-top: 0.2em;
+          width: 40%;
+          filter: invert(78%) sepia(7%) saturate(16%) hue-rotate(37deg) brightness(87%) contrast(89%);
+        }
+      }
+      .objActiveTab {
+        opacity: 1;
+      }
+      .objInactiveTab {
+        opacity: 0.5;
+      }
+      .objUndefinedTab {
+        background-color: rgba(#787878, 0.4);
+      }
+      .objTab1 {
+        grid-area: 1 / 1 / 2 / 2;
+        margin-right: 0.35em;
+      }
+      .objTab2 {
+        grid-area: 1 / 2 / 2 / 3;
+        margin: 0 0.25em;
+      }
+      .objTab3 {
+        grid-area: 1 / 3 / 2 / 4;
+        margin-left: 0.35em;
+      }
+
+
+      .objectView {
+        grid-area: 2 / 1 / 3 / 4;
         padding: 0.5em;
+        background-color: rgba(0, 0, 0, 0.2);
+
 
         img {
           width: 100%;
-          //box-shadow: 0 0 0 0.1em;
         }
       }
+    }
+
+    .DefinitionData {
+      grid-area: 3 / 2 / 4 / 3;
     }
   }
 }
