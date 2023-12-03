@@ -1,7 +1,6 @@
 .ObjectNavigationButtons {
   //width: fit-content;
-
-  width: auto;
+  min-width: 2em;
   height: auto;
   //margin: 0 0.2em 3em 0.2em;
   font-size: 1.5em;
@@ -12,19 +11,50 @@
   border: none;
   transition: all 0.2s ease-in-out;
 }
-.ObjectNavigationButtons:hover {
+.ObjectNavigationButtons::after {
+}
+/*.ObjectNavigationButtons:hover {
   color: #AAA;
 
   background-color: rgba(255, 255, 255, 0.05);
 
-}
+}*/
 
 .ObjectNavigationLeftButton {
-  float: left;
-  left: 5vw;
+  position: relative;
+}
+.ObjectNavigationLeftButton::after {
+  z-index: -1;
+  border-top-left-radius: 0.2em;
+  border-bottom-left-radius: 0.2em;
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 35vw;
+  background: transparent;
+}
+.ObjectNavigationLeftButton:hover::after {
+  background: linear-gradient(to right, rgba(#AAA, 0.05) 5%, transparent 95%);
 }
 
 .ObjectNavigationRightButton {
-  float: right;
-  right: 5vw;
+  position: relative;
+}
+.ObjectNavigationRightButton::after {
+  z-index: -1;
+  border-top-right-radius: 0.2em;
+  border-bottom-right-radius: 0.2em;
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 35vw;
+  background: transparent;
+}
+.ObjectNavigationRightButton:hover::after {
+  cursor: pointer;
+  background: linear-gradient(to left, rgba(#AAA, 0.05) 5%, transparent 95%);
 }

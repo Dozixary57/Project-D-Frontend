@@ -1,0 +1,12 @@
+$generalBackgroundColor: #2a1e16;
+$elementBackgroundColor: #221812;
+$borderRadius: 0.2em;
+
+@mixin defaultBorderRadius {
+  border-radius: $borderRadius;
+}
+
+@mixin elementBackgroundRadius {
+  background-color: $elementBackgroundColor;
+  border-radius: $borderRadius;
+}

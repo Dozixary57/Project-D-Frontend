@@ -1,9 +1,9 @@
 ﻿import axios from 'axios';
 
 const AuthService = {
-    Login: async (username: string, password: string) => {
+    Login: async (login: string, password: string) => {
         const data = {
-            Username: username,
+            Login: login,
             Password: password
         };
         const headers = {
@@ -16,7 +16,7 @@ const AuthService = {
         const { accessToken, ...responseData } = res.data;
         return responseData || [];
     },
-    Signup: async (username: string, email: string, dateOfBirth: string, password: string, ssi: boolean) => {
+/*    Signup: async (username: string, email: string, dateOfBirth: string, password: string, ssi: boolean) => {
         const data = {
             Username: username,
             Email: email,
@@ -29,7 +29,7 @@ const AuthService = {
         };
         const res = await axios.post(`/Authentication/Signup`, data, {headers});
         return res.data || [];
-    },
+    },*/
 /*    authHeader: async () => {
         const userAccessTokenString = localStorage.getItem('AccessToken');
         if (userAccessTokenString !== null) {

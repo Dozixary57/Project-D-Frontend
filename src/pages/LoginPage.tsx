@@ -8,11 +8,11 @@ import {Link, useNavigate } from "react-router-dom";
 const LoginPage = () => {
     const navigate = useNavigate()
 
-    const [username, setUsername] = useState('');
+    const [login, setUsername] = useState('');
     const [password, setPassword] = useState('');
 
-    const [errUsername, setErrUsername] = useState('');
-    const [validUsername, setValidUsername] = useState('#AAA');
+    const [errLogin, setErrLogin] = useState('');
+    const [validLogin, setValidLogin] = useState('#AAA');
 
     const [errPassword, setErrPassword] = useState('');
     const [validPassword, setValidPassword] = useState('#AAA');
@@ -21,14 +21,14 @@ const LoginPage = () => {
 
     const handleSubmit = async (event: any) => {
         event.preventDefault();
-        const res = await authService.Login(username, password);
-        setErrUsername(res.errUsername);
+        const res = await authService.Login(login, password);
+        setErrLogin(res.errLogin);
         setErrPassword(res.errPassword);
         setMsgSuccess(res.msgSuccess)
-        if (!res.errUsername) {
-            setValidUsername('green')
+        if (!res.errLogin) {
+            setValidLogin('green')
         } else {
-            setValidUsername('red')
+            setValidLogin('red')
         }
         if (!res.errPassword) {
             setValidPassword('green')
@@ -38,7 +38,7 @@ const LoginPage = () => {
         if (res.msgSuccess) {
             await new Promise(resolve => setTimeout(resolve, 4000));
             navigate("/Home")
-            window.location.reload()
+            // window.location.reload()
         }
     };
     return (
@@ -53,14 +53,14 @@ const LoginPage = () => {
                     <form id="Login" onSubmit={handleSubmit}>
                         <fieldset>
                             <legend>Log In</legend>
-                            <label className={`errMsg ${errUsername? 'errMsgV' : ''}`}>{errUsername}</label>
+                            <label className={`errMsg ${errLogin? 'errMsgV' : ''}`}>{errLogin}</label>
                             <div className="dataField">
-                                <input type="text" name="username" value={username} required onChange={(event) => {
+                                <input type="text" name="login" value={login} required onChange={(event) => {
                                     setUsername(event.target.value)
-                                    setValidUsername('#AAA')
+                                    setValidLogin('#AAA')
                                 }} autoComplete="nickname" placeholder=" "
-                                       style={{boxShadow: `0 0 0 0.1em ${validUsername} inset`}} className="dataInput"/>
-                                <label htmlFor="username" className="floatingLabel">Username</label>
+                                       style={{boxShadow: `0 0 0 0.1em ${validLogin} inset`}} className="dataInput"/>
+                                <label htmlFor="login" className="floatingLabel">Email or Username</label>
                                 {/*<label className="errMsg">{errUsername}</label>*/}
                             </div>
                             <label className={`errMsg ${errPassword? 'errMsgV' : ''}`}>{errPassword}</label>

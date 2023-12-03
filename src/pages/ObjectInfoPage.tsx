@@ -62,7 +62,6 @@ const ObjectInfoPage = () => {
                             <h2 className="descriptionHeader">Description</h2>
                             <p className="descriptionText">Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text</p>
                         </div>
-
                     </div>
                     <div className="VisualData">
                         <button className={`objectTabs objTab1 ${viewActiveTab === 1 ? 'objActiveTab' : 'objInactiveTab'} ${item.CoverURL ? '' : 'objUndefinedTab'}`} onClick={() => setViewActiveTab(1)} >
@@ -79,9 +78,21 @@ const ObjectInfoPage = () => {
                         </div>
                     </div>
                     <div className="DefinitionData">
-                        <p>{`Value: ${item.Value}`}</p>
-                        <hr />
-                        <p></p>
+                        <h3>Properties</h3>
+                        <div>
+                            <div>
+                                <img src={require(('../images/HealthPropertyIcon.png'))}/>
+                            </div>
+                            <p>Health</p>
+                            <p>20000</p>
+                        </div>
+                        <div>
+                            <div>
+                                <img src={require(('../images/HealthPropertyIcon.png'))}/>
+                            </div>
+                            <p>Health</p>
+                            <p>20000</p>
+                        </div>
                     </div>
                 </div>
                 <NextButton />
