@@ -3,14 +3,105 @@
   margin: 4em auto 0 auto;
   background-color: rgba(0, 0, 0, 0.2);
   border-radius: 0.2em;
+
+  .GridOfItems {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(8em, 1fr));
+    grid-template-rows: repeat(auto-fit, minmax(8em, 1fr));
+    padding: 1em;
+    justify-content: center;
+    justify-items: center;
+    align-items: center;
+
+    .LinkStyle {
+      text-decoration: none;
+
+      .CardOfItem {
+        width: 6em;
+        height: 6em;
+        background-color: transparent;
+        border-radius: 0.1em;
+        position: relative;
+        padding: 0.7em 1em 1.3em 1em;
+
+        .Card {
+          position: relative;
+          text-align: center;
+          margin: 0;
+          font-size: 0.7em;
+          border-radius: 0.2em;
+          transition: background-color 0.15s ease;
+
+          .ParallaxEffectCard {
+            position: absolute;
+            top: 0;
+            left: 0;
+            transform-style: preserve-3d;
+
+            img {
+              width: 90%;
+            }
+            //
+            figcaption {
+              width: 100%;
+              color: #AAA;
+              justify-content: center;
+            }
+
+            .ParallaxEffectItem {
+              scale: 1;
+              transform: translateZ(0px);
+              transition: all 0.3s ease-in-out;
+            }
+            .ParallaxEffectTitle {
+              scale: 0.9;
+              transform: translateZ(0px);
+              transition: all 0.3s ease-in-out;
+            }
+          }
+          .ParallaxEffectCard:hover {
+            .ParallaxEffectItem {
+              scale: 1.1;
+              transform: translateZ(50px);
+            }
+            .ParallaxEffectTitle {
+              scale: 1;
+              transform: translateZ(60px);
+            }
+          }
+        }
+      }
+      .CardOfItem:hover {
+        background-color: rgba(255, 255, 255, 0.05);
+        cursor: pointer;
+      }
+    }
+
+/*    .ParallaxEffectSword {
+
+      transform-style: preserve-3d;
+
+      .ParallaxEffectSword {
+        display: block;
+        position: fixed;
+      }
+    }*/
+  }
+
+  .noDataContainer {
+    width: 100%;
+    height: 30vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    img {
+      width: 5vw;
+    }
+    p {
+      margin: 0;
+      font-size: 1vw;
+    }
+  }
 }
 
-.GridOfItems {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(8em, 1fr));
-  grid-template-rows: repeat(auto-fit, minmax(8em, 1fr));
-  padding: 1em;
-  justify-content: center;
-  justify-items: center;
-  align-items: center;
-}

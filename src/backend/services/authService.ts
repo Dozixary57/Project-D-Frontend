@@ -44,9 +44,9 @@ const AuthService = {
         }
     },*/
     Logout: async () => {
-        localStorage.removeItem('accessToken')
         const res = await axios.get(`/Authentication/Logout`);
-        return res.data || []
+        localStorage.removeItem('accessToken');
+        return res.data || [];
     }
 }
 

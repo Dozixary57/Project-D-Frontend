@@ -1,7 +1,44 @@
 import "./SearchFilter.scss"
-import {useState} from "react";
+import {useEffect, useState} from "react";
+import {useSelector} from "react-redux";
+import {RootState, store} from "../../ReduxStore/store";
+import itemService from "../../backend/services/itemService";
+import filterTitle from "../../ReduxStore/Reducers/filterTitle";
 
-export function SearchFilter() {
+export function SearchFilter({ data }: { data: any }) {
+
+    const itemsData = useSelector((state: RootState) => state.itemsData);
+    const titleSearch = useSelector((state: RootState) => state.filterTitle);
+
+    const [filteredTitle, setFilteredTitle] = useState<string>(titleSearch || '');
+
+    useEffect(() => {
+        if (itemsData) {
+            if (filteredTitle && filteredTitle.length !== 0) {
+                store.dispatch({
+                    type: 'FILTER_TITLE',
+                    payload: filteredTitle
+                })
+                const filteredItems = itemsData.filter((item: any) =>
+                    item.Title.toLowerCase().startsWith(filteredTitle.toLowerCase())
+                );
+                store.dispatch({
+                    type: 'FILTERED_ITEMS_DATA',
+                    payload: filteredItems
+                })
+            } else {
+                store.dispatch({
+                    type: 'FILTER_TITLE',
+                    payload: ''
+                })
+                store.dispatch({
+                    type: 'FILTERED_ITEMS_DATA',
+                    payload: itemsData
+                })
+            }
+        }
+    }, [itemsData, filteredTitle, titleSearch]);
+
 
     const [viewPanel, setViewPanel] = useState(false)
     const [filterPanel, setFilterPanel] = useState(false)
@@ -16,9 +53,9 @@ export function SearchFilter() {
     return (
         <>
             <div className="SearchFilter">
-                <p>Items</p>
+                <p>{data.title}</p>
                 <div className="SearchFilterTools">
-                    <input type="text" name="searchLine" placeholder="Item title..." autoComplete="off"/>
+                    <input type="text" value={filteredTitle } name="searchLine" onChange={(event) => setFilteredTitle(event.target.value)} placeholder="Item title..." autoComplete="off"/>
                     <input type="button" onClick={() => setFilterPanel(prev => !prev)} className="FilterTool" />
                     <input type="button" onClick={() => setViewPanel(prev => !prev)} className="ViewTool"/>
                 </div>

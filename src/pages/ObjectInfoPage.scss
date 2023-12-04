@@ -14,21 +14,40 @@
 
     display: grid;
     grid-template-columns: 75% 25%;
+    //grid-template-columns: minmax(auto, 75%) minmax(16em, 25%);
     grid-template-rows: repeat(3, auto);
     grid-column-gap: 0;
     align-items: start;
 
-    //background-color: rgba(21, 167, 183, 0.8);
-
     .ObjectTitle {
       z-index: 3;
       grid-area: 1 / 1 / 2 / 3;
-      font-size: 1.8em;
-      text-align: center;
-      padding: 0.5em 0;
       border-radius: 0.2em;
       background-color: $elementBackgroundColor;
-      margin: 0 0 0.5em 0;
+      margin: 0 0 0.75em 0;
+      display: grid;
+      grid-template-columns: 4.5em auto 4.5em;
+
+      > button {
+        border-radius: 0.1em;
+        font-size: 2em;
+        color: #AAA;
+        background: linear-gradient(to right, rgba(red, 0.2), transparent);
+        border: none;
+      }
+      > button:hover {
+        color: white;
+        background: linear-gradient(to right, rgba(red, 0.4), transparent);
+      }
+      h2 {
+        font-size: 1.5em;
+        text-align: center;
+        padding: 0.5em 0;
+        margin: 0;
+      }
+      div {
+        width: 100%;
+      }
     }
 
     .TextData {
@@ -52,8 +71,10 @@
       .descriptionData {
 
         .descriptionHeader {
+          font-size: 1.4em;
           margin: 0;
-          padding: 0.6em 0.4em;
+          text-indent: 0.5em;
+          padding: 0.6em 0;
         }
         .descriptionText {
           margin: 0;
@@ -140,7 +161,7 @@
       }
       > div {
         display: grid;
-        grid-template-columns: 2.5em auto auto;
+        grid-template-columns: 1.5em auto minmax(auto, 4em);
         align-items: center;
         padding: 0 0.25em;
         margin: 0.25em 0.25em;
@@ -148,20 +169,26 @@
         background-color: rgba(183, 1, 32, 0.18);
 
         > div {
-          width: 2em;
+          width: 1.5em;
           justify-self: center;
+
+          img {
+            translate: 0 0.1em;
+            width: 100%;
+          }
         }
 
         p {
           color: white;
           margin: 0;
           padding: 0.7em 0;
-          font-size: 1.1em;
+          font-size: 0.9em;
         }
-        p:first-child {
+        p:first-of-type {
+          text-indent: 0.5em;
           justify-self: start;
         }
-        p:last-child {
+        p:last-of-type {
           padding: 0.5em 0.2em 0.5em 0.35em;
           border-radius: 0.2em;
           background-color: rgba(175, 10, 40, 0.5);
@@ -172,24 +199,3 @@
     }
   }
 }
-
-//.Definition {
-//  box-shadow: 0 0 0 0.1em inset;
-//  border-bottom-left-radius: 0.1em;
-//  border-bottom-right-radius: 0.1em;
-//}
-
-/*.Definition hr {
-	width: auto;
-}
-
-.Definition p {
-	margin: 0;
-	padding: 0.3em;
-}
-.Definition p:first-child {
-	padding-top: 0.6em;
-}
-.Definition p:last-child {
-	padding-bottom: 0.4em;
-}*/

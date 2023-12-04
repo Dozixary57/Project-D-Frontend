@@ -1,6 +1,6 @@
 import { Helmet } from "react-helmet";
 import { FooterBar } from "../components/elements/footer_bar/FooterBar";
-import { NavBar } from "../components/elements/navigation_bar/NavigationBar";
+import { NavBar } from "../components/elements/navigation_bar/NavBar";
 import { Slider } from "../components/elements/slider/Slider";
 import "./HomePage.scss"
 

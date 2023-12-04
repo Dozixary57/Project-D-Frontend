@@ -1,11 +1,10 @@
 ﻿import React, { useEffect, useState } from "react";
 import itemService from '../backend/services/itemService';
-import { useParams } from 'react-router-dom';
+import {useNavigate, useParams} from 'react-router-dom';
 import { Helmet } from "react-helmet";
-import { NavBar } from "../components/elements/navigation_bar/NavigationBar";
+import { NavBar } from "../components/elements/navigation_bar/NavBar";
 import "./ObjectInfoPage.scss"
 import {DataForNavigation, PrevButton, NextButton} from "../components/elements/ObjectNavigation/ObjectNavigation";
-import Tabs from "../components/TEST/Tabs";
 
 interface Item {
     _id: string;
@@ -16,7 +15,8 @@ interface Item {
     ModelURL: string;
 }
 
-const ObjectInfoPage = () => {
+const ItemInfoPage = () => {
+    const navigate = useNavigate();
 
     const { titleId } = useParams<{ titleId: string }>();
     const [item, setItem] = useState<any>(null);
@@ -55,7 +55,11 @@ const ObjectInfoPage = () => {
             <main className="ObjectInfoPage">
                 <PrevButton />
                 <div className="Content">
-                    <h2 className="ObjectTitle">{item.Title}</h2>
+                    <div className="ObjectTitle">
+                        <button onClick={() => navigate('/Content/Items')}>&lt;&nbsp;&nbsp;</button>
+                        <h2>{item.Title}</h2>
+                        <div></div>
+                    </div>
                     <div className="TextData">
                         <h5 className="itemInfoLastUpd">Last update: 11/1/2023 </h5>
                         <div className="descriptionData">
@@ -90,13 +94,12 @@ const ObjectInfoPage = () => {
                             <div>
                                 <img src={require(('../images/HealthPropertyIcon.png'))}/>
                             </div>
-                            <p>Health</p>
+                            <p>HealthHealth</p>
                             <p>20000</p>
                         </div>
                     </div>
                 </div>
                 <NextButton />
-                {/*<Tabs />*/}
             </main>
     );
     };
@@ -120,4 +123,4 @@ const ObjectInfoPage = () => {
     )
 }
 
-export { ObjectInfoPage };
+export { ItemInfoPage };

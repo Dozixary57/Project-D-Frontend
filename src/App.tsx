@@ -11,7 +11,7 @@ import { ItemsPage } from './pages/ItemsPage';
 import { LocationsPage } from './pages/LocationsPage';
 import { NewsPage } from './pages/NewsPage';
 import { NowherePage } from './pages/NowherePage';
-import { ObjectInfoPage } from './pages/ObjectInfoPage';
+import { ItemInfoPage } from './pages/ItemInfoPage';
 import { ReceivePage } from './pages/ReceivePage';
 import { TestPage } from './pages/TESTpage';
 import { Spoiler } from './pages/\uD83D\uDCE6';
@@ -26,7 +26,7 @@ function App() {
                         <Route path="/Home" element={<HomePage />} />
                         <Route path="/Content" element={<ContentPage />} />
                         <Route path="/Content/Items" element={<ItemsPage />} />
-                        <Route path="/Content/Item/:titleId" element={<ObjectInfoPage />} />
+                        <Route path="/Content/Item/:titleId" element={<ItemInfoPage />} />
                         <Route path="/Content/Creatures" element={<CreaturesPage />} />
                         <Route path="/Content/Locations" element={<LocationsPage />} />
                         <Route path="/News" element={<NewsPage />} />
