@@ -13,6 +13,8 @@
     justify-items: center;
     align-items: center;
 
+    grid-auto-flow: dense;
+
     .LinkStyle {
       text-decoration: none;
 
@@ -23,6 +25,17 @@
         border-radius: 0.1em;
         position: relative;
         padding: 0.7em 1em 1.3em 1em;
+        transition: all 0.25s;
+        animation: scale-up 0.25s ease-in-out;
+
+        @keyframes scale-up {
+          from {
+            transform: scale(0);
+          }
+          to {
+            transform: scale(1);
+          }
+        }
 
         .Card {
           position: relative;
@@ -38,6 +51,15 @@
             left: 0;
             transform-style: preserve-3d;
 
+            > p {
+              position: absolute;
+              color: #AAA;
+              font-size: 1.2em;
+              top: -0.75em;
+              right: 0;
+              transform: translateZ(60px);
+            }
+
             img {
               width: 90%;
             }
@@ -46,6 +68,7 @@
               width: 100%;
               color: #AAA;
               justify-content: center;
+              z-index: 3;
             }
 
             .ParallaxEffectItem {
@@ -87,6 +110,14 @@
       }
     }*/
   }
+  .CardOfItem-exit {
+    transform: scale(1);
+  }
+  .CardOfItem-exit-active {
+    transform: scale(0);
+    transition: transform 0.25s;
+  }
+
 
   .noDataContainer {
     width: 100%;
@@ -96,11 +127,11 @@
     align-items: center;
 
     img {
-      width: 5vw;
+      width: 6rem;
     }
     p {
       margin: 0;
-      font-size: 1vw;
+      font-size: 1.2rem;
     }
   }
 }

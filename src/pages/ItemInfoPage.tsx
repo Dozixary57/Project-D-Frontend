@@ -3,16 +3,23 @@ import itemService from '../backend/services/itemService';
 import {useNavigate, useParams} from 'react-router-dom';
 import { Helmet } from "react-helmet";
 import { NavBar } from "../components/elements/navigation_bar/NavBar";
-import "./ObjectInfoPage.scss"
+import "./ItemInfoPage.scss"
 import {DataForNavigation, PrevButton, NextButton} from "../components/elements/ObjectNavigation/ObjectNavigation";
 
 interface Item {
     _id: string;
     Title: string;
-    Description: string;
-    CoverURL: string;
+    Description: {
+        General: string
+        Authorial: string
+    };
+    IconURL: string;
+    ParallaxURL: string;
+    ModelURL: string;
+/*
     VolumeURL: string;
     ModelURL: string;
+*/
 }
 
 const ItemInfoPage = () => {
@@ -22,6 +29,8 @@ const ItemInfoPage = () => {
     const [item, setItem] = useState<any>(null);
 
     const [viewActiveTab, setViewActiveTab] = useState(1);
+
+    const [activeAuthorialDescription, setActiveAuthorialDescription] = useState(false);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -40,17 +49,26 @@ const ItemInfoPage = () => {
     const ViewTabContent = () => {
         switch (viewActiveTab) {
             case 1:
-                return <img src={item.CoverURL ? item.CoverURL : require('../images/objects/NoThumbnailObjectIcon.png')} alt={item.Title + " icon view."} />;
+                return (<>
+                    {item.IconURL && <button />}
+                    <img src={item.IconURL ? item.IconURL : require('../images/objects/NoThumbnailObjectIcon.png')} alt={item.Title + " icon view."} />
+                </>);
             case 2:
-                return <img src={item.VolumeURL ? item.VolumeURL : require('../images/objects/NoParallaxObjectIcon.png')} alt={item.Title + " parallax view."} />;
+                return (<>
+                    {item.ParallaxURL && <button />}
+                    <img src={item.ParallaxURL ? item.ParallaxURL : require('../images/objects/NoParallaxObjectIcon.png')} alt={item.Title + " parallax view."} />
+                </>);
             case 3:
-                return <img src={item.ModelURL ? item.ModelURL : require('../images/objects/No3DObjectIcon.png')} alt={item.Title + " 3D model view."} />;
+                return (<>
+                    {item.ModelURL && <button />}
+                    <img src={item.ModelURL ? item.ModelURL : require('../images/objects/No3DObjectIcon.png')} alt={item.Title + " 3D model view."} />
+                </>);
             default:
-                return <img src={item.CoverURL ? item.CoverURL : require('../images/objects/NoThumbnailObjectIcon.png')} alt={item.Title + " icon view."} />;
+                return <img src={item.IconURL ? item.IconURL : require('../images/objects/NoThumbnailObjectIcon.png')} alt={item.Title + " icon view."} />;
         }
     };
 
-    const renderItem = () => {
+    const renderItem = (item: Item) => {
         return (
             <main className="ObjectInfoPage">
                 <PrevButton />
@@ -61,17 +79,33 @@ const ItemInfoPage = () => {
                         <div></div>
                     </div>
                     <div className="TextData">
-                        <h5 className="itemInfoLastUpd">Last update: 11/1/2023 </h5>
+                        <h5 className="itemInfoLastUpd">Last update: 11/1/23 </h5>
                         <div className="descriptionData">
                             <h2 className="descriptionHeader">Description</h2>
-                            <p className="descriptionText">Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text</p>
+                            <div className="GeneralDescription">
+                                {item.Description.General.split('\n').map((paragraph, index) => (
+                                    <p key={index}>{paragraph}</p>
+                                ))}
+                            </div>
+                            {item.Description.Authorial ? (
+                                <>
+                                    <div className={`AuthorialDescription ${activeAuthorialDescription ? 'AuthorialDescriptionIsActive' : 'AuthorialDescriptionIsInactive'}`}>
+                                        <p>{item.Description.Authorial}</p>
+                                    </div>
+                                    <button onClick={() => setActiveAuthorialDescription(prev => !prev)}>
+                                        <span className={activeAuthorialDescription ? 'arrowIsActive' : 'arrowIsInactive'}>▼</span>
+                                    </button>
+                                </>
+                            ) : (
+                                <div></div>
+                            )}
                         </div>
                     </div>
                     <div className="VisualData">
-                        <button className={`objectTabs objTab1 ${viewActiveTab === 1 ? 'objActiveTab' : 'objInactiveTab'} ${item.CoverURL ? '' : 'objUndefinedTab'}`} onClick={() => setViewActiveTab(1)} >
+                        <button className={`objectTabs objTab1 ${viewActiveTab === 1 ? 'objActiveTab' : 'objInactiveTab'} ${item.IconURL ? '' : 'objUndefinedTab'}`} onClick={() => setViewActiveTab(1)}>
                             <img src={require('../images/objects/ThumbnailObjectIcon.png')}/>
                         </button>
-                        <button className={`objectTabs objTab2 ${viewActiveTab === 2 ? 'objActiveTab' : 'objInactiveTab'} ${item.VolumeURL ? '' : 'objUndefinedTab'}`} onClick={() => setViewActiveTab(2)}>
+                        <button className={`objectTabs objTab2 ${viewActiveTab === 2 ? 'objActiveTab' : 'objInactiveTab'} ${item.ParallaxURL ? '' : 'objUndefinedTab'}`} onClick={() => setViewActiveTab(2)}>
                             <img src={require('../images/objects/ParallaxObjectIcon.png')}/>
                         </button>
                         <button className={`objectTabs objTab3 ${viewActiveTab === 3 ? 'objActiveTab' : 'objInactiveTab'} ${item.ModelURL ? '' : 'objUndefinedTab'}`} onClick={() => setViewActiveTab(3)}>
@@ -114,7 +148,7 @@ const ItemInfoPage = () => {
                 <NavBar />
                 <>
                     <DataForNavigation />
-                    {renderItem()}
+                    {renderItem(item)}
                 </>
             </>
         ) : (

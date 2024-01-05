@@ -10,17 +10,28 @@ export function SearchFilter({ data }: { data: any }) {
     const itemsData = useSelector((state: RootState) => state.itemsData);
     const titleSearch = useSelector((state: RootState) => state.filterTitle);
 
-    const [filteredTitle, setFilteredTitle] = useState<string>(titleSearch || '');
+    const [titleIdSearchToggle, setTitleIdSearchToggle] = useState<boolean>(true);
+
+    const [filteredTitleId, setFilteredTitleId] = useState<string>(titleSearch || '');
+
+    const [searchAvailable, setSearchAvailable] = useState<boolean>(false);
+    useEffect(() => {
+        setSearchAvailable(false);
+        if (itemsData) {
+            setSearchAvailable(true);
+        }
+    }, [itemsData]);
+
 
     useEffect(() => {
         if (itemsData) {
-            if (filteredTitle && filteredTitle.length !== 0) {
+            if (filteredTitleId && filteredTitleId.length !== 0) {
                 store.dispatch({
                     type: 'FILTER_TITLE',
-                    payload: filteredTitle
+                    payload: filteredTitleId
                 })
                 const filteredItems = itemsData.filter((item: any) =>
-                    item.Title.toLowerCase().startsWith(filteredTitle.toLowerCase())
+                    item.Title.toLowerCase().startsWith(filteredTitleId.toLowerCase())
                 );
                 store.dispatch({
                     type: 'FILTERED_ITEMS_DATA',
@@ -37,49 +48,54 @@ export function SearchFilter({ data }: { data: any }) {
                 })
             }
         }
-    }, [itemsData, filteredTitle, titleSearch]);
+    }, [itemsData, filteredTitleId, titleSearch]);
 
-
-    const [viewPanel, setViewPanel] = useState(false)
     const [filterPanel, setFilterPanel] = useState(false)
-
-    const [activeView, setActiveView] = useState("Grid")
-
-    const [activePartition, setActivePartition] = useState(true)
 
     // Test
     const [rarityFilter, setRarityFilter] = useState(false)
 
     return (
         <>
-            <div className="SearchFilter">
+            <div className="SearchToolbar">
                 <p>{data.title}</p>
-                <div className="SearchFilterTools">
-                    <input type="text" value={filteredTitle } name="searchLine" onChange={(event) => setFilteredTitle(event.target.value)} placeholder="Item title..." autoComplete="off"/>
-                    <input type="button" onClick={() => setFilterPanel(prev => !prev)} className="FilterTool" />
-                    <input type="button" onClick={() => setViewPanel(prev => !prev)} className="ViewTool"/>
+                <div className="SearchFilterElements">
+                    <div className="SearchLine">
+                        <input disabled={!searchAvailable} type="text" value={filteredTitleId} name="searchLine" onChange={(event) => setFilteredTitleId(event.target.value)} placeholder={`Item ${titleIdSearchToggle? 'title' : 'id'}...`} autoComplete="off"/>
+                        <button className="SearchLineBtnClear" style={{scale: filteredTitleId ? '1' : '0'}} onClick={() => setFilteredTitleId('')} />
+                    </div>
+                    <button disabled={!searchAvailable} onClick={() => setTitleIdSearchToggle(prev => !prev)}>
+                        <img src={require('../../images/ToggleArrows.png')} alt="ToggleArrows"/>
+                        <label>{!titleIdSearchToggle? 'Title' : 'ID'}</label>
+                    </button>
+                    <input disabled={!searchAvailable} type="button" onClick={() => setFilterPanel(prev => !prev)} className="FilterTool" />
                 </div>
             </div>
-            <div className={`SearchViewPanel ${viewPanel ? "SearchViewPanelV" : "SearchViewPanelH"}`}>
-                <input type="button" onClick={() => setActiveView("Grid")} className="GridView"/>
-                <input type="button" onClick={() => setActiveView("List")} className="ListView"/>
-
-                <hr  style={{margin: "0", boxShadow: "0 0 0 0.2em #AAA inset", height: "2em"}} />
-
-                <input type="button" onClick={() => setActivePartition(prev => !prev)} className={activePartition ? "PartitionOn" : "PartitionOff"}/>
-            </div>
             <div className={`SearchFilterPanel ${filterPanel ? "SearchFilterPanelV" : "SearchFilterPanelH"}`}>
-                <div className="FilterContainer">
-                    <div className="FilterMenu">
-                        <ul>
-                            <li><input type="button" onClick={() => setRarityFilter(prev => !prev)} className={rarityFilter ? "FilterOn" : "FilterOff"}/> Rarity</li>
-                            <li><input type="button" onClick={() => setRarityFilter(prev => !prev)} className={rarityFilter ? "FilterOn" : "FilterOff"}/> Rarity</li>
-                        </ul>
-                        <input type="button" value="Reset" className="filtersReset"/>
+                <div className="ViewingModesContainer">
+                    <p>Viewing Modes</p>
+                    <div className="ViewingModesBtns">
+                        <button className="" />
+                        <button className="" />
+                        <button className="" />
+                        <button className="" />
                     </div>
-                    <hr />
-                    <div className="FilterValue">
+                </div>
+                <hr/>
+                <div className="SearchFilterContainer">
+                    <p>Filtering Parameters</p>
+                    <div className="FilterMenuContainer">
+                        <div className="FilterMenuParameters">
+                            <ul>
+                                <li><input type="button" onClick={() => setRarityFilter(prev => !prev)} className={rarityFilter ? "FilterOptionOn" : "FilterOptionOff"}/> Rarity</li>
+                                <li><input type="button" onClick={() => setRarityFilter(prev => !prev)} className={rarityFilter ? "FilterOptionOn" : "FilterOptionOff"}/> Rarity</li>
+                            </ul>
+                            <hr />
+                            <div className="FilterValue">
 
+                            </div>
+                        </div>
+                        <input type="button" value="Reset" className="filtersReset"/>
                     </div>
                 </div>
             </div>

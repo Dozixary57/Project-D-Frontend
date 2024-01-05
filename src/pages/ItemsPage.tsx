@@ -11,11 +11,16 @@ import dataLoadingSprite from "../images/DataLoadingSprite.webp";
 import {RootState, store} from "../ReduxStore/store";
 import {useSelector} from "react-redux";
 import filteredItemsData from "../ReduxStore/Reducers/filteredItemsData";
+import { TransitionGroup, CSSTransition } from 'react-transition-group';
+
 
 interface Items {
     _id: string;
+    ID: {
+        Certain: String;
+    }
     Title: string;
-    CoverURL: string;
+    IconURL: string;
 }
 
 const ItemsPage = () => {
@@ -42,25 +47,47 @@ const ItemsPage = () => {
             <NavBar />
             <main className="ItemPageMain">
                 <SearchFilter data={{  title: 'Items' }} />
-                {/*<div style={{ backgroundColor: 'rgba(0, 0, 0, 0.2)', display: 'inline-block' }}><div style={{ float: 'left', width: '80%' }}>Предметы</div><div style={{ float: 'right' }}>Сортировать</div></div>*/}
                 {(filteredItems && filteredItems.length > 0)? (
-                    <div className="GridOfItems">
-                        {filteredItems.map((item: Items) => {
-                            return (
-                                <Link key={item._id} to={`/Content/Item/${item.Title.replace(/ /g, "_")}`} className='LinkStyle'>
-                                    <div className='CardOfItem'>
-                                        <figure className='Card'>
-                                            <ParallaxTilt tiltMaxAngleX={20} tiltMaxAngleY={20} perspective={1500} tiltReverse={true} className="ParallaxEffectCard">
-                                                <img className="ParallaxEffectItem" src={item.CoverURL ? item.CoverURL : require('../images/objects/NoThumbnailObjectIcon.png')} alt={filteredItems.Title} />
-                                                <figcaption className="ParallaxEffectTitle">{item.Title}</figcaption>
+                    <TransitionGroup className="GridOfItems">
+                        {filteredItems.map((item: Items) => (
+                            <CSSTransition
+                                key={item._id}
+                                timeout={250}
+                                classNames="CardOfItem"
+                            >
+                                <Link
+                                    to={`/Content/Item/${item.Title.replace(/ /g, '_')}`}
+                                    className="LinkStyle"
+                                >
+                                    <div className="CardOfItem">
+                                        <figure className="Card">
+                                            <ParallaxTilt
+                                                tiltMaxAngleX={20}
+                                                tiltMaxAngleY={20}
+                                                perspective={1500}
+                                                tiltReverse={true}
+                                                className="ParallaxEffectCard"
+                                            >
+                                                <p>{item.ID.Certain}</p>
+                                                <img
+                                                    className="ParallaxEffectItem"
+                                                    src={
+                                                        item.IconURL
+                                                            ? item.IconURL
+                                                            : require('../images/objects/NoThumbnailObjectIcon.png')
+                                                    }
+                                                    alt={filteredItems.Title}
+                                                />
+                                                <figcaption className="ParallaxEffectTitle">
+                                                    {item.Title}
+                                                </figcaption>
                                             </ParallaxTilt>
                                         </figure>
                                     </div>
                                 </Link>
-                            )
-                        })}
-                        {/*<InfoCard_Item />*/}
-                    </div>
+                            </CSSTransition>
+                        ))}
+                    </TransitionGroup>
                 ) : (
                     <div className="noDataContainer">
                         {filteredItems && filteredItems.length === 0? (
