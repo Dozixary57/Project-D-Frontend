@@ -32,7 +32,7 @@ const PageProgressBar = () => {
 
     return (
         <div style={{position: "fixed", width: "100%", height: '0.2em', top: "0" , left: "0", right: "0", zIndex: "5" }}>
-            <div style={{ width: `${scrollPosition * 100}%`, height: "100%", backgroundColor: "#AAA", clipPath: "polygon(0 0, 100% 0, 100% 0%, 98.8vw 100%, 0% 100%, 0.4vw 100%)", transition: "all 0.15s linear" }} />
+            <div style={{ width: `${scrollPosition * 100}%`, height: "100%", backgroundColor: "#AAA", clipPath: "polygon(0 0, 100% 0, 100% 0%, 98.8vw 100%, 0% 100%, 0.4vw 100%)", transition: "all 0.05s linear" }} />
         </div>
     );
 };

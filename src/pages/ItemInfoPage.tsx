@@ -1,18 +1,23 @@
-﻿import React, { useEffect, useState } from "react";
+﻿import React, { useEffect, useState, useRef } from "react";
 import itemService from '../backend/services/itemService';
 import {useNavigate, useParams} from 'react-router-dom';
 import { Helmet } from "react-helmet";
 import { NavBar } from "../components/elements/navigation_bar/NavBar";
 import "./ItemInfoPage.scss"
 import {DataForNavigation, PrevButton, NextButton} from "../components/elements/ObjectNavigation/ObjectNavigation";
+import ModalWindow, { OpenModalWindow } from "../components/ModalWindow/ModalWindow";
 
 interface Item {
     _id: string;
     Title: string;
     Description: {
-        General: string
-        Authorial: string
+        General: string;
+        Authorial: string;
     };
+    Classification: {
+        Type: string;
+        Subclass: string;
+    }
     IconURL: string;
     ParallaxURL: string;
     ModelURL: string;
@@ -25,10 +30,17 @@ interface Item {
 const ItemInfoPage = () => {
     const navigate = useNavigate();
 
+    const modalRef = useRef<OpenModalWindow | null>(null);
+    const openModalWindow = (url: string) => {
+        modalRef.current?.open(url);
+    }
+
     const { titleId } = useParams<{ titleId: string }>();
     const [item, setItem] = useState<any>(null);
 
     const [viewActiveTab, setViewActiveTab] = useState(1);
+
+    const [favoriteToggle, setFavoriteToggle] = useState(false);
 
     const [activeAuthorialDescription, setActiveAuthorialDescription] = useState(false);
 
@@ -50,17 +62,17 @@ const ItemInfoPage = () => {
         switch (viewActiveTab) {
             case 1:
                 return (<>
-                    {item.IconURL && <button />}
-                    <img src={item.IconURL ? item.IconURL : require('../images/objects/NoThumbnailObjectIcon.png')} alt={item.Title + " icon view."} />
+                    {/* {item.IconURL && <button />} */}
+                    <img src={item.IconURL ? item.IconURL : require('../images/objects/NoThumbnailObjectIcon.png')} onClick={() => openModalWindow(item.IconURL)} alt={item.Title + " icon view."} />
                 </>);
             case 2:
                 return (<>
-                    {item.ParallaxURL && <button />}
+                    {/* {item.ParallaxURL && <button />} */}
                     <img src={item.ParallaxURL ? item.ParallaxURL : require('../images/objects/NoParallaxObjectIcon.png')} alt={item.Title + " parallax view."} />
                 </>);
             case 3:
                 return (<>
-                    {item.ModelURL && <button />}
+                    {/* {item.ModelURL && <button />} */}
                     <img src={item.ModelURL ? item.ModelURL : require('../images/objects/No3DObjectIcon.png')} alt={item.Title + " 3D model view."} />
                 </>);
             default:
@@ -75,8 +87,15 @@ const ItemInfoPage = () => {
                 <div className="Content">
                     <div className="ObjectTitle">
                         <button onClick={() => navigate('/Content/Items')}>&lt;&nbsp;&nbsp;</button>
-                        <h2>{item.Title}</h2>
-                        <div></div>
+                        <div>
+                            <h2>{item.Title}</h2>
+                            <button onClick={() => setFavoriteToggle(prev => !prev)}>
+                                <img src={favoriteToggle? require('../images/FavoriteActive.png') : require('../images/FavoriteInactive.png')} alt="FavoriteIcon" />
+                            </button>
+                        </div>
+                        <button>
+                            <img src={require('../images/EditingIcon.png')} alt="EditingIcon"></img>
+                        </button>
                     </div>
                     <div className="TextData">
                         <h5 className="itemInfoLastUpd">Last update: 11/1/23 </h5>
@@ -116,7 +135,25 @@ const ItemInfoPage = () => {
                         </div>
                     </div>
                     <div className="DefinitionData">
-                        <h3>Properties</h3>
+                        <div className="ObjectType">
+                            <h3 className="ObjectTypeTitle">Type</h3>
+                            <div className="ObjectTypeValue">
+                                <img src={require('../images/ObjectTypeWeapon.png')} />                         
+                                <p>{item.Classification.Type}</p>
+                            </div>
+                        </div>
+                        <div className="ObjectSubclass">
+                            <h3 className="ObjectSubclassTitle">Subclass</h3>
+                            <div className="ObjectSubclassValue">
+                                <img src={require('../images/ObjectSubclassShortRange.png')} />                         
+                                <p>{item.Classification.Subclass}</p>
+                            </div>
+                        </div>
+
+                        <div className="ObjectPropertiesTitle">
+                            <h3>Properties</h3>
+                        </div>
+
                         <div>
                             <div>
                                 <img src={require(('../images/HealthPropertyIcon.png'))}/>
@@ -146,6 +183,7 @@ const ItemInfoPage = () => {
                     <title>{`${item.Title} | DizaQute`}</title>
                 </Helmet>
                 <NavBar />
+                <ModalWindow ref={modalRef} />
                 <>
                     <DataForNavigation />
                     {renderItem(item)}

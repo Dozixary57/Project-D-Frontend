@@ -14,15 +14,15 @@ import { NowherePage } from './pages/NowherePage';
 import { ItemInfoPage } from './pages/ItemInfoPage';
 import { ReceivePage } from './pages/ReceivePage';
 import { TestPage } from './pages/TESTpage';
-import { Spoiler } from './pages/\uD83D\uDCE6';
-import {AgreementsPage} from "./pages/AgreementsPage";
-import {SingupPage} from "./pages/SignupPage";
-import {LandingPage} from "./pages/LandingPage";
+import { Spoiler } from './pages/Teaser';
+import { AgreementsPage } from "./pages/AgreementsPage";
+import { SingupPage } from "./pages/SignupPage";
+import { IntroductionPage } from "./pages/IntroductionPage";
 
 function App() {
         return (
                 <Routes>
-                        <Route path="/" element={<LandingPage />} />
+                        <Route path="/" element={<IntroductionPage />} />
                         <Route path="/Home" element={<HomePage />} />
                         <Route path="/Content" element={<ContentPage />} />
                         <Route path="/Content/Items" element={<ItemsPage />} />

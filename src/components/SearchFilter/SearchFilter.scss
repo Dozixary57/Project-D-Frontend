@@ -25,9 +25,6 @@
     grid-template-columns: auto 5em 2em;
     grid-column-gap: 1em;
 
-    //justify-items: center;
-    //justify-content: space-around;
-
     .SearchLine {
       position: relative;
       width: 100%;
@@ -39,9 +36,14 @@
         border-radius: 0.2em;
         padding: 0.6em 0.4em;
         width: 100%;
-        background-color: rgba(0, 0, 0, 0.2);
         border: 0;
-        transition: all 0.2s ease-in-out;
+        transition: all 0.25s ease-in-out;
+      }
+      > input[type="text"]:not(:disabled) {
+        background-color: rgba(0, 0, 0, 0.2);
+      }
+      > input[type="text"]:disabled {
+        background-color: rgba(lightgray, 0.4);
       }
       > input[type="text"]:focus {
         color: white;
@@ -74,74 +76,111 @@
       .SearchLineBtnClear:hover {
         opacity: 1;
       }
+
+      > label {
+        position: absolute;
+        font-size: 0.9em;
+        color: red;
+        top: 105%;
+        left: 0;
+        right: -10em;
+        padding: 0.1em 0.5em;
+        border-radius: 0.2em;
+        background-color: rgb(14, 9, 7);
+      }
     }
 
-/*    .SearchFilterSettingsBtn {
-
-    }*/
-    > button {
+    > button:first-of-type {
       display: flex;
       align-items: center;
       justify-content: center;
 
-
-
-      color: #AAA;
+      color: #757575;
       font-size: 1em;
       font-family: 'F77 Minecraft', PressStart2P-Regular, 'Cascadia Mono', sans-serif;
       width: 100%;
-      transition: all 0.1s ease-in-out;
+      transition: all 0.25s ease-in-out;
       //box-shadow: 0 0 0 0.08em black inset;
       border-radius: 0.2em;
       //filter: invert(5%) sepia(15%) saturate(876%) hue-rotate(355deg) brightness(96%) contrast(101%);
 
-      background-color: rgb(22, 15, 11);
       justify-self: start;
-      background-size: cover;
       border: none;
 
       > img {
         width: 1.5em;
         padding-right: 0.2em;
-        filter: invert(84%) sepia(12%) saturate(3%) hue-rotate(321deg) brightness(82%) contrast(80%);
-      }
+        filter: invert(45%) sepia(62%) saturate(6%) hue-rotate(70deg) brightness(89%) contrast(80%);      }
       > label {
         padding-right: 0.25em;
       }
     }
-    > button:hover {
+    > button:first-of-type:not(:disabled) {
+      background-color: rgb(22, 15, 11);
+    }
+    > button:first-of-type:disabled {
+      background-color: rgba(lightgray, 0.4);
+    }
+    > button:first-of-type:not(:disabled):hover {
       color: white;
+      filter: invert(84%) sepia(12%) saturate(3%) hue-rotate(321deg) brightness(82%) contrast(80%);
 
       img {
         filter: invert(85%) sepia(100%) saturate(0%) hue-rotate(141deg) brightness(106%) contrast(106%);
       }
     }
 
-    > input[type="button"] {
+
+    > button:last-of-type {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
       font-size: 1.2em;
       width: 1.9em;
       scale: 0.95;
-      transition: all 0.1s ease-in-out;
-      box-shadow: 0 0 0 0.08em black inset;
+      transition: all 0.25s ease-in-out;
+      // box-shadow: 0 0 0 0.08em black inset;
       border-radius: 0.2em;
-      filter: invert(5%) sepia(15%) saturate(876%) hue-rotate(355deg) brightness(96%) contrast(101%);
 
       justify-self: end;
-      background: url("../../images/SearchFilterSettingsIcon.png") no-repeat center;
-      background-size: cover;
+
       border: none;
+      img {
+        scale: 1.25;
+        width: 1.5em;
+      }
     }
-    > input[type="button"]:hover {
+    .InactiveFilterTool {
+      background-color: rgb(22, 15, 11);
+      img {
+        filter: invert(45%) sepia(62%) saturate(6%) hue-rotate(70deg) brightness(89%) contrast(80%);
+      }
+    }
+    .InactiveFilterTool:not(:disabled):hover {
+      background-color: rgb(22, 15, 11);
       filter: invert(84%) sepia(12%) saturate(3%) hue-rotate(321deg) brightness(82%) contrast(80%);
+      img {
+        filter: invert(85%) sepia(100%) saturate(0%) hue-rotate(141deg) brightness(106%) contrast(106%);
+      }
+    }
+    > button:last-of-type:disabled {
+      background-color: rgba(lightgray, 0.4);
+    }
+    .ActiveFilterTool {
+      background-color: rgb(22, 15, 11);
+      filter: invert(84%) sepia(12%) saturate(3%) hue-rotate(321deg) brightness(82%) contrast(80%);
+      img {
+        filter: invert(85%) sepia(100%) saturate(0%) hue-rotate(141deg) brightness(106%) contrast(106%);
+      }
     }
   }
-
 }
 
 .SearchFilterPanel {
   width: 100%;
   overflow-y: hidden;
-  transition: all 0.5s ease-in-out;
+  transition: all 0.25s ease-in-out;
   background-color: rgba(0, 0, 0, 0.4);
 
   .ViewingModesContainer {
@@ -262,7 +301,7 @@
 }
 
 .SearchFilterPanelV {
-  max-height: 40em;
+  max-height: var(--search-filter-panel-height);
   padding: 0;
   margin: 0;
   border: none;

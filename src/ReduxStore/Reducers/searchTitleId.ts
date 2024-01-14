@@ -7,7 +7,7 @@ const initialState = null;
 
 export default function filterTitle(state = initialState, action: Action) {
     switch (action.type) {
-        case 'FILTER_TITLE':
+        case 'SEARCH_TITLE_ID':
             return action.payload;
         default:
             return state;

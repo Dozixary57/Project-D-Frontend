@@ -1,94 +1,72 @@
 import { Link } from "react-router-dom";
-import "./LandingPage.scss";
+import "./IntroductionPage.scss";
 import { Helmet } from "react-helmet";
 import { Slider } from "../components/elements/slider/Slider";
 import {useEffect, useState} from "react";
-// import {flushSync} from "react-dom";
 
-const LandingPage = () => {
+const IntroductionPage = () => {
 
-    // const [introductionView, setIntroductionView ] = useState(true);
-
-    const [introStyles, setIntroStyles ] = useState<boolean>(true);
-    const [descStyles, setDescStyles ] = useState<boolean>(false);
+    const [time, setTime] = useState(0);
 
     useEffect(() => {
-        window.addEventListener('popstate', handler);
+        const timer = setInterval(() => {
+            const _time = new Date();
+            const secondsSinceMidnight = _time.getHours() * 3600 + _time.getMinutes() * 60 + _time.getSeconds();
+            setTime(parseFloat((secondsSinceMidnight / 86399 * 24).toFixed(2)));
+        }, 1000);
+
+        // Очистка при размонтировании компонента
         return () => {
-            window.removeEventListener('popstate', handler);
+            clearInterval(timer);
+        };
+    }, []);
+    useEffect(() => {
+        // document.documentElement.style.setProperty('--time-value', `${time}em`);
+        console.log(time)
+    }, [time]);
+
+    const [scrollPosition, setScrollPosition] = useState(0);
+
+    useEffect(() => {
+        const handleScroll = () => {
+            setScrollPosition(window.scrollY);
+            document.documentElement.style.setProperty('--scroll-position', `${window.scrollY}px`);        
+            document.documentElement.style.setProperty('--scroll-value', `${window.scrollY}%`);
+        };
+        window.addEventListener('scroll', handleScroll);
+
+        // Очистка при размонтировании компонента
+        return () => {
+            window.removeEventListener('scroll', handleScroll);
         };
     }, []);
 
-    function handler(event: any) {
-        event.preventDefault()
-        viewsChanger()
-    }
-    function viewsChanger() : void {
-        document.body.style.overflow = 'hidden'
-        if (introStyles) {
-            let descViewElem = document.getElementsByClassName('descriptionMain');
-            for (let i = 0; i < descViewElem.length; i++) {
-                let element = descViewElem[i] as HTMLElement;
-                element.style.maxWidth = 'calc(100vw - 1.8vw)';
-                element.style.maxHeight = '100%';
-                element.style.scale = '1';
-            }
-            setDescStyles(true)
-            setIntroStyles(false)
-            setTimeout(() => {
-                let intoViewElem = document.getElementsByClassName('introductionMain');
-                for (let i = 0; i < intoViewElem.length; i++) {
-                    let element = intoViewElem[i] as HTMLElement;
-                    element.style.maxWidth = '0';
-                    element.style.maxHeight = '0';
-                    element.style.scale = '0';
-
-                }
-            }, 1000)
-        }
-        if (descStyles) {
-            let intoViewElem = document.getElementsByClassName('introductionMain');
-            for (let i = 0; i < intoViewElem.length; i++) {
-                let element = intoViewElem[i] as HTMLElement;
-                element.style.maxWidth = '100%';
-                element.style.maxHeight = '100%';
-                element.style.scale = '1';
-
-            }
-            setIntroStyles(true)
-            setDescStyles(false)
-            setTimeout(() => {
-                let descViewElem = document.getElementsByClassName('descriptionMain');
-                for (let i = 0; i < descViewElem.length; i++) {
-                    let element = descViewElem[i] as HTMLElement;
-                    element.style.maxWidth = '0';
-                    element.style.maxHeight = '0';
-                    element.style.scale = '0';
-                }
-            }, 1000)
-        }
-        setTimeout(() => {
-            document.body.style.overflow = 'initial'
-        }, 1000)
-    }
-
-
-
     return (
         <>
-            {introStyles?
-                (<Helmet>
-                    <meta charSet="utf-8" />
-                    <title>Introduction | Project D</title>
-                </Helmet>)
-                :
-                (<Helmet>
-                    <meta charSet="utf-8" />
-                    <title>Description | Project D</title>
-                </Helmet>)
-            }
-            <main className="landingMain">
-                <div className="introductionMain" style={!descStyles? {translate: '0'} : {translate: '0 -100vh'}}>
+            <Helmet>
+                <meta charSet="utf-8" />
+                <title>Introduction | Project D</title>
+            </Helmet>
+            <main className="INTRODUCTION_PAGE">
+                {/* <p>{time}</p> */}
+                <div className="BackgroundClouds">
+                    {/* <img src={require('../images/Backgrounds/BackgroundClouds.png')} alt="BackgroundClouds" /> */}
+                </div>
+                <div className="MoreDetailsTitle">
+                    <img src={require('../images/ArrowDown.png')} alt="ArrowDown" />
+                    <p>More details</p>
+                </div>
+
+                <div className="CentralScreen">
+                                        {/* <div className="IntroductionDescription">
+                        <p>Исследуйте загадочную планету в захватывающей игре о выживании. Оснащенный модульным технологичным костюмом, ваш герой сталкивается с необузданными природными стихиями и таинственными обитателями этого неприветливого мира. Ваша цель - выживать каждый день, искать ресурсы и путь обратно на Землю. Готовьтесь к увлекательному приключению полному опасностей и открытий!</p>
+                    </div> */}
+
+                </div>
+                <div className="DescriptionScreen">
+                    {/* <p>75</p> */}
+                </div>
+                {/* <div className="introductionMain" style={!descStyles? {translate: '0'} : {translate: '0 -100vh'}}>
                     <div className="introBox">
                         <p>
                             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
@@ -154,10 +132,10 @@ const LandingPage = () => {
                             <p>cw</p>
                         </div>
                     </div>
-                </div>
+                </div> */}
             </main>
         </>
     )
 }
 
-export { LandingPage };
+export { IntroductionPage };

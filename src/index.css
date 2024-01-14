@@ -4,37 +4,44 @@ html {
   font-size: 1.2em;
   /*cursor: url("https://www.shareicon.net/data/128x128/2016/07/22/799964_arrows_512x512.png"), pointer;*/
 }
+/* html::-webkit-scrollbar {
+  display: none;
+} */
 
 body {
   margin: 0;
   background-color: #2a1e16;
 }
+/* body::-webkit-scrollbar {
+  display: none;
+} */
 
-::-webkit-scrollbar {
+
+/* ::-webkit-scrollbar {
   width: auto;
 }
 
 
-::-webkit-scrollbar-button {
+/* ::-webkit-scrollbar-button {
   display: none;
-}
+} */
 
 ::-webkit-scrollbar-track {
-  background-color: transparent;
+  background-color: #AAA;
 }
 
 ::-webkit-scrollbar-thumb {
   border-radius: 0.1em;
-  background-color: #AAAAAA;
+  background-color: white;
 }
 
 ::-webkit-scrollbar-thumb:hover {
   background-color: white;
-}
+} */
 
-::-webkit-scrollbar-corner {
+/* ::-webkit-scrollbar-corner {
   display: none;
-}
+} */
 
 ::selection {
   background: #AAA;
