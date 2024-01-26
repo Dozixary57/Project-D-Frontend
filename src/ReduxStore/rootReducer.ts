@@ -5,6 +5,8 @@ import navigationItemsList from "./Reducers/navigationItemsList";
 import itemsData from "./Reducers/itemsData"
 import filteredItemsData from "./Reducers/filteredItemsData";
 import searchTitleId from "./Reducers/searchTitleId";
+import newsTypesData from "./Reducers/newsTypesData";
+import newsData from "./Reducers/newsData";
 
 
 export const rootReducer = combineReducers({
@@ -13,4 +15,6 @@ export const rootReducer = combineReducers({
     itemsData,
     filteredItemsData,
     searchTitleId,
+    newsTypesData,
+    newsData,
 });

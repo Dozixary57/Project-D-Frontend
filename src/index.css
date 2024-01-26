@@ -10,6 +10,8 @@ html {
 
 body {
   margin: 0;
+  padding: 0 calc(2vw - (100vw - 100%)) 0 0;
+
   background-color: #2a1e16;
 }
 /* body::-webkit-scrollbar {

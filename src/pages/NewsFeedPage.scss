@@ -1,0 +1,383 @@
+// @import "../globalStyles";
+
+.NEWS_FEED_PAGE {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    // margin: 3em auto 0em auto;
+
+    .NEWS_FEED_CONTENT {
+        margin-top: 3em;
+        align-self: center;
+        width: 50em;
+        display: grid;
+        grid-template-columns: 1fr auto;
+        grid-template-rows: auto auto;    
+
+        > h2 {
+            grid-area: 1 / 1 / 2 / 4;
+            margin-bottom: 0.25em;
+            padding: 0.5em 0;
+            text-align: center;
+            border-radius: 0.2em;
+            background-color: rgba(0, 0, 0, 0.4);
+        }
+    
+        // .SearchSettings {
+        //     grid-area: 2 / 1 / 3 / 2;
+        //     justify-self: start;
+        //     //
+        //     width: 100%;
+        //     height: 100%;
+        //     //
+        //     background-color: rgba(0, 0, 0, 0.2);
+        // }
+    
+        .FeedContent {
+            grid-area: 2 / 1 / 3 / 2;
+            margin-right: 0.5em;
+            border-radius: 0.2em;
+            // display: flex;
+            // flex-direction: column;
+            background-color: rgba(0, 0, 0, 0.2);
+
+            .NewsSearchLine {
+                position: relative;
+                width: 100%;
+                display: flex;
+                flex-direction: column;    
+                background-color: rgba(black, 0.2);
+
+                > img {
+                    left: 0;
+                    margin: 0.5em 0.8em;
+                    position: absolute;
+                    padding: 0.145em;
+                    justify-self: center;
+                    align-self: center;
+                    width: 1.5em;
+                    height: 1.5em;
+                    border-top-left-radius: 0.2em;
+                    border-bottom-left-radius: 0.2em;
+                    background-color: rgba(white, 0.4);
+                    filter: invert(84%) sepia(12%) saturate(3%) hue-rotate(321deg) brightness(82%) contrast(80%);
+                }
+
+                > input[type="text"] {
+                    // justify-self: center;
+                    margin: 0.5em 0.8em;
+                    // align-self: center;
+                    // width: 100%;
+                    padding: 0.4em 2em 0.4em 2em;
+                    color: white;
+                    border: none;
+                    border-radius: 0.2em;
+                    font-family: 'F77 Minecraft', PressStart2P-Regular, 'Cascadia Mono', sans-serif;
+                    font-size: 1em;
+                    background-color: rgba(black, 0.2);
+                    transition: all 0.1s ease-in-out;
+                }
+                > input[type="text"]:focus {
+                    outline: none;
+                    background-color: rgba(black, 0.4);
+                }
+                > input[type="text"]::placeholder {
+                    transition: all 0.1s ease-in-out;
+                }
+                > input[type="text"]:focus::placeholder {
+                    color: transparent;
+                }
+
+                > button {
+                    display: grid;
+                    right: 0;
+                    margin: 0.9em 1.25em;
+                    position: absolute;
+                    width: 2.25em;
+                    height: 2.25em;
+                    opacity: 0.4;
+                    border: none;
+                    border-radius: 0.2em;
+                    background-color: rgba(red, 0.4);
+                    transition: all 0.1s ease-in-out;
+
+                    > img {
+                        scale: 1.5;
+                        justify-self: center;
+                        align-self: center;
+                        width: 1.2em;
+                        height: 1.2em;
+                    }
+                }
+                > button:hover {
+                    opacity: 0.8;
+                }
+            }
+            > article {
+                display: flex;
+                flex-direction: column;
+                margin: 0.75em;
+                border-radius: 0.15em;
+                //
+                background-color: transparent;
+                overflow-y: hidden;
+                //
+                transition: all 0.1s ease-in-out;
+                // animation: NewsArticleEnter 250ms ease-in-out;
+                // @keyframes NewsArticleEnter {
+                //     0% {
+                //         scale: 0;
+                //     }
+                //     100% {
+                //         scale: 1;
+                //     }
+                // }
+
+                .NewsTitle {
+                    align-self: center;
+                    display: flex;
+                    flex-direction: row;
+
+                    > label {
+                        align-self: center;
+                        justify-self: center;
+                        margin-right: 0.5em;
+                        border-radius: 0.2em;
+                        color: transparent;
+                        background-color: transparent;
+                        padding: 0.3em 0.3em 0.3em 0.5em;
+                    }
+
+                    > h3 {
+                        justify-self: center;
+                        margin: 0;
+                        padding: 0.5em 0;
+                        // background-color: rgba(black, 0.2);
+                    }
+
+                    > button {
+                        align-self: center;
+                        display: flex;
+                        flex-direction: column;
+                        margin-left: 0.25em;
+                        width: 2.5em;
+                        height: 2.5em;
+                        border: none;
+                        background-color: transparent;              
+
+                        > img {
+                            align-self: center;
+                            width: 2.25em;
+                            filter: invert(84%) sepia(12%) saturate(3%) hue-rotate(321deg) brightness(82%) contrast(80%);  
+                        }
+                    }
+                    > button:hover {
+                        cursor: pointer;
+                    }
+                }
+
+                > img {                
+                    width: 100%;
+                    box-sizing: border-box;
+                    border-radius: 0.7em;
+                    padding: 0 0.5em;
+                }
+
+                > p {
+                    margin: 0;
+                    padding: 0.5em;
+                    text-align: justify;
+                    text-indent: 1.5em;
+                    line-height: 1.2em;
+                }
+
+                > h5 {
+                    margin: 0;
+                    text-align: right;
+                    padding-right: 0.5em;
+                    padding-bottom: 0.5em;
+                }
+            }
+            .ArticleAnnouncements {
+                filter: saturate(150%);
+                background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), linear-gradient(rgba(dodgerblue, 0.2), rgba(dodgerblue, 0.2));
+
+                .NewsTitle {
+
+                    > label {
+                        filter: brightness(120%) saturate(120%);
+                        color: dodgerblue;
+                        background-color: rgba(dodgerblue, 0.2);
+                    }
+                }
+            }
+            .ArticleUpdates {
+                filter: saturate(150%);
+                background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), linear-gradient(rgba(20, 215, 0, 0.2), rgba(20, 215, 0, 0.2));
+
+                .NewsTitle {
+
+                    > label {
+                        filter: brightness(120%) saturate(120%);
+                        color: rgb(20, 215, 0);
+                        background-color: rgba(20, 215, 0, 0.2);
+                    }
+                }
+            }
+            .ArticlePatches {
+                background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), linear-gradient(rgba(#ff8c00, 0.2), rgba(#ff8c00, 0.2));
+
+                .NewsTitle {
+
+                    > label {
+                        filter: brightness(120%) saturate(120%);
+                        color: #ff8c00;
+                        background-color: rgba(#ff8c00, 0.2);
+                    }
+                }
+            }
+            .ArticleDevelopment {
+                background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), linear-gradient(rgba(blueviolet, 0.2), rgba(blueviolet, 0.2));
+
+                .NewsTitle {
+
+                    > label {
+                        filter: brightness(120%) saturate(120%);
+                        color: rgb(165, 65, 255);
+                        background-color: rgba(blueviolet, 0.2);
+                    }
+                }
+            }
+            .ArticleActions {
+                background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), linear-gradient(rgba(#CCC, 0.2), rgba(#CCC, 0.2));
+
+                .NewsTitle {
+
+                    > label {
+                        filter: brightness(120%) saturate(120%);
+                        color: #CCC;
+                        background-color: rgba(#CCC, 0.2);
+                    }
+                }
+                
+            }
+            > article:hover {
+                box-shadow: 0 0 0 0.2em #AAA;
+                // scale: 1.02;
+                // cursor: pointer;
+            }
+        }
+    
+        .FeedFilter {
+            grid-area: 2 / 2 / 3 / 3;
+            // min-width: 8em;
+            // max-width: 12.5em;
+            width: fit-content;
+            height: fit-content;
+    
+            .NewsTypesComponent {
+                border-radius: 0.2em;
+                background-color: rgba(0, 0, 0, 0.2);
+
+                > h3 {
+                    text-align: center;
+                    margin: 0;
+                    padding: 0.25em 0;
+                    background-color: rgba(0, 0, 0, 0.2);
+                }
+
+                .NewsTypesList {
+                    grid-area: 2 / 3 / 3 / 4;
+                    padding: 0.2em 0;
+                    display: flex;
+                    flex-direction: column;
+                    justify-self: end;
+            
+                    > button {
+                        margin: 0.1em 0.25em;
+                        font-family: 'F77 Minecraft', PressStart2P-Regular, 'Cascadia Mono', sans-serif;
+                        font-size: 1.1em;
+                        text-align: start;
+                        padding: 0.25em 0.5em;
+                        border: none;
+                        border-radius: 0.2em;
+                        transition: all 0.1s ease-in-out;
+                    }
+                    > button:hover {
+                        cursor: pointer;
+                        box-shadow: 0 0 0 0.1em white;                                         
+                    }
+                    > button:nth-of-type(1) {
+                        color: honeydew;
+                        text-align: center;
+                        background-color: rgba(honeydew, 0.4);
+                    }
+                    > button:nth-of-type(2) {
+                        color: rgb(70, 160, 255);
+                        background-color: rgba(dodgerblue, 0.2);
+                    }
+                    > button:nth-of-type(3) {
+                        color: rgb(20, 215, 0);
+                        background-color: rgba(20, 215, 0, 0.2);
+                    }
+                    > button:nth-of-type(4) {
+                        color: #ff8c00;
+                        background-color: rgba(#ff8c00, 0.2);
+                    }
+                    > button:nth-of-type(5) {
+                        color: rgb(165, 65, 255);
+                        background-color: rgba(blueviolet, 0.2);
+                    }
+                    > button:nth-of-type(6) {
+                        color: #CCC;
+                        background-color: rgba(#CCC, 0.2);
+                    }
+                    // > button:nth-of-type(7) {
+                    //     color: rgb(70, 255, 210);
+                    //     background-color: rgba(70, 255, 210, 0.2);
+                    // }
+
+                    .SelectedNewsTypeButton {
+                        box-shadow: 0 0 0 0.1em white;
+                    }
+                }    
+
+            }
+
+            > button {
+                margin-top: 0.5em;
+                width: 100%;
+                border-radius: 0.2em;
+                border: none;
+                background-color: rgba(black, 0.3);
+                cursor: pointer;
+
+                > img {
+                    width: 2.5em;
+                    scale: 1.1;
+                    filter: invert(84%) sepia(12%) saturate(3%) hue-rotate(321deg) brightness(82%) contrast(80%);
+                }
+            }
+        }
+        .FeedFilter {
+            position: sticky;
+            top: 4em
+        }
+    }
+}
+
+// .NewsArticle-enter {
+//     scale: 0;
+//     transition: scale 250ms ease-in-out;
+
+// }
+// .NewsArticle-enter-active {
+//     scale: 1;
+//     transition: scale 250ms ease-in-out;
+//}
+// .NewsArticle-exit {
+//     max-height: 20em;
+// }
+// .NewsArticle-exit-active {
+//     max-height: 0;
+// }

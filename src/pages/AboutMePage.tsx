@@ -6,7 +6,7 @@ const AboutMePage = () => {
         <>
             <Helmet>
                 <meta charSet="utf-8" />
-                <title>Dozixary57 | About Me</title>
+                <title>Project D | About Me</title>
             </Helmet>
             <NavBar />
             <main>About Me</main>

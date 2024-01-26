@@ -18,6 +18,7 @@ import { Spoiler } from './pages/Teaser';
 import { AgreementsPage } from "./pages/AgreementsPage";
 import { SingupPage } from "./pages/SignupPage";
 import { IntroductionPage } from "./pages/IntroductionPage";
+import { NewsFeedPage } from './pages/NewsFeedPage';
 
 function App() {
         return (
@@ -29,7 +30,7 @@ function App() {
                         <Route path="/Content/Item/:titleId" element={<ItemInfoPage />} />
                         <Route path="/Content/Creatures" element={<CreaturesPage />} />
                         <Route path="/Content/Locations" element={<LocationsPage />} />
-                        <Route path="/News" element={<NewsPage />} />
+                        <Route path="/News_Feed" element={<NewsFeedPage />} />
                         <Route path="/Receive" element={<ReceivePage />} />
                         <Route path="/Login" element={<LoginPage />} />
                         <Route path="/Signup" element={<SingupPage />} />
