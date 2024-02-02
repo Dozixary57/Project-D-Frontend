@@ -19,30 +19,34 @@ import { AgreementsPage } from "./pages/AgreementsPage";
 import { SingupPage } from "./pages/SignupPage";
 import { IntroductionPage } from "./pages/IntroductionPage";
 import { NewsFeedPage } from './pages/NewsFeedPage';
+import { NewsOverlay } from './pages/NewsOverlay';
 
 function App() {
-        return (
-                <Routes>
-                        <Route path="/" element={<IntroductionPage />} />
-                        <Route path="/Home" element={<HomePage />} />
-                        <Route path="/Content" element={<ContentPage />} />
-                        <Route path="/Content/Items" element={<ItemsPage />} />
-                        <Route path="/Content/Item/:titleId" element={<ItemInfoPage />} />
-                        <Route path="/Content/Creatures" element={<CreaturesPage />} />
-                        <Route path="/Content/Locations" element={<LocationsPage />} />
-                        <Route path="/News_Feed" element={<NewsFeedPage />} />
-                        <Route path="/Receive" element={<ReceivePage />} />
-                        <Route path="/Login" element={<LoginPage />} />
-                        <Route path="/Signup" element={<SingupPage />} />
-                        <Route path="/Account" element={<AccountPage />} />
-                        <Route path="/About" element={<AboutPage />} />
-                        <Route path="/About_Me" element={<AboutMePage />} />
-                        <Route path="/Agreements" element={<AgreementsPage />} />
-                        <Route path="*" element={<NowherePage />} />
-                        <Route path="/TEST" element={<TestPage />} />
-                        <Route path="/📦" element={<Spoiler />} />
-                </Routes>
-        )
+  return (
+    <Routes>
+      <Route path="/" element={<IntroductionPage />} />
+      <Route path="/Home" element={<HomePage />} />
+      <Route path="/Content" element={<ContentPage />} />
+      <Route path="/Content/Items" element={<ItemsPage />} />
+      <Route path="/Content/Item/:titleId" element={<ItemInfoPage />} />
+      <Route path="/Content/Creatures" element={<CreaturesPage />} />
+      <Route path="/Content/Locations" element={<LocationsPage />} />
+      <Route path="/News" element={<NewsFeedPage />} >
+              <Route path=":titleId" element={<NewsOverlay />} />
+      </Route>
+      {/* <Route path="/News/:titleId" element={<NewsOverlay />} /> */}
+      <Route path="/Receive" element={<ReceivePage />} />
+      <Route path="/Login" element={<LoginPage />} />
+      <Route path="/Signup" element={<SingupPage />} />
+      <Route path="/Account" element={<AccountPage />} />
+      <Route path="/About" element={<AboutPage />} />
+      <Route path="/About_Me" element={<AboutMePage />} />
+      <Route path="/Agreements" element={<AgreementsPage />} />
+      <Route path="*" element={<NowherePage />} />
+      <Route path="/TEST" element={<TestPage />} />
+      <Route path="/📦" element={<Spoiler />} />
+    </Routes>
+  )
 }
 
 export default App;

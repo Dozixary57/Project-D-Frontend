@@ -77,7 +77,7 @@ export function NavBar() {
                                 </Floater>
                             </div>
                         </Link>
-                        <Link to="/News_Feed">
+                        <Link to="/News">
                             <div className="LinkButtonContainer">
                                 <div className="linkButton">News</div>
                                 <div className="submenuButton">

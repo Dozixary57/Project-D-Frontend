@@ -9,6 +9,7 @@ import {ContextProvider} from "./ContextProvider";
 import { Provider } from "react-redux";
 import {store} from "./ReduxStore/store";
 import {BetaLabel} from "./components/elements/BetaLabel/BetaLabel";
+import { HelmetProvider } from 'react-helmet-async';
 
 const root = ReactDOM.createRoot(
     document.getElementById('root') as HTMLElement
@@ -19,9 +20,11 @@ root.render(
         <React.StrictMode>
             <Provider store={ store }>
                 <ContextProvider>
-                    <BrowserRouter>
-                        <App />
-                    </BrowserRouter>
+                    <HelmetProvider>
+                        <BrowserRouter>
+                            <App />
+                        </BrowserRouter>
+                    </HelmetProvider>
                 </ContextProvider>
             </Provider>
         </React.StrictMode>

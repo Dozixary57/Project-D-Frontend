@@ -1,4 +1,4 @@
-import { Helmet } from "react-helmet";
+import { Helmet } from "react-helmet-async";
 import { NavBar } from "../components/elements/navigation_bar/NavBar";
 import "./LoginPage.scss"
 import {useState} from "react";

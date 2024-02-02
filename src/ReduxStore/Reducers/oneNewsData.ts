@@ -5,9 +5,9 @@ interface Action {
 
 const initialState = null;
 
-export default function newsData(state = initialState, action: Action) {
+export default function oneNewsData(state = initialState, action: Action) {
     switch (action.type) {
-        case 'NEWS_DATA':
+        case 'ONE_NEWS_DATA':
             return action.payload;
         default:
             return state;

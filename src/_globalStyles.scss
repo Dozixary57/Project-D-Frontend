@@ -11,6 +11,10 @@ $borderRadius: 0.2em;
   border-radius: $borderRadius;
 }
 
+@mixin defaultFontFamily {
+  font-family: 'F77 Minecraft', PressStart2P-Regular, 'Cascadia Mono', sans-serif;
+}
+
 @mixin SearchLineStyle {
 
     > input[type="text"] {

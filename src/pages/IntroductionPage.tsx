@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import "./IntroductionPage.scss";
-import { Helmet } from "react-helmet";
+import { Helmet } from "react-helmet-async";
 import { Slider } from "../components/elements/slider/Slider";
 import {useEffect, useState} from "react";
 import { HomePage } from "./HomePage";

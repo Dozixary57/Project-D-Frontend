@@ -1,7 +1,7 @@
 ﻿import React, { useEffect, useState, useRef } from "react";
 import itemService from '../backend/services/itemService';
 import {useNavigate, useParams} from 'react-router-dom';
-import { Helmet } from "react-helmet";
+import { Helmet } from "react-helmet-async";
 import { NavBar } from "../components/elements/navigation_bar/NavBar";
 import "./ItemInfoPage.scss"
 import {DataForNavigation, PrevButton, NextButton} from "../components/elements/ObjectNavigation/ObjectNavigation";

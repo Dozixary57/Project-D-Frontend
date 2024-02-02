@@ -19,7 +19,7 @@
     "react-cookie": "^6.1.1",
     "react-dom": "^18.2.0",
     "react-floater": "^0.8.2",
-    "react-helmet": "^6.1.0",
+    "react-helmet-async": "^2.0.4",
     "react-parallax-tilt": "^1.7.154",
     "react-redux": "^8.1.2",
     "react-router": "^6.14.2",

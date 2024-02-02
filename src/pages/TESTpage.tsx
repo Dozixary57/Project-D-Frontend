@@ -1,4 +1,4 @@
-import { Helmet } from "react-helmet";
+import { Helmet } from "react-helmet-async";
 import Slider from "../components/TEST/TEST";
 
 const TestPage = () => {
