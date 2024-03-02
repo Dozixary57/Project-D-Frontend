@@ -69,13 +69,14 @@ module.exports = function (fastify) {
         })
     );
 
-/*    fastify.use(
+    fastify.use(
         '/Authentication/Signup',
         createProxyMiddleware({
             target: 'http://localhost:7000',
+            pathRewrite: {'^/Authentication/Signup' : '/Signup'},
             changeOrigin: true,
         })
-    );*/
+    );
 
     fastify.use(
         '/Authentication/Logout',

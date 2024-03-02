@@ -1,4 +1,5 @@
 ﻿import axios from 'axios';
+import { store } from '../../ReduxStore/store';
 
 const AuthService = {
     Login: async (login: string, password: string) => {
@@ -16,20 +17,34 @@ const AuthService = {
         const { accessToken, ...responseData } = res.data;
         return responseData || [];
     },
-/*    Signup: async (username: string, email: string, dateOfBirth: string, password: string, ssi: boolean) => {
+    Signup: async (username: string, email: string, dateOfBirth: string, password: string) => {
+        let result: any[] = [];
         const data = {
             Username: username,
             Email: email,
             DateOfBirth: dateOfBirth,
-            Password: password,
-            SSI: ssi
+            Password: password
         };
         const headers = {
             'Content-Type': 'application/json'
         };
-        const res = await axios.post(`/Authentication/Signup`, data, {headers});
-        return res.data || [];
-    },*/
+        await axios.post(`/Authentication/Signup`, data, {headers, timeout: 5000})
+            .then((res) => {
+                result = res.data || [];
+            }).catch(error => {
+                if (error.code === 'ECONNABORTED') {
+                    // Обработка ошибки таймаута    
+                } else {
+                    // Обработка других ошибок сети
+                }
+            }).finally( () => {
+                // store.dispatch({
+                //     type: 'DATA_LOADING_STATE',
+                //     payload: false
+                // })
+            });
+        return result;
+    },
 /*    authHeader: async () => {
         const userAccessTokenString = localStorage.getItem('AccessToken');
         if (userAccessTokenString !== null) {

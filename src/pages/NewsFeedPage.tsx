@@ -23,6 +23,7 @@ interface INews {
    Annotation: string;
    Type: string;
    CoverURL: string;
+   Author: string;
    PublicationDate: string;
 }
 
@@ -49,6 +50,27 @@ const NewsFeedPage = () => {
    const [selectedNewsType, setSelectedNewsType] = useState<string>("All");
 
    const [showNewsCover, setShowNewsCover] = useState<boolean>(true);
+   // const NewsCoverHeightRef = useRef<HTMLImageElement | null>(null);
+   // document.documentElement.style.setProperty('--news-cover-height', `0px`);
+   // let singleUse = false;
+   // useEffect(() => {
+   //    let height;
+   //    if (newsData && NewsCoverHeightRef.current) {
+   //       height = NewsCoverHeightRef.current.scrollHeight;
+   //       if (!singleUse && height === 0) {
+   //          document.documentElement.style.setProperty('--news-cover-height', `${height}px`);
+   //          singleUse = true;
+   //       }
+   //    }
+   //    console.log(height)
+   //    return () => {
+   //       document.documentElement.style.setProperty('--news-cover-height', `auto`);
+   //    };
+   // }, [newsData, NewsCoverHeightRef, showNewsCover]);
+   // useEffect(() => {
+   //    // if (NewsCoverHeightRef.current) console.log(NewsCoverHeightRef.current.scrollHeight)
+   // }, [NewsCoverHeightRef, showNewsCover])
+
    const [dateRange, setDateRange] = useState<{ startDate: number | null, endDate: number | null }>({ startDate: null, endDate: null });
 
    useEffect(() => {
@@ -109,7 +131,6 @@ const NewsFeedPage = () => {
 
          setFilteredNewsData(filteredData);
       }
-      console.log(newsData)
    }, [newsData, newsTypesData, selectedNewsType, searchLineValue, dateRange])
 
    function formatDateTime(timestamp: string): string {
@@ -125,6 +146,7 @@ const NewsFeedPage = () => {
       return `${hours}:${minutes} ${month}/${day}/${year}`;
    } 
 
+   const startDateRef = useRef<HTMLInputElement>(null);
    function handleStartDate(value: string) {
       const date = new Date(value);
       const timestamp = date.getTime();
@@ -134,6 +156,7 @@ const NewsFeedPage = () => {
          setDateRange(prevState => ({ ...prevState, startDate: null }));
       }
    }
+   const endDateRef = useRef<HTMLInputElement>(null);
    function handleEndDate(value: string) {
       const date = new Date(value);
       const timestamp = date.getTime();
@@ -143,11 +166,20 @@ const NewsFeedPage = () => {
          setDateRange(prevState => ({ ...prevState, endDate: null }));
       }
    }
+   const resetDate = () => {
+      if (startDateRef.current) {
+         startDateRef.current.value = '';
+      }
+      if (endDateRef.current) {
+         endDateRef.current.value = '';
+      }
+   };
+
+   const params = useParams();
 
    useEffect(() => {
-      console.log()
-      if (window.location.pathname !== "/News") console.log("Yes!")
-   }, [window.location.pathname])
+      if (window.location.pathname === "/News") setNewsTitleId(null);
+   }, [params])
 
    return (
       <>
@@ -175,34 +207,45 @@ const NewsFeedPage = () => {
                         </button>}
                      </div>
                      {newsData && newsData.length !== 0 ? (
-                        <div className="ArticleContentData">
-                           {/* <TransitionGroup> */}
-                           {filteredNewsData && filteredNewsData.map((News: INews) => (
-                              // <CSSTransition key={News._id} timeout={1000} classNames="NewsArticle" unmountOnExit>
-                              <Link to={`/News/${News.Title.replace(/ /g, '_')}`} key={News._id} onClick={() => {
-                                 setNewsTitleId(News.Title)
-                                 store.dispatch({
-                                    type: 'SHOW_NEWS_OVERLAY',
-                                    payload: true
-                                 })
-                              }}>
-                                 <article className={`Article${News.Type}`}>
-                                       <div className="NewsTitle">
-                                          <label>{News.Type.charAt(0)}</label>
-                                          <h3>{News.Title}</h3>
-                                          <button onClick={(e) => e.preventDefault()}>
-                                             <img src={require(`../images/FavoriteInactive.png`)} alt="FavoriteIcon" />
-                                          </button>
-                                       </div>
-                                       {showNewsCover && <img src={News.CoverURL? News.CoverURL : require(`../images/${News.Type}Cover.png`)} alt="Cover" />}
-                                       <p>{News.Annotation}</p>
-                                       <h5>{formatDateTime(News.PublicationDate)}</h5>
-                                 </article>
-                              </Link>
-                              //  </CSSTransition>
-                           ))}
-                           {/* </TransitionGroup> */}
-                        </div>                     
+                           filteredNewsData && filteredNewsData.length !== 0? (
+                                 filteredNewsData && filteredNewsData.map((News: INews) => (
+                                    <div className="ArticleContentData">
+                                       <Link to={`/News/${News.Title.replace(/ /g, '_')}`} key={News._id} onClick={() => {
+                                          setNewsTitleId(News.Title)
+                                          store.dispatch({
+                                             type: 'SHOW_NEWS_OVERLAY',
+                                             payload: true
+                                          })
+                                       }}>
+                                          <article className={`Article${News.Type}`}>
+                                                <div className="NewsTitle">
+                                                   <label>{News.Type.charAt(0)}</label>
+                                                   <h3>{News.Title}</h3>
+                                                   <button onClick={(e) => e.preventDefault()}>
+                                                      <img src={require(`../images/FavoriteInactive.png`)} alt="FavoriteIcon"/>
+                                                   </button>
+                                                </div>
+                                                {/* ref={NewsCoverHeightRef} */}
+                                                {showNewsCover && <img src={News.CoverURL? News.CoverURL : require(`../images/${News.Type}Cover.png`)} alt="Cover" className={showNewsCover? 'ShowCoverAnim' : 'HideCoverAnim'} />}
+                                                <p>{News.Annotation}</p>
+                                                <div className="AuthorNewsPublication">
+                                                   <p>by {News.Author}</p>
+                                                   <p>{formatDateTime(News.PublicationDate)}</p>
+                                                </div>
+                                          </article>
+                                       </Link>
+                                    </div>
+                                 ))
+                              ) : (
+                              <div className="NoRelevantData">
+                                 <p>No news with the selected criteria was found. Do you want to see all the available news?</p>
+                                 <button onClick={() => {
+                                    setSelectedNewsType("All");
+                                    setDateRange({startDate: null, endDate: null});
+                                    resetDate();
+                                 }}>Back</button>
+                              </div>
+                           )
                         ) : (dataLoadingState? (
                            <div className="ArticleContentLoading">
                               <img src={require('../images/DataLoadingSprite.webp')} alt="Loading icon" />
@@ -241,11 +284,11 @@ const NewsFeedPage = () => {
                               <form>
                                  <div>
                                     <h4>From</h4>
-                                    <input type="date" onChange={(event) => handleStartDate(event.target.value)} />
+                                    <input type="date" onChange={(event) => handleStartDate(event.target.value)} ref={startDateRef} />
                                  </div>
                                  <div>
                                     <h4>To</h4>
-                                    <input type="date" onChange={(event) => handleEndDate(event.target.value)} />
+                                    <input type="date" onChange={(event) => handleEndDate(event.target.value)} ref={endDateRef} />
                                  </div>
                                  <button type="reset" onClick={() => {setDateRange({ startDate: null, endDate: null })}}>Reset</button>
                               </form>

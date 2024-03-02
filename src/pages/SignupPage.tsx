@@ -1,134 +1,263 @@
 import { Helmet } from "react-helmet-async";
 import { NavBar } from "../components/elements/navigation_bar/NavBar";
 import "./SignupPage.scss"
-import {useState} from "react";
+import {useState, useEffect, useRef} from "react";
 import authService from "../backend/services/authService";
 import {Link} from "react-router-dom";
+import { useNavigate } from 'react-router-dom';
+import { useSelector } from "react-redux";
+import { RootState, store } from "../ReduxStore/store";
+
+interface IErrorMessages {
+   message: string  | null;
+ 
+   usernameErrMsg: string | null;
+   emailErrMsg: string | null;
+   passwordErrMsg: string | null;
+   confirmPasswordErrMsg: string | null;
+   dateOfBirthErrMsg: string | null;
+   agreementsErrMsg: string | null;
+ } 
 
 const SingupPage = () => {
-    const [username, setUsername] = useState('');
-    const [email, setEmail] = useState('');
-    const [dateOfBirth, setDateOfBirth] = useState('');
-    const [password, setPassword] = useState('');
-    const [passwordConfirm, setPasswordConfirm] = useState('');
+   const dataLoadingState = useSelector((state: RootState) => state.dataLoadingState);
+   useEffect(() => {
+      store.dispatch({
+         type: 'DATA_LOADING_STATE',
+         payload: false
+      })
+   }, []);
 
-    ////
-    const [showDatePicker, setShowDatePicker] = useState(false);
-    const [selectedDate, setSelectedDate] = useState('');
+   const navigate = useNavigate();
 
-    const handleInputChange = (event: any) => {
-        setSelectedDate(event.target.value);
-    };
+   const [username, setUsername] = useState('');
+   const [email, setEmail] = useState('');
 
-    const handleInputFocus = () => {
-        if (!selectedDate) {
-            setShowDatePicker(true);
-        }
-    };
+   const [dateOfBirth, setDateOfBirth] = useState<string>('');
+   const [showDatePicker, setShowDatePicker] = useState(false);
 
-    const handleDateChange = (event: any) => {
-        setSelectedDate(event.target.value);
-        setShowDatePicker(false);
-    };
-    ////
+   const [password, setPassword] = useState('');
+   const [confirmPassword, setConfirmPassword] = useState('');
+   const [agreementsCheckbox, setAgreementsCheckbox] = useState<boolean>(false);
 
-    const handleSubmit = (event: any) => {
-        event.preventDefault();
-        // authenticationService.postSigninData(username, password);
-    };
-    return (
-        <>
-            <Helmet>
-                <meta charSet="utf-8"/>
-                <title>Sign Up | DizaQute</title>
-            </Helmet>
-            <NavBar/>
-            <main className="SignupPageMain">
-                <form id="Signup" onSubmit={handleSubmit}>
-                    <fieldset>
-                        <legend>Sign Up</legend>
+   const [fieldErrorMessages, setFieldErrorMessages] = useState<IErrorMessages>({
+      message: null,
+      usernameErrMsg: null,
+      emailErrMsg: null,
+      passwordErrMsg: null,
+      confirmPasswordErrMsg: null,
+      dateOfBirthErrMsg: null,
+      agreementsErrMsg: null,
+   });
+   
+   useEffect(() => {
+      if (username.length > 0) {
+         setFieldErrorMessages(prevState => ({
+            ...prevState,
+            usernameErrMsg: null
+         }));
+      }
+   }, [username]);
+   useEffect(() => {
+      if (email.length > 0) {
+         setFieldErrorMessages(prevState => ({
+            ...prevState,
+            emailErrMsg: null
+         }));
+      }
+   }, [email]);
+   useEffect(() => {
+      if (password.length > 0) {
+         setFieldErrorMessages(prevState => ({
+            ...prevState,
+            passwordErrMsg: null
+         }));
+      }
+   }, [password]);
+   useEffect(() => {
+      if (confirmPassword.length > 0) {
+         setFieldErrorMessages(prevState => ({
+            ...prevState,
+            confirmPasswordErrMsg: null
+         }));
+      }
+   }, [confirmPassword]);
+   // useEffect(() => {
+   //    if (dateOfBirth.length > 0) {
+   //       setFieldErrorMessages(prevState => ({
+   //          ...prevState,
+   //          confirmPasswordErrMsg: null
+   //       }));
+   //    }
+   // }, [dateOfBirth]);
+   useEffect(() => {
+      if (agreementsCheckbox) {
+         setFieldErrorMessages(prevState => ({
+            ...prevState,
+            agreementsErrMsg: null
+         }));
+      }
+   }, [agreementsCheckbox])
+
+   function clientErrorChecking() {
+      let flag = false;
+      if (username.length == 0) {
+         setFieldErrorMessages(prevState => ({
+            ...prevState,
+            usernameErrMsg: "The value should not be empty"
+         }));
+         flag = true;
+      }
+      if (email.length == 0) {
+         setFieldErrorMessages(prevState => ({
+            ...prevState,
+            emailErrMsg: "The value should not be empty"
+         }));
+         flag = true;
+      }
+      if (password.length == 0) {
+         setFieldErrorMessages(prevState => ({
+            ...prevState,
+            passwordErrMsg: "The value should not be empty"
+         }));
+         flag = true;
+      }
+      if (confirmPassword != password) {
+         setFieldErrorMessages(prevState => ({
+            ...prevState,
+            confirmPasswordErrMsg: "Passwords must match"
+         }));
+         flag = true;
+      } else if (confirmPassword.length == 0) {
+         setFieldErrorMessages(prevState => ({
+            ...prevState,
+            confirmPasswordErrMsg: "The value should not be empty"
+         }));
+         flag = true;
+      }
+      if (!agreementsCheckbox) {
+         setFieldErrorMessages(prevState => ({
+            ...prevState,
+            agreementsErrMsg: "It is necessary to accept"
+         }));
+         flag = true;
+      }
+      return flag;
+   }
+
+   function serverErrorChecking() {
+      authService.Signup(username, email, dateOfBirth, confirmPassword)
+      .then(serviceData => {
+        setFieldErrorMessages(prevState => ({
+          ...prevState,
+          ...serviceData
+        }));
+      })
+      .catch(err => {
+        console.error('Error: ' + err);
+      });
+   }
+
+   const handleSubmit = async (event: any) => {
+      event.preventDefault();
+
+      setFieldErrorMessages({
+         message: null,
+         usernameErrMsg: null,
+         emailErrMsg: null,
+         passwordErrMsg: null,
+         confirmPasswordErrMsg: null,
+         dateOfBirthErrMsg: null,
+         agreementsErrMsg: null,
+      });
+      
+      if (!clientErrorChecking()) {
+         serverErrorChecking();
+      }
+      
+   };
+
+   return (
+      <>
+         <Helmet>
+            <meta charSet="utf-8"/>
+            <title>Sign Up | DizaQute</title>
+         </Helmet>
+         <NavBar/>
+         <main className="SIGN_UP_PAGE">
+               <form id="Signup" onSubmit={handleSubmit}>
+                  <fieldset>
+                     <legend>Sign Up</legend>
+                     <div className="dataProcessing" style={{display: dataLoadingState ? 'flex' : 'none'}}>
+                        <img src={require('../images/DataLoadingSprite.webp')} alt="loading"></img>
+                        <p>Processing...</p>
+                     </div>
+                     <div className="formFields" style={{opacity: dataLoadingState ? '0' : '1'}}>
                         <div className="dataField">
-                            <input type="text" name="username" value={username} required onChange={(event) => setUsername(event.target.value)} autoComplete="nickname" placeholder=" "
-                                   className="dataInput"/>
-                            <label htmlFor="username" className="floatingLabel">Username<span> ̊ </span></label>
+                           <p style={{maxHeight: fieldErrorMessages?.usernameErrMsg? '2em' : '0'}}>{fieldErrorMessages?.usernameErrMsg}</p>
+                           <div className="inputField">
+                              <input type="text" name="username" value={username} onChange={(event) => setUsername(event.target.value)} placeholder=" " />
+                              <label>Username<span> ̊ </span></label>
+                           </div>
                         </div>
                         <div className="dataField">
-                            <input type="email" name="email" value={email} required onChange={(event) => setEmail(event.target.value)} autoComplete="off" placeholder=" "
-                                   className="dataInput"/>
-                            <label htmlFor="password" className="floatingLabel">Email<span> ̊ </span></label>
+                           <p style={{maxHeight: fieldErrorMessages?.emailErrMsg? '2em' : '0'}}>{fieldErrorMessages?.emailErrMsg}</p>
+                           <div className="inputField">
+                              <input type="email" name="email" value={email} onChange={(event) => setEmail(event.target.value)} placeholder=" " />
+                              <label>Email<span> ̊ </span></label>
+                           </div>
                         </div>
                         <div className="dataField">
-                            {showDatePicker || selectedDate ? (
-                                <>
-                                    <input
-                                        type="date"
-                                        value={selectedDate}
-                                        placeholder=" "
-                                        onChange={handleDateChange}
-                                        onBlur={() => setShowDatePicker(false)}
-                                        style={{paddingRight: '0.5em'}}
-                                        className="dataInput dateModifier"
-                                    />
-                                    <label htmlFor="password" className="floatingLabel">Date of birth</label>
-                                </>
-                            ) : (
-                                <>
-                                    <input
-                                        type="text"
-                                        value={selectedDate}
-                                        placeholder=" "
-                                        onChange={handleInputChange}
-                                        onFocus={handleInputFocus}
-                                        className="dataInput"
-                                    />
-                                    <label htmlFor="password" className="floatingLabel">Date of birth</label>
-                                </>
-                            )}
+                           <p style={{maxHeight: fieldErrorMessages?.passwordErrMsg? '2em' : '0'}}>{fieldErrorMessages?.passwordErrMsg}</p>
+                           <div className="inputField">
+                              <input type="password" name="password" value={password} onChange={(event) => setPassword(event.target.value)} placeholder=" " />
+                              <label>Password<span> ̊ </span></label>
+                           </div>
                         </div>
                         <div className="dataField">
-                            <input type="password" name="password" value={password} required onChange={(event) => setPassword(event.target.value)} autoComplete="off" placeholder=" "
-                                   className="dataInput"/>
-                            <label htmlFor="password" className="floatingLabel">Password<span> ̊ </span></label>
+                           <p style={{maxHeight: fieldErrorMessages?.confirmPasswordErrMsg? '2em' : '0'}}>{fieldErrorMessages?.confirmPasswordErrMsg}</p>
+                           <div className="inputField">
+                              <input type="password" name="confirmPassword" value={confirmPassword} onChange={(event) => setConfirmPassword(event.target.value)} placeholder=" " />
+                              <label>Confirm Password<span> ̊ </span></label>
+                           </div>
                         </div>
                         <div className="dataField">
-                            <input type="password" name="passwordConfirm" value={passwordConfirm} required onChange={(event) => setPasswordConfirm(event.target.value)} autoComplete="off" placeholder=" "
-                                   className="dataInput"/>
-                            <label htmlFor="password" className="floatingLabel">Confirm Password<span> ̊ </span></label>
+                           <p style={{maxHeight: fieldErrorMessages?.dateOfBirthErrMsg? '2em' : '0'}}>{fieldErrorMessages?.dateOfBirthErrMsg}</p>
+                           <div className="inputField">
+                              {showDatePicker || dateOfBirth ? (
+                                 <input type="date" name="date" value={dateOfBirth || ''} onChange={(event) => setDateOfBirth(event.target.value)} onBlur={() => setShowDatePicker(false)} placeholder=" " className="datePicker" />
+                              ) : (
+                                 <input type="text" value={dateOfBirth || ''} onFocus={() => setShowDatePicker(true)} onChange={(event) => setDateOfBirth(event.target.value)} placeholder=" " />
+                              )}
+                              <label>Date of Birth</label>
+                           </div>                     
                         </div>
+                        <div className="dataSubmit">
+                           <input type="submit" value="Sign Up" />
+                        </div>
+                        <div className="agreements">
+                           <p style={{maxHeight: fieldErrorMessages?.agreementsErrMsg? '2em' : '0'}}>{fieldErrorMessages?.agreementsErrMsg}</p>
+                           <p className="agreements" onClick={() => setAgreementsCheckbox(prev => !prev)}>
+                              <input type="button" className={agreementsCheckbox? `FilterOptionOn` : `FilterOptionOff`} />
+                              I got acquainted with <span onClick={() => navigate('/Agreements')}>PRIVACY NOTICE</span> and <span onClick={() => navigate('/Agreements')}>TERMS OF SERVICE</span>, and  I give my consent to the processing of personal data.
+                           </p>
+                        </div>
+                        <hr />
                         <div className="externalAuthorization">
-                            <button type="button" className="gAuthorization">
-                                <img src={require("../images/Google.png")} alt="G"/>
-                            </button>
+                           <button type="button" className="gAuthorization">
+                              <img src={require("../images/Google.png")} alt="G"/>
+                           </button>
                         </div>
-                        <div className="checkboxSSI">
-                            <input type="checkbox" required name="checkbox"/>
-                            <label htmlFor="checkbox" className="agreements">I got acquainted with
-                                <Link to="/Agreements">
-                                <label>PRIVACY NOTICE</label>
-                                </Link> and
-                                <Link to="/Agreements">
-                                    <label>TERMS OF SERVICE</label>
-                                </Link>,
-                                and I give my consent to the processing of personal data.
-                            </label>
-                        </div>
-                        <div className="checkboxSSI">
-                            <input type="checkbox" name="checkbox2"/>
-                            <label htmlFor="checkbox2">Instant login</label>
-                        </div>
-                        <div>
-                            <input type="submit" value="Sign Up" className="dataSubmit"/>
-                        </div>
-                        <div>
-                            <Link to="/Login" style={{textDecorationLine: 'none'}}>
-                                <label className="loginAccountLabel">Log in to account</label>
-                            </Link>
-                        </div>
-                    </fieldset>
-                </form>
-            </main>
-        </>
-    )
+                        <hr />
+                        <Link to="/Login">
+                           Log in to account
+                        </Link>
+                     </div>
+                  </fieldset>
+               </form>
+         </main>
+      </>
+   )
 }
 
 export { SingupPage };

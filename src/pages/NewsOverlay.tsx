@@ -15,6 +15,7 @@ interface INews {
       Annotation: string;
    }
    CoverURL: string;
+   Author: string;
    PublicationDate: string;
 }
 
@@ -35,7 +36,6 @@ const NewsOverlay = () => {
             payload: _newsData
          })
 
-         // setIsLoading(false);
       };
       fetchData();
       document.body.style.overflow = 'hidden';
@@ -55,19 +55,16 @@ const NewsOverlay = () => {
    const newsData = useSelector((state: RootState) => state.oneNewsData) as INews;
 
    const overlayContentHeightRef = useRef<HTMLDivElement | null>(null);
+   document.documentElement.style.setProperty('--overlay-content-height', `0px`);
    useEffect(() => {
-      // document.documentElement.style.setProperty('--overlay-content-height', `auto`);
       if (newsData && overlayContentHeightRef.current) {
-         // console.log(newsData)
          const height = overlayContentHeightRef.current.scrollHeight;
-         // console.log(height)
          document.documentElement.style.setProperty('--overlay-content-height', `${height}px`);
-         //   console.log(height);
       }
-      // return () => {
-      //    document.documentElement.style.setProperty('--overlay-content-height', `0em`);
-      // };
-   }, [newsData]);
+      return () => {
+         document.documentElement.style.setProperty('--overlay-content-height', `auto`);
+      };
+   }, [newsData, overlayContentHeightRef]);
 
    function formatDateTime(timestamp: string): string {
       const date = new Date(Number(timestamp));
@@ -86,7 +83,7 @@ const NewsOverlay = () => {
       <div className="NEWS_OVERLAY_ROOT" onClick={() => navigate("/News")}>
          <div className="NEWS_OVERLAY_LAYOUT">
             <hr />
-            <div className="NEWS_OVERLAY_CONTENT" onClick={(e) => e.stopPropagation()} ref={overlayContentHeightRef}>
+            <div className="NEWS_OVERLAY_CONTENT" onClick={(e) => e.stopPropagation()}>
                {dataLoadingState? (
                   <div className="LoadingWindow">
                      <img src={require('../images/DataLoadingSprite.webp')} alt="Loading icon" />
@@ -94,11 +91,11 @@ const NewsOverlay = () => {
                   </div>
                ) : (
                   (newsData?._id ? (
-                     <article>
+                     <article ref={overlayContentHeightRef}>
                         <h2>{newsData.Title}</h2>
                         <img src={newsData.CoverURL? newsData.CoverURL : require(`../images/${newsData.Type}Cover.png`)} alt="Cover" />
                         <div className="AuthorNewsPublication">
-                           <p>by Author</p>
+                           <p>by {newsData.Author}</p>
                            <p>{formatDateTime(newsData.PublicationDate)}</p>
                         </div>
                         <p>{newsData.Content.Annotation}</p>
