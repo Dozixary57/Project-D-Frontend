@@ -5,12 +5,9 @@ import {useState, useEffect, useRef} from "react";
 import authService from "../backend/services/authService";
 import {Link} from "react-router-dom";
 import { useNavigate } from 'react-router-dom';
-import { useSelector } from "react-redux";
-import { RootState, store } from "../ReduxStore/store";
+import {GoogleReCaptchaProvider, GoogleReCaptcha} from "react-google-recaptcha-v3";
 
-interface IErrorMessages {
-   message: string  | null;
- 
+interface IErrorMessages { 
    usernameErrMsg: string | null;
    emailErrMsg: string | null;
    passwordErrMsg: string | null;
@@ -20,13 +17,8 @@ interface IErrorMessages {
  } 
 
 const SingupPage = () => {
-   const dataLoadingState = useSelector((state: RootState) => state.dataLoadingState);
-   useEffect(() => {
-      store.dispatch({
-         type: 'DATA_LOADING_STATE',
-         payload: false
-      })
-   }, []);
+   const [captchaToken, setCaptchaToken] = useState('');
+   const [authMessage, setAuthMessage] = useState<string | null>(null);
 
    const navigate = useNavigate();
 
@@ -41,7 +33,6 @@ const SingupPage = () => {
    const [agreementsCheckbox, setAgreementsCheckbox] = useState<boolean>(false);
 
    const [fieldErrorMessages, setFieldErrorMessages] = useState<IErrorMessages>({
-      message: null,
       usernameErrMsg: null,
       emailErrMsg: null,
       passwordErrMsg: null,
@@ -146,12 +137,19 @@ const SingupPage = () => {
    }
 
    function serverErrorChecking() {
-      authService.Signup(username, email, dateOfBirth, confirmPassword)
-      .then(serviceData => {
-        setFieldErrorMessages(prevState => ({
-          ...prevState,
-          ...serviceData
-        }));
+      const res = authService.Signup(username, email, dateOfBirth, confirmPassword, captchaToken)
+      .then((serviceData: any) => {
+         if (serviceData?.message) {
+            setAuthMessage(serviceData.message);
+            setTimeout(() => {
+               navigate('/Home');
+             }, 3000);             
+         } else {
+            setFieldErrorMessages(prevState => ({
+               ...prevState,
+               ...serviceData
+            }));     
+         }
       })
       .catch(err => {
         console.error('Error: ' + err);
@@ -162,7 +160,6 @@ const SingupPage = () => {
       event.preventDefault();
 
       setFieldErrorMessages({
-         message: null,
          usernameErrMsg: null,
          emailErrMsg: null,
          passwordErrMsg: null,
@@ -174,7 +171,6 @@ const SingupPage = () => {
       if (!clientErrorChecking()) {
          serverErrorChecking();
       }
-      
    };
 
    return (
@@ -185,14 +181,15 @@ const SingupPage = () => {
          </Helmet>
          <NavBar/>
          <main className="SIGN_UP_PAGE">
+            {authMessage? (
+               <div className="authMessage">
+                  <p>{authMessage}</p>
+               </div>            
+            ) : (
                <form id="Signup" onSubmit={handleSubmit}>
                   <fieldset>
                      <legend>Sign Up</legend>
-                     <div className="dataProcessing" style={{display: dataLoadingState ? 'flex' : 'none'}}>
-                        <img src={require('../images/DataLoadingSprite.webp')} alt="loading"></img>
-                        <p>Processing...</p>
-                     </div>
-                     <div className="formFields" style={{opacity: dataLoadingState ? '0' : '1'}}>
+                     <div className="formFields">
                         <div className="dataField">
                            <p style={{maxHeight: fieldErrorMessages?.usernameErrMsg? '2em' : '0'}}>{fieldErrorMessages?.usernameErrMsg}</p>
                            <div className="inputField">
@@ -232,6 +229,7 @@ const SingupPage = () => {
                               <label>Date of Birth</label>
                            </div>                     
                         </div>
+                        <GoogleReCaptcha onVerify={token => setCaptchaToken(token)} />
                         <div className="dataSubmit">
                            <input type="submit" value="Sign Up" />
                         </div>
@@ -255,6 +253,7 @@ const SingupPage = () => {
                      </div>
                   </fieldset>
                </form>
+            )}
          </main>
       </>
    )

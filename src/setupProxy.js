@@ -79,9 +79,19 @@ module.exports = function (fastify) {
     );
 
     fastify.use(
+        '/Authentication/Auth',
+        createProxyMiddleware({
+            target: 'http://localhost:7000',
+            pathRewrite: {'^/Authentication/Auth' : '/Auth'},
+            changeOrigin: true,
+        })
+    );
+
+    fastify.use(
         '/Authentication/Logout',
         createProxyMiddleware({
-            target: 'http://localhost:7000/Logout',
+            target: 'http://localhost:7000',
+            pathRewrite: {'^/Authentication/Logout' : '/Logout'},
             changeOrigin: true,
         })
     );

@@ -7,6 +7,18 @@
   justify-content: center;
   align-items: center;
 
+  .authMessage {
+    width: 24em;
+    > p {
+      margin: 0;
+      letter-spacing: 0.1em;
+      line-height: 1.2em;
+      padding: 2.5em 0;
+      text-align: center;
+      background-color: rgba(black, 0.2);
+    }
+  }
+
   form {
     fieldset {
       padding: 0.5em;

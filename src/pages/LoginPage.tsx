@@ -1,121 +1,152 @@
 import { Helmet } from "react-helmet-async";
 import { NavBar } from "../components/elements/navigation_bar/NavBar";
 import "./LoginPage.scss"
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import authService from "../backend/services/authService";
 import {Link, useNavigate } from "react-router-dom";
+import { GoogleReCaptcha } from "react-google-recaptcha-v3";
+
+interface IErrorMessages { 
+    usernameEmailErrMsg: string | null;
+    passwordErrMsg: string | null;
+}
 
 const LoginPage = () => {
-    const navigate = useNavigate()
-
-    const [login, setUsername] = useState('');
+    const [captchaToken, setCaptchaToken] = useState('');
+    const [authMessage, setAuthMessage] = useState<string | null>(null);
+ 
+    const navigate = useNavigate();
+ 
+    const [usernameEmail, setUsernameEmail] = useState('');
+  
     const [password, setPassword] = useState('');
-
-    const [errLogin, setErrLogin] = useState('');
-    const [validLogin, setValidLogin] = useState('#AAA');
-
-    const [errPassword, setErrPassword] = useState('');
-    const [validPassword, setValidPassword] = useState('#AAA');
-
-    const [msgSuccess, setMsgSuccess] = useState('');
-
+ 
+    const [fieldErrorMessages, setFieldErrorMessages] = useState<IErrorMessages>({
+       usernameEmailErrMsg: null,
+       passwordErrMsg: null,
+    });
+    
+    useEffect(() => {
+       if (usernameEmail.length > 0) {
+          setFieldErrorMessages(prevState => ({
+             ...prevState,
+             usernameEmailErrMsg: null
+          }));
+       }
+    }, [usernameEmail]);
+    useEffect(() => {
+       if (password.length > 0) {
+          setFieldErrorMessages(prevState => ({
+             ...prevState,
+             passwordErrMsg: null
+          }));
+       }
+    }, [password]);
+ 
+    function clientErrorChecking() {
+       let flag = false;
+       if (usernameEmail.length == 0) {
+          setFieldErrorMessages(prevState => ({
+             ...prevState,
+             usernameEmailErrMsg: "The value should not be empty"
+          }));
+          flag = true;
+       }
+       if (password.length == 0) {
+          setFieldErrorMessages(prevState => ({
+             ...prevState,
+             passwordErrMsg: "The value should not be empty"
+          }));
+          flag = true;
+       }
+       return flag;
+    }
+ 
+    function serverErrorChecking() {
+       const res = authService.Login(usernameEmail, password)
+       .then((serviceData: any) => {
+          if (serviceData?.message) {
+             setAuthMessage(serviceData.message);
+             setTimeout(() => {
+                navigate('/Home');
+              }, 3000);             
+          } else {
+             setFieldErrorMessages(prevState => ({
+                ...prevState,
+                ...serviceData
+             }));     
+          }
+       })
+       .catch(err => {
+         console.error('Error: ' + err);
+       });
+    }
+ 
     const handleSubmit = async (event: any) => {
-        event.preventDefault();
-        const res = await authService.Login(login, password);
-        setErrLogin(res.errLogin);
-        setErrPassword(res.errPassword);
-        setMsgSuccess(res.msgSuccess)
-        if (!res.errLogin) {
-            setValidLogin('green')
-        } else {
-            setValidLogin('red')
-        }
-        if (!res.errPassword) {
-            setValidPassword('green')
-        } else {
-            setValidPassword('red')
-        }
-        if (res.msgSuccess) {
-            await new Promise(resolve => setTimeout(resolve, 4000));
-            navigate("/Home")
-            // window.location.reload()
-        }
+       event.preventDefault();
+ 
+       setFieldErrorMessages({
+          usernameEmailErrMsg: null,
+          passwordErrMsg: null,
+       });
+       
+       if (!clientErrorChecking()) {
+          serverErrorChecking();
+       }
     };
+ 
     return (
-        <>
-            <Helmet>
-                <meta charSet="utf-8"/>
-                <title>Log In | DizaQute</title>
-            </Helmet>
-            <NavBar/>
-            <main className="LoginPageMain">
-                {!msgSuccess? (
-                    <form id="Login" onSubmit={handleSubmit}>
-                        <fieldset>
-                            <legend>Log In</legend>
-                            <label className={`errMsg ${errLogin? 'errMsgV' : ''}`}>{errLogin}</label>
-                            <div className="dataField">
-                                <input type="text" name="login" value={login} required onChange={(event) => {
-                                    setUsername(event.target.value)
-                                    setValidLogin('#AAA')
-                                }} autoComplete="nickname" placeholder=" "
-                                       style={{boxShadow: `0 0 0 0.1em ${validLogin} inset`}} className="dataInput"/>
-                                <label htmlFor="login" className="floatingLabel">Email or Username</label>
-                                {/*<label className="errMsg">{errUsername}</label>*/}
+       <>
+          <Helmet>
+             <meta charSet="utf-8"/>
+             <title>Log In | DizaQute</title>
+          </Helmet>
+          <NavBar/>
+          <main className="LOG_IN_PAGE">
+             {authMessage? (
+                <div className="authMessage">
+                   <p>{authMessage}</p>
+                </div>            
+             ) : (
+                <form onSubmit={handleSubmit}>
+                   <fieldset>
+                      <legend>Log In</legend>
+                      <div className="formFields">
+                         <div className="dataField">
+                            <p style={{maxHeight: fieldErrorMessages?.usernameEmailErrMsg? '2em' : '0'}}>{fieldErrorMessages?.usernameEmailErrMsg}</p>
+                            <div className="inputField">
+                               <input type="text" name="username" value={usernameEmail} onChange={(event) => setUsernameEmail(event.target.value)} placeholder=" " />
+                               <label>Username or Email</label>
                             </div>
-                            <label className={`errMsg ${errPassword? 'errMsgV' : ''}`}>{errPassword}</label>
-                            <div className="dataField">
-                                <input type="password" name="password" value={password} required onChange={(event) => {
-                                    setPassword(event.target.value)
-                                    setValidPassword('#AAA')
-                                }} autoComplete="off" placeholder=" "
-                                       style={{boxShadow: `0 0 0 0.1em ${validPassword} inset`}} className="dataInput"/>
-                                <label htmlFor="password" className="floatingLabel">Password</label>
-                                {/*<label className="errMsg">{errPassword}</label>*/}
+                         </div>
+                         <div className="dataField">
+                            <p style={{maxHeight: fieldErrorMessages?.passwordErrMsg? '2em' : '0'}}>{fieldErrorMessages?.passwordErrMsg}</p>
+                            <div className="inputField">
+                               <input type="password" name="password" value={password} onChange={(event) => setPassword(event.target.value)} placeholder=" " />
+                               <label>Password</label>
                             </div>
-                            <div className="externalAuthorization">
-                                <button type="button" className="gAuthorization">
-                                    <img src={require("../images/Google.png")} alt="G"/>
-                                </button>
-                            </div>
-                            <div className="checkboxSSI">
-                                <input type="checkbox" name="checkbox"/>
-                                <label htmlFor="checkbox">Stay signed in</label>
-                            </div>
-                            <div>
-                                <input type="submit" value="Log In" className="dataSubmit"/>
-                            </div>
-                            <div>
-                                <Link to="/Signup" style={{textDecorationLine: 'none'}}>
-                                    <label className="createAccountLabel">Create an account</label>
-                                </Link>
-                            </div>
-                            <div>
-                            </div>
-                            <div>
-                                <hr className="hr"/>
-                                <Link to="/Signup" style={{textDecorationLine: 'none'}}>
-                                    <label className="canNotLogInLabel">Can't log in?</label>
-                                </Link>
-                            </div>
-                        </fieldset>
-                        <div className="agreements">
-                            <Link to="/Agreements">
-                                <label>PRIVACY NOTICE</label>
-                            </Link>
-                            <Link to="/Agreements">
-                                <label>TERMS OF SERVICE</label>
-                            </Link>
-                        </div>
-                    </form>)
-                :
-                    (<label className="msgSuccess">
-                        {msgSuccess}
-                    </label>)
-                }
-            </main>
-        </>
+                         </div>
+                         <GoogleReCaptcha onVerify={token => setCaptchaToken(token)} />
+                         <div className="dataSubmit">
+                            <input type="submit" value="Log In" />
+                         </div>
+                         <hr />
+                         <div className="externalAuthorization">
+                            <button type="button" className="gAuthorization">
+                               <img src={require("../images/Google.png")} alt="G"/>
+                            </button>
+                         </div>
+                         <hr />
+                         <Link to="/Signup">
+                            Sign Up to account
+                         </Link>
+                      </div>
+                   </fieldset>
+                </form>
+             )}
+          </main>
+       </>
     )
-}
+ }
 
 export { LoginPage };

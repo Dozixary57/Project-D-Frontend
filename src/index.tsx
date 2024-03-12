@@ -10,6 +10,7 @@ import { Provider } from "react-redux";
 import {store} from "./ReduxStore/store";
 import {BetaLabel} from "./components/elements/BetaLabel/BetaLabel";
 import { HelmetProvider } from 'react-helmet-async';
+import { GoogleReCaptchaProvider } from 'react-google-recaptcha-v3';
 
 const root = ReactDOM.createRoot(
     document.getElementById('root') as HTMLElement
@@ -22,7 +23,9 @@ root.render(
                 <ContextProvider>
                     <HelmetProvider>
                         <BrowserRouter>
-                            <App />
+                            <GoogleReCaptchaProvider reCaptchaKey="6LeLNIcpAAAAACc06g_220X6gT9WLA7KvdB0JFh4">
+                                <App />
+                            </GoogleReCaptchaProvider>
                         </BrowserRouter>
                     </HelmetProvider>
                 </ContextProvider>

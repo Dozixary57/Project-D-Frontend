@@ -1,5 +1,6 @@
-﻿import React from 'react';
-import { Route, Routes } from 'react-router';
+﻿import React, { useEffect, useState } from 'react';
+import { useCookies } from 'react-cookie';
+import { Route, Routes, useNavigate } from 'react-router';
 import { AboutMePage } from './pages/AboutMePage';
 import { AboutPage } from './pages/AboutPage';
 import { AccountPage } from './pages/AccountPage';
@@ -20,8 +21,22 @@ import { SingupPage } from "./pages/SignupPage";
 import { IntroductionPage } from "./pages/IntroductionPage";
 import { NewsFeedPage } from './pages/NewsFeedPage';
 import { NewsOverlay } from './pages/NewsOverlay';
+import { withAuthCheck } from './components/HOCs/HOCs';
+import AuthService from './backend/services/authService';
 
 function App() {
+  const [cookies] = useCookies(['UniqueDeviceIdentifier']);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!cookies['UniqueDeviceIdentifier']) {
+      AuthService.Logout();
+      navigate('/Login');
+    }
+  }, [cookies]);
+
+  const ProtectedRoute = withAuthCheck(AccountPage, '/login');
+
   return (
     <Routes>
       <Route path="/" element={<IntroductionPage />} />
@@ -38,7 +53,7 @@ function App() {
       <Route path="/Receive" element={<ReceivePage />} />
       <Route path="/Login" element={<LoginPage />} />
       <Route path="/Signup" element={<SingupPage />} />
-      <Route path="/Account" element={<AccountPage />} />
+      <Route path="/Account" element={<ProtectedRoute />} />
       <Route path="/About" element={<AboutPage />} />
       <Route path="/About_Me" element={<AboutMePage />} />
       <Route path="/Agreements" element={<AgreementsPage />} />
