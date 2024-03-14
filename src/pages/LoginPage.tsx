@@ -67,9 +67,9 @@ const LoginPage = () => {
        .then((serviceData: any) => {
           if (serviceData?.message) {
              setAuthMessage(serviceData.message);
-             setTimeout(() => {
+            //  setTimeout(() => {
                 navigate('/Home');
-              }, 3000);             
+            //   }, 3000);             
           } else {
              setFieldErrorMessages(prevState => ({
                 ...prevState,

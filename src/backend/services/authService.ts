@@ -89,7 +89,7 @@ const AuthService = {
                 headers['Authorization'] = 'Bearer ' + userAccessToken;
             }
         
-            const res = await axios.get(`/Authentication/Auth`, {headers}).catch(() => {
+            const res = await axios.get(`/Authentication/Auth`, {headers, timeout: 8000}).catch(() => {
                 AuthService.Logout();
                 return null;
             });
@@ -115,9 +115,17 @@ const AuthService = {
         }
     },
     Logout: async () => {
-        const res = await axios.get(`/Authentication/Logout`);
-        localStorage.removeItem('AccessToken');
-        return res.data || [];
+        let res;
+        try {
+            res = await axios.get(`/Authentication/Logout`, {timeout: 5000});
+            localStorage.removeItem('AccessToken');
+            return res.data || [];    
+        } catch (e) {
+            console.log(e);
+        } finally {
+            localStorage.removeItem('AccessToken');
+            return res?.data || [];    
+        }        
     }
 }
 

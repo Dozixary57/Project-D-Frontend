@@ -30,12 +30,15 @@ function App() {
 
   useEffect(() => {
     if (!cookies['UniqueDeviceIdentifier']) {
+      console.log('Logout!')
       AuthService.Logout();
       navigate('/Login');
     }
   }, [cookies]);
 
-  const ProtectedRoute = withAuthCheck(AccountPage, '/login');
+  // const ProtectedRoute = withAuthCheck(AccountPage, '/login');
+  const ProtectedAccountPage = withAuthCheck(AccountPage, 'private', '/login');
+
 
   return (
     <Routes>
@@ -53,8 +56,9 @@ function App() {
       <Route path="/Receive" element={<ReceivePage />} />
       <Route path="/Login" element={<LoginPage />} />
       <Route path="/Signup" element={<SingupPage />} />
-      <Route path="/Account" element={<ProtectedRoute />} />
-      <Route path="/About" element={<AboutPage />} />
+      <Route path="/Account" element={<ProtectedAccountPage />} />
+
+<Route path="/About" element={<AboutPage />} />
       <Route path="/About_Me" element={<AboutMePage />} />
       <Route path="/Agreements" element={<AgreementsPage />} />
       <Route path="*" element={<NowherePage />} />

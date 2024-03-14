@@ -1,0 +1,105 @@
+.ACCOUNT_PAGE {
+  width: 50em;
+  height: 60em;
+  margin: 4em auto 0 auto;
+  border-radius: 0.2em;
+  background-color: rgba(black, 0.2);
+
+  .ProfileHeader {
+    position: relative;
+    height: 18.5em;
+    background-color: rgba(black, 0.4);
+    border-radius: 0.2em 0.2em 1.2em 1.2em;
+
+    .ProfileBanner { // 960 x 300
+      // position: relative;
+      width: 100%;
+      height: 300px;
+      background-attachment: fixed;
+      border-radius: 0.2em 0.2em 0.5em 0.5em;
+      overflow-y: hidden;
+      // display: flex;
+      // justify-content: center;
+
+
+
+      > img {
+        width: 100%;
+      }
+    }
+    .ProfileIcon {
+      position: absolute;
+      display: flex;
+      flex-direction: column;
+      left: 3em;
+      bottom: 0;
+      width: 9em;
+      height: 9em;
+
+      > img {
+        width: 100%;
+        height: 100%;
+        box-sizing: border-box;
+        border: 0.3em rgba(black, 0.4) solid;
+        border-radius: 100%;
+        transform: scaleX(-1);
+      }
+
+      .ProfileTitle {
+        position: absolute;
+        left: 8em;
+        bottom: 2.85em;
+        height: 3em;
+        display: flex;
+        flex-direction: row;
+
+
+        .ProfileUsername {
+          display: flex;
+          align-items: center;
+  
+          height: 100%;
+          border-bottom: 0.2em solid rgba(black, 0.2);
+          box-sizing: border-box;
+          border-top-right-radius: 0.2em;
+          box-shadow: 0.15em -0.15em 0 0.15em rgba(black, 0.4);
+          background-color: rgba(#221812, 1);
+          white-space: nowrap;
+  
+          > p {
+            margin: 0;
+            font-size: 1.2em;
+            // text-indent: 1.25em;
+            transform: translateY(0.1em);
+            padding: 0 1.5em 0 2em;
+          }
+        }
+
+        .ProfileProgress {
+          font-size: 1.2em;
+          box-sizing: border-box;
+          outline: 0.25em solid rgba(black, 0.4);
+          width: 2.5em;
+          border-radius: 0.2em;
+          text-align: center;
+          align-self: center;
+          margin-left: 1em;
+          padding: 0.75em 0;
+          background-color: #221812;
+          scale: 0.9;
+          translate: 0 -0.1em;
+        }
+      }
+
+      .ProfileStatus {
+        position: absolute;
+        bottom: 0;
+        left: 9.5em;
+        white-space: nowrap;
+      }
+
+    }
+  }
+
+
+}

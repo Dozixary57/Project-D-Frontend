@@ -4,6 +4,7 @@ import Floater from 'react-floater';
 import "./NavBar.scss"
 import {useEffect, useState} from "react";
 import PageProgressBar from "./PageProgressBar";
+import { Username } from "../../Username";
 
 export function NavBar() {
     const [cookies] = useCookies(['UniqueDeviceIdentifier']);
@@ -98,7 +99,7 @@ export function NavBar() {
                         <div className="Account">{cookies['UniqueDeviceIdentifier']?
                             (<Link to="/Account"> {/* /Account/Profile */}
                                 <div id="accountId"  className="ProfileContainer" onMouseEnter={() => setActiveAccountSubmenu(true)} onMouseLeave={() => setActiveAccountSubmenu(false)}>
-                                    <label className="ProfileName">Dozixary57</label>
+                                    <p className="ProfileName">{<Username />}</p>
                                     <div className="ProfileIconContainer">
                                         <img src={require('../../../images/ThePlagueDoctor.png')} />
                                     </div>
