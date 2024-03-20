@@ -18,15 +18,13 @@ const AccountPage = () => {
                         <img src="https://designhub.co/wp-content/uploads/2020/09/Banner5.jpg" />
                     </div>
                     <div className="ProfileIcon">
-                        <div className="ProfileTitle">
-                            <div className="ProfileUsername">
-                                <p><Username /></p>
+                        <div className="ProfileUsername">
+                            <p><Username /></p>
+                            <div className="ProfileProgress">
+                                <p>X+</p>
                             </div>
-                            <p className="ProfileProgress">
-                                X+
-                            </p>
                         </div>
-                        <p className="ProfileStatus">Player</p>
+                        <p className="ProfileStatus">Title</p>
                         <img src={require('../images/ThePlagueDoctor.png')} />
                         {/* <img src={require('../images/ProfileIconFrame.png')} /> */}
                     </div>

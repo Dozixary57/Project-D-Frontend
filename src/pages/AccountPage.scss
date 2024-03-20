@@ -9,19 +9,14 @@
     position: relative;
     height: 18.5em;
     background-color: rgba(black, 0.4);
-    border-radius: 0.2em 0.2em 1.2em 1.2em;
+    border-radius: 0.2em 0.2em 0.5em 0.5em;
 
     .ProfileBanner { // 960 x 300
-      // position: relative;
       width: 100%;
       height: 300px;
       background-attachment: fixed;
       border-radius: 0.2em 0.2em 0.5em 0.5em;
       overflow-y: hidden;
-      // display: flex;
-      // justify-content: center;
-
-
 
       > img {
         width: 100%;
@@ -45,50 +40,48 @@
         transform: scaleX(-1);
       }
 
-      .ProfileTitle {
+      .ProfileUsername {
         position: absolute;
         left: 8em;
         bottom: 2.85em;
         height: 3em;
         display: flex;
-        flex-direction: row;
+        align-items: center;
 
+        border-bottom: 0.2em solid rgba(black, 0.2);
+        box-sizing: border-box;
+        border-top-right-radius: 0.2em;
+        box-shadow: 0.15em -0.15em 0 0.15em rgba(black, 0.4);
+        background-color: rgba(#221812, 1);
+        white-space: nowrap;
 
-        .ProfileUsername {
-          display: flex;
-          align-items: center;
-  
-          height: 100%;
-          border-bottom: 0.2em solid rgba(black, 0.2);
-          box-sizing: border-box;
-          border-top-right-radius: 0.2em;
-          box-shadow: 0.15em -0.15em 0 0.15em rgba(black, 0.4);
-          background-color: rgba(#221812, 1);
-          white-space: nowrap;
-  
-          > p {
-            margin: 0;
-            font-size: 1.2em;
-            // text-indent: 1.25em;
-            transform: translateY(0.1em);
-            padding: 0 1.5em 0 2em;
-          }
+        > p {
+          margin: 0;
+          font-size: 1.2em;
+          transform: translateY(0.1em);
+          padding: 0 2.5em 0 1.5em;
         }
 
         .ProfileProgress {
-          font-size: 1.2em;
-          box-sizing: border-box;
-          outline: 0.25em solid rgba(black, 0.4);
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          position: absolute;
+          margin-right: 0.2em;
+          right: 0;
           width: 2.5em;
+          height: 2.5em;
           border-radius: 0.2em;
-          text-align: center;
-          align-self: center;
-          margin-left: 1em;
-          padding: 0.75em 0;
-          background-color: #221812;
+          background-color: rgba(white, 0.1);
           scale: 0.9;
-          translate: 0 -0.1em;
+
+          > p {
+            margin: 0;
+            font-size: 1.1em;
+            translate: 0.1em 0;
+          }
         }
+
       }
 
       .ProfileStatus {

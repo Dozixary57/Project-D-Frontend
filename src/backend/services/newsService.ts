@@ -15,7 +15,7 @@ const NewsService = {
                 }
             }).finally( () => {
                 store.dispatch({
-                    type: 'DATA_LOADING_STATE',
+                    type: 'IS_LOADING_STATE',
                     payload: false
                 })
             });
@@ -34,7 +34,7 @@ const NewsService = {
                 }
             }).finally( () => {
                 store.dispatch({
-                    type: 'DATA_LOADING_STATE',
+                    type: 'IS_LOADING_STATE',
                     payload: false
                 })
             });
@@ -53,7 +53,7 @@ const NewsService = {
                 }
             }).finally( ()=> {
                 store.dispatch({
-                    type: 'DATA_LOADING_STATE',
+                    type: 'IS_LOADING_STATE',
                     payload: false
                 })
             });

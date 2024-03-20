@@ -1,5 +1,6 @@
 ﻿import axios from 'axios';
 import { store } from '../../ReduxStore/store';
+import { useCookies } from 'react-cookie';
 
 const AuthService = {
     Login: async (usernameEmail: string, password: string) => {
@@ -19,6 +20,12 @@ const AuthService = {
                     result = resData || [];
                 } else {
                     result = res.data || [];
+                }
+                if (res?.status === 200) {
+                    store.dispatch({
+                        type: 'IS_AUTHORIZED',
+                        payload: true
+                    });
                 }
                 // console.log(res)
                 // console.log(res.data)
@@ -59,6 +66,12 @@ const AuthService = {
                 } else {
                     result = res.data || [];
                 }
+                if (res?.status === 200) {
+                    store.dispatch({
+                        type: 'IS_AUTHORIZED',
+                        payload: true
+                    });
+                }
                 // console.log(res)
                 // console.log(res.data)
                 // console.log(res.data.accessToken)
@@ -89,29 +102,40 @@ const AuthService = {
                 headers['Authorization'] = 'Bearer ' + userAccessToken;
             }
         
-            const res = await axios.get(`/Authentication/Auth`, {headers, timeout: 8000}).catch(() => {
-                AuthService.Logout();
+            const res = await axios.get(`/Authentication/Auth`, {headers, timeout: 8000}).catch(() => {              
                 return null;
             });
+
+            // console.log('1')
         
-            if (!res) {
-                return false;
+            if (res?.status !== 200 && !res) {
+                // console.log('No res!')
+                AuthService.Logout();
+                return 'Failure';
             }
         
             if (res?.data.accessToken) {
+                // console.log('Have accessToken!')
                 localStorage.setItem('AccessToken', JSON.stringify(res.data.accessToken));
             }
         
             if (res?.status === 200) {
-                return true;
+                // console.log('Status is 200!')
+                store.dispatch({
+                    type: 'IS_AUTHORIZED',
+                    payload: true
+                });
+                return;
             } else {
+                // console.log('No else!')
                 AuthService.Logout();
-                return false;
+                return;
             }
         
         } catch (error) {
+            // console.log('Some error!')
             AuthService.Logout();
-            return false;
+            return;
         }
     },
     Logout: async () => {
@@ -123,6 +147,10 @@ const AuthService = {
         } catch (e) {
             console.log(e);
         } finally {
+            store.dispatch({
+                type: 'IS_AUTHORIZED',
+                payload: false
+            });
             localStorage.removeItem('AccessToken');
             return res?.data || [];    
         }        

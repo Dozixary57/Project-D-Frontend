@@ -1,6 +1,6 @@
 ﻿import React, { useEffect, useState } from 'react';
 import { useCookies } from 'react-cookie';
-import { Route, Routes, useNavigate } from 'react-router';
+import { Route, Routes, useLocation, useNavigate } from 'react-router';
 import { AboutMePage } from './pages/AboutMePage';
 import { AboutPage } from './pages/AboutPage';
 import { AccountPage } from './pages/AccountPage';
@@ -23,22 +23,47 @@ import { NewsFeedPage } from './pages/NewsFeedPage';
 import { NewsOverlay } from './pages/NewsOverlay';
 import { withAuthCheck } from './components/HOCs/HOCs';
 import AuthService from './backend/services/authService';
+import { RootState } from './ReduxStore/store';
+import { useSelector } from 'react-redux';
 
 function App() {
-  const [cookies] = useCookies(['UniqueDeviceIdentifier']);
+  const [cookies, removeCookie] = useCookies(['UniqueDeviceIdentifier']);
   const navigate = useNavigate();
+  const isAuthorized = useSelector((state: RootState) => state.isAuthorized);
+  const location = useLocation();
+
+  useEffect(() => {
+    // AuthService.isAuth();
+    AuthService.isAuth().then((res: any ) => {
+      if (res === 'Failure') {
+        console.log('Failure')
+        try {
+          removeCookie('UniqueDeviceIdentifier', { path: '/' });
+        } catch (err) {
+          console.log(err)
+        }
+      } else {
+        console.log('Okay!')
+      }
+    }).catch(error => {
+      console.log(error);
+    });
+  }, [navigate]);
+
+  useEffect(() => {
+    if (isAuthorized && (location.pathname.toLowerCase() === '/login' || location.pathname.toLowerCase() === '/signup')) {
+      navigate('/Account')
+    }
+  }, [navigate, isAuthorized])
 
   useEffect(() => {
     if (!cookies['UniqueDeviceIdentifier']) {
-      console.log('Logout!')
       AuthService.Logout();
       navigate('/Login');
     }
   }, [cookies]);
 
-  // const ProtectedRoute = withAuthCheck(AccountPage, '/login');
-  const ProtectedAccountPage = withAuthCheck(AccountPage, 'private', '/login');
-
+  const AccountPage_Protected = withAuthCheck(AccountPage);
 
   return (
     <Routes>
@@ -50,13 +75,12 @@ function App() {
       <Route path="/Content/Creatures" element={<CreaturesPage />} />
       <Route path="/Content/Locations" element={<LocationsPage />} />
       <Route path="/News" element={<NewsFeedPage />} >
-              <Route path=":titleId" element={<NewsOverlay />} />
+        <Route path=":titleId" element={<NewsOverlay />} />
       </Route>
-      {/* <Route path="/News/:titleId" element={<NewsOverlay />} /> */}
       <Route path="/Receive" element={<ReceivePage />} />
       <Route path="/Login" element={<LoginPage />} />
       <Route path="/Signup" element={<SingupPage />} />
-      <Route path="/Account" element={<ProtectedAccountPage />} />
+      <Route path="/Account" element={<AccountPage_Protected />} />
 
 <Route path="/About" element={<AboutPage />} />
       <Route path="/About_Me" element={<AboutMePage />} />

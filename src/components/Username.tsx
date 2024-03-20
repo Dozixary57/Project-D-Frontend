@@ -9,12 +9,23 @@ export function Username() {
     const [username, setUsername] = useState<string>('');
 
     useEffect(() => {
-        const token = localStorage.getItem('AccessToken');
-        if (token) {
+        function handleTokenChange() {
+          const token = localStorage.getItem('AccessToken');
+          if (token) {
             const decoded: IPayload = jwtDecode(token);
-            setUsername(decoded?.username)
+            setUsername(decoded?.username);
+          }
         }
-    }, [])
+    
+        window.addEventListener('storage', handleTokenChange);
+    
+        handleTokenChange();
+    
+        return () => {
+          window.removeEventListener('storage', handleTokenChange);
+        };
+      }, []);
+    
     return (
         <>{username}</>
     )

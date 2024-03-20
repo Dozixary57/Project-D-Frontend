@@ -30,7 +30,7 @@ interface INews {
 const NewsFeedPage = () => {
    // const { titleId } = useParams();
    // const [isLoading, setIsLoading] = useState(false);
-   const dataLoadingState = useSelector((state: RootState) => state.dataLoadingState);
+   const isLoadingState = useSelector((state: RootState) => state.isLoadingState);
    const [searchLineValue, setSearchLineValue] = useState<string>('');
 
    const [newsTitleId, setNewsTitleId] = useState<string | null>(null);
@@ -75,7 +75,7 @@ const NewsFeedPage = () => {
 
    useEffect(() => {
       store.dispatch({
-         type: 'DATA_LOADING_STATE',
+         type: 'IS_LOADING_STATE',
          payload: true
       })
       const fetchData = async () => {
@@ -100,7 +100,7 @@ const NewsFeedPage = () => {
 
       return () => {
          store.dispatch({
-            type: 'DATA_LOADING_STATE',
+            type: 'IS_LOADING_STATE',
             payload: false
          })
       }
@@ -246,7 +246,7 @@ const NewsFeedPage = () => {
                                  }}>Back</button>
                               </div>
                            )
-                        ) : (dataLoadingState? (
+                        ) : (isLoadingState? (
                            <div className="ArticleContentLoading">
                               <img src={require('../images/DataLoadingSprite.webp')} alt="Loading icon" />
                               <p>LOADING...</p>
@@ -294,7 +294,7 @@ const NewsFeedPage = () => {
                               </form>
                            </div>
                         </div>
-                        ) : (dataLoadingState? (
+                        ) : (isLoadingState? (
                               <div className="LoadingTypesData">
                                  <h3>Filters</h3>
                                  <p>LOADING...</p>

@@ -1,36 +1,31 @@
 import React, { ComponentType, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import authService from '../../backend/services/authService';
-import { useCookies } from 'react-cookie';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../ReduxStore/store';
 
-export function withAuthCheck(Component: ComponentType<any>, routeType: 'private' | 'public', to = '/login') {
+export function withAuthCheck(Component: ComponentType<any>) {
   return function AuthCheck(props: any) {
-    const [isAuth, setIsAuth] = useState<boolean | null>(null);
     const navigate = useNavigate();
+    const [shouldRender, setShouldRender] = useState(false);
 
-    const checkAuth = async () => {
-      if (routeType === 'private') {
-        const auth = await authService.isAuth();
-        setIsAuth(auth);
-      }
-    };
+    const isAuthorized = useSelector((state: RootState) => state.isAuthorized);
+    const isLoadingState = useSelector((state: RootState) => state.isLoadingState);
 
     useEffect(() => {
-      checkAuth();
-    }, []);
-
-    useEffect(() => {
-      if (routeType === 'private' && isAuth === false) {
+      if (isAuthorized === false) {
         authService.Logout();
-        navigate(to);
+        navigate('/Login');
+      } else if (isAuthorized) {
+        setShouldRender(true);
+      } else {
+        navigate('/Home');
       }
-    }, [isAuth, navigate]);
+    }, [isAuthorized]);
 
-    if (routeType === 'private' && isAuth === null) {
+    if (isLoadingState === true) {
       return <div>Загрузка...</div>; // Или любой другой компонент загрузки.
-    } else if (routeType === 'private' && isAuth) {
-      return <Component {...props} />;
-    } else if (routeType === 'public') {
+    } else if (shouldRender) {
       return <Component {...props} />;
     } else {
       return null;

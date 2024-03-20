@@ -8,7 +8,8 @@ import searchTitleId from "./Reducers/searchTitleId";
 import newsTypesData from "./Reducers/newsTypesData";
 import allNewsData from "./Reducers/allNewsData";
 import oneNewsData from "./Reducers/oneNewsData";
-import dataLoadingState from "./Reducers/dataLoadingState";
+import isLoadingState from "./Reducers/isLoadingState";
+import isAuthorized from "./Reducers/isAuthorized";
 
 export const rootReducer = combineReducers({
     itemObjectsNavigationIndex,
@@ -19,5 +20,6 @@ export const rootReducer = combineReducers({
     newsTypesData,
     allNewsData,
     oneNewsData,
-    dataLoadingState,
+    isLoadingState,
+    isAuthorized
 });

@@ -5,9 +5,9 @@ interface Action {
 
 const initialState = false;
 
-export default function dataLoadingState(state = initialState, action: Action) {
+export default function isLoadingState(state = initialState, action: Action) {
     switch (action.type) {
-        case 'DATA_LOADING_STATE':
+        case 'IS_LOADING_STATE':
             return action.payload;
         default:
             return state;

@@ -1,11 +1,9 @@
-import "./NewsOverlay.scss"
 import { useEffect, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router";
 import NewsService from "../backend/services/newsService";
 import { RootState, store } from "../ReduxStore/store";
 import { useSelector } from "react-redux";
-// import { Link } from "react-router-dom";
-// import loadingIcon from "../images/DataLoadingSprite.webp";
+import "./NewsOverlay.scss"
 
 interface INews {
    _id: string;
@@ -21,11 +19,11 @@ interface INews {
 
 const NewsOverlay = () => {
    const navigate = useNavigate();
-   const dataLoadingState = useSelector((state: RootState) => state.dataLoadingState);
+   const isLoadingState = useSelector((state: RootState) => state.isLoadingState);
 
    useEffect(()=> {
       store.dispatch({
-         type: 'DATA_LOADING_STATE',
+         type: 'IS_LOADING_STATE',
          payload: true
       })
       const fetchData = async () => {
@@ -42,7 +40,7 @@ const NewsOverlay = () => {
 
       return () => {
          store.dispatch({
-            type: 'DATA_LOADING_STATE',
+            type: 'IS_LOADING_STATE',
             payload: false
          })   
          document.body.style.overflow = 'initial';
@@ -84,7 +82,7 @@ const NewsOverlay = () => {
          <div className="NEWS_OVERLAY_LAYOUT">
             <hr />
             <div className="NEWS_OVERLAY_CONTENT" onClick={(e) => e.stopPropagation()}>
-               {dataLoadingState? (
+               {isLoadingState? (
                   <div className="LoadingWindow">
                      <img src={require('../images/DataLoadingSprite.webp')} alt="Loading icon" />
                      <p>LOADING...</p>
