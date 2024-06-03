@@ -36,14 +36,7 @@ function App() {
     // AuthService.isAuth();
     AuthService.isAuth().then((res: any ) => {
       if (res === 'Failure') {
-        console.log('Failure')
-        try {
-          removeCookie('UniqueDeviceIdentifier', { path: '/' });
-        } catch (err) {
-          console.log(err)
-        }
       } else {
-        console.log('Okay!')
       }
     }).catch(error => {
       console.log(error);
@@ -56,10 +49,14 @@ function App() {
     }
   }, [navigate, isAuthorized])
 
+
+  // Redirecting to the login page when the session expires
   useEffect(() => {
     if (!cookies['UniqueDeviceIdentifier']) {
       AuthService.Logout();
-      navigate('/Login');
+      setTimeout(() => {
+        navigate('/Login');
+      }, 300);
     }
   }, [cookies]);
 
@@ -82,7 +79,7 @@ function App() {
       <Route path="/Signup" element={<SingupPage />} />
       <Route path="/Account" element={<AccountPage_Protected />} />
 
-<Route path="/About" element={<AboutPage />} />
+      <Route path="/About" element={<AboutPage />} />
       <Route path="/About_Me" element={<AboutMePage />} />
       <Route path="/Agreements" element={<AgreementsPage />} />
       <Route path="*" element={<NowherePage />} />

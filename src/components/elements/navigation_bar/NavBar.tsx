@@ -5,6 +5,8 @@ import "./NavBar.scss"
 import {useEffect, useState} from "react";
 import PageProgressBar from "./PageProgressBar";
 import { Username } from "../../Username";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../ReduxStore/store";
 
 export function NavBar() {
     const [cookies] = useCookies(['UniqueDeviceIdentifier']);
@@ -12,6 +14,7 @@ export function NavBar() {
     const [activeContentSubmenu, setActiveContentSubmenu] = useState(false);
     const [activeAccountSubmenu, setActiveAccountSubmenu] = useState(false);
 
+    const isAuthorized = useSelector((state: RootState) => state.isAuthorized);
 
     return (
         <>
@@ -96,7 +99,7 @@ export function NavBar() {
                                 </div>
                             </div>
                         </Link>
-                        <div className="Account">{cookies['UniqueDeviceIdentifier']?
+                        <div className="Account">{isAuthorized?
                             (<Link to="/Account"> {/* /Account/Profile */}
                                 <div id="accountId"  className="ProfileContainer" onMouseEnter={() => setActiveAccountSubmenu(true)} onMouseLeave={() => setActiveAccountSubmenu(false)}>
                                     <p className="ProfileName">{<Username />}</p>

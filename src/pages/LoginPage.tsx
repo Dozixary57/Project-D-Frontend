@@ -4,7 +4,7 @@ import "./LoginPage.scss"
 import {useEffect, useState} from "react";
 import authService from "../backend/services/authService";
 import {Link, useNavigate } from "react-router-dom";
-import { GoogleReCaptcha } from "react-google-recaptcha-v3";
+// import { GoogleReCaptcha } from "react-google-recaptcha-v3";
 
 interface IErrorMessages { 
     usernameEmailErrMsg: string | null;
@@ -12,7 +12,7 @@ interface IErrorMessages {
 }
 
 const LoginPage = () => {
-    const [captchaToken, setCaptchaToken] = useState('');
+   //  const [captchaToken, setCaptchaToken] = useState('');
     const [authMessage, setAuthMessage] = useState<string | null>(null);
  
     const navigate = useNavigate();
@@ -63,17 +63,17 @@ const LoginPage = () => {
     }
  
     function serverErrorChecking() {
-       const res = authService.Login(usernameEmail, password)
-       .then((serviceData: any) => {
-          if (serviceData?.message) {
-             setAuthMessage(serviceData.message);
+       authService.Login(usernameEmail, password)
+       .then((response: any) => {
+          if (response?.message) {
+             setAuthMessage(response.message);
             //  setTimeout(() => {
                 navigate('/Home');
             //   }, 3000);             
           } else {
              setFieldErrorMessages(prevState => ({
                 ...prevState,
-                ...serviceData
+                ...response
              }));     
           }
        })
@@ -126,10 +126,13 @@ const LoginPage = () => {
                                <label>Password</label>
                             </div>
                          </div>
-                         <GoogleReCaptcha onVerify={token => setCaptchaToken(token)} />
+                         {/* <GoogleReCaptcha onVerify={token => setCaptchaToken(token)} /> */}
                          <div className="dataSubmit">
                             <input type="submit" value="Log In" />
                          </div>
+                         <Link to="/Restore_account" className="RestoreAccount">
+                           <p>Forgot password?</p>
+                         </Link>
                          <hr />
                          <div className="externalAuthorization">
                             <button type="button" className="gAuthorization">

@@ -23,9 +23,9 @@ root.render(
                 <ContextProvider>
                     <HelmetProvider>
                         <BrowserRouter>
-                            <GoogleReCaptchaProvider reCaptchaKey="6LeLNIcpAAAAACc06g_220X6gT9WLA7KvdB0JFh4">
+                            {/* <GoogleReCaptchaProvider reCaptchaKey="6LeLNIcpAAAAACc06g_220X6gT9WLA7KvdB0JFh4"> */}
                                 <App />
-                            </GoogleReCaptchaProvider>
+                            {/* </GoogleReCaptchaProvider> */}
                         </BrowserRouter>
                     </HelmetProvider>
                 </ContextProvider>

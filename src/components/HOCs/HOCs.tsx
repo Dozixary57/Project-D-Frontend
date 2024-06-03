@@ -14,7 +14,7 @@ export function withAuthCheck(Component: ComponentType<any>) {
 
     useEffect(() => {
       if (isAuthorized === false) {
-        authService.Logout();
+        // authService.Logout();
         navigate('/Login');
       } else if (isAuthorized) {
         setShouldRender(true);
@@ -24,7 +24,7 @@ export function withAuthCheck(Component: ComponentType<any>) {
     }, [isAuthorized]);
 
     if (isLoadingState === true) {
-      return <div>Загрузка...</div>; // Или любой другой компонент загрузки.
+      return <div>Загрузка...</div>;
     } else if (shouldRender) {
       return <Component {...props} />;
     } else {

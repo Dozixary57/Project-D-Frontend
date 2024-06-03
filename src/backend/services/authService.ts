@@ -1,6 +1,5 @@
 ﻿import axios from 'axios';
 import { store } from '../../ReduxStore/store';
-import { useCookies } from 'react-cookie';
 
 const AuthService = {
     Login: async (usernameEmail: string, password: string) => {
@@ -20,6 +19,7 @@ const AuthService = {
                     result = resData || [];
                 } else {
                     result = res.data || [];
+                    // console.log(result)
                 }
                 if (res?.status === 200) {
                     store.dispatch({
@@ -27,22 +27,26 @@ const AuthService = {
                         payload: true
                     });
                 }
-                // console.log(res)
-                // console.log(res.data)
-                // console.log(res.data.accessToken)
             }).catch(error => {
+                store.dispatch({
+                    type: 'IS_AUTHORIZED',
+                    payload: false
+                });
                 if (error.code === 'ECONNABORTED') {
                     // Обработка ошибки таймаута    
                 } else {
                     // Обработка других ошибок сети
                 }
-                console.log(error)
+                if (error.response.data) {
+                    result = error.response.data;
+                }
             }).finally( () => {
                 // store.dispatch({
                 //     type: 'DATA_LOADING_STATE',
                 //     payload: false
                 // })
-            });        
+            }); 
+            // console.log(result)       
         return result;
     },
     Signup: async (username: string, email: string, dateOfBirth: string, password: string, captchaToken: string) => {
@@ -102,7 +106,8 @@ const AuthService = {
                 headers['Authorization'] = 'Bearer ' + userAccessToken;
             }
         
-            const res = await axios.get(`/Authentication/Auth`, {headers, timeout: 8000}).catch(() => {              
+            const res = await axios.get(`/Authentication/Auth`, {headers, timeout: 8000}).catch(() => {   
+                AuthService.Logout();           
                 return null;
             });
 
@@ -110,7 +115,7 @@ const AuthService = {
         
             if (res?.status !== 200 && !res) {
                 // console.log('No res!')
-                AuthService.Logout();
+                // AuthService.Logout();
                 return 'Failure';
             }
         
@@ -127,13 +132,11 @@ const AuthService = {
                 });
                 return;
             } else {
-                // console.log('No else!')
                 AuthService.Logout();
                 return;
             }
         
         } catch (error) {
-            // console.log('Some error!')
             AuthService.Logout();
             return;
         }
@@ -142,7 +145,6 @@ const AuthService = {
         let res;
         try {
             res = await axios.get(`/Authentication/Logout`, {timeout: 5000});
-            localStorage.removeItem('AccessToken');
             return res.data || [];    
         } catch (e) {
             console.log(e);
@@ -152,7 +154,7 @@ const AuthService = {
                 payload: false
             });
             localStorage.removeItem('AccessToken');
-            return res?.data || [];    
+            return "";    
         }        
     }
 }

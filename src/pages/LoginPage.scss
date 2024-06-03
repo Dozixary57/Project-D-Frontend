@@ -54,7 +54,6 @@
         }
       }
       
-
       .formFields {
         display: flex;
         flex-direction: column;
@@ -129,6 +128,21 @@
               filter: invert(71%) sepia(1%) saturate(1280%) hue-rotate(44deg) brightness(97%) contrast(90%);
             }
           }  
+        }
+        .RestoreAccount {
+          text-decoration: none;
+          width: 100%;
+          justify-content: center;
+          display: flex;
+          padding: 0.5em 0;
+
+          > p {
+            width: fit-content;
+            margin: 0;
+            padding: 0.2em 0.5em;
+            border-radius: 0.2em;
+            background-color: rgba(white, 0.025);
+          }
         }
         .dataSubmit {
           width: 100%;
