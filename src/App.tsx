@@ -30,6 +30,7 @@ function App() {
   const [cookies, removeCookie] = useCookies(['UniqueDeviceIdentifier']);
   const navigate = useNavigate();
   const isAuthorized = useSelector((state: RootState) => state.isAuthorized);
+  const userPrivileges = useSelector((state: RootState) => state.userPrivileges);
   const location = useLocation();
 
   useEffect(() => {
@@ -42,6 +43,10 @@ function App() {
       console.log(error);
     });
   }, [navigate]);
+
+  // useEffect(() => {
+  //   console.log(userPrivileges);
+  // }, [userPrivileges])
 
   useEffect(() => {
     if (isAuthorized && (location.pathname.toLowerCase() === '/login' || location.pathname.toLowerCase() === '/signup')) {

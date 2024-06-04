@@ -5,7 +5,7 @@ import {useState, useEffect, useRef} from "react";
 import authService from "../backend/services/authService";
 import {Link} from "react-router-dom";
 import { useNavigate } from 'react-router-dom';
-import {GoogleReCaptchaProvider, GoogleReCaptcha} from "react-google-recaptcha-v3";
+// import {GoogleReCaptchaProvider, GoogleReCaptcha} from "react-google-recaptcha-v3";
 
 interface IErrorMessages { 
    usernameErrMsg: string | null;
@@ -229,7 +229,7 @@ const SingupPage = () => {
                               <label>Date of Birth</label>
                            </div>                     
                         </div>
-                        <GoogleReCaptcha onVerify={token => setCaptchaToken(token)} />
+                        {/* <GoogleReCaptcha onVerify={token => setCaptchaToken(token)} /> */}
                         <div className="dataSubmit">
                            <input type="submit" value="Sign Up" />
                         </div>

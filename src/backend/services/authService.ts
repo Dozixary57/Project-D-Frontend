@@ -1,5 +1,6 @@
 ﻿import axios from 'axios';
 import { store } from '../../ReduxStore/store';
+import { jwtDecode } from "jwt-decode";
 
 const AuthService = {
     Login: async (usernameEmail: string, password: string) => {
@@ -17,15 +18,14 @@ const AuthService = {
                     localStorage.setItem('AccessToken', JSON.stringify(res.data.accessToken))
                     const { accessToken, ...resData } = res.data;
                     result = resData || [];
-                } else {
-                    result = res.data || [];
-                    // console.log(result)
                 }
+                result = res.data || [];
                 if (res?.status === 200) {
                     store.dispatch({
                         type: 'IS_AUTHORIZED',
                         payload: true
                     });
+                    AuthService.getUserPrivileges();
                 }
             }).catch(error => {
                 store.dispatch({
@@ -94,8 +94,6 @@ const AuthService = {
             });        
         return result;
     },
-    // isAuth: async () => {
-    // },    
     isAuth: async () => {
         try {
             const userAccessTokenString = localStorage.getItem('AccessToken');
@@ -130,6 +128,7 @@ const AuthService = {
                     type: 'IS_AUTHORIZED',
                     payload: true
                 });
+                AuthService.getUserPrivileges();
                 return;
             } else {
                 AuthService.Logout();
@@ -139,6 +138,20 @@ const AuthService = {
         } catch (error) {
             AuthService.Logout();
             return;
+        }
+    },
+    getUserPrivileges: async () => {
+        const storedAccessToken = localStorage.getItem('AccessToken');
+
+        if (storedAccessToken) {
+            const accessToken = JSON.parse(storedAccessToken);
+            
+            const decodedToken: any = jwtDecode(accessToken);
+
+            store.dispatch({
+                type: 'USER_PRIVILEGES',
+                payload: decodedToken.privileges ?? null
+            });
         }
     },
     Logout: async () => {

@@ -10,6 +10,7 @@ import allNewsData from "./Reducers/allNewsData";
 import oneNewsData from "./Reducers/oneNewsData";
 import isLoadingState from "./Reducers/isLoadingState";
 import isAuthorized from "./Reducers/isAuthorized";
+import userPrivileges from "./Reducers/userPrivileges";
 
 export const rootReducer = combineReducers({
     itemObjectsNavigationIndex,
@@ -21,5 +22,6 @@ export const rootReducer = combineReducers({
     allNewsData,
     oneNewsData,
     isLoadingState,
-    isAuthorized
+    isAuthorized,
+    userPrivileges
 });

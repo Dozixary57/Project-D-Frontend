@@ -6,6 +6,8 @@ import { NavBar } from "../components/elements/navigation_bar/NavBar";
 import "./ItemInfoPage.scss"
 import {DataForNavigation, PrevButton, NextButton} from "../components/elements/ObjectNavigation/ObjectNavigation";
 import ModalWindow, { OpenModalWindow } from "../components/ModalWindow/ModalWindow";
+import { useSelector } from "react-redux";
+import { RootState } from "../ReduxStore/store";
 
 interface Item {
     _id: string;
@@ -29,6 +31,10 @@ interface Item {
 
 const ItemInfoPage = () => {
     const navigate = useNavigate();
+
+    const userPrivileges = useSelector((state: RootState) => state.userPrivileges);
+
+    const [isEditingMode, setIsEditingMode] = useState(false);
 
     const modalRef = useRef<OpenModalWindow | null>(null);
     const openModalWindow = (url: string) => {
@@ -86,16 +92,41 @@ const ItemInfoPage = () => {
                 <PrevButton />
                 <div className="Content">
                     <div className="ObjectTitle">
-                        <button onClick={() => navigate('/Content/Items')}>&lt;&nbsp;&nbsp;</button>
-                        <div>
+                        <button className="BackButton" onClick={() => navigate('/Content/Items')}>&lt;&nbsp;&nbsp;</button>
+                        <div className="TitleData">
                             <h2>{item.Title}</h2>
                             <button onClick={() => setFavoriteToggle(prev => !prev)}>
                                 <img src={favoriteToggle? require('../images/FavoriteActive.png') : require('../images/FavoriteInactive.png')} alt="FavoriteIcon" />
                             </button>
                         </div>
-                        <button>
-                            <img src={require('../images/EditingIcon.png')} alt="EditingIcon"></img>
-                        </button>
+                        <div className="EditingActions">
+                            {isEditingMode?
+                                <>
+                                    <button className="AgreeButton">
+                                        <img src={require('../images/YesIcon.png')} alt="BinIcon"></img>
+                                    </button>
+                                    <button className="DisagreeButton" onClick={() => setIsEditingMode(prev => !prev)}>
+                                        <img src={require('../images/NoIcon.png')} alt="BinIcon"></img>
+                                    </button>
+                                </>
+                                :
+                                <>
+                                    {userPrivileges && userPrivileges.includes("ObjectEdit") && (
+                                        <button className="EditingButton" onClick={() => setIsEditingMode(true)}>
+                                            <img src={require('../images/EditingIcon.png')} alt="EditingIcon" />
+                                        </button>
+                                    )}
+                                    {userPrivileges && userPrivileges.includes("ObjectDelete") && (
+                                        <button className="DisagreeButton">
+                                            <img src={require('../images/BinIcon.png')} alt="BinIcon"></img>
+                                        </button>
+                                    )}
+                                </>
+                            }
+                        </div>
+                        <div className="ActionIndicator">
+                            <p style={isEditingMode? {backgroundColor: 'rgba(226, 64, 0, 0.4)'} : {backgroundColor: 'rgba(170, 170, 170, 0.4)'}}>{isEditingMode? "Editing" : "Viewing"}</p>
+                        </div>
                     </div>
                     <div className="TextData">
                         <h5 className="itemInfoLastUpd">Last update: 11/1/23 </h5>
