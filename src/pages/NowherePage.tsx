@@ -1,5 +1,5 @@
 import { Helmet } from "react-helmet-async";
-import { NavBar } from "../components/elements/navigation_bar/NavBar";
+import { Navbar } from "../components/elements/navigation_bar/Navbar";
 
 const NowherePage = () => {
     return (
@@ -8,7 +8,7 @@ const NowherePage = () => {
                 <meta charSet="utf-8" />
                 <title>DizaQute | Page not found</title>
             </Helmet>
-            <NavBar />
+            <Navbar />
             <p>Данной страницы не существует.</p>
         </>
     )

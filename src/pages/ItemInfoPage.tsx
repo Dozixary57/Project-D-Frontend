@@ -2,7 +2,7 @@
 import itemService from '../backend/services/itemService';
 import {useNavigate, useParams} from 'react-router-dom';
 import { Helmet } from "react-helmet-async";
-import { NavBar } from "../components/elements/navigation_bar/NavBar";
+import { Navbar } from "../components/elements/navigation_bar/Navbar";
 import "./ItemInfoPage.scss"
 import {DataForNavigation, PrevButton, NextButton} from "../components/elements/ObjectNavigation/ObjectNavigation";
 import ModalWindow, { OpenModalWindow } from "../components/ModalWindow/ModalWindow";
@@ -213,7 +213,7 @@ const ItemInfoPage = () => {
                     <meta charSet="utf-8" />
                     <title>{`${item.Title} | DizaQute`}</title>
                 </Helmet>
-                <NavBar />
+                <Navbar />
                 <ModalWindow ref={modalRef} />
                 <>
                     <DataForNavigation />

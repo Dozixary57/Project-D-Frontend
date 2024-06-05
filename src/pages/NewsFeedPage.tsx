@@ -1,5 +1,5 @@
 import { Helmet } from "react-helmet-async";
-import { NavBar } from "../components/elements/navigation_bar/NavBar";
+import { Navbar } from "../components/elements/navigation_bar/Navbar";
 import "./NewsFeedPage.scss"
 import { useEffect, useRef, useState } from "react";
 import newsService from "../backend/services/newsService";
@@ -194,7 +194,7 @@ const NewsFeedPage = () => {
                }
             </title>
          </Helmet>
-         <NavBar />
+         <Navbar />
          <main className="NEWS_FEED_PAGE">
                <div className="NEWS_FEED_CONTENT" >
                   <h2>Feed News</h2>

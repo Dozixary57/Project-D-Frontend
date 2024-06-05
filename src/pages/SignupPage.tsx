@@ -1,5 +1,5 @@
 import { Helmet } from "react-helmet-async";
-import { NavBar } from "../components/elements/navigation_bar/NavBar";
+import { Navbar } from "../components/elements/navigation_bar/Navbar";
 import "./SignupPage.scss"
 import {useState, useEffect, useRef} from "react";
 import authService from "../backend/services/authService";
@@ -179,7 +179,7 @@ const SingupPage = () => {
             <meta charSet="utf-8"/>
             <title>Sign Up | DizaQute</title>
          </Helmet>
-         <NavBar/>
+         <Navbar/>
          <main className="SIGN_UP_PAGE">
             {authMessage? (
                <div className="authMessage">

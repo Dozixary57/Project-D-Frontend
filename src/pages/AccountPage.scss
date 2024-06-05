@@ -47,7 +47,6 @@
         height: 3em;
         display: flex;
         align-items: center;
-
         border-bottom: 0.2em solid rgba(black, 0.2);
         box-sizing: border-box;
         border-top-right-radius: 0.2em;
@@ -82,6 +81,46 @@
           }
         }
 
+        .ProfileEdit {
+          position: absolute;
+          top: 0.1em;
+          right: -3.2em;
+
+          > button {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-sizing: border-box;
+            width: 4em;
+            height: 4em;
+            border: none;
+            background-color: transparent;
+            // border: solid 0.2em rgba(#000000, 0.5);
+            border-radius: 0.2em;
+            background-color: rgba(black, 0.4);
+
+            > img {
+              width: 100%;
+              scale: 0.9;
+              filter: invert(45%) sepia(62%) saturate(6%) hue-rotate(70deg) brightness(89%) contrast(80%);
+              transition: scale 0.1s ease-in-out;
+            }
+            > img:hover {
+              scale: 1;
+              filter: invert(73%) sepia(0%) saturate(2455%) hue-rotate(195deg) brightness(93%) contrast(89%);
+            }
+          }
+
+          > button:hover {
+            cursor: pointer;
+
+            // > img {
+            //   scale: 1;
+            //   filter: invert(73%) sepia(0%) saturate(2455%) hue-rotate(195deg) brightness(93%) contrast(89%);
+            // }
+          }
+
+        }
       }
 
       .ProfileStatus {
@@ -92,7 +131,39 @@
       }
 
     }
+
+    .AccountSettings {
+      position: absolute;
+      top: 0.5em;
+      right: 0.5em; 
+
+      > a {
+        > button {
+          width: 3.5em;
+          height: 3.5em;
+          border: none;
+          border-radius: 0.2em;
+          background-color: rgba(black, 0.4);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+
+          > img {
+
+            width: 100%;
+            scale: 1.1;
+            transition: scale 0.1s ease-in-out;
+            filter: invert(73%) sepia(0%) saturate(2455%) hue-rotate(195deg) brightness(93%) contrast(89%);
+          }
+          > img:hover {
+            scale: 1.25;
+            filter: invert(100%) sepia(15%) saturate(7481%) hue-rotate(256deg) brightness(123%) contrast(91%);
+          }
+        }
+        > button:hover {
+          cursor: pointer;
+        }
+      }
+    }
   }
-
-
 }

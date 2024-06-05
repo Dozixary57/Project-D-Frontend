@@ -1,5 +1,5 @@
 import { Helmet } from "react-helmet-async";
-import { NavBar } from "../components/elements/navigation_bar/NavBar";
+import { Navbar } from "../components/elements/navigation_bar/Navbar";
 
 const ReceivePage = () => {
     return (
@@ -8,7 +8,7 @@ const ReceivePage = () => {
                 <meta charSet="utf-8" />
                 <title>DizaQute | Receive</title>
             </Helmet>
-            <NavBar />
+            <Navbar />
             <main>Receive page</main>
         </>
     )

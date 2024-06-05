@@ -1,8 +1,9 @@
 import { Helmet } from "react-helmet-async";
-import { NavBar } from "../components/elements/navigation_bar/NavBar";
 import "./AccountPage.scss"
 import { url } from "inspector";
 import { Username } from "../components/Username";
+import { Link } from "react-router-dom";
+import { Navbar } from "../components/elements/navigation_bar/Navbar";
 
 const AccountPage = () => {
     return (
@@ -11,7 +12,7 @@ const AccountPage = () => {
                 <meta charSet="utf-8" />
                 <title>Account | DizaQute</title>
             </Helmet>
-            <NavBar />
+            <Navbar />
             <main className="ACCOUNT_PAGE">
                 <div className="ProfileHeader">
                     <div className="ProfileBanner">
@@ -23,10 +24,22 @@ const AccountPage = () => {
                             <div className="ProfileProgress">
                                 <p>X+</p>
                             </div>
+                            <div className="ProfileEdit">
+                                <button>
+                                    <img src={require('../images/EditingIcon.png')} />
+                                </button>
+                            </div>
                         </div>
                         <p className="ProfileStatus">Title</p>
                         <img src={require('../images/ThePlagueDoctor.png')} />
                         {/* <img src={require('../images/ProfileIconFrame.png')} /> */}
+                    </div>
+                    <div className="AccountSettings">
+                        <Link to="/AccountSettings">
+                            <button>
+                                <img src={require('../images/SettingsIcon.png')} />
+                            </button>
+                        </Link>
                     </div>
                 </div>
             </main>

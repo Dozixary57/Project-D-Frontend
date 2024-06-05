@@ -1,5 +1,5 @@
 ﻿import { Helmet } from "react-helmet-async";
-import { NavBar } from "../components/elements/navigation_bar/NavBar";
+import { Navbar } from "../components/elements/navigation_bar/Navbar";
 import "./ItemsPage.scss"
 import {SearchFilter} from "../components/SearchFilter/SearchFilter";
 
@@ -56,7 +56,7 @@ const ItemsPage = () => {
                 <title>DizaQute | Items</title>
             </Helmet>
             <LoadingProgressBar ref={progressBarRef} />
-            <NavBar />
+            <Navbar />
             <main className="ItemPageMain">
                 <SearchFilter data={{  title: 'Items' }} />
 

@@ -1,254 +1,180 @@
-$NavHeight: 2.5em;
+.NAVBAR {
+   position: fixed;
+   width: auto;
+   height: 2.5em;
+   margin: 0 auto;
+   top: 0.2em;
+   left: 0.2em;
+   right: 0.2em;
+   display: flex;
+   flex-direction: row;
+   justify-content: space-between;
+   align-items: center;
+   box-sizing: border-box;
+   border-radius: 0.2em;
+   background-color: rgba(black, 0.2);
+   z-index: 100;
+   padding: 0 0.75em;
+   backdrop-filter: blur(0.1em);
 
-nav {
-    left: 0.2em;
-    right: 0.2em;
-    top: 0.3em;
-    margin: 0 auto;
-    font-size: 1.1em;
-    position: fixed;
-    display: block;
-    width: auto;
-    height: $NavHeight;
-    background-color: rgba(0, 0, 0, 0.2);
-    border-radius: 0.25em;
-    transition: background-color 0.2s ease;
-    backdrop-filter: blur(0.1em);
-    z-index: 5;
-}
+   >a {
+      text-decoration: none;
 
-nav:hover {
-    background-color: rgba(0, 0, 0, 0.6);
-}
+      #GameIcon {
+         width: 2em;
+      }
 
-.navInAction {
-    background-color: rgba(0, 0, 0, 0.6);
-}
+      .HomeLink {
+         display: flex;
+         align-items: center;
+         background-color: #2a1e16;
+         height: 2.2em;
+         border-radius: 0.2em;
+         padding: 0 1em;
 
-nav div {
-    display: inline-block;
-}
+         >p {
+            margin: 0;
+            font-size: 1.1em;
+            color: #AAA;
+         }
+      }
 
-#GameIcon {
-    margin: 0 0.5em;
-    padding: 0.15em;
-    width: 2.20em;
-    height: 2.20em;
-    display: inline-block;
-    float: left;
-}
+      .AccountContainer {
+         display: flex;
+         flex-direction: row;
+         align-items: center;
+         height: 2.2em;
+         border-radius: 0.2em;
+         background-color: #2a1e16;
+         padding-left: 0.75em;
+         padding-right: 0.25em;
 
-.Account {
-    position: relative;
-    height: 2.5em;
-    margin-right: 0.5em;
-    width: auto;
-    float: right;
-    border-radius: 0.25em;
-    transform: scale(0.95);
-    display: inline-block;
-    scale: 0.9;
-    transition: all 0.2s ease-in-out;
-}
+         >p {
+            margin: 0;
+            font-size: 1.1em;
+            color: #AAA;
+         }
 
-.Account a {
-    text-decoration: none;
-    color: #AAA;
-}
+         >img {
+            margin-left: 0.5em;
+            clip-path: polygon(28% 0%, 72% 0%, 100% 28%, 100% 72%, 72% 100%, 28% 100%, 0% 72%, 0% 28%);
+         }
+      }
 
-.Account:hover {
-    transform: scale(1.05);
-    background-color: #2a1e16;
-}
-.Account:hover .ProfileName {
-    color: white;
-}
+      .LinkContainer {
+         box-sizing: border-box;
+         display: flex;
+         flex-direction: row;
+         align-items: center;
+         background-color: #2a1e16;
+         height: 2.2em;
+         border-radius: 0.2em;
+         min-width: 8em;
+         justify-content: space-between;
 
-.ProfileContainer {
-    display: flex;
-    align-items: center;
-    cursor: pointer;
-}
+         >div {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            box-sizing: border-box;
+         }
 
-.ProfileIconContainer {
-    width: 2.35em;
-    translate: 0 0.08em;
-    margin-right: 0.25em;
-}
+         >div:first-of-type {
+            flex-grow: 1;
+            padding-left: 0.75em;
+            padding-right: 0.5em;
+            display: flex;
+            align-items: center;
+            justify-content: center;
 
-.ProfileContainer img {
-    width: 100%;
-    //border-radius: 1em;
-    clip-path: polygon(28% 0%, 72% 0%, 100% 28%, 100% 72%, 72% 100%, 28% 100%, 0% 72%, 0% 28%);}
+            >p {
+               margin: 0;
+               font-size: 1.1em;
+               color: #AAA;
+            }
+         }
 
-.ProfileName {
-    padding: 0.5em;
-    cursor: pointer;
-    margin: 0;
-    translate: 0 0.1em;
-}
+         >div:last-of-type {
+            flex-grow: 0;
+            padding: 0 0.5em;
+            height: 100%;
+            border-radius: 0 0.2em 0.2em 0;
 
-.AuthorizationImg {
-    height: 1.75em;
-    width: 1.75em;
-    padding: 0.4em;
-}
+            >p {
+               margin: 0;
+               color: #AAA;
+               transform: rotate(-90deg);
+            }
+         }
 
-.LinksGroup {
-    display: grid;
-    grid-template-columns: auto auto;
-}
+         >div:last-of-type:hover {
+            background-color: rgba(white, 0.05);
+
+            >p {
+               transform: rotate(0deg);
+            }
+         }
 
 
-.leftSide, .rightSide {
-    display: grid;
-    align-items: center;
-}
-.leftSide {
-    grid-template-columns: auto auto auto;
-    justify-items: start;
-}
+         div>img {
+            width: 1.8em;
+         }
+      }
 
-.rightSide {
-    grid-template-columns: auto auto;
-    justify-items: end;
-}
+      .LinkContainer:hover {
 
-.singleLink {
-    padding: 0.7em 1em;
-}
-
-.LinkButtonContainer {
-    color: #AAA;
-    border-radius: 0.25em;
-    transform: scale(0.85);
-    transition: transform 0.2s ease;
-    cursor: pointer;
-    z-index: 2;
-}
-
-.LinkButtonContainer:hover {
-    color: white;
-    transform: scale(0.95);
-    background-color: #2a1e16;
-}
-
-.LinkButtonContainer > a {
-    color: #AAAAAA;
-    text-decoration: none;
-}
-
-.LinkButtonContainer:hover > a {
-    color: white;
-}
-
-.LinkButtonContainer:active {
-    transform: scale(0.85);
-    background-color: #261b13;
-    transition: all 50ms ease-in-out;
-}
-
-.LinkButtonContainerInAction {
-    color: white;
-    transform: scale(0.95);
-    background-color: #2a1e16;
-}
-
-.linkButton {
-    padding: 0.7em 0.4em 0.7em 0.8em;
-}
-
-.submenuButton {
-    box-sizing: border-box;
-    padding: 0.7em 0.5em;
-    border-top-right-radius: 0.25em;
-    border-bottom-right-radius: 0.25em;
-    border-left: 0.1em solid transparent;
-    opacity: 0;
-    transform: scaleX(1);
-    transition: all 0.2s ease-in-out;
-
-}
-
-.submenuButtonInAction {
-    padding: 0.7em 0.5em;
-    border-left-color: #19120d;
-    opacity: 1;
-}
-
-.LinkButtonContainer:hover .submenuButton {
-    padding: 0.7em 0.5em;
-    border-left-color: #19120d;
-    opacity: 1;
-}
-
-/*.LinkButtonContainer:hover .submenuButton:hover {
-    background-color: rgba(255, 255, 255, 0.05);
-}*/
-
-.Arrow {
-    transform: scaleX(1) translate(0.1em, -0.05em) rotate(-90deg);
-    transition: all 0.15s ease-in-out;
-}
-
-.LinkButtonContainer:hover .submenuButton:hover .Arrow {
-    transform: scaleX(1) translate(0.02em, 0.1em) rotate(0deg);
-}
-
-.ArrowInAction {
-    transform: scaleX(1) translate(0.02em, 0.1em) rotate(0deg);
+         >div:last-of-type {
+            box-shadow: -0.1em 0 0 rgba(black, 0.2);
+         }
+      }
+   }
 }
 
 .subMenuLayout {
-    padding-top: 0.15em;
-    background-color: transparent; //#19120DFF
-    border-bottom-left-radius: 0.25em;
-    border-bottom-right-radius: 0.25em;
-    z-index: 1;
-}
 
-/*.subMenuLayout:hover .subMenu {
-    background-color: rgba(0, 0, 0, 0.4);
-}*/
+   .subMenu {
+      padding-top: 0.25em;
+      box-sizing: border-box;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      border-radius: 0.2em;
 
-.subMenu {
-    font-size: 0.8em;
-    box-sizing: border-box;
-    //background-color: rgba(0, 0, 0, 0.2);
-    border-bottom-left-radius: 0.25em;
-    border-bottom-right-radius: 0.25em;
-    //padding: 0.2em 0.6em;
-    padding: 0.2em 0;
-    //backdrop-filter: blur(0.1em);
-}
+      >a {
+         width: 100%;
+         display: flex;
+         flex-direction: column;
+         align-items: center;
+         text-decoration: none;
+         margin: 0.05em;
 
-.subMenu div {
-    color: #AAA;
-    padding: 0.04em 0.2em;
-    margin: 0.2em 0;
-    border-radius: 0.25em;
-    text-indent: 0.4em;
-    background-color: rgba(0, 0, 0, 0.6);
-    transition: all 0.2s ease-in-out;
-}
+         >div {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            box-sizing: border-box;
+            padding: 0.2em 0;
+            border-radius: 0.2em;
+            background-color: rgba(black, 0.6);
 
-.subMenu div div {
-    color: #AAA;
-    padding-top: 0.6em;
-    padding-bottom: 0.6em;
-    border-radius: 0.25em;
-    text-indent: 0.4em;
-    transition: all 0.2s ease-in-out;
-    scale: 0.95;
-    background-color: transparent;
-}
+            >p {
+               width: 95%;
+               margin: 0;
+               font-size: 1em;
+               text-indent: 0.25em;
+               padding: 0.5em 0;
+               color: #AAA;
+               border-radius: 0.2em;
+               transition: all 0.2s ease-in-out;
+            }
+         }
+      }
 
-.subMenu div div:hover {
-    scale: 1.01 1.1;
-    background-color: #2a1e16;
-    color: white;
-}
+      >a:hover>div>p {
+         color: white;
+         background-color: #2a1e16;
+      }
 
-.subMenu a {
-    text-decoration: none;
+   }
 }

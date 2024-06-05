@@ -1,5 +1,5 @@
 import { Helmet } from "react-helmet-async";
-import { NavBar } from "../components/elements/navigation_bar/NavBar";
+import { Navbar } from "../components/elements/navigation_bar/Navbar";
 
 const CreaturesPage = () => {
     return (
@@ -8,7 +8,7 @@ const CreaturesPage = () => {
                 <meta charSet="utf-8" />
                 <title>Dozixary57 | Creatures</title>
             </Helmet>
-            <NavBar />
+            <Navbar />
             <main>Creatures page</main>
         </>
     )

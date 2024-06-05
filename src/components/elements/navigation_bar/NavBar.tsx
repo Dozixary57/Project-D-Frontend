@@ -1,152 +1,233 @@
 import { Link } from "react-router-dom";
 import { useCookies } from 'react-cookie';
 import Floater from 'react-floater';
-import "./NavBar.scss"
-import {useEffect, useState} from "react";
+import "./Navbar.scss"
+import { useEffect, useRef, useState } from "react";
 import PageProgressBar from "./PageProgressBar";
 import { Username } from "../../Username";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../ReduxStore/store";
 
-export function NavBar() {
-    const [cookies] = useCookies(['UniqueDeviceIdentifier']);
+export function Navbar() {
 
-    const [activeContentSubmenu, setActiveContentSubmenu] = useState(false);
-    const [activeAccountSubmenu, setActiveAccountSubmenu] = useState(false);
+  const [activeContentSubmenu, setActiveContentSubmenu] = useState(false);
+  const contentContainerRef = useRef<HTMLDivElement>(null);
+  const [contentContainerWidth, setContentContainerWidth] = useState<number>(0);
+  useEffect(() => {
+    if (contentContainerRef.current) {
+      const rect = contentContainerRef.current.getBoundingClientRect();
+      setContentContainerWidth(rect.width);
+    }
+  }, []);
 
-    const isAuthorized = useSelector((state: RootState) => state.isAuthorized);
+  const [activeNewsSubmenu, setActiveNewsSubmenu] = useState(false);
+  const newsContainerRef = useRef<HTMLDivElement>(null);
+  const [newsContainerWidth, setNewsContainerWidth] = useState<number>(0);
+  useEffect(() => {
+    if (newsContainerRef.current) {
+      const rect = newsContainerRef.current.getBoundingClientRect();
+      setNewsContainerWidth(rect.width);
+    }
+  }, []);
 
-    return (
-        <>
-            <PageProgressBar />
-            <nav className={activeContentSubmenu ? "navInAction" : ""}>
-                <Link to="/About"><img id="GameIcon" src={require('../../../images/LogoProjectD.png')} alt="LogoIcon" /></Link>
-                <div className="LinksGroup">
-                    <div className="leftSide">
-                        <Link to="/Home">
-                            <div className="LinkButtonContainer">
-                                <div className="singleLink">Home</div>
-                            </div>
-                        </Link>
-                        <Link to="/Content">
-                            <div id="contentId" className={`LinkButtonContainer ${activeContentSubmenu? "LinkButtonContainerInAction" : ""}`}>
-                                <div className="linkButton">Content</div>
-                                <Floater styles={{
-                                    container: {
-                                        backgroundColor: "transparent",
-                                        padding: 0,
-                                        minWidth: "auto",
-                                        minHeight: "auto",
-                                    }
-                                }} target="#contentId" event="hover" eventDelay={0.2} placement="bottom" hideArrow={true} offset={-2} open={activeContentSubmenu} wrapperOptions={{
-                                    placement: "bottom", // the same options as above, except center
-                                    position: false,
-                                }} style={{cursor: "default"}} content={
-                                    <div className="subMenuLayout" onMouseEnter={() => setActiveContentSubmenu(true)} onMouseLeave={() => setActiveContentSubmenu(false)}>
-                                        <div className="subMenu" style={{width: "156px"}}>
-                                            <Link to="/Content/Items">
-                                                <div>
-                                                    <div>
-                                                        Items
-                                                    </div>
-                                                </div>
-                                            </Link>
-                                            <Link to="/Content/Creatures">
-                                                <div>
-                                                    <div>
-                                                        Creatures
-                                                    </div>
-                                                </div>
-                                            </Link>
-                                            <Link to="/Content/Locations">
-                                                <div>
-                                                    <div>
-                                                        Locations
-                                                    </div>
-                                                </div>
-                                            </Link>
-                                            <Link to="/Content/Mechanics">
-                                                <div>
-                                                    <div>
-                                                        Mechanics
-                                                    </div>
-                                                </div>
-                                            </Link>
-                                        </div>
-                                    </div>
-                                }>
-                                    <div className={`submenuButton ${activeContentSubmenu ? "submenuButtonInAction" : ""}`} onMouseEnter={() => setActiveContentSubmenu(true)} onMouseLeave={() => setActiveContentSubmenu(false)}>
-                                        <div className={`Arrow ${activeContentSubmenu ? "ArrowInAction" : ""}`}>▾</div>
-                                    </div>
-                                </Floater>
-                            </div>
-                        </Link>
-                        <Link to="/News">
-                            <div className="LinkButtonContainer">
-                                <div className="linkButton">News</div>
-                                <div className="submenuButton">
-                                    <div className="Arrow">▾</div>
-                                </div>
-                            </div>
-                        </Link>
-                    </div>
-                    <div className="rightSide">
-                        <Link id="ReceiveM" className="submenuLink" to="/Receive">
-                            <div className="LinkButtonContainer">
-                                <div className="linkButton">Receive</div>
-                                <div className="submenuButton">
-                                    <div className="Arrow">▾</div>
-                                </div>
-                            </div>
-                        </Link>
-                        <div className="Account">{isAuthorized?
-                            (<Link to="/Account"> {/* /Account/Profile */}
-                                <div id="accountId"  className="ProfileContainer" onMouseEnter={() => setActiveAccountSubmenu(true)} onMouseLeave={() => setActiveAccountSubmenu(false)}>
-                                    <p className="ProfileName">{<Username />}</p>
-                                    <div className="ProfileIconContainer">
-                                        <img src={require('../../../images/ThePlagueDoctor.png')} />
-                                    </div>
-                                </div>
-         {/*                       <Floater styles={{
-                                    container: {
-                                        backgroundColor: "transparent",
-                                        padding: 0,
-                                        minWidth: "auto",
-                                        minHeight: "auto",
-                                    }
-                                }} target="#accountId" event="hover" eventDelay={0.2} placement="bottom" hideArrow={true} offset={-2} open={activeAccountSubmenu} wrapperOptions={{
-                                    placement: "bottom",
-                                    position: false,
-                                }} style={{cursor: "default"}} content={
-                                    <div className="subMenuLayout" onMouseEnter={() => setActiveAccountSubmenu(true)} onMouseLeave={() => setActiveAccountSubmenu(false)}>
-                                        <div className="subMenu" style={{width: "170px"}}>
-                                            <Link to="/Account/Settings">
-                                                <div>
-                                                    <div>
-                                                        Settings
-                                                    </div>
-                                                </div>
-                                            </Link>
-                                            <Link to="/Account/Logout">
-                                                <div>
-                                                    <div>
-                                                        Log out
-                                                    </div>
-                                                </div>
-                                            </Link>
-                                        </div>
-                                    </div>
-                                }>
-                                </Floater>*/}
-                            </Link>)
-                            :
-                            (<Link to="/Login">
-                                <img className="AuthorizationImg" src={require('../../../images/AuthorizationIcon.png')} alt="AuthorizationIcon" />
-                            </Link>)
-                        }</div>
-                    </div>
+  const [activeReceiveSubmenu, setActiveReceiveSubmenu] = useState(false);
+  const receiveContainerRef = useRef<HTMLDivElement>(null);
+  const [receiveContainerWidth, setReceiveContainerWidth] = useState<number>(0);
+  useEffect(() => {
+    if (receiveContainerRef.current) {
+      const rect = receiveContainerRef.current.getBoundingClientRect();
+      setReceiveContainerWidth(rect.width);
+    }
+  }, []);
+
+  //   const [activeAccountSubmenu, setActiveAccountSubmenu] = useState(false);
+
+  const isAuthorized = useSelector((state: RootState) => state.isAuthorized);
+
+  return (
+    <>
+      <PageProgressBar />
+      <nav className="NAVBAR">
+        <Link to="/">
+          <img id="GameIcon" src={require('../../../images/LogoProjectD.png')} alt="LogoIcon" />
+        </Link>
+        <Link to="/Home">
+          <div id="homeId" className="HomeLink">
+            <p>Home</p>
+          </div>
+        </Link>
+        <Link to="/Content">
+            <div id="contentId" ref={contentContainerRef} className="LinkContainer">
+              <div>
+                <p>Content</p>
+              </div>
+              <div onMouseEnter={() => setActiveContentSubmenu(true)} onMouseLeave={() => setActiveContentSubmenu(false)}>
+                <p>▾</p>
+              </div>
+            </div>
+          </Link>
+        <Floater styles={{
+          container: {
+            backgroundColor: "transparent",
+            padding: 0,
+            minWidth: "auto",
+            minHeight: "auto",
+          }
+        }} target="#contentId" event="hover" eventDelay={0.2} placement="bottom" hideArrow={true} offset={-1} open={activeContentSubmenu} wrapperOptions={{
+          placement: "bottom",
+          position: false,
+        }} style={{ cursor: "default" }} content={
+          <div className="subMenuLayout" onMouseEnter={() => setActiveContentSubmenu(true)} onMouseLeave={() => setActiveContentSubmenu(false)}>
+            <div className="subMenu" style={{ width: contentContainerWidth }}>
+              <Link to="/Content/Items">
+                <div>
+                  <p>
+                    Items
+                  </p>
                 </div>
-            </nav>
-        </>
-    )
+              </Link>
+              <Link to="/Content/Creatures">
+                <div>
+                  <p>
+                    Creatures
+                  </p>
+                </div>
+              </Link>
+              <Link to="/Content/Locations">
+                <div>
+                  <p>
+                    Locations
+                  </p>
+                </div>
+              </Link>
+              <Link to="/Content/Mechanics">
+                <div>
+                  <p>
+                    Mechanics
+                  </p>
+                </div>
+              </Link>
+            </div>
+          </div>
+        }>
+        </Floater>
+        <Link to="/News">
+          <div id="newsId" ref={newsContainerRef} className="LinkContainer">
+            <div>
+              <p>News</p>
+            </div>
+            <div onMouseEnter={() => setActiveNewsSubmenu(true)} onMouseLeave={() => setActiveNewsSubmenu(false)}>
+              <p>▾</p>
+            </div>
+          </div>
+        </Link>
+        <Floater styles={{
+          container: {
+            backgroundColor: "transparent",
+            padding: 0,
+            minWidth: "auto",
+            minHeight: "auto",
+          }
+        }} target="#newsId" event="hover" eventDelay={0.2} placement="bottom" hideArrow={true} offset={-2} open={activeNewsSubmenu} wrapperOptions={{
+          placement: "bottom",
+          position: false,
+        }} style={{ cursor: "default" }} content={
+          <div className="subMenuLayout" onMouseEnter={() => setActiveNewsSubmenu(true)} onMouseLeave={() => setActiveNewsSubmenu(false)}>
+            <div className="subMenu" style={{ width: newsContainerWidth }}>
+              <Link to="/Content/Items">
+                <div>
+                  <p>
+                    news
+                  </p>
+                </div>
+              </Link>
+              <Link to="/Content/Creatures">
+                <div>
+                  <p>
+                    news
+                  </p>
+                </div>
+              </Link>
+              <Link to="/Content/Locations">
+                <div>
+                  <p>
+                    Locations
+                  </p>
+                </div>
+              </Link>
+              <Link to="/Content/Mechanics">
+                <div>
+                  <p>
+                    Mechanics
+                  </p>
+                </div>
+              </Link>
+            </div>
+          </div>
+        }>
+        </Floater>
+        <Link to="/Receive">
+          <div id="receiveId" ref={receiveContainerRef} className="LinkContainer">
+            <div>
+              <p>Receive</p>
+            </div>
+            <div onMouseEnter={() => setActiveReceiveSubmenu(true)} onMouseLeave={() => setActiveReceiveSubmenu(false)}>
+              <p>▾</p>
+            </div>
+          </div>
+        </Link>
+        <Floater styles={{
+          container: {
+            backgroundColor: "transparent",
+            padding: 0,
+            minWidth: "auto",
+            minHeight: "auto",
+          }
+        }} target="#receiveId" event="hover" eventDelay={0.2} placement="bottom" hideArrow={true} offset={-2} open={activeReceiveSubmenu} wrapperOptions={{
+          placement: "bottom",
+          position: false,
+        }} style={{ cursor: "default" }} content={
+          <div className="subMenuLayout" onMouseEnter={() => setActiveReceiveSubmenu(true)} onMouseLeave={() => setActiveReceiveSubmenu(false)}>
+            <div className="subMenu" style={{ width: receiveContainerWidth }}>
+              <Link to="/Content/Items">
+                <div>
+                  <p>
+                    Items
+                  </p>
+                </div>
+              </Link>
+              <Link to="/Content/Creatures">
+                <div>
+                  <p>
+                    Creatures
+                  </p>
+                </div>
+              </Link>
+              <Link to="/Content/Locations">
+                <div>
+                  <p>
+                    Locations
+                  </p>
+                </div>
+              </Link>
+              <Link to="/Content/Mechanics">
+                <div>
+                  <p>
+                    Mechanics
+                  </p>
+                </div>
+              </Link>
+            </div>
+          </div>
+        }>
+        </Floater>
+          <Link to={`${isAuthorized ? "/Account" : "/Login"}`}>
+            <div id="accountId" className="AccountContainer">
+                <p>{isAuthorized ? <Username /> : "Login"}</p>
+                <img src={isAuthorized ? require('../../../images/ThePlagueDoctor.png') : require('../../../images/AuthorizationIcon.png')} alt="Authorization Icon" style={{ width: isAuthorized ? "2em" : "1.5em" }} />
+            </div>
+          </Link>
+      </nav>
+    </>
+  )
 }
