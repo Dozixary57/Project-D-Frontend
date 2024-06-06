@@ -1,91 +1,81 @@
 .NAVBAR {
    position: fixed;
    width: auto;
-   height: 2.5em;
    margin: 0 auto;
    top: 0.2em;
    left: 0.2em;
    right: 0.2em;
-   display: flex;
-   flex-direction: row;
-   justify-content: space-between;
-   align-items: center;
-   box-sizing: border-box;
    border-radius: 0.2em;
    background-color: rgba(black, 0.2);
    z-index: 100;
    padding: 0 0.75em;
    backdrop-filter: blur(0.1em);
+   opacity: 0.8;
+   transition: all 0.2s ease;
 
-   >a {
-      text-decoration: none;
+   #GameIcon {
+      width: 2em;
+      scale: 1.1;
+      transform: translateY(0.05em);
+   }
 
-      #GameIcon {
-         width: 2em;
-      }
+   .FullyNavContainer {
+      height: 2.5em;
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+      box-sizing: border-box;   
 
-      .HomeLink {
-         display: flex;
-         align-items: center;
-         background-color: #2a1e16;
-         height: 2.2em;
-         border-radius: 0.2em;
-         padding: 0 1em;
+      >a {
+         text-decoration: none;
 
-         >p {
-            margin: 0;
-            font-size: 1.1em;
-            color: #AAA;
+
+         .AccountContainer {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            height: 2.2em;
+            border-radius: 0.2em;
+            background-color: transparent;
+            padding-left: 0.25em;
+            padding-right: 0.75em;
+            transition: all 0.1s ease;
+   
+            >p {
+               margin: 0;
+               font-size: 1.1em;
+               color: #AAA;
+            }
+   
+            >img {
+               scale: 1.4;
+               margin-right: 0.5em;
+               clip-path: polygon(28% 0%, 72% 0%, 100% 28%, 100% 72%, 72% 100%, 28% 100%, 0% 72%, 0% 28%);
+               filter: invert(73%) sepia(0%) saturate(2455%) hue-rotate(195deg) brightness(93%) contrast(89%);
+            }
          }
-      }
+         .AccountContainer:hover {
+            background-color: #2a1e16;
+         }   
 
-      .AccountContainer {
-         display: flex;
-         flex-direction: row;
-         align-items: center;
-         height: 2.2em;
-         border-radius: 0.2em;
-         background-color: #2a1e16;
-         padding-left: 0.75em;
-         padding-right: 0.25em;
-
-         >p {
-            margin: 0;
-            font-size: 1.1em;
-            color: #AAA;
-         }
-
-         >img {
-            margin-left: 0.5em;
-            clip-path: polygon(28% 0%, 72% 0%, 100% 28%, 100% 72%, 72% 100%, 28% 100%, 0% 72%, 0% 28%);
-         }
-      }
-
-      .LinkContainer {
-         box-sizing: border-box;
-         display: flex;
-         flex-direction: row;
-         align-items: center;
-         background-color: #2a1e16;
-         height: 2.2em;
-         border-radius: 0.2em;
-         min-width: 8em;
-         justify-content: space-between;
-
-         >div {
+         .HomeLink {
             display: flex;
             flex-direction: row;
             align-items: center;
             box-sizing: border-box;
-         }
+            background-color: transparent;
+            height: 2.2em;
+            border-radius: 0.2em;
+            padding: 0 0.75em 0 0;
+            min-width: 5em;
+            transition: all 0.1s ease;
 
-         >div:first-of-type {
-            flex-grow: 1;
-            padding-left: 0.75em;
-            padding-right: 0.5em;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            img {
+               max-width: 2.5em;
+               transform: translateY(-0.1em);
+               filter: invert(73%) sepia(0%) saturate(2455%) hue-rotate(195deg) brightness(93%) contrast(89%);
+            }
 
             >p {
                margin: 0;
@@ -94,37 +84,149 @@
             }
          }
 
-         >div:last-of-type {
-            flex-grow: 0;
-            padding: 0 0.5em;
-            height: 100%;
-            border-radius: 0 0.2em 0.2em 0;
+         .HomeLink:hover {
+            background-color: #2a1e16;
+         }
 
-            >p {
-               margin: 0;
-               color: #AAA;
-               transform: rotate(-90deg);
+         .LinkContainer {
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            height: 2.2em;
+            border-radius: 0.2em;
+            min-width: 9.2em;
+            justify-content: space-between;
+            transition: all 0.1s ease-in-out;
+
+            #profileIcon {
+               clip-path: polygon(28% 0%, 72% 0%, 100% 28%, 100% 72%, 72% 100%, 28% 100%, 0% 72%, 0% 28%);
+               transition: all 0s ease-in-out;
+               filter: none;
+            }
+
+            >div {
+               display: flex;
+               flex-direction: row;
+               align-items: center;
+               box-sizing: border-box;
+            }
+
+            >div:nth-of-type(1) {
+               position: relative;
+               flex-grow: 1;
+               padding: 0;
+               display: flex;
+               align-items: center;
+               justify-content: center;
+
+               img {
+                  scale: 1.2;
+                  max-width: 3em;
+                  transform: translateX(-0.4em);
+                  transition: all 0.05s ease-in-out;
+                  filter: invert(73%) sepia(0%) saturate(2455%) hue-rotate(195deg) brightness(93%) contrast(89%);
+               }
+
+               >p {
+                  transform: translateY(0em);
+                  margin: 0;
+                  font-size: 1.1em;
+                  color: #AAA;
+               }
+            }
+
+            >div:nth-of-type(2) {
+               box-sizing: border-box;
+               flex-grow: 0;
+               flex-basis: 0;
+               height: 100%;
+               border-radius: 0 0.2em 0.2em 0;
+               transition: all 0.1s ease-in-out;
+               box-shadow: -0.1em 0 0 #221812;
+               width: 0;
+               padding: 0;
+               transform: scaleX(0);
+
+               >p {
+                  margin: 0;
+                  transition: all 0.1s ease-in-out;
+               }
+            }
+
+            div>img {
+               width: 1.8em;
             }
          }
 
-         >div:last-of-type:hover {
-            background-color: rgba(white, 0.05);
+         .LinkContainer:hover {
+            background-color: #2a1e16;
 
-            >p {
-               transform: rotate(0deg);
+            >div:nth-of-type(1) {
+               padding: 0 0.5em 0 0.75em;
+
+               >img {
+                  max-width: 0;
+               }
             }
-         }
 
-
-         div>img {
-            width: 1.8em;
+            >div:nth-of-type(2) {
+               padding: 0 0.5em;
+               transform: scaleX(1);
+               width: auto;
+               box-shadow: -0.1em 0 0 rgba(black, 0.2);
+            }
          }
       }
+   }
 
-      .LinkContainer:hover {
+   .ShortyNavContainer {
+      height: 2.5em;
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+      box-sizing: border-box;   
 
-         >div:last-of-type {
-            box-shadow: -0.1em 0 0 rgba(black, 0.2);
+      >a {
+         text-decoration: none;
+
+         #homeId {
+            >img {
+               scale: 1.2;
+               transform: translateY(-0.1em);
+            }
+         }
+
+         #loginId {
+            >img {
+               scale: 1.4;
+            }
+         }
+
+         .ShortyLinkButton {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            box-sizing: border-box;
+            background-color: transparent;
+            height: 2.2em;
+            border-radius: 0.2em;
+            transition: all 0.1s ease;
+            padding: 0 1em;
+
+            img:not(#profileIcon) {
+               width: 2.25em;
+               filter: invert(73%) sepia(0%) saturate(2455%) hue-rotate(195deg) brightness(93%) contrast(89%);
+            }
+
+            #profileIcon {
+               width: 2em;
+               clip-path: polygon(28% 0%, 72% 0%, 100% 28%, 100% 72%, 72% 100%, 28% 100%, 0% 72%, 0% 28%);
+            }
+         }
+         .ShortyLinkButton:hover {
+            background-color: #2a1e16;
          }
       }
    }
@@ -133,7 +235,7 @@
 .subMenuLayout {
 
    .subMenu {
-      padding-top: 0.25em;
+      padding-top: 0.35em;
       box-sizing: border-box;
       display: flex;
       flex-direction: column;
@@ -159,11 +261,11 @@
             background-color: rgba(black, 0.6);
 
             >p {
-               width: 95%;
+               width: 90%;
                margin: 0;
                font-size: 1em;
-               text-indent: 0.25em;
-               padding: 0.5em 0;
+               padding: 0.5em 0 0.5em 0.5em;
+               line-height: 1.25em;
                color: #AAA;
                border-radius: 0.2em;
                transition: all 0.2s ease-in-out;
@@ -175,6 +277,35 @@
          color: white;
          background-color: #2a1e16;
       }
-
    }
+}
+
+.ActiveLinkContainer {
+   background-color: #2a1e16;
+}
+
+// .InactiveLinkContainer {
+//    background-color: transparent;
+// }
+
+.ActiveArrowButton {
+   background-color: rgba(white, 0.05);
+   // transform: scaleX(1);
+
+   >p {
+      color: white;
+      transform: rotate(0deg);
+   }
+}
+
+.InactiveArrowButton {
+   >p {
+      color: #AAA;
+      transform: rotate(-90deg);
+   }
+}
+
+.NAVBAR:hover, .NAVBAR_Active {
+   opacity: 1;
+   background-color: rgba(black, 0.6);
 }

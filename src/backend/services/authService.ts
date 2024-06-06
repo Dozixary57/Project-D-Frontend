@@ -129,6 +129,7 @@ const AuthService = {
                     payload: true
                 });
                 AuthService.getUserPrivileges();
+                console.log("Is authorized!")
                 return;
             } else {
                 AuthService.Logout();
