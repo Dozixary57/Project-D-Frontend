@@ -28,8 +28,8 @@
       box-sizing: border-box;   
 
       >a {
+         position: relative;
          text-decoration: none;
-
 
          .AccountContainer {
             display: flex;
@@ -228,6 +228,53 @@
          .ShortyLinkButton:hover {
             background-color: #2a1e16;
          }
+      }
+
+      .ShortySubMenu {
+         position: absolute;
+         display: flex;
+         flex-direction: column;
+         align-items: center;
+         justify-content: center;
+         top: 98%;
+         left: 0;
+         right: 0;
+         width: 100%;
+
+         >a {
+            margin-top: 0.25em;
+            width: 100%;
+            text-decoration: none;
+
+            >div {
+               box-sizing: border-box;
+               display: flex;
+               flex-direction: column;
+               align-items: center;
+               width: 100%;
+               padding: 0.25em 0.2em;               border-radius: 0.2em;
+               background-color: rgba(black, 0.6);
+      
+               >p {
+                  width: 100%;
+                  margin: 0;
+                  text-align: center;
+                  padding: 0.75em 0;
+                  font-size: 1em;
+                  border-radius: 0.2em;
+                  color: #AAA;
+                  transition: all 0.1s ease;
+               }
+            }
+            >div:hover {
+
+               >p {
+                  color: white;
+                  background-color: #2a1e16;
+               }
+            }
+         }
+
       }
    }
 }

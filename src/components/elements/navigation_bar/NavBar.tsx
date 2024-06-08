@@ -14,76 +14,58 @@ export function Navbar() {
   const isAuthorized = useSelector((state: RootState) => state.isAuthorized);
   const userPrivileges = useSelector((state: RootState) => state.userPrivileges);
 
+  const [isOverflowing, setIsOverflowing] = useState(false);
+
   const [activeContentSubmenu, setActiveContentSubmenu] = useState(false);
   const contentContainerRef = useRef<HTMLDivElement>(null);
   const [contentContainerWidth, setContentContainerWidth] = useState<number>(0);
-  useEffect(() => {
-    if (contentContainerRef.current) {
-      const rect = contentContainerRef.current.getBoundingClientRect();
-      setContentContainerWidth(rect.width);
-    }
-  }, []);
 
   const [activeNewsSubmenu, setActiveNewsSubmenu] = useState(false);
   const newsContainerRef = useRef<HTMLDivElement>(null);
   const [newsContainerWidth, setNewsContainerWidth] = useState<number>(0);
-  useEffect(() => {
+
+  const handleContainersResize = () => {
+    if (window.innerWidth < 975) {
+      setIsOverflowing(true);
+    } else {
+      setIsOverflowing(false);
+    }
+
+    if (contentContainerRef.current) {
+      const rect = contentContainerRef.current.getBoundingClientRect();
+      setContentContainerWidth(rect.width);
+    }
     if (newsContainerRef.current) {
       const rect = newsContainerRef.current.getBoundingClientRect();
       setNewsContainerWidth(rect.width);
     }
-  }, []);
-
-  const [activeReceiveSubmenu, setActiveReceiveSubmenu] = useState(false);
-  const receiveContainerRef = useRef<HTMLDivElement>(null);
-  const [receiveContainerWidth, setReceiveContainerWidth] = useState<number>(0);
-  useEffect(() => {
     if (receiveContainerRef.current) {
       const rect = receiveContainerRef.current.getBoundingClientRect();
       setReceiveContainerWidth(rect.width);
     }
-  }, []);
+    if (accountContainerRef.current) {
+      const rect = accountContainerRef.current.getBoundingClientRect();
+      setAccountContainerWidth(rect.width);
+    }
+
+  }
+  useEffect(() => {
+    handleContainersResize();
+
+    window.addEventListener('resize', handleContainersResize);
+
+    return () => {
+      window.removeEventListener('resize', handleContainersResize);
+    };
+  }, [isOverflowing, isAuthorized]);
+
+  const [activeReceiveSubmenu, setActiveReceiveSubmenu] = useState(false);
+  const receiveContainerRef = useRef<HTMLDivElement>(null);
+  const [receiveContainerWidth, setReceiveContainerWidth] = useState<number>(0);
 
   const [activeAccountSubmenu, setActiveAccountSubmenu] = useState(false);
   const accountContainerRef = useRef<HTMLDivElement>(null);
   const [accountContainerWidth, setAccountContainerWidth] = useState<number>(0);
-  useEffect(() => {
-    const handleResize = () => {
-      if (accountContainerRef.current) {
-        const rect = accountContainerRef.current.getBoundingClientRect();
-        setAccountContainerWidth(rect.width);
-      }
-    };
-
-    handleResize();
-
-
-    window.addEventListener('resize', handleResize);
-
-    return () => {
-      window.removeEventListener('resize', handleResize);
-    };
-  }, [isAuthorized]);
-
-  const [isOverflowing, setIsOverflowing] = useState(false);
-
-  useEffect(() => {
-    const handleResize = () => {
-      if (window.innerWidth < 975) {
-        setIsOverflowing(true);
-      } else {
-        setIsOverflowing(false);
-      }
-    };
-
-    handleResize();
-
-    window.addEventListener('resize', handleResize);
-
-    return () => {
-      window.removeEventListener('resize', handleResize);
-    };
-  }, []);
 
   return (
     <>
@@ -111,7 +93,7 @@ export function Navbar() {
                 </div>
               </div>
             </Link>
-            <Floater styles={{
+            {!isOverflowing && (<Floater styles={{
               container: {
                 backgroundColor: "transparent",
                 padding: 0,
@@ -155,7 +137,7 @@ export function Navbar() {
                 </div>
               </div>
             }>
-            </Floater>
+            </Floater>)}
             <Link to="/News">
               <div id="newsId" ref={newsContainerRef} className={`LinkContainer ${activeNewsSubmenu ? "ActiveLinkContainer" : ""}`}>
                 <div>
@@ -167,7 +149,7 @@ export function Navbar() {
                 </div>
               </div>
             </Link>
-            <Floater styles={{
+            {!isOverflowing && (<Floater styles={{
               container: {
                 backgroundColor: "transparent",
                 padding: 0,
@@ -204,7 +186,7 @@ export function Navbar() {
                 </div>
               </div>
             }>
-            </Floater>
+            </Floater>)}
             <Link to="/Receive">
               <div id="receiveId" ref={receiveContainerRef} className={`LinkContainer ${activeReceiveSubmenu ? "ActiveLinkContainer" : ""}`}>
                 <div>
@@ -216,7 +198,7 @@ export function Navbar() {
                 </div>
               </div>
             </Link>
-            <Floater styles={{
+            {!isOverflowing && (<Floater styles={{
               container: {
                 backgroundColor: "transparent",
                 padding: 0,
@@ -246,7 +228,7 @@ export function Navbar() {
                 </div>
               </div>
             }>
-            </Floater>
+            </Floater>)}
             <Link to={`${isAuthorized ? "/Account" : "/Login"}`}>
               {!isAuthorized ? (
                 <div id="loginId" className="AccountContainer">
@@ -267,7 +249,7 @@ export function Navbar() {
                   </div>
                 )}
             </Link>
-            <Floater styles={{
+            {!isOverflowing && (<Floater styles={{
               container: {
                 backgroundColor: "transparent",
                 padding: 0,
@@ -313,7 +295,7 @@ export function Navbar() {
                 </div>
               </div>
             }>
-            </Floater>
+            </Floater>)}
           </div>
         )
           :
@@ -328,20 +310,71 @@ export function Navbar() {
                 </div>
               </Link>
               <Link to="/Content">
-                <div id="contentId" ref={contentContainerRef} className="ShortyLinkButton">
+                <div id="contentId" ref={contentContainerRef} style={activeContentSubmenu ? {backgroundColor: "#2a1e16"} : {}} className="ShortyLinkButton" onMouseEnter={() => setActiveContentSubmenu(true)} onMouseLeave={() => setActiveContentSubmenu(false)}>
                   <img src={require('../../../images/ContentIcon.png')} />
                 </div>
               </Link>
+              {isOverflowing && activeContentSubmenu && (<div className="ShortySubMenu" onMouseEnter={() => setActiveContentSubmenu(true)} onMouseLeave={() => setActiveContentSubmenu(false)}>
+                <Link to="">
+                  <div>
+                    <p>Content1</p>
+                  </div>
+                </Link>
+                <Link to="">
+                  <div>
+                    <p>News1</p>
+                  </div>
+                </Link>
+                <Link to="">
+                  <div>
+                    <p>Receive1</p>
+                  </div>
+                </Link>
+              </div>)}
               <Link to="/News">
-                <div id="newsId" ref={newsContainerRef} className="ShortyLinkButton">
+                <div id="newsId" ref={newsContainerRef} className="ShortyLinkButton" style={activeNewsSubmenu ? {backgroundColor: "#2a1e16"} : {}} onMouseEnter={() => setActiveNewsSubmenu(true)} onMouseLeave={() => setActiveNewsSubmenu(false)}>
                   <img src={require('../../../images/NewsIcon.png')} />
                 </div>
               </Link>
+              {isOverflowing && activeNewsSubmenu && (<div className="ShortySubMenu" onMouseEnter={() => setActiveNewsSubmenu(true)} onMouseLeave={() => setActiveNewsSubmenu(false)}>
+                <Link to="">
+                  <div>
+                    <p>Content2</p>
+                  </div>
+                </Link>
+                <Link to="">
+                  <div>
+                    <p>News2</p>
+                  </div>
+                </Link>
+                <Link to="">
+                  <div>
+                    <p>Receive2</p>
+                  </div>
+                </Link>
+              </div>)}
               <Link to="/Receive">
-                <div id="receiveId" ref={receiveContainerRef} className="ShortyLinkButton">
+                <div id="receiveId" ref={receiveContainerRef} className="ShortyLinkButton" style={activeReceiveSubmenu ? {backgroundColor: "#2a1e16"} : {}} onMouseEnter={() => setActiveReceiveSubmenu(true)} onMouseLeave={() => setActiveReceiveSubmenu(false)}>
                   <img src={require('../../../images/ReceiveIcon.png')} />
                 </div>
               </Link>
+              {isOverflowing && activeReceiveSubmenu && (<div className="ShortySubMenu" onMouseEnter={() => setActiveReceiveSubmenu(true)} onMouseLeave={() => setActiveReceiveSubmenu(false)}>
+                <Link to="">
+                  <div>
+                    <p>Content3</p>
+                  </div>
+                </Link>
+                <Link to="">
+                  <div>
+                    <p>News3</p>
+                  </div>
+                </Link>
+                <Link to="">
+                  <div>
+                    <p>Receive3</p>
+                  </div>
+                </Link>
+              </div>)}
               <Link to={`${isAuthorized ? "/Account" : "/Login"}`}>
                 {!isAuthorized ? (
                   <div id="loginId" className="ShortyLinkButton">
@@ -350,11 +383,28 @@ export function Navbar() {
                 )
                   :
                   (
-                    <div id="accountId" ref={accountContainerRef} className="ShortyLinkButton">
+                    <div id="accountId" ref={accountContainerRef} className="ShortyLinkButton" style={activeAccountSubmenu ? {backgroundColor: "#2a1e16"} : {}} onMouseEnter={() => setActiveAccountSubmenu(true)} onMouseLeave={() => setActiveAccountSubmenu(false)}>
                       <img id="profileIcon" src={require('../../../images/ThePlagueDoctor.png')} />
                     </div>
                   )}
               </Link>
+              {isOverflowing && activeAccountSubmenu && (<div className="ShortySubMenu" onMouseEnter={() => setActiveAccountSubmenu(true)} onMouseLeave={() => setActiveAccountSubmenu(false)}>
+                <Link to="">
+                  <div>
+                    <p>Content4</p>
+                  </div>
+                </Link>
+                <Link to="">
+                  <div>
+                    <p>News4</p>
+                  </div>
+                </Link>
+                <Link to="">
+                  <div>
+                    <p>Receive4</p>
+                  </div>
+                </Link>
+              </div>)}
             </div>
           )}
       </nav>
