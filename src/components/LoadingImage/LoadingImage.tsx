@@ -7,7 +7,6 @@ const LoadingImage = () => {
     useEffect(() => {
         const handleVisibilityChange = () => {
             if (document.visibilityState === 'visible') {
-                // Перезагружаем изображение, чтобы анимация началась сначала
                 if (imgRef.current) {
                     imgRef.current.src = '';
                     imgRef.current.src = dataLoadingSprite;

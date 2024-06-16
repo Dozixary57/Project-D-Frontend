@@ -99,7 +99,7 @@ const AuthService = {
             const userAccessTokenString = localStorage.getItem('AccessToken');
             const headers: { [key: string]: string } = {};
         
-            if (userAccessTokenString !== null) {
+            if (userAccessTokenString !== null && userAccessTokenString.length > 0) {
                 const userAccessToken = JSON.parse(userAccessTokenString);
                 headers['Authorization'] = 'Bearer ' + userAccessToken;
             }
@@ -108,8 +108,6 @@ const AuthService = {
                 AuthService.Logout();           
                 return null;
             });
-
-            // console.log('1')
         
             if (res?.status !== 200 && !res) {
                 // console.log('No res!')
@@ -118,18 +116,15 @@ const AuthService = {
             }
         
             if (res?.data.accessToken) {
-                // console.log('Have accessToken!')
                 localStorage.setItem('AccessToken', JSON.stringify(res.data.accessToken));
             }
         
             if (res?.status === 200) {
-                // console.log('Status is 200!')
                 store.dispatch({
                     type: 'IS_AUTHORIZED',
                     payload: true
                 });
                 AuthService.getUserPrivileges();
-                console.log("Is authorized!")
                 return;
             } else {
                 AuthService.Logout();

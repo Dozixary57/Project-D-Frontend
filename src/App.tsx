@@ -21,32 +21,22 @@ import { SingupPage } from "./pages/SignupPage";
 import { IntroductionPage } from "./pages/IntroductionPage";
 import { NewsFeedPage } from './pages/NewsFeedPage';
 import { NewsOverlay } from './pages/NewsOverlay';
-import { withAuthCheck } from './components/HOCs/HOCs';
 import AuthService from './backend/services/authService';
 import { RootState } from './ReduxStore/store';
 import { useSelector } from 'react-redux';
+import { AccountManagementPage } from './pages/AccountManagementPage';
+import AccountModalWindow from './components/ModalWindows/AccountModalWindow';
 
 function App() {
-  const [cookies, removeCookie] = useCookies(['UniqueDeviceIdentifier']);
+  const [cookies] = useCookies(['UniqueDeviceIdentifier']);
   const navigate = useNavigate();
   const isAuthorized = useSelector((state: RootState) => state.isAuthorized);
   const userPrivileges = useSelector((state: RootState) => state.userPrivileges);
   const location = useLocation();
 
   useEffect(() => {
-    // AuthService.isAuth();
-    AuthService.isAuth().then((res: any ) => {
-      if (res === 'Failure') {
-      } else {
-      }
-    }).catch(error => {
-      console.log(error);
-    });
+    AuthService.isAuth();
   }, [navigate]);
-
-  // useEffect(() => {
-  //   console.log(userPrivileges);
-  // }, [userPrivileges])
 
   useEffect(() => {
     if (isAuthorized && (location.pathname.toLowerCase() === '/login' || location.pathname.toLowerCase() === '/signup')) {
@@ -59,13 +49,8 @@ function App() {
   useEffect(() => {
     if (!cookies['UniqueDeviceIdentifier']) {
       AuthService.Logout();
-      setTimeout(() => {
-        navigate('/Login');
-      }, 300);
     }
   }, [cookies]);
-
-  const AccountPage_Protected = withAuthCheck(AccountPage);
 
   return (
     <Routes>
@@ -82,14 +67,18 @@ function App() {
       <Route path="/Receive" element={<ReceivePage />} />
       <Route path="/Login" element={<LoginPage />} />
       <Route path="/Signup" element={<SingupPage />} />
-      <Route path="/Account" element={<AccountPage_Protected />} />
-
+      <Route path="/Account" element={<AccountPage />} />
       <Route path="/About" element={<AboutPage />} />
-      <Route path="/About_Me" element={<AboutMePage />} />
+      <Route path="/About_me" element={<AboutMePage />} />
       <Route path="/Agreements" element={<AgreementsPage />} />
       <Route path="*" element={<NowherePage />} />
       <Route path="/TEST" element={<TestPage />} />
       <Route path="/📦" element={<Spoiler />} />
+
+      {isAuthorized && ["UserEdit", "UserDelete", "UserCreate", "UserPrivilegesManaging"].some(privilege => userPrivileges.includes(privilege)) && (<Route path="/Service/Account_management" element={<AccountManagementPage />}>
+        <Route path=":accountId" element={<AccountModalWindow />} />
+      </Route> )}
+
     </Routes>
   )
 }

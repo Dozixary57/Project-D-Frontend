@@ -1,5 +1,5 @@
 import React, { useRef, useImperativeHandle, forwardRef } from 'react';
-import "./ModalWindow.scss"
+import "./ModalWindow1.scss"
 
 export interface OpenModalWindow {
     open: (link: string) => void;

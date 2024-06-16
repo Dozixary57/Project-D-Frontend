@@ -5,7 +5,7 @@ import { Helmet } from "react-helmet-async";
 import { Navbar } from "../components/elements/navigation_bar/Navbar";
 import "./ItemInfoPage.scss"
 import {DataForNavigation, PrevButton, NextButton} from "../components/elements/ObjectNavigation/ObjectNavigation";
-import ModalWindow, { OpenModalWindow } from "../components/ModalWindow/ModalWindow";
+import ModalWindow, { OpenModalWindow } from "../components/ModalWindows/ModalWindow1";
 import { useSelector } from "react-redux";
 import { RootState } from "../ReduxStore/store";
 

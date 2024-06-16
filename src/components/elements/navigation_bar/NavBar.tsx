@@ -269,8 +269,8 @@ export function Navbar() {
                       </p>
                     </div>
                   </Link>
-                  {userPrivileges && userPrivileges.includes("UserPrivilegesManaging") && (
-                    <Link to="/Account/Account_management">
+                  {userPrivileges && ["UserEdit", "UserDelete", "UserCreate", "UserPrivilegesManaging"].some(privilege => userPrivileges.includes(privilege)) && (
+                    <Link to="/Service/Account_management">
                       <div>
                         <p>
                           Account management

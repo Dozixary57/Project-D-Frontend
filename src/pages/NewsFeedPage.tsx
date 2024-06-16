@@ -6,9 +6,7 @@ import newsService from "../backend/services/newsService";
 import { RootState, store } from "../ReduxStore/store";
 import { useSelector } from "react-redux";
 import React from "react";
-import { TransitionGroup, CSSTransition } from 'react-transition-group';
 import { Link, Outlet, useParams } from "react-router-dom";
-// import { NewsOverlay } from "./NewsOverlay";
 
 interface INewsType {
    _id: string;

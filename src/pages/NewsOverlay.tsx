@@ -1,9 +1,10 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { useNavigate, useParams } from "react-router";
 import NewsService from "../backend/services/newsService";
 import { RootState, store } from "../ReduxStore/store";
 import { useSelector } from "react-redux";
 import "./NewsOverlay.scss"
+import { DateTimeFormatter } from "../tools/DateTimeFormatter";
 
 interface INews {
    _id: string;
@@ -64,19 +65,6 @@ const NewsOverlay = () => {
       };
    }, [newsData, overlayContentHeightRef]);
 
-   function formatDateTime(timestamp: string): string {
-      const date = new Date(Number(timestamp));
-
-      const hours = date.getHours().toString().padStart(2, '0');
-      const minutes = date.getMinutes().toString().padStart(2, '0');
-      const day = date.getDate().toString().padStart(2, '0');
-
-      const month = (date.getMonth() + 1).toString().padStart(2, '0');
-      const year = date.getFullYear();
-   
-      return `${hours}:${minutes} ${month}/${day}/${year}`;
-   }
-
    return(
       <div className="NEWS_OVERLAY_ROOT" onClick={() => navigate("/News")}>
          <div className="NEWS_OVERLAY_LAYOUT">
@@ -94,7 +82,7 @@ const NewsOverlay = () => {
                         <img src={newsData.CoverURL? newsData.CoverURL : require(`../images/${newsData.Type}Cover.png`)} alt="Cover" />
                         <div className="AuthorNewsPublication">
                            <p>by {newsData.Author}</p>
-                           <p>{formatDateTime(newsData.PublicationDate)}</p>
+                           <p>{DateTimeFormatter(newsData.PublicationDate)}</p>
                         </div>
                         <p>{newsData.Content.Annotation}</p>
                      </article>

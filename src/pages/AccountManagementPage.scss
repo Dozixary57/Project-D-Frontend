@@ -1,0 +1,194 @@
+.ACCOUNT_MANAGEMENT_PAGE {
+  width: 50em;
+  height: 50em;
+  margin: 4em auto 0 auto;
+  border-radius: 0.2em;
+
+  .PageHeader {
+    width: 100%;
+    border-radius: 0.2em;
+    background-color: rgba(black, 0.2);
+
+    > p {
+      margin: 0;
+      font-size: 1.5em;
+      text-align: center;
+      padding: 0.5em 0;
+    }
+  }
+
+  .PageContent {
+    margin-top: 1em;
+    display: flex;
+    flex-direction: row;
+    box-sizing: border-box;
+    gap: 1em;
+
+    .AccountContent {
+      width: 100%;
+      border-radius: 0.2em;
+      background-color: rgba(black, 0.2);
+
+      .SearchBar {
+        width: 100%;
+        box-sizing: border-box;
+        padding: 0.25em 1em;
+        background-color: rgba(black, 0.2);
+        
+        > input {
+          width: 100%;
+          box-sizing: border-box;
+          font-size: 1.2em;
+          color: #AAA;
+          font-family: 'F77 Minecraft', PressStart2P-Regular, 'Cascadia Mono', sans-serif;
+          border-radius: 0.2em;
+          padding: 0.5em 0;
+          text-indent: 0.75em;
+          letter-spacing: 0.05em;
+          margin: 0.25em 0;
+          background-color: rgba(black, 0.2);
+          border: none;
+          outline: none;
+        }
+      }
+
+      .AccountList {
+        // margin-top: 1em;
+        width: 100%;
+        box-sizing: border-box;
+        display: flex;
+        flex-direction: column;
+        padding: 1em;
+        gap: 1em;
+
+        .AccountElement {
+          width: 100%;
+          box-sizing: border-box;
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          border: none;
+          border-radius: 0.4em;
+          padding: 0.75em;
+          background-color: rgba(black, 0.2);
+          transition: all 0.1s ease-in-out;
+
+          .AccountIcon {
+            width: 6em;
+            height: 6em;
+
+            > img {
+              width: 100%;
+              height: 100%;
+              border-radius: 0.4em;
+            }
+          }
+
+          .AccountInfo {
+            display: flex;
+            flex-direction: column;
+            margin-left: 1.5em;
+            gap: 1.25em;
+
+            > p {
+              text-align: start;
+              margin: 0;
+              font-family: 'F77 Minecraft', PressStart2P-Regular, 'Cascadia Mono', sans-serif;
+              font-size: 1.5em;
+              transition: all 0.1s ease-in-out;
+            }
+          }
+        }
+        .AccountElement:hover {
+          cursor: pointer;
+          background-color: rgba(white, 0.05);
+
+          > .AccountInfo > p {
+            color: white;
+          }
+        }
+      }
+    }
+
+    .AccountDetailsPanel {
+      width: 35em;
+      box-sizing: border-box;
+      border-radius: 0.2em;
+      padding: 0.5em;
+      align-self: start;
+      background-color: rgba(black, 0.2);
+
+      .AccountDetails {
+        display: flex;
+        flex-direction: column;  
+        gap: 1em;
+
+        >h3 {
+          margin: 0;
+          padding: 0.5em 0;
+          font-size: 1.2em;
+          text-align: center;
+          border-radius: 0.2em;
+          background-color: rgba(black, 0.2);
+        }
+
+        >img {
+          box-sizing: border-box;
+          width: 100%;
+          padding: 4em;
+
+        }
+
+        >div {
+
+          > p {
+            margin: 0;
+          }
+          > p:nth-of-type(1) {
+            color: white;
+            width: fit-content;
+            padding: 0.25em 0.5em;
+            border-radius: 0.2em;
+            font-size: 1.1em;
+            background-color: rgba(white, 0.15);
+          }
+          > p:nth-of-type(2) {
+            text-align: center;
+            margin-top: 0.5em;
+          }
+
+          > ul {
+            margin: 0;
+            padding: 0.5em 0;
+            padding-left: 1.5em;
+            list-style-type: square;
+  
+            > li {
+              padding: 0.25em 0;
+            }
+          }  
+        }
+
+        >a {
+
+          > button {
+            width: 100%;
+            padding: 0.5em;
+            border: none;
+            border-radius: 0.2em;
+            background-color: rgba(white, 0.05);
+            color: #AAA;
+            font-family: 'F77 Minecraft', PressStart2P-Regular, 'Cascadia Mono', sans-serif;
+            font-size: 1.2em;
+            transition: all 0.1s ease-in-out;
+          }
+          > button:hover {
+            cursor: pointer;
+            color: white;
+            background-color: rgba(white, 0.15);
+          }  
+        }
+      }
+    }
+  }
+}
