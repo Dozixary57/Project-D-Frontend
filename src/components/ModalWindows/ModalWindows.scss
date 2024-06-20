@@ -9,6 +9,7 @@
    justify-content: center;
    align-items: center;
    background-color: rgba(0, 0, 0, 0.7);
+   overflow-y: scroll;
 
    > hr {
       margin: 0;
@@ -183,7 +184,7 @@
                display: flex;
                flex-direction: column;
                align-items: center;
-               border-radius: 0.2em;
+               border-radius: 0.3em;
                box-sizing: border-box;
                padding: 0.5em 0.4em;
                background-color: rgba(black, 0.4);
@@ -197,11 +198,6 @@
                   text-align: center;
                   padding: 0.75em 0;
                   border-radius: 0.2em;
-                  background-color: rgba(white, 0.05);
-               }
-               >p:hover {
-                  cursor: grab;
-
                }
             }
          }
@@ -241,6 +237,18 @@
          }
       }
 
+      .action-button {
+         width: 100%;
+         box-sizing: border-box;
+         padding: 0.5em;
+         font-size: 1.2em;
+         font-family: 'F77 Minecraft', PressStart2P-Regular, 'Cascadia Mono', sans-serif;
+         border: none;
+         border-radius: 0.2em;
+         color: #AAA;
+         cursor: pointer;
+      }
+
    }
 }
 
@@ -250,4 +258,14 @@
    .modal-content {
       cursor: default;
    }
+}
+
+.unavailable {
+   user-select: none;
+   cursor: not-allowed;
+   background-color: rgba(white, 0.02);
+}
+.available {
+   cursor: grab;
+   background-color: rgba(white, 0.075);
 }

@@ -111,12 +111,12 @@ const ItemInfoPage = () => {
                                 </>
                                 :
                                 <>
-                                    {userPrivileges && userPrivileges.includes("ObjectEdit") && (
+                                    {userPrivileges && userPrivileges.map(privilege => privilege.Title).includes('ObjectEdit') && (
                                         <button className="EditingButton" onClick={() => setIsEditingMode(true)}>
                                             <img src={require('../images/EditingIcon.png')} alt="EditingIcon" />
                                         </button>
                                     )}
-                                    {userPrivileges && userPrivileges.includes("ObjectDelete") && (
+                                    {userPrivileges && userPrivileges.map(privilege => privilege.Title).includes('ObjectDelete') && (
                                         <button className="DisagreeButton">
                                             <img src={require('../images/BinIcon.png')} alt="BinIcon"></img>
                                         </button>

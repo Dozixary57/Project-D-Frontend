@@ -26,12 +26,13 @@ import { RootState } from './ReduxStore/store';
 import { useSelector } from 'react-redux';
 import { AccountManagementPage } from './pages/AccountManagementPage';
 import AccountModalWindow from './components/ModalWindows/AccountModalWindow';
+import { IPrivileges } from './Interfaces/IAccounts';
 
 function App() {
   const [cookies] = useCookies(['UniqueDeviceIdentifier']);
   const navigate = useNavigate();
   const isAuthorized = useSelector((state: RootState) => state.isAuthorized);
-  const userPrivileges = useSelector((state: RootState) => state.userPrivileges);
+  const userPrivileges = useSelector((state: RootState) => state.userPrivileges) as IPrivileges[] | [];
   const location = useLocation();
 
   useEffect(() => {
@@ -44,8 +45,6 @@ function App() {
     }
   }, [navigate, isAuthorized])
 
-
-  // Redirecting to the login page when the session expires
   useEffect(() => {
     if (!cookies['UniqueDeviceIdentifier']) {
       AuthService.Logout();
@@ -75,7 +74,11 @@ function App() {
       <Route path="/TEST" element={<TestPage />} />
       <Route path="/📦" element={<Spoiler />} />
 
-      {isAuthorized && ["UserEdit", "UserDelete", "UserCreate", "UserPrivilegesManaging"].some(privilege => userPrivileges.includes(privilege)) && (<Route path="/Service/Account_management" element={<AccountManagementPage />}>
+      {isAuthorized
+      && ["UserEdit", "UserDelete", "UserCreate", "UserPrivilegesManaging"].some(privilege => 
+        userPrivileges.some(userPrivilege => userPrivilege.Title === privilege)
+      )
+      && (<Route path="/Service/Account_management" element={<AccountManagementPage />}>
         <Route path=":accountId" element={<AccountModalWindow />} />
       </Route> )}
 

@@ -144,10 +144,14 @@ const AuthService = {
             
             const decodedToken: any = jwtDecode(accessToken);
 
+            // console.log(decodedToken);
+
             store.dispatch({
                 type: 'USER_PRIVILEGES',
                 payload: decodedToken.privileges ?? null
             });
+
+            // console.log(decodedToken.privileges);
         }
     },
     Logout: async () => {

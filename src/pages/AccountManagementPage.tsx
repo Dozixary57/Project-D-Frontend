@@ -48,7 +48,7 @@ const AccountManagementPage = () => {
         <title>Home | Project D</title>
       </Helmet>
       <Navbar />
-      <Outlet context={[accountDetails, setAccountDetails]} />
+      <Outlet />
       <main className="ACCOUNT_MANAGEMENT_PAGE">
         <div className="PageHeader">
           <p>Account management</p>

@@ -12,10 +12,9 @@ const AccountModalWindow = () => {
   const ParamId = useParams<{ accountId: string }>().accountId;
   const navigate = useNavigate();
 
-  type AccountContextType = [IAccount | null, React.Dispatch<React.SetStateAction<IAccount | null>>];
-  const [accountDetails, setAccountDetails] = useOutletContext<AccountContextType>();
+  const [accountDetails, setAccountDetails] = useState<IAccount | null>(null);
 
-  const userPrivileges = useSelector((state: RootState) => state.userPrivileges);
+  const userPrivileges = useSelector((state: RootState) => state.userPrivileges) as IPrivileges[] | [];
 
   const [userStatusesList, setUserStatusesList] = useState<IStatus[]>([]);
 
@@ -28,16 +27,23 @@ const AccountModalWindow = () => {
   const [currentUserCurrentPrivilegesList, setCurrentUserCurrentPrivilegesList] = useState<IPrivileges[]>([]);
   const [currentUserAvailablePrivilegesList, setCurrentUserAvailablePrivilegesList] = useState<IPrivileges[]>([]);
 
-  // const [currentUserPrivilegesList, setCurrentUserPrivilegesList] = useState<IPrivileges[]>([]);
+  const [inFormCurrentPrivilegesList, setInFormCurrentPrivilegesList] = useState<IPrivileges[]>([]);
+  const [inFormAvailablePrivilegesList, setInFormAvailablePrivilegesList] = useState<IPrivileges[]>([]);
+
+  const [draggableCurrentPrivilege, setDraggableCurrentPrivilege] = useState<IPrivileges | null>(null);
 
   useEffect(() => {
-    if (!accountDetails) {
-      AccountService.getAccountById(ParamId).then((account) => {
-        setAccountDetails(account);
-        setInFormAccountDetails(account);
-        setCurrentUserCurrentPrivilegesList(account?.Privileges || []);
-      });
-    }
+    AccountService.getAccountById(ParamId).then((account) => {
+      setAccountDetails(account);
+      setInFormAccountDetails(account);
+      setCurrentUserCurrentPrivilegesList(account?.Privileges || []);
+      const currentPrivilegesTitles = account.Privileges ? account.Privileges.map((privilege: IPrivileges) => privilege.Title) : [];
+      const availablePrivileges = userPrivileges.filter((privilege: IPrivileges) => !currentPrivilegesTitles.includes(privilege.Title));
+      setCurrentUserAvailablePrivilegesList(availablePrivileges);
+
+      setInFormCurrentPrivilegesList(account?.Privileges || []);
+      setInFormAvailablePrivilegesList(availablePrivileges || []);
+    });
 
     AccountService.getUserStatuses().then((result) => {
       setUserStatusesList(result);
@@ -49,17 +55,6 @@ const AccountModalWindow = () => {
       document.body.style.overflow = 'initial';
     };
   }, [])
-
-  useEffect(() => {
-    setInFormAccountDetails(accountDetails);
-  }, [accountDetails]);
-
-  useEffect(() => {
-    const currentPrivilegesTitles = currentUserCurrentPrivilegesList.map(privilege => privilege.Title);
-    const availablePrivileges = userPrivileges.filter((privilege: string) => !currentPrivilegesTitles.includes(privilege));
-    // setCurrentUserAvailablePrivilegesList(availablePrivileges);
-    console.log(availablePrivileges)
-  }, [currentUserCurrentPrivilegesList])
 
   const restoreFormData = () => {
     setInFormAccountDetails(accountDetails);
@@ -74,13 +69,50 @@ const AccountModalWindow = () => {
     }
   }, [accountDetails, inFormAccountDetails]);
 
+  const dragStartHandler = (event: React.DragEvent<HTMLDivElement>, privilege: IPrivileges) => {
+    setDraggableCurrentPrivilege(privilege);
+  }
+
+  const dragEndHandler = (event: React.DragEvent<HTMLDivElement>) => {
+    setDraggableCurrentPrivilege(null);
+  }
+
+  const dragOverHandler = (event: React.DragEvent<HTMLDivElement>) => {
+    event.preventDefault();
+  }
+
+  const dragLeaveHandler = (event: React.DragEvent<HTMLDivElement>) => {
+  }
+
+  const dragDropHandlerCurrentPrivilegesList = (event: React.DragEvent<HTMLDivElement>) => {
+    event.preventDefault();
+
+    if (draggableCurrentPrivilege !== null && !inFormCurrentPrivilegesList.includes(draggableCurrentPrivilege)) {
+      setInFormCurrentPrivilegesList([...inFormCurrentPrivilegesList, draggableCurrentPrivilege]);
+      setInFormAvailablePrivilegesList(inFormAvailablePrivilegesList.filter((privilege) => privilege.Title !== draggableCurrentPrivilege.Title));
+    }
+  }
+
+  const dragDropHandlerAvailablePrivilegesList = (event: React.DragEvent<HTMLDivElement>) => {
+    event.preventDefault();
+
+    if (draggableCurrentPrivilege !== null && !inFormAvailablePrivilegesList.includes(draggableCurrentPrivilege)) {
+      setInFormAvailablePrivilegesList([...inFormAvailablePrivilegesList, draggableCurrentPrivilege]);
+      setInFormCurrentPrivilegesList(inFormCurrentPrivilegesList.filter((privilege) => privilege.Title !== draggableCurrentPrivilege.Title));
+    }
+  }
+
   return (
     <div className="modal-overlay" onClick={() => navigate(-1)}>
       <hr />
       <div className="modal-content" onClick={(e) => e.stopPropagation()}>
         <div className="content-header">
           <p style={dataIsModified ? { opacity: 1 } : { opacity: 0.2 }}>{dataIsModified ? 'Changes are not saved.' : 'Changes are saved.'}</p>
-          <h2><span>{accountDetails?.Username}</span> {accountDetails?.AccountStatus && (<span style={accountDetails?.AccountStatus === 'Active' ? { color: '#0F0' } : accountDetails.AccountStatus === 'Frozen' ? { color: '#00b0cf' } : { color: '#f00' }}>[ {accountDetails.AccountStatus} ]</span>)}</h2>
+          {isCurrentUser ? (
+            <h2><span>{accountDetails?.Username}</span> <span style={{ color: '#7c68ff' }}>[ Current user ]</span></h2>
+          ) : (
+            <h2><span>{accountDetails?.Username}</span> {accountDetails?.AccountStatus && (<span style={accountDetails?.AccountStatus === 'Active' ? { color: '#0F0' } : accountDetails.AccountStatus === 'Frozen' ? { color: '#00b0cf' } : { color: '#f00' }}>[ {accountDetails.AccountStatus} ]</span>)}</h2>
+          )}
           <button style={dataIsModified ? { opacity: 1 } : { opacity: 0.2 }} onClick={() => restoreFormData()} disabled={!dataIsModified}>Restore</button>
         </div>
 
@@ -171,27 +203,62 @@ const AccountModalWindow = () => {
             </div>
           </div>
         </div>
-        
+
         <div className='user-privileges'>
           <div className='current-privileges'>
             <p>Current privileges</p>
-            <div className='current-privileges-list'>
-              {currentUserCurrentPrivilegesList && currentUserCurrentPrivilegesList.length > 0 && currentUserCurrentPrivilegesList.map((privilege) =>
-                <p key={privilege._id}>{privilege.Title}</p>
-              )}
+            <div
+              className='current-privileges-list'
+              onDrop={(e) => dragDropHandlerCurrentPrivilegesList(e)}
+              onDragOver={(e) => dragOverHandler(e)}
+              onDragLeave={(e) => dragLeaveHandler(e)}
+              style={{ userSelect: 'none' }}
+            >
+              {inFormCurrentPrivilegesList && inFormCurrentPrivilegesList.length > 0
+                && inFormCurrentPrivilegesList.map((privilege) =>
+                  <p
+                    key={privilege._id}
+                    draggable={!isCurrentUser && userPrivileges.map((privilege: IPrivileges) => privilege.Title).includes(privilege.Title) ? true : false}
+                    onDragStart={(e) => dragStartHandler(e, privilege)}
+                    onDragEnd={(e) => dragEndHandler(e)}
+                    className={!isCurrentUser && userPrivileges.map((privilege: IPrivileges) => privilege.Title).includes(privilege.Title) ? 'available' : 'unavailable'}
+                  >
+                    {privilege.Title}
+                  </p>
+                )}
             </div>
           </div>
-          {userPrivileges && userPrivileges.includes('UserPrivilegesManaging') && !isCurrentUser && <div className='available-privileges'>
-            <p>Available privileges</p>
-            <div className='available-privileges-list'>
-              {currentUserAvailablePrivilegesList && currentUserAvailablePrivilegesList.length > 0 && currentUserAvailablePrivilegesList.map((privilege) =>
-                <p key={privilege._id}>{privilege.Title}</p>
-              )}
-            </div>
-          </div>}
+          {userPrivileges
+            && userPrivileges.map((privelege: IPrivileges) => privelege.Title).includes('UserPrivilegesManaging')
+            && !isCurrentUser
+            && <div className='available-privileges'>
+              <p>Available privileges</p>
+              <div
+                className='available-privileges-list'
+                onDrop={(e) => dragDropHandlerAvailablePrivilegesList(e)}
+                onDragOver={(e) => dragOverHandler(e)}
+                onDragLeave={(e) => dragLeaveHandler(e)}
+                style={{ userSelect: 'none' }}
+              >
+                {inFormAvailablePrivilegesList && inFormAvailablePrivilegesList.length > 0
+                  && inFormAvailablePrivilegesList.map((privilege) =>
+                    <p
+                      key={privilege._id}
+                      draggable={true}
+                      onDragStart={(e) => dragStartHandler(e, privilege)}
+                      onDragEnd={(e) => dragEndHandler(e)}
+                      onDrop={(e) => dragDropHandlerAvailablePrivilegesList(e)}
+                      className={!isCurrentUser && userPrivileges.map((privilege: IPrivileges) => privilege.Title).includes(privilege.Title) ? 'available' : 'unavailable'}
+                    >
+                      {privilege.Title}
+                    </p>
+                  )}
+              </div>
+            </div>}
         </div>
 
-        <div className="action-buttons">
+        {!isCurrentUser? (
+          <div className="action-buttons">
           {accountDetails?.AccountStatus === 'Frozen' ?
             <button style={{ backgroundColor: 'rgba(0, 255, 0, 0.35)' }}>Activate</button>
             :
@@ -204,6 +271,9 @@ const AccountModalWindow = () => {
           }
           <button style={dataIsModified ? { opacity: 1 } : { opacity: 0.2 }} disabled={!dataIsModified}>Save changes</button>
         </div>
+        ) : (
+          <button className='action-button' style={dataIsModified ? { opacity: 1 } : { opacity: 0.2 }} disabled={!dataIsModified}>Save changes</button>
+        )}
       </div>
       <hr />
     </div>
