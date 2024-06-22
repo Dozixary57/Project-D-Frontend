@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import dataLoadingSprite from "../../images/DataLoadingSprite.webp";
 
 const LoadingImage = () => {
@@ -21,7 +21,11 @@ const LoadingImage = () => {
         };
     }, []);
 
-    return <img ref={imgRef} src={dataLoadingSprite} alt="Loading..." />;
+    return (
+        <div className='loading-image'>
+            <img ref={imgRef} src={dataLoadingSprite} alt="Loading..." />
+        </div>
+    );
 };
 
 export default LoadingImage;

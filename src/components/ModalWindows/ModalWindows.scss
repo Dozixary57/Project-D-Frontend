@@ -11,7 +11,8 @@
    background-color: rgba(0, 0, 0, 0.7);
    overflow-y: scroll;
 
-   > hr {
+   >hr {
+      min-height: 4em;
       margin: 0;
       height: 100%;
       border: none;
@@ -72,6 +73,7 @@
             cursor: pointer;
             background-color: rgba(white, 0.05);
          }
+
          >button:hover {
             color: white;
             background-color: rgba(white, 0.15);
@@ -82,79 +84,94 @@
          display: grid;
          grid-template-columns: 1fr 18em;
          gap: 1.5em;
-         
-         .left-side, .right-side {
+
+         >div {
             width: 100%;
             display: flex;
             flex-direction: column;
-            gap: 1em;
+            gap: 0.75em;
 
-            >div {
+            >p {
+               width: max-content;
+               margin: 0;
+               padding: 0.2em 0.4em;
+               font-size: 1.4em;
+               color: #AAA;
+               border-radius: 0.2em;
+               background-color: #3a3a3a;
+            }
+
+            >input {
                width: 100%;
-               display: flex;
-               flex-direction: column;
-               gap: 0.75em;
-
-               >p {
-                  width: max-content;
-                  margin: 0;
-                  padding: 0.2em 0.4em;
-                  font-size: 1.4em;
-                  color: #AAA;
-                  border-radius: 0.2em;
-                  background-color: #3a3a3a;
-               }
-
-               >input {
-                  width: 100%;
-                  box-sizing: border-box;
-                  font-size: 1.4em;
-                  color: #AAA;
-                  font-family: 'F77 Minecraft', PressStart2P-Regular, 'Cascadia Mono', sans-serif;
-                  border-radius: 0.2em;
-                  text-indent: 0.4em;
-                  padding: 0.4em 0;
-                  border: none;
-                  outline: none;
-                  background-color: rgba(black, 0.4);
-               }
-
-               >select {
-                  width: 100%;
-                  box-sizing: border-box;
-                  font-size: 1.4em;
-                  color: #AAA;
-                  font-family: 'F77 Minecraft', PressStart2P-Regular, 'Cascadia Mono', sans-serif;
-                  border-radius: 0.2em;
-                  text-indent: 0.4em;
-                  padding: 0.4em 0;
-                  border: none;
-                  outline: none;
-                  background-color: rgba(black, 0.4);
-
-                  >option {
-                     background-color: rgba(black, 0.8);
-                  }
-               }
-            }
-            >div:nth-of-type(1) {
-               >input {
-                  text-indent: 0;
-                  text-align: center;
-               }
-            }
-
-            .profile-image {
-               align-self: center;
                box-sizing: border-box;
-               width: 100%;
+               font-size: 1.4em;
+               color: #d4d4d4;
+               font-family: 'F77 Minecraft', PressStart2P-Regular, 'Cascadia Mono', sans-serif;
+               border-radius: 0.2em;
+               text-indent: 0.4em;
+               padding: 0.4em 0;
+               border: none;
+               outline: none;
+            }
 
-               >img {
-                  width: 100%;
-                  border-radius: 0.2em;
+            >select {
+               width: 100%;
+               box-sizing: border-box;
+               font-size: 1.4em;
+               color: #ffffff;
+               font-family: 'F77 Minecraft', PressStart2P-Regular, 'Cascadia Mono', sans-serif;
+               border-radius: 0.2em;
+               text-indent: 0.4em;
+               padding: 0.4em 0;
+               border: none;
+               outline: none;
+
+               >option {
+                  background-color: rgba(black, 0.8);
                }
             }
          }
+
+         >div:nth-of-type(1) {
+            grid-area: 1 / 1 / 2 / 2;
+
+            >input {
+               text-indent: 0;
+               text-align: center;
+            }
+         }
+
+         >div:nth-of-type(2) {
+            grid-area: 2 / 1 / 3 / 2;
+         }
+
+         >div:nth-of-type(3) {
+            grid-area: 3 / 1 / 4 / 2;
+         }
+
+         >div:nth-of-type(4) {
+            grid-area: 4 / 1 / 5 / 2;
+         }
+
+         >div:nth-of-type(5) {
+            grid-area: 1 / 2 / 4 / 3;
+         }
+
+         >div:nth-of-type(6) {
+            grid-area: 4 / 2 / 5 / 3;
+         }
+
+         .profile-image {
+            align-self: center;
+            box-sizing: border-box;
+            width: 100%;
+
+            >img {
+               width: 100%;
+               border-radius: 0.2em;
+            }
+         }
+
       }
 
       .user-privileges {
@@ -162,7 +179,8 @@
          grid-template-columns: repeat(2, 1fr);
          gap: 2em;
 
-         .current-privileges, .available-privileges {
+         .current-privileges,
+         .available-privileges {
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -178,7 +196,8 @@
                background-color: #3a3a3a;
             }
 
-            .current-privileges-list, .available-privileges-list {
+            .current-privileges-list,
+            .available-privileges-list {
                width: 100%;
                height: 100%;
                display: flex;
@@ -220,6 +239,7 @@
             color: #AAA;
             cursor: pointer;
          }
+
          >button:hover {
             color: white;
             background-color: rgba(white, 0.15);
@@ -228,9 +248,11 @@
          >button:nth-of-type(1) {
             grid-area: 1 / 1 / 2 / 2;
          }
+
          >button:nth-of-type(2) {
             grid-area: 1 / 2 / 2 / 3;
          }
+
          >button:nth-of-type(3) {
             grid-area: 2 / 1 / 3 / 3;
             background-color: rgba(white, 0.05);
@@ -265,7 +287,33 @@
    cursor: not-allowed;
    background-color: rgba(white, 0.02);
 }
+
 .available {
    cursor: grab;
    background-color: rgba(white, 0.075);
+}
+
+.loading-image {
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   width: 100%;
+   height: 100%;
+
+   >img {
+      width: 14em;
+   }
+}
+
+.activeInput {
+   background-color: rgba(black, 0.4);
+}
+
+.disabledInput {
+   // cursor: not-allowed;
+   background-color: rgba(white, 0.05);
+}
+
+.current-user {
+   color: #7c68ff;
 }

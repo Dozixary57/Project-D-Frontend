@@ -34,18 +34,16 @@ const AccountManagementPage = () => {
       setSelectedAccountId(accountId);
       AccountService.getAccountById(accountId).then((account) => {
         setAccountDetails(account);
-        // console.log(account)
         setAccountDetailsIsLoading(false);
       });
     }
   };
 
-
   return (
     <>
       <Helmet>
         <meta charSet="utf-8" />
-        <title>Home | Project D</title>
+        <title>Account management | Project D</title>
       </Helmet>
       <Navbar />
       <Outlet />
@@ -58,6 +56,13 @@ const AccountManagementPage = () => {
             <div className="SearchBar">
               <input type="text" placeholder="Search..." />
             </div>
+
+            <Link to="0" className="CreateNewAccount">
+              <button>
+                Create new account
+              </button>
+            </Link>
+
             <div className="AccountList">
               {accountList && accountList.length > 0 ?
                 accountList.map((account) => (
@@ -66,8 +71,14 @@ const AccountManagementPage = () => {
                       <img src={require("../images/ThePlagueDoctor.png")} alt="Account Icon" />
                     </div>
                     <div className="AccountInfo">
-                      <p>{account.Username}</p>
-                      <p>{account.Email}</p>
+                      <div>
+                        <p>{account.Username}</p>
+                        <p>{account.Email}</p>
+                      </div>
+                      {!selectedAccountId &&
+                      <div>
+                        {account._id === GetCurrentUserId() ? (<p className="current-user">[ Current user ]</p>) : (<p style={account.AccountStatus === 'Active' ? { color: '#0F0' } : account.AccountStatus === 'Frozen' ? { color: '#00b0cf' } : { color: '#f00' }}>{account.AccountStatus? `[ ${account.AccountStatus} ]` : ''}</p>)}
+                      </div>}
                     </div>
                   </button>
                 ))

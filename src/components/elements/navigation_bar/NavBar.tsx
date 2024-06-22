@@ -8,11 +8,12 @@ import { NavUsername } from "../../Username";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../ReduxStore/store";
 import authService from "../../../backend/services/authService";
+import { IPrivileges } from "../../../Interfaces/IAccounts";
 
 export function Navbar() {
 
   const isAuthorized = useSelector((state: RootState) => state.isAuthorized);
-  const userPrivileges = useSelector((state: RootState) => state.userPrivileges);
+  const userPrivileges = useSelector((state: RootState) => state.userPrivileges) as IPrivileges[] | [];
 
   const [isOverflowing, setIsOverflowing] = useState(false);
 
@@ -269,7 +270,9 @@ export function Navbar() {
                       </p>
                     </div>
                   </Link>
-                  {userPrivileges && ["UserEdit", "UserDelete", "UserCreate", "UserPrivilegesManaging"].some(privilege => userPrivileges.includes(privilege)) && (
+                  {userPrivileges && ["UserEdit", "UserDelete", "UserCreate", "UserPrivilegesManaging"].some(privilege => 
+                    userPrivileges.some(userPrivilege => userPrivilege.Title === privilege)
+                  ) && (
                     <Link to="/Service/Account_management">
                       <div>
                         <p>

@@ -1,6 +1,5 @@
 .ACCOUNT_MANAGEMENT_PAGE {
   width: 50em;
-  height: 50em;
   margin: 4em auto 0 auto;
   border-radius: 0.2em;
 
@@ -23,6 +22,31 @@
     flex-direction: row;
     box-sizing: border-box;
     gap: 1em;
+
+    .CreateNewAccount {
+      margin-top: 1em;
+      display: block;
+      width: 100%;
+      padding: 0 1em;
+      box-sizing: border-box;
+
+      >button {
+        padding: 1.45em 0;
+        width: 100%;
+        border-radius: 0.2em;
+        outline: none;
+        border: none;
+        color: #AAA;
+        font-size: 1.2em;
+        font-family: 'F77 Minecraft', PressStart2P-Regular, 'Cascadia Mono', sans-serif;
+        background-color: rgba(white, 0.05);  
+      }
+      >button:hover {
+        cursor: pointer;
+        color: white;
+        background-color: rgba(white, 0.15);
+      }
+    }
 
     .AccountContent {
       width: 100%;
@@ -74,6 +98,8 @@
           transition: all 0.1s ease-in-out;
 
           .AccountIcon {
+            width: 100%;
+            flex-shrink: 0;
             width: 6em;
             height: 6em;
 
@@ -85,17 +111,27 @@
           }
 
           .AccountInfo {
+            flex-shrink: 1;
+            width: 100%;
             display: flex;
-            flex-direction: column;
+            flex-direction: row;
+            justify-content: space-between;
             margin-left: 1.5em;
-            gap: 1.25em;
+            // gap: 1.25em;
 
-            > p {
-              text-align: start;
-              margin: 0;
-              font-family: 'F77 Minecraft', PressStart2P-Regular, 'Cascadia Mono', sans-serif;
-              font-size: 1.5em;
-              transition: all 0.1s ease-in-out;
+            >div {
+              display: flex;
+              flex-direction: column;
+              // align-items: flex-start;
+              gap: 1.25em;
+
+              > p {
+                text-align: start;
+                margin: 0;
+                font-family: 'F77 Minecraft', PressStart2P-Regular, 'Cascadia Mono', sans-serif;
+                font-size: 1.5em;
+                transition: all 0.1s ease-in-out;
+              }  
             }
           }
         }
@@ -111,7 +147,7 @@
     }
 
     .AccountDetailsPanel {
-      width: 35em;
+      width: 38em;
       box-sizing: border-box;
       border-radius: 0.2em;
       padding: 0.5em;
