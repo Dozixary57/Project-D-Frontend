@@ -148,7 +148,7 @@ const AuthService = {
 
             store.dispatch({
                 type: 'USER_PRIVILEGES',
-                payload: decodedToken.privileges ?? null
+                payload: decodedToken.Privileges ?? null
             });
 
             // console.log(decodedToken.privileges);

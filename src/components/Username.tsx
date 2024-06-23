@@ -1,9 +1,6 @@
 import { useEffect, useState } from 'react';
 import { jwtDecode } from 'jwt-decode';
-
-interface IPayload {
-  username: string;
-}
+import { IAccount } from '../Interfaces/IAccounts';
 
 export function Username() {
   const [username, setUsername] = useState<string>('');
@@ -12,8 +9,8 @@ export function Username() {
     function handleTokenChange() {
       const token = localStorage.getItem('AccessToken');
       if (token) {
-        const decoded: IPayload = jwtDecode(token);
-        setUsername(decoded?.username);
+        const decoded: IAccount = jwtDecode(token);
+        setUsername(decoded?.Username);
       }
     }
 
@@ -38,8 +35,8 @@ export function NavUsername() {
     function handleTokenChange() {
       const token = localStorage.getItem('AccessToken');
       if (token) {
-        const decoded: IPayload = jwtDecode(token);
-        setUsername(decoded?.username);
+        const decoded: IAccount = jwtDecode(token);
+        setUsername(decoded?.Username);
       }
     }
 
@@ -52,7 +49,7 @@ export function NavUsername() {
     };
   }, []);
 
-  const displayUsername = username.length > 9 ? `${username.slice(0, 8)}...` : username;
+  const displayUsername = username?.length > 9 ? `${username.slice(0, 8)}...` : username;
 
   return (
     <>{displayUsername}</>

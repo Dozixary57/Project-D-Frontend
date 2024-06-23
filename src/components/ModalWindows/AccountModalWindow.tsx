@@ -1,14 +1,13 @@
 import { useContext, useEffect, useState } from 'react';
 import "./ModalWindows.scss"
-import { useNavigate, useOutletContext, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { IAccount, IPrivileges, IStatus } from '../../Interfaces/IAccounts';
 import AccountService from '../../backend/services/accountService';
 import { TimestampToInputValue } from '../../tools/DateTimeFormatter';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../ReduxStore/store';
-import { GetCurrentUserId } from '../GetUsersData/GetUsersData';
+import { GetCurrentUserId, CheckCurrentUserPrivilege } from '../GetUserData/GetUserData';
 import LoadingImage from '../LoadingImage/LoadingImage';
-import { setTimeout } from 'timers/promises';
 
 const AccountModalWindow = () => {
   const ParamId = useParams<{ accountId: string }>().accountId;
@@ -33,7 +32,6 @@ const AccountModalWindow = () => {
   const [draggableCurrentPrivilege, setDraggableCurrentPrivilege] = useState<IPrivileges | null>(null);
 
   const [isUser_EditPrivilege, setIsUser_EditPrivilege] = useState<boolean>(userPrivileges.map((privilege: IPrivileges) => privilege.Title).includes('UserEdit'));
-  const [isUser_UserPrivilegesManaging, setIsUser_UserPrivilegesManaging] = useState<boolean>(userPrivileges.map((privilege: IPrivileges) => privilege.Title).includes('UserPrivilegesManaging'));
 
   const setInFormAccountDetailsData = () => {
     if (accountDetails) {
@@ -299,10 +297,10 @@ const AccountModalWindow = () => {
                         && inFormAccountDetails?.Privileges.map((privilege) =>
                           <p
                             key={privilege._id}
-                            draggable={!isCurrentUser && isUser_UserPrivilegesManaging && userPrivileges.map((privilege: IPrivileges) => privilege.Title).includes(privilege.Title) ? true : false}
+                            draggable={!isCurrentUser && CheckCurrentUserPrivilege.isUserPrivilegesManaging() && userPrivileges.map((privilege: IPrivileges) => privilege.Title).includes(privilege.Title) ? true : false}
                             onDragStart={(e) => dragStartHandler(e, privilege)}
                             onDragEnd={(e) => dragEndHandler(e)}
-                            className={!isCurrentUser && isUser_UserPrivilegesManaging && userPrivileges.map((privilege: IPrivileges) => privilege.Title).includes(privilege.Title) ? 'available' : 'unavailable'}
+                            className={!isCurrentUser && CheckCurrentUserPrivilege.isUserPrivilegesManaging() && userPrivileges.map((privilege: IPrivileges) => privilege.Title).includes(privilege.Title) ? 'available' : 'unavailable'}
                           >
                             {privilege.Title}
                           </p>
@@ -310,7 +308,7 @@ const AccountModalWindow = () => {
                     </div>
                   </div>
                   {userPrivileges
-                    && isUser_UserPrivilegesManaging
+                    && CheckCurrentUserPrivilege.isUserPrivilegesManaging()
                     && !isCurrentUser
                     && <div className='available-privileges'>
                       <p>Available privileges</p>
@@ -339,28 +337,29 @@ const AccountModalWindow = () => {
                 </div>)}
 
             {!isCurrentUser ? (
-              <div className="action-buttons">
-                {inFormAccountDetails?.AccountStatus === 'Frozen' ?
-                  <button onClick={() => activateAccount()} style={{ backgroundColor: 'rgba(0, 255, 0, 0.35)' }}>Activate</button>
-                  :
-                  <button onClick={() => freezeAccount()} style={{ backgroundColor: 'rgba(0, 176, 207, 0.35)' }}>Freeze</button> || <button style={{ backgroundColor: '#00b0cf' }}>Freeze</button>
-                }
-                {inFormAccountDetails?.AccountStatus === 'Blocked' ?
-                  <button onClick={() => activateAccount()} style={{ backgroundColor: 'rgba(0, 255, 0, 0.35)' }}>Activate</button>
-                  :
-                  <button onClick={() => blockAccount()} style={{ backgroundColor: 'rgba(255, 0, 0, 0.35)' }}>Block</button> || <button style={{ backgroundColor: '#f00' }}>Block</button>
-                }
-                <button
-                  style={dataIsModified ? { opacity: 1 } : { opacity: 0.2 }}
-                  disabled={!dataIsModified}
-                  onClick={() => console.log(inFormAccountDetails)}
-                >Save changes</button>
-              </div>
+              <>
+                <div className="action-buttons">
+                  {inFormAccountDetails?.AccountStatus === 'Frozen' ?
+                    <button onClick={() => activateAccount()} style={{ backgroundColor: 'rgba(0, 255, 0, 0.35)' }}>Activate</button>
+                    :
+                    <button onClick={() => freezeAccount()} style={{ backgroundColor: 'rgba(0, 176, 207, 0.35)' }}>Freeze</button> || <button style={{ backgroundColor: '#00b0cf' }}>Freeze</button>
+                  }
+                  {inFormAccountDetails?.AccountStatus === 'Blocked' ?
+                    <button onClick={() => activateAccount()} style={{ backgroundColor: 'rgba(0, 255, 0, 0.35)' }}>Activate</button>
+                    :
+                    <button onClick={() => blockAccount()} style={{ backgroundColor: 'rgba(255, 0, 0, 0.35)' }}>Block</button> || <button style={{ backgroundColor: '#f00' }}>Block</button>
+                  }
+                  <button
+                    style={dataIsModified ? { opacity: 1 } : { opacity: 0.2 }}
+                    disabled={!dataIsModified}
+                    onClick={() => console.log(inFormAccountDetails)}
+                  >Save changes</button>
+                </div>
+                <button className='delete-button'>Delete account</button>
+              </>
             ) : (
               <button className='action-button' style={dataIsModified ? { opacity: 1 } : { opacity: 0.2 }} disabled={!dataIsModified}>Save changes</button>
             )}
-
-
           </>
         }
       </div>

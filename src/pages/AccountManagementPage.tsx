@@ -9,7 +9,7 @@ import { DateFormatter } from "../tools/DateTimeFormatter";
 import LoadingImage from "../components/LoadingImage/LoadingImage";
 import { Link, Outlet } from "react-router-dom";
 import { IAccount } from "../Interfaces/IAccounts";
-import { GetCurrentUserId } from "../components/GetUsersData/GetUsersData";
+import { GetCurrentUserId } from "../components/GetUserData/GetUserData";
 
 const AccountManagementPage = () => {
   const userPrivileges = useSelector((state: RootState) => state.userPrivileges);

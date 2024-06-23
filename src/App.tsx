@@ -76,7 +76,7 @@ function App() {
 
       {isAuthorized
       && ["UserEdit", "UserDelete", "UserCreate", "UserPrivilegesManaging"].some(privilege => 
-        userPrivileges.some(userPrivilege => userPrivilege.Title === privilege)
+        userPrivileges?.some(userPrivilege => userPrivilege.Title === privilege)
       )
       && (<Route path="/Service/Account_management" element={<AccountManagementPage />}>
         <Route path=":accountId" element={<AccountModalWindow />} />
