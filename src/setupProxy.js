@@ -109,6 +109,14 @@ module.exports = function (fastify) {
   );
 
   fastify.use(
+    '/Server/Account/Update',
+    createProxyMiddleware({
+      pathRewrite: { '^/Server/Account/Update': '/Account/Update' },
+      changeOrigin: true,
+    })
+  );
+
+  fastify.use(
     '/User/Statuses',
     createProxyMiddleware({
       target: `${process.env.REACT_APP_AUTH_API}`,

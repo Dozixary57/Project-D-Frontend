@@ -50,13 +50,14 @@
 
     .AccountContent {
       width: 100%;
-      border-radius: 0.2em;
+      border-radius: 0.3em;
       background-color: rgba(black, 0.2);
 
       .SearchBar {
         width: 100%;
         box-sizing: border-box;
         padding: 0.25em 1em;
+        border-radius: 0.3em;
         background-color: rgba(black, 0.2);
         
         > input {
@@ -77,7 +78,6 @@
       }
 
       .AccountList {
-        // margin-top: 1em;
         width: 100%;
         box-sizing: border-box;
         display: flex;

@@ -1,9 +1,9 @@
 import { useContext, useEffect, useState } from 'react';
 import "./ModalWindows.scss"
-import { useNavigate, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { IAccount, IPrivileges, IStatus } from '../../Interfaces/IAccounts';
 import AccountService from '../../backend/services/accountService';
-import { TimestampToInputValue } from '../../tools/DateTimeFormatter';
+import { InputValueToTimestamp, TimestampToInputValue } from '../../tools/DateTimeFormatter';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../ReduxStore/store';
 import { GetCurrentUserId, CheckCurrentUserPrivilege } from '../GetUserData/GetUserData';
@@ -13,8 +13,8 @@ const AccountModalWindow = () => {
   const ParamId = useParams<{ accountId: string }>().accountId;
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [privilegeDataIsLoading, setPrivilegeDataIsLoading] = useState<boolean>(true);
 
+  const [inputDateOfBirth, setInputDateOfBirth] = useState<string>('');
   const [accountDetails, setAccountDetails] = useState<IAccount | null>(null);
 
   const userPrivileges = useSelector((state: RootState) => state.userPrivileges) as IPrivileges[] | [];
@@ -49,18 +49,20 @@ const AccountModalWindow = () => {
       }
       if (account) {
         setAccountDetails(account);
+        setInputDateOfBirth(TimestampToInputValue(account.DateOfBirth));
       } else if (ParamId === '0') {
-        let newAccount:IAccount = {
+        let newAccount: IAccount = {
           Username: '',
           Status: {
             _id: '',
             Title: ''
           } as IStatus,
           Email: '',
-          DateOfBirth: new Date(),
+          DateOfBirth: '',
           Privileges: [] as IPrivileges[],
         } as IAccount;
         setAccountDetails(newAccount);
+        // setInputDateOfBirth(TimestampToInputValue(newAccount.DateOfBirth));
       }
     });
 
@@ -78,12 +80,11 @@ const AccountModalWindow = () => {
   useEffect(() => {
     if (ParamId === '0') {
       setIsLoading(false);
-      setPrivilegeDataIsLoading(false);
     }
   }, [])
 
   useEffect(() => {
-    
+
     setInFormAccountDetailsData();
   }, [accountDetails])
 
@@ -107,6 +108,17 @@ const AccountModalWindow = () => {
 
   const restoreFormData = () => {
     setInFormAccountDetailsData();
+    setInputDateOfBirth(TimestampToInputValue(accountDetails?.DateOfBirth || ''));
+  }
+
+  const saveFormData = () => {
+    if (inFormAccountDetails) {
+      setIsLoading(true);
+      AccountService.updateUserAccount(inFormAccountDetails).then((res) => {
+        setAccountDetails(res);
+        setIsLoading(false);
+      })
+    }
   }
 
   useEffect(() => {
@@ -116,13 +128,12 @@ const AccountModalWindow = () => {
       setDataIsModified(false);
     }
     if (inFormAccountDetails) {
-      setIsLoading(false);
+      const timer = window.setTimeout(() => {
+        setIsLoading(false);
+      }, 500);
+      return () => window.clearTimeout(timer);
     }
     if (!isLoading) {
-      const timer = window.setTimeout(() => {
-        setPrivilegeDataIsLoading(false);
-      }, 200);
-      return () => window.clearTimeout(timer);
     }
   }, [inFormAccountDetails]);
 
@@ -169,16 +180,17 @@ const AccountModalWindow = () => {
     <div className="modal-overlay" onClick={() => navigate(-1)}>
       <hr />
       <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+        {/* <p>{}</p> */}
         <div className="content-header">
-          <p style={dataIsModified ? { opacity: 1 } : { opacity: 0.2 }}>{dataIsModified ? 'Changes are not saved.' : 'Changes are saved.'}</p>
+          {!isCurrentUser && <p style={dataIsModified ? { opacity: 1 } : { opacity: 0.2 }}>{dataIsModified ? 'Changes are not saved.' : 'Changes are saved.'}</p>}
           {isLoading ? <h2>Loading...</h2> : <>
             {isCurrentUser ? (
-              <h2><span>{inFormAccountDetails?.Username? inFormAccountDetails.Username : ParamId === '0' ? 'Create new user' : 'Empty'}</span> <span style={{ color: '#7c68ff' }}>[ Current user ]</span></h2>
+              <h2><span>{inFormAccountDetails?.Username ? inFormAccountDetails.Username : ParamId === '0' ? 'Create new user' : 'Empty'}</span> <span style={{ color: '#7c68ff' }}>[ Current user ]</span></h2>
             ) : (
-              <h2><span>{inFormAccountDetails?.Username? inFormAccountDetails.Username : ParamId === '0' ? 'Create new user' : 'Empty'}</span> {inFormAccountDetails?.AccountStatus && (<span style={inFormAccountDetails?.AccountStatus === 'Active' ? { color: '#0F0' } : inFormAccountDetails.AccountStatus === 'Frozen' ? { color: '#00b0cf' } : { color: '#f00' }}>[ {inFormAccountDetails.AccountStatus} ]</span>)}</h2>
+              <h2><span>{inFormAccountDetails?.Username ? inFormAccountDetails.Username : ParamId === '0' ? 'Create new user' : 'Empty'}</span> {inFormAccountDetails?.AccountStatus && (<span style={inFormAccountDetails?.AccountStatus === 'Active' ? { color: '#0F0' } : inFormAccountDetails.AccountStatus === 'Frozen' ? { color: '#00b0cf' } : { color: '#f00' }}>[ {inFormAccountDetails.AccountStatus} ]</span>)}</h2>
             )}
           </>}
-          <button style={dataIsModified ? { opacity: 1 } : { opacity: 0.2 }} onClick={() => restoreFormData()} disabled={!dataIsModified}>Restore</button>
+          {!isCurrentUser && <button style={dataIsModified ? { opacity: 1 } : { opacity: 0.2 }} onClick={() => restoreFormData()} disabled={!dataIsModified}>Restore</button>}
         </div>
 
         {isLoading ?
@@ -194,6 +206,7 @@ const AccountModalWindow = () => {
                   style={{ backgroundColor: 'rgba(255, 255, 255, 0.05)' }}
                   value={inFormAccountDetails?._id || ''}
                   placeholder="ID"
+                  disabled
                 />
               </div>
               <div>
@@ -209,8 +222,8 @@ const AccountModalWindow = () => {
                       });
                     }
                   }}
-                  disabled={!isUser_EditPrivilege}
-                  className={!isUser_EditPrivilege ? 'disabledInput' : 'activeInput'}
+                  disabled={!isUser_EditPrivilege || isCurrentUser}
+                  className={!isUser_EditPrivilege || isCurrentUser ? 'disabledInput' : 'activeInput'}
                   placeholder="Username"
                 />
               </div>
@@ -226,8 +239,8 @@ const AccountModalWindow = () => {
                       });
                     }
                   }}
-                  disabled={!isUser_EditPrivilege}
-                  className={!isUser_EditPrivilege ? 'disabledInput' : 'activeInput'}
+                  disabled={!isUser_EditPrivilege || isCurrentUser}
+                  className={!isUser_EditPrivilege || isCurrentUser ? 'disabledInput' : 'activeInput'}
                 >
                   <option disabled={true} value={''}>Select Status</option>
                   {userStatusesList.map((status) => (
@@ -248,8 +261,8 @@ const AccountModalWindow = () => {
                       });
                     }
                   }}
-                  disabled={!isUser_EditPrivilege}
-                  className={!isUser_EditPrivilege ? 'disabledInput' : 'activeInput'}
+                  disabled={!isUser_EditPrivilege || isCurrentUser}
+                  className={!isUser_EditPrivilege || isCurrentUser ? 'disabledInput' : 'activeInput'}
                   placeholder="Email"
                 />
               </div>
@@ -260,81 +273,80 @@ const AccountModalWindow = () => {
                 <p>Date of Birth</p>
                 <input
                   type="date"
-                  value={inFormAccountDetails?.DateOfBirth && TimestampToInputValue(String(inFormAccountDetails?.DateOfBirth)) || ''}
+                  value={inputDateOfBirth || ''}
                   style={{ paddingRight: '0.5em', fontSize: '1.35em' }}
                   onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                    console.log(e.target.value)
-                    if (inFormAccountDetails) {
-                      setInFormAccountDetails({
-                        ...inFormAccountDetails,
-                        DateOfBirth: new Date(e.target.value),
-                      });
+                    setInputDateOfBirth(e.target.value);
+                  }}
+                  onBlur={(e: React.FocusEvent<HTMLInputElement>) => {
+                    if (inFormAccountDetails?.hasOwnProperty('DateOfBirth') && inputDateOfBirth?.length > 0) {
+
+                      if (!isNaN(Number(InputValueToTimestamp(inputDateOfBirth)))) {
+                        setInFormAccountDetails({
+                          ...inFormAccountDetails,
+                          DateOfBirth: InputValueToTimestamp(inputDateOfBirth),
+                        });
+                      }
                     }
                   }}
-                  disabled={!isUser_EditPrivilege}
-                  className={!isUser_EditPrivilege ? 'disabledInput' : 'activeInput'}
+                  disabled={!isUser_EditPrivilege || isCurrentUser}
+                  className={!isUser_EditPrivilege || isCurrentUser ? 'disabledInput' : 'activeInput'}
                 />
               </div>
             </div>
 
-            {privilegeDataIsLoading ?
-              (
-                <LoadingImage />
-              )
-              :
-              (
-                <div className='user-privileges'>
-                  <div className='current-privileges'>
-                    <p>Current privileges</p>
-                    <div
-                      className='current-privileges-list'
-                      onDrop={(e) => dragDropHandlerCurrentPrivilegesList(e)}
-                      onDragOver={(e) => dragOverHandler(e)}
-                      onDragLeave={(e) => dragLeaveHandler(e)}
-                      style={{ userSelect: 'none' }}
-                    >
-                      {inFormAccountDetails?.Privileges && inFormAccountDetails?.Privileges.length > 0
-                        && inFormAccountDetails?.Privileges.map((privilege) =>
-                          <p
-                            key={privilege._id}
-                            draggable={!isCurrentUser && CheckCurrentUserPrivilege.isUserPrivilegesManaging() && userPrivileges.map((privilege: IPrivileges) => privilege.Title).includes(privilege.Title) ? true : false}
-                            onDragStart={(e) => dragStartHandler(e, privilege)}
-                            onDragEnd={(e) => dragEndHandler(e)}
-                            className={!isCurrentUser && CheckCurrentUserPrivilege.isUserPrivilegesManaging() && userPrivileges.map((privilege: IPrivileges) => privilege.Title).includes(privilege.Title) ? 'available' : 'unavailable'}
-                          >
-                            {privilege.Title}
-                          </p>
-                        )}
-                    </div>
-                  </div>
-                  {userPrivileges
-                    && CheckCurrentUserPrivilege.isUserPrivilegesManaging()
-                    && !isCurrentUser
-                    && <div className='available-privileges'>
-                      <p>Available privileges</p>
-                      <div
-                        className='available-privileges-list'
-                        onDrop={(e) => dragDropHandlerAvailablePrivilegesList(e)}
-                        onDragOver={(e) => dragOverHandler(e)}
-                        onDragLeave={(e) => dragLeaveHandler(e)}
-                        style={{ userSelect: 'none' }}
+            <div className='user-privileges'>
+              <div className='current-privileges'>
+                <p>Current privileges</p>
+                <div
+                  className='current-privileges-list'
+                  onDrop={(e) => dragDropHandlerCurrentPrivilegesList(e)}
+                  onDragOver={(e) => dragOverHandler(e)}
+                  onDragLeave={(e) => dragLeaveHandler(e)}
+                  style={{ userSelect: 'none' }}
+                >
+                  {inFormAccountDetails?.Privileges && inFormAccountDetails?.Privileges.length > 0
+                    && inFormAccountDetails?.Privileges.map((privilege) =>
+                      <p
+                        key={privilege._id}
+                        draggable={!isCurrentUser && CheckCurrentUserPrivilege.isUserPrivilegesManaging() && userPrivileges.map((privilege: IPrivileges) => privilege.Title).includes(privilege.Title) ? true : false}
+                        onDragStart={(e) => dragStartHandler(e, privilege)}
+                        onDragEnd={(e) => dragEndHandler(e)}
+                        className={!isCurrentUser && CheckCurrentUserPrivilege.isUserPrivilegesManaging() && userPrivileges.map((privilege: IPrivileges) => privilege.Title).includes(privilege.Title) ? 'available' : 'unavailable'}
                       >
-                        {inFormAvailablePrivilegesList && inFormAvailablePrivilegesList.length > 0
-                          && inFormAvailablePrivilegesList.map((privilege) =>
-                            <p
-                              key={privilege._id}
-                              draggable={true}
-                              onDragStart={(e) => dragStartHandler(e, privilege)}
-                              onDragEnd={(e) => dragEndHandler(e)}
-                              onDrop={(e) => dragDropHandlerAvailablePrivilegesList(e)}
-                              className={!isCurrentUser && userPrivileges.map((privilege: IPrivileges) => privilege.Title).includes(privilege.Title) ? 'available' : 'unavailable'}
-                            >
-                              {privilege.Title}
-                            </p>
-                          )}
-                      </div>
-                    </div>}
-                </div>)}
+                        {privilege.Title}
+                      </p>
+                    )}
+                </div>
+              </div>
+              {userPrivileges
+                && CheckCurrentUserPrivilege.isUserPrivilegesManaging()
+                && !isCurrentUser
+                && <div className='available-privileges'>
+                  <p>Available privileges</p>
+                  <div
+                    className='available-privileges-list'
+                    onDrop={(e) => dragDropHandlerAvailablePrivilegesList(e)}
+                    onDragOver={(e) => dragOverHandler(e)}
+                    onDragLeave={(e) => dragLeaveHandler(e)}
+                    style={{ userSelect: 'none' }}
+                  >
+                    {inFormAvailablePrivilegesList && inFormAvailablePrivilegesList.length > 0
+                      && inFormAvailablePrivilegesList.map((privilege) =>
+                        <p
+                          key={privilege._id}
+                          draggable={true}
+                          onDragStart={(e) => dragStartHandler(e, privilege)}
+                          onDragEnd={(e) => dragEndHandler(e)}
+                          onDrop={(e) => dragDropHandlerAvailablePrivilegesList(e)}
+                          className={!isCurrentUser && userPrivileges.map((privilege: IPrivileges) => privilege.Title).includes(privilege.Title) ? 'available' : 'unavailable'}
+                        >
+                          {privilege.Title}
+                        </p>
+                      )}
+                  </div>
+                </div>}
+            </div>
 
             {!isCurrentUser ? (
               <>
@@ -352,13 +364,15 @@ const AccountModalWindow = () => {
                   <button
                     style={dataIsModified ? { opacity: 1 } : { opacity: 0.2 }}
                     disabled={!dataIsModified}
-                    onClick={() => console.log(inFormAccountDetails)}
+                    onClick={() => saveFormData()}
                   >Save changes</button>
+                  {ParamId !== '0' && <button className='delete-button'>Delete account</button>}
                 </div>
-                <button className='delete-button'>Delete account</button>
               </>
             ) : (
-              <button className='action-button' style={dataIsModified ? { opacity: 1 } : { opacity: 0.2 }} disabled={!dataIsModified}>Save changes</button>
+              <Link to='/Account/Settings' style={{ textDecoration: 'none' }}>
+                <button className='action-button'>Go to settings</button>
+              </Link>
             )}
           </>
         }

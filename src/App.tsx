@@ -66,7 +66,7 @@ function App() {
       <Route path="/Receive" element={<ReceivePage />} />
       <Route path="/Login" element={<LoginPage />} />
       <Route path="/Signup" element={<SingupPage />} />
-      <Route path="/Account" element={<AccountPage />} />
+      <Route path="/Account/Profile" element={<AccountPage />} />
       <Route path="/About" element={<AboutPage />} />
       <Route path="/About_me" element={<AboutMePage />} />
       <Route path="/Agreements" element={<AgreementsPage />} />

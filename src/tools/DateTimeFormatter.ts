@@ -3,7 +3,7 @@ function padZero(value: number): string {
 }
 
 function getDateComponents(timestamp: string): { date: Date, hours: string, minutes: string, day: string, month: string, year: number } {
-   const date = new Date(timestamp);
+   const date = new Date(Number(timestamp));
    const hours = padZero(date.getHours());
    const minutes = padZero(date.getMinutes());
    const day = padZero(date.getDate());
@@ -18,8 +18,8 @@ export function DateTimeFormatter(timestamp: string): string {
    return `${hours}:${minutes} ${month}/${day}/${year}`;
 }
 
-export function DateFormatter(timestamp: Date): string {
-   const { day, month, year } = getDateComponents(String(timestamp));
+export function DateFormatter(timestamp: string): string {
+   const { day, month, year } = getDateComponents(timestamp);
    return `${month}/${day}/${year}`;
 }
 
@@ -28,8 +28,14 @@ export function TimeFormatter(timestamp: string): string {
    return `${hours}:${minutes}`;
 }
 
-export function TimestampToInputValue(timestamp: string) {
+export function TimestampToInputValue(timestamp: string): string {
    const { year, month, day } = getDateComponents(timestamp);   
    return `${year}-${month}-${day}`;
+}
+
+export function InputValueToTimestamp(inputValue: string): string {
+   const date = new Date(inputValue);
+   const timestamp = date.getTime();
+   return String(timestamp);
 }
  

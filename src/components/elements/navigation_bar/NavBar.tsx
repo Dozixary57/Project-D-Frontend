@@ -378,7 +378,7 @@ export function Navbar() {
                   </div>
                 </Link>
               </div>)}
-              <Link to={`${isAuthorized ? "/Account" : "/Login"}`}>
+              <Link to={`${isAuthorized ? "/Account/Profile" : "/Login"}`}>
                 {!isAuthorized ? (
                   <div id="loginId" className="ShortyLinkButton">
                     <img src={require('../../../images/AuthIcon.png')} alt="Authorization Icon" style={{ width: "1.5em" }} />

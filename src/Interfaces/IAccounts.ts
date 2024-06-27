@@ -4,7 +4,7 @@ export interface IAccount {
   AccountStatus: string;
   Status?: IStatus;
   Email: string;
-  DateOfBirth: Date;
+  DateOfBirth: string;
   Privileges: IPrivileges[];
 }
 
