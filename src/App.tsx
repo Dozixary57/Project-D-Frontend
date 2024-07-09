@@ -1,5 +1,4 @@
 ﻿import React, { useEffect, useState } from 'react';
-import { useCookies } from 'react-cookie';
 import { Route, Routes, useLocation, useNavigate } from 'react-router';
 import { AboutMePage } from './pages/AboutMePage';
 import { AboutPage } from './pages/AboutPage';
@@ -29,7 +28,6 @@ import AccountModalWindow from './components/ModalWindows/AccountModalWindow';
 import { IPrivileges } from './Interfaces/IAccounts';
 
 function App() {
-  const [cookies] = useCookies(['UniqueDeviceIdentifier']);
   const navigate = useNavigate();
   const isAuthorized = useSelector((state: RootState) => state.isAuthorized);
   const userPrivileges = useSelector((state: RootState) => state.userPrivileges) as IPrivileges[] | [];
@@ -41,15 +39,9 @@ function App() {
 
   useEffect(() => {
     if (isAuthorized && (location.pathname.toLowerCase() === '/login' || location.pathname.toLowerCase() === '/signup')) {
-      navigate('/Account')
+      navigate('/Account/Profile');
     }
   }, [navigate, isAuthorized])
-
-  useEffect(() => {
-    if (!cookies['UniqueDeviceIdentifier']) {
-      AuthService.Logout();
-    }
-  }, [cookies]);
 
   return (
     <Routes>
@@ -66,7 +58,6 @@ function App() {
       <Route path="/Receive" element={<ReceivePage />} />
       <Route path="/Login" element={<LoginPage />} />
       <Route path="/Signup" element={<SingupPage />} />
-      <Route path="/Account/Profile" element={<AccountPage />} />
       <Route path="/About" element={<AboutPage />} />
       <Route path="/About_me" element={<AboutMePage />} />
       <Route path="/Agreements" element={<AgreementsPage />} />
@@ -74,8 +65,12 @@ function App() {
       <Route path="/TEST" element={<TestPage />} />
       <Route path="/📦" element={<Spoiler />} />
 
+      {isAuthorized &&
+        <Route path="/Account/Profile" element={<AccountPage />} />
+      }
+
       {isAuthorized
-      && ["UserEdit", "UserDelete", "UserCreate", "UserPrivilegesManaging"].some(privilege => 
+      && ["UserEdit", "UserDelete", "UserCreate", "UserPrivilegesManaging", "UserStatusManaging"].some(privilege => 
         userPrivileges?.some(userPrivilege => userPrivilege.Title === privilege)
       )
       && (<Route path="/Service/Account_management" element={<AccountManagementPage />}>

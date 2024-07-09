@@ -12,7 +12,7 @@ const AuthService = {
     const headers = {
       'Content-Type': 'application/json'
     };
-    await axios.post(`/Authentication/Login`, data, { headers, timeout: 5000 })
+    await axios.post(`${process.env.REACT_APP_AUTH_API}/Login`, data, { headers, withCredentials: true, timeout: 5000 })
       .then((res) => {
         if (res.data.accessToken) {
           localStorage.setItem('AccessToken', JSON.stringify(res.data.accessToken))
@@ -61,7 +61,7 @@ const AuthService = {
     const headers = {
       'Content-Type': 'application/json'
     };
-    await axios.post(`/Authentication/Signup`, data, { headers, timeout: 5000 })
+    await axios.post(`${process.env.REACT_APP_AUTH_API}/Signup`, data, { headers, withCredentials: true, timeout: 5000 })
       .then((res) => {
         if (res.data.accessToken) {
           localStorage.setItem('AccessToken', JSON.stringify(res.data.accessToken))
@@ -104,7 +104,7 @@ const AuthService = {
         headers['Authorization'] = 'Bearer ' + userAccessToken;
       }
 
-      const res = await axios.get(`/Authentication/Auth`, { headers, timeout: 8000 }).catch(() => {
+      const res = await axios.get(`${process.env.REACT_APP_AUTH_API}/Auth`, { headers, withCredentials: true, timeout: 8000 }).catch(() => {
         AuthService.Logout();
         return null;
       });
@@ -151,7 +151,7 @@ const AuthService = {
   Logout: async () => {
     let res;
     try {
-      res = await axios.get(`/Authentication/Logout`, { timeout: 5000 });
+      res = await axios.get(`${process.env.REACT_APP_AUTH_API}/Logout`, { withCredentials: true, timeout: 5000 });
       return res.data || [];
     } catch (e) {
       console.log(e);

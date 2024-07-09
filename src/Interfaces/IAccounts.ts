@@ -1,10 +1,10 @@
 export interface IAccount {
   _id: string;
   Username: string;
-  AccountStatus: string;
-  Status?: IStatus;
+  Status?: string;
+  Title?: ITitles;
   Email: string;
-  DateOfBirth: string;
+  DateOfBirth?: string;
   Privileges: IPrivileges[];
 }
 
@@ -13,7 +13,7 @@ export interface IPrivileges {
   Title: string;
 }
 
-export interface IStatus {
+export interface ITitles {
   _id: string;
   Title: string;
 }

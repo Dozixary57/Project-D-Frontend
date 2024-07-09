@@ -9,7 +9,7 @@ import { DateFormatter } from "../tools/DateTimeFormatter";
 import LoadingImage from "../components/LoadingImage/LoadingImage";
 import { Link, Outlet } from "react-router-dom";
 import { IAccount } from "../Interfaces/IAccounts";
-import { GetCurrentUserId } from "../components/GetUserData/GetUserData";
+import { CurrentUserPrivilege, GetCurrentUserId } from "../components/GetUserData/GetUserData";
 
 const AccountManagementPage = () => {
   const userPrivileges = useSelector((state: RootState) => state.userPrivileges);
@@ -57,11 +57,11 @@ const AccountManagementPage = () => {
               <input type="text" placeholder="Search..." />
             </div>
 
-            <Link to="0" className="CreateNewAccount">
+            {CurrentUserPrivilege.isUserCreate() && <Link to="0" className="CreateNewAccount">
               <button>
                 Create new account
               </button>
-            </Link>
+            </Link>}
 
             <div className="AccountList">
               {accountList && accountList.length > 0 ?
@@ -77,7 +77,7 @@ const AccountManagementPage = () => {
                       </div>
                       {!selectedAccountId &&
                       <div>
-                        {account._id === GetCurrentUserId() ? (<p className="current-user">[ Current user ]</p>) : (<p style={account.AccountStatus === 'Active' ? { color: '#0F0' } : account.AccountStatus === 'Frozen' ? { color: '#00b0cf' } : { color: '#f00' }}>{account.AccountStatus? `[ ${account.AccountStatus} ]` : ''}</p>)}
+                        {account._id === GetCurrentUserId() ? (<p className="current-user">[ Current user ]</p>) : (<p style={account.Status === 'Active' ? { color: '#0F0' } : account.Status === 'Frozen' ? { color: '#00b0cf' } : { color: '#f00' }}>{account.Status? `[ ${account.Status} ]` : ''}</p>)}
                       </div>}
                     </div>
                   </button>

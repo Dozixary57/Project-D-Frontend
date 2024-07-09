@@ -60,74 +60,74 @@ module.exports = function (fastify) {
     })
   );
 
-  fastify.use(
-    '/Authentication/Login',
-    createProxyMiddleware({
-      target: `${process.env.REACT_APP_AUTH_API}`,
-      pathRewrite: { '^/Authentication/Login': '/Login' },
-      changeOrigin: true,
-    })
-  );
-  fastify.use(
-    '/Authentication/Signup',
-    createProxyMiddleware({
-      target: `${process.env.REACT_APP_AUTH_API}`,
-      pathRewrite: { '^/Authentication/Signup': '/Signup' },
-      changeOrigin: true,
-    })
-  );
-  fastify.use(
-    '/Authentication/Auth',
-    createProxyMiddleware({
-      target: `${process.env.REACT_APP_AUTH_API}`,
-      pathRewrite: { '^/Authentication/Auth': '/Auth' },
-      changeOrigin: true,
-    })
-  );
-  fastify.use(
-    '/Authentication/Logout',
-    createProxyMiddleware({
-      target: `${process.env.REACT_APP_AUTH_API}`,
-      pathRewrite: { '^/Authentication/Logout': '/Logout' },
-      changeOrigin: true,
-    })
-  );
+  // fastify.use(
+  //   '/Authentication/Login',
+  //   createProxyMiddleware({
+  //     target: `${process.env.REACT_APP_AUTH_API}`,
+  //     pathRewrite: { '^/Authentication/Login': '/Login' },
+  //     changeOrigin: true,
+  //   })
+  // );
+  // fastify.use(
+  //   '/Authentication/Signup',
+  //   createProxyMiddleware({
+  //     target: `${process.env.REACT_APP_AUTH_API}`,
+  //     pathRewrite: { '^/Authentication/Signup': '/Signup' },
+  //     changeOrigin: true,
+  //   })
+  // );
+  // fastify.use(
+  //   '/Authentication/Auth',
+  //   createProxyMiddleware({
+  //     target: `${process.env.REACT_APP_AUTH_API}`,
+  //     pathRewrite: { '^/Authentication/Auth': '/Auth' },
+  //     changeOrigin: true,
+  //   })
+  // );
+  // fastify.use(
+  //   '/Authentication/Logout',
+  //   createProxyMiddleware({
+  //     target: `${process.env.REACT_APP_AUTH_API}`,
+  //     pathRewrite: { '^/Authentication/Logout': '/Logout' },
+  //     changeOrigin: true,
+  //   })
+  // );
 
-  fastify.use(
-    '/Accounts',
-    createProxyMiddleware({
-      target: `${process.env.REACT_APP_AUTH_API}`,
-      changeOrigin: true,
-    })
-  );
-  fastify.use(
-    '/Account/:id',
-    createProxyMiddleware({
-      target: `${process.env.REACT_APP_AUTH_API}`,
-      changeOrigin: true,
-    })
-  );
+  // fastify.use(
+  //   '/Accounts',
+  //   createProxyMiddleware({
+  //     target: `${process.env.REACT_APP_AUTH_API}`,
+  //     changeOrigin: true,
+  //   })
+  // );
+  // fastify.use(
+  //   '/Account/:id',
+  //   createProxyMiddleware({
+  //     target: `${process.env.REACT_APP_AUTH_API}`,
+  //     changeOrigin: true,
+  //   })
+  // );
 
-  fastify.use(
-    '/Server/Account/Update',
-    createProxyMiddleware({
-      pathRewrite: { '^/Server/Account/Update': '/Account/Update' },
-      changeOrigin: true,
-    })
-  );
+  // fastify.use(
+  //   '/Account/Update',
+  //   createProxyMiddleware({
+  //     target: `${process.env.REACT_APP_AUTH_API}`,
+  //     changeOrigin: true,
+  //   })
+  // );
 
-  fastify.use(
-    '/User/Statuses',
-    createProxyMiddleware({
-      target: `${process.env.REACT_APP_AUTH_API}`,
-      changeOrigin: true,
-    })
-  );
-  fastify.use(
-    '/User/Privileges',
-    createProxyMiddleware({
-      target: `${process.env.REACT_APP_AUTH_API}`,
-      changeOrigin: true,
-    })
-  );
+  // fastify.use(
+  //   '/User/Statuses',
+  //   createProxyMiddleware({
+  //     target: `${process.env.REACT_APP_AUTH_API}`,
+  //     changeOrigin: true,
+  //   })
+  // );
+  // fastify.use(
+  //   '/User/Privileges',
+  //   createProxyMiddleware({
+  //     target: `${process.env.REACT_APP_AUTH_API}`,
+  //     changeOrigin: true,
+  //   })
+  // );
 };
