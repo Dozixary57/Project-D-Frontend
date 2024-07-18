@@ -3,7 +3,7 @@ import "./ModalWindows.scss"
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { IAccount, IPrivileges, ITitles } from '../../Interfaces/IAccounts';
 import AccountService from '../../backend/services/accountService';
-import { InputValueToTimestamp, TimestampToInputValue } from '../../tools/DateTimeFormatter';
+import { InputValueToTimestamp, TimestampToInputValue } from '../../tools/DataFormatters';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../ReduxStore/store';
 import { GetCurrentUserId, CurrentUserPrivilege } from '../GetUserData/GetUserData';

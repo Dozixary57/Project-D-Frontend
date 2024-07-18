@@ -1,15 +1,15 @@
 import { Helmet } from "react-helmet-async";
-import { Navbar } from "../components/elements/navigation_bar/Navbar";
+import { Navbar } from "../../components/elements/navigation_bar/Navbar";
 import "./AccountManagementPage.scss"
 import { useEffect, useState } from "react";
-import AccountService from "../backend/services/accountService";
-import { RootState } from "../ReduxStore/store";
+import AccountService from "../../backend/services/accountService";
+import { RootState } from "../../ReduxStore/store";
 import { useSelector } from "react-redux";
-import { DateFormatter } from "../tools/DateTimeFormatter";
-import LoadingImage from "../components/LoadingImage/LoadingImage";
+import { DateFormatter } from "../../tools/DataFormatters";
+import LoadingImage from "../../components/LoadingImage/LoadingImage";
 import { Link, Outlet } from "react-router-dom";
-import { IAccount } from "../Interfaces/IAccounts";
-import { CurrentUserPrivilege, GetCurrentUserId } from "../components/GetUserData/GetUserData";
+import { IAccount } from "../../Interfaces/IAccounts";
+import { CurrentUserPrivilege, GetCurrentUserId } from "../../components/GetUserData/GetUserData";
 
 const AccountManagementPage = () => {
   const userPrivileges = useSelector((state: RootState) => state.userPrivileges);
@@ -68,7 +68,7 @@ const AccountManagementPage = () => {
                 accountList.map((account) => (
                   <button className="AccountElement" key={account._id} style={selectedAccountId === account._id? { backgroundColor: 'rgba(170, 170, 170, 0.15)', boxShadow: '0 0 0 0.1em rgba(170, 170, 170, 0.5)', color: 'white' } : { color: '#AAA'}} onClick={() => handleSelectAccount(account._id)}>
                     <div className="AccountIcon">
-                      <img src={require("../images/ThePlagueDoctor.png")} alt="Account Icon" />
+                      <img src={require("../../images/ThePlagueDoctor.png")} alt="Account Icon" />
                     </div>
                     <div className="AccountInfo">
                       <div>

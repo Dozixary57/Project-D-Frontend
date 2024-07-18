@@ -4,7 +4,7 @@ import NewsService from "../backend/services/newsService";
 import { RootState, store } from "../ReduxStore/store";
 import { useSelector } from "react-redux";
 import "./NewsOverlay.scss"
-import { DateTimeFormatter } from "../tools/DateTimeFormatter";
+import { DateTimeFormatter } from "../tools/DataFormatters";
 
 interface INews {
    _id: string;

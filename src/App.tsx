@@ -23,9 +23,12 @@ import { NewsOverlay } from './pages/NewsOverlay';
 import AuthService from './backend/services/authService';
 import { RootState } from './ReduxStore/store';
 import { useSelector } from 'react-redux';
-import { AccountManagementPage } from './pages/AccountManagementPage';
+import { AccountManagementPage } from './pages/service/AccountManagementPage';
 import AccountModalWindow from './components/ModalWindows/AccountModalWindow';
 import { IPrivileges } from './Interfaces/IAccounts';
+import { FileManagementPage } from './pages/service/FileManagementPage';
+import { FileManagementPage_Avatars } from './pages/service/FileManagementPage_Avatars';
+import FileModalWindow from './components/ModalWindows/FileModalWindow';
 
 function App() {
   const navigate = useNavigate();
@@ -70,12 +73,25 @@ function App() {
       }
 
       {isAuthorized
-      && ["UserEdit", "UserDelete", "UserCreate", "UserPrivilegesManaging", "UserStatusManaging"].some(privilege => 
-        userPrivileges?.some(userPrivilege => userPrivilege.Title === privilege)
-      )
-      && (<Route path="/Service/Account_management" element={<AccountManagementPage />}>
-        <Route path=":accountId" element={<AccountModalWindow />} />
-      </Route> )}
+        && ["UserEdit", "UserDeletePreliminarily", "UserDeletePermanently", "UserCreate", "UserPrivilegesManaging", "UserStatusManaging"].some(privilege =>
+          userPrivileges?.some(userPrivilege => userPrivilege.Title === privilege)
+        )
+        && (<Route path="/Service/Account_management" element={<AccountManagementPage />}>
+          <Route path=":accountId" element={<AccountModalWindow />} />
+        </Route>)}
+
+      {isAuthorized
+        && ["AvatarAdd", "AvatarDelete"].some(privilege =>
+          userPrivileges?.some(userPrivilege => userPrivilege.Title === privilege)
+        )
+        && (
+          <>
+            <Route path="/Service/File_management" element={<FileManagementPage />} />
+            <Route path="/Service/File_management/Avatars" element={<FileManagementPage_Avatars />}>
+              <Route path=":avatarId" element={<FileModalWindow />} />
+            </Route>
+          </>
+        )}
 
     </Routes>
   )

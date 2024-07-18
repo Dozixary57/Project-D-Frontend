@@ -270,17 +270,28 @@ export function Navbar() {
                       </p>
                     </div>
                   </Link>
-                  {userPrivileges && ["UserEdit", "UserDelete", "UserCreate", "UserPrivilegesManaging"].some(privilege => 
+                  {userPrivileges && ["UserEdit", "UserDelete", "UserCreate", "UserPrivilegesManaging"].some(privilege =>
                     userPrivileges.some(userPrivilege => userPrivilege.Title === privilege)
                   ) && (
-                    <Link to="/Service/Account_management">
-                      <div>
-                        <p>
-                          Account management
-                        </p>
-                      </div>
-                    </Link>
-                  )}
+                      <Link to="/Service/Account_management">
+                        <div>
+                          <p>
+                            Account management
+                          </p>
+                        </div>
+                      </Link>
+                    )}
+                  {userPrivileges && ["AvatarAdd", "AvatarDelete"].some(privilege =>
+                    userPrivileges.some(userPrivilege => userPrivilege.Title === privilege)
+                  ) && (
+                      <Link to="/Service/File_management">
+                        <div>
+                          <p>
+                            File management
+                          </p>
+                        </div>
+                      </Link>
+                    )}
                   <Link to="/Account/Settings">
                     <div>
                       <p>
@@ -313,7 +324,7 @@ export function Navbar() {
                 </div>
               </Link>
               <Link to="/Content">
-                <div id="contentId" ref={contentContainerRef} style={activeContentSubmenu ? {backgroundColor: "#2a1e16"} : {}} className="ShortyLinkButton" onMouseEnter={() => setActiveContentSubmenu(true)} onMouseLeave={() => setActiveContentSubmenu(false)}>
+                <div id="contentId" ref={contentContainerRef} style={activeContentSubmenu ? { backgroundColor: "#2a1e16" } : {}} className="ShortyLinkButton" onMouseEnter={() => setActiveContentSubmenu(true)} onMouseLeave={() => setActiveContentSubmenu(false)}>
                   <img src={require('../../../images/ContentIcon.png')} />
                 </div>
               </Link>
@@ -335,7 +346,7 @@ export function Navbar() {
                 </Link>
               </div>)}
               <Link to="/News">
-                <div id="newsId" ref={newsContainerRef} className="ShortyLinkButton" style={activeNewsSubmenu ? {backgroundColor: "#2a1e16"} : {}} onMouseEnter={() => setActiveNewsSubmenu(true)} onMouseLeave={() => setActiveNewsSubmenu(false)}>
+                <div id="newsId" ref={newsContainerRef} className="ShortyLinkButton" style={activeNewsSubmenu ? { backgroundColor: "#2a1e16" } : {}} onMouseEnter={() => setActiveNewsSubmenu(true)} onMouseLeave={() => setActiveNewsSubmenu(false)}>
                   <img src={require('../../../images/NewsIcon.png')} />
                 </div>
               </Link>
@@ -357,7 +368,7 @@ export function Navbar() {
                 </Link>
               </div>)}
               <Link to="/Receive">
-                <div id="receiveId" ref={receiveContainerRef} className="ShortyLinkButton" style={activeReceiveSubmenu ? {backgroundColor: "#2a1e16"} : {}} onMouseEnter={() => setActiveReceiveSubmenu(true)} onMouseLeave={() => setActiveReceiveSubmenu(false)}>
+                <div id="receiveId" ref={receiveContainerRef} className="ShortyLinkButton" style={activeReceiveSubmenu ? { backgroundColor: "#2a1e16" } : {}} onMouseEnter={() => setActiveReceiveSubmenu(true)} onMouseLeave={() => setActiveReceiveSubmenu(false)}>
                   <img src={require('../../../images/ReceiveIcon.png')} />
                 </div>
               </Link>
@@ -386,7 +397,7 @@ export function Navbar() {
                 )
                   :
                   (
-                    <div id="accountId" ref={accountContainerRef} className="ShortyLinkButton" style={activeAccountSubmenu ? {backgroundColor: "#2a1e16"} : {}} onMouseEnter={() => setActiveAccountSubmenu(true)} onMouseLeave={() => setActiveAccountSubmenu(false)}>
+                    <div id="accountId" ref={accountContainerRef} className="ShortyLinkButton" style={activeAccountSubmenu ? { backgroundColor: "#2a1e16" } : {}} onMouseEnter={() => setActiveAccountSubmenu(true)} onMouseLeave={() => setActiveAccountSubmenu(false)}>
                       <img id="profileIcon" src={require('../../../images/ThePlagueDoctor.png')} />
                     </div>
                   )}
