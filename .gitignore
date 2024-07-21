@@ -23,5 +23,5 @@ yarn-debug.log*
 yarn-error.log*
 .env
 
-src/images/*
-!/src/images/.gitkeep
+# src/images/*
+# !/src/images/.gitkeep

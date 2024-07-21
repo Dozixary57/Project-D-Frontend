@@ -65,13 +65,13 @@ const FileModalWindow = () => {
 
   useEffect(() => {
     if (inFormAttachedFile)
-      AllowedFileProperties.isValidName(inFormAttachedFile?.name.split('.').at(0) as string, setValidationMessages);
+      AllowedFileProperties('avatar').isValidName(inFormAttachedFile?.name.split('.').at(0) as string, setValidationMessages);
 
     if (attachedFile)
-      AllowedFileProperties.isValidExtension(attachedFile?.name, setValidationMessages);
+      AllowedFileProperties('avatar').isValidExtension(attachedFile?.name, setValidationMessages);
 
     if (imageMetadata.width && imageMetadata.height)
-      AllowedFileProperties.isValidResolution(`${imageMetadata.width}x${imageMetadata.height}`, setValidationMessages);
+      AllowedFileProperties('avatar').isValidResolution(`${imageMetadata.width}x${imageMetadata.height}`, setValidationMessages);
   }, [attachedFile?.name, imageMetadata, inFormAttachedFile?.name]);
 
   useEffect(() => {
