@@ -1,16 +1,9 @@
-import { useContext, useEffect, useLayoutEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import "./FileModalWindow.scss"
-import { Link, useNavigate, useOutletContext, useParams } from 'react-router-dom';
-import { IAccount, IPrivileges, ITitles } from '../../Interfaces/IAccounts';
-import AccountService from '../../backend/services/accountService';
+import { useNavigate, useOutletContext, useParams } from 'react-router-dom';
 import { FileExtensionFormatter, FileSizeFormatter, InputValueToTimestamp, TimestampToInputValue } from '../../tools/DataFormatters';
-import { useSelector } from 'react-redux';
-import { RootState } from '../../ReduxStore/store';
-import { GetCurrentUserId, CurrentUserPrivilege } from '../GetUserData/GetUserData';
-import LoadingImage from '../LoadingImage/LoadingImage';
-import AuthService from '../../backend/services/authService';
-
-// type ContextType = { onClose: () => void };
+import FileService from '../../backend/services/fileService';
+import { AllowedFileProperties, errorMessages, IErrorMessage } from '../../AllowedValues/AllowedFileProperties';
 
 const FileModalWindow = () => {
   const { attachedFile } = useOutletContext<{ attachedFile: File | null }>();
@@ -19,6 +12,13 @@ const FileModalWindow = () => {
 
   const [dataIsModified, setDataIsModified] = useState<boolean>(false);
 
+  const [isUploadToServer, setIsUploadToServer] = useState<boolean>(true);
+  const [isUploadToDatabase, setIsUploadToDatabase] = useState<boolean>(true);
+
+  const [isUploadAvailable, setIsUploadAvailable] = useState<boolean>(false);
+
+  const [validationMessages, setValidationMessages] = useState<Array<IErrorMessage | null>>([]);
+
   const thisWindowRef = useRef<HTMLDivElement>(null);
   const ParamId = useParams<{ avatarId: string }>().avatarId
   const navigate = useNavigate();
@@ -26,12 +26,9 @@ const FileModalWindow = () => {
   useEffect(() => {
     thisWindowRef.current?.focus();
 
-    console.log(attachedFile)
-
     if (attachedFile) {
       const img = new Image();
       img.onload = function () {
-        console.log("!!!");
         const reader = new FileReader();
         reader.onload = () => {
           if (reader.readyState === 2) {
@@ -54,6 +51,7 @@ const FileModalWindow = () => {
 
     return () => {
       document.body.style.overflow = 'initial';
+      // AllowedFileProperties.isValidReset();
     };
   }, [navigate, ParamId]);
 
@@ -62,22 +60,39 @@ const FileModalWindow = () => {
   }, [inFormAttachedFile]);
 
   useEffect(() => {
-    console.log(imageMetadata)
-  }, [imageMetadata]);
-
-  useEffect(() => {
     setInFormAttachedFile(attachedFile);
   }, [attachedFile]);
 
   useEffect(() => {
-    console.log("1")
-    console.log(attachedFile)
-    console.log("2")
-    console.log(inFormAttachedFile)
-  }, [inFormAttachedFile]);
+    if (inFormAttachedFile)
+      AllowedFileProperties.isValidName(inFormAttachedFile?.name.split('.').at(0) as string, setValidationMessages);
 
-  const resetData = () => {
+    if (attachedFile)
+      AllowedFileProperties.isValidExtension(attachedFile?.name, setValidationMessages);
+
+    if (imageMetadata.width && imageMetadata.height)
+      AllowedFileProperties.isValidResolution(`${imageMetadata.width}x${imageMetadata.height}`, setValidationMessages);
+  }, [attachedFile?.name, imageMetadata, inFormAttachedFile?.name]);
+
+  useEffect(() => {
+    console.log(validationMessages);
+    console.log(isUploadAvailable);
+    if (validationMessages.filter(message => message !== null).length > 0)
+      setIsUploadAvailable(false);
+    else
+      setIsUploadAvailable(true);
+  }, [validationMessages]);
+
+  const resetName = () => {
     setInFormAttachedFile(attachedFile);
+  };
+
+  const uploadFile = () => {
+    if (inFormAttachedFile) {
+      const formData = new FormData();
+      formData.append('file', inFormAttachedFile);
+      FileService.uploadAvatar(formData);
+    }
   };
 
   return (
@@ -87,9 +102,9 @@ const FileModalWindow = () => {
         <div ref={thisWindowRef} className="modal-content"
           onClick={(e) => e.stopPropagation()}
           onKeyDown={(event) => {
-            // if (dataIsModified && event.key === 'Enter') {
-            //   saveFormData();
-            // }
+            if (event.key === 'Enter') {
+              uploadFile();
+            }
             if (event.key === 'Escape') {
               navigate('../');
             }
@@ -120,7 +135,7 @@ const FileModalWindow = () => {
               <div>
                 <p>Name</p>
                 <button
-                  onClick={resetData}
+                  onClick={resetName}
                   disabled={!dataIsModified}
                 >
                   Reset
@@ -172,19 +187,63 @@ const FileModalWindow = () => {
                 readOnly
               />
             </div>
-
           </div>
+
+          <div className="checkbox-buttons">
+            <button
+              onClick={(e) => setIsUploadToServer(!isUploadToServer)}
+              className={isUploadToServer ? 'is-checked' : 'is-not-checked'}
+            >
+              <input
+                type='checkbox'
+                checked={isUploadToServer}
+                id="serverCheckbox"
+                onClick={() => setIsUploadToServer(!isUploadToServer)}
+              />
+              <label
+                htmlFor="serverCheckbox"
+                onClick={(e) => e.preventDefault()}
+              ></label>
+              <p>Server</p>
+            </button>
+            <button
+              onClick={() => setIsUploadToDatabase(!isUploadToDatabase)}
+              className={isUploadToDatabase ? 'is-checked' : 'is-not-checked'}
+            >
+              <input
+                type='checkbox'
+                checked={isUploadToDatabase}
+                onChange={() => setIsUploadToDatabase(!isUploadToDatabase)}
+                id="databaseCheckbox"
+              />
+              <label
+                htmlFor="databaseCheckbox"
+                onClick={(e) => e.preventDefault()}
+              ></label>
+              <p>Database</p>
+            </button>
+          </div>
+
+          {!isUploadAvailable && <div className='validation-error-messages'>
+            <p>Validation errors:</p>
+            <ul>
+              {
+                validationMessages
+                  .filter(message => message !== null)
+                  .map((message) =>
+                    <li key={message?.title}>{message?.title}: {message?.message} <span>{message?.allowed}</span>.</li>
+                  )}
+            </ul>
+          </div>}
 
           <div className="action-buttons">
             <button
+              onClick={uploadFile}
+              disabled={!((isUploadToServer || isUploadToDatabase) && isUploadAvailable)}
             >
               Upload
             </button>
-            <button
-              onClick={() => {
-                navigate('../');
-              }}
-            >
+            <button onClick={() => { navigate('../'); }}>
               Close
             </button>
           </div>

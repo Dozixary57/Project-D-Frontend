@@ -126,33 +126,6 @@
         >input:disabled {
           background-color: rgba(255, 255, 255, 0.05);
         }
-
-        // >p:nth-of-type(2) {
-        //   box-sizing: border-box;
-        //   width: 100%;
-        //   margin: 0;
-        //   font-size: 1.2em;
-        //   padding: 0 0.1em;
-        //   color: red;
-        //   border-radius: 0.2em;
-        // }
-
-        // >select {
-        //   width: 100%;
-        //   box-sizing: border-box;
-        //   font-size: 1.4em;
-        //   color: #ffffff;
-        //   font-family: 'F77 Minecraft', PressStart2P-Regular, 'Cascadia Mono', sans-serif;
-        //   border-radius: 0.2em;
-        //   text-indent: 0.4em;
-        //   padding: 0.4em 0;
-        //   border: none;
-        //   outline: none;
-
-        //   >option {
-        //     background-color: rgba(black, 0.8);
-        //   }
-        // }
       }
 
       >div:nth-of-type(1) {
@@ -191,18 +164,137 @@
       >div:nth-of-type(8) {
         grid-area: 5 / 7 / 6 / 8;
       }
+    }
 
-      // .profile-image {
-      //   align-self: center;
-      //   box-sizing: border-box;
-      //   width: 100%;
+    .checkbox-buttons {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+      gap: 4em;
 
-      //   >img {
-      //     width: 100%;
-      //     border-radius: 0.8em;
-      //   }
-      // }
+      >button {
+        width: 12em;
+        display: grid;
+        grid-template-columns: 1fr 100%;
+        justify-content: space-between;
+        // justify-content: center;
+        align-items: center;
+        box-sizing: border-box;
+        font-size: 1.2em;
+        font-family: 'F77 Minecraft', PressStart2P-Regular, 'Cascadia Mono', sans-serif;
+        border: none;
+        padding: 0 2em 0 0.5em;
+        border-radius: 0.2em;
+        color: #AAA;
+        cursor: pointer;
+        transition: all 100ms ease-in-out;
 
+        &:hover {
+          color: white;
+        }
+
+        >input[type="checkbox"] {
+          display: none;
+        }
+
+        >input[type="checkbox"]+label {
+          box-sizing: border-box;
+          width: 1.5em;
+          height: 1.5em;
+          border-radius: 0.2em;
+          background: url('../../images/CheckboxOffSquareIcon.png');
+          background-size: contain;
+          background-position: center;
+          background-repeat: no-repeat;
+          cursor: pointer;
+        }
+
+        >input[type="checkbox"]:checked+label {
+          background: url('../../images/CheckboxOnSquareIcon.png');
+          background-size: contain;
+          background-position: center;
+          background-repeat: no-repeat;
+        }
+
+        >p {
+          width: 100%;
+          margin: 0;
+          padding: 0.75em 0;
+        }
+      }
+      >button:first-of-type {
+        background-color: rgba(0, 225, 255, 0.3);
+
+        &:hover {
+          background-color: rgba(0, 225, 255, 0.4);
+        }
+
+        &.is-checked {
+          color: white;
+          outline: 0.15em solid rgba(0, 225, 255, 1);
+          background-color: rgba(0, 225, 255, 0.5);
+        }
+
+        >input[type="checkbox"]+label {
+          background-color: rgba(black, 0.5);
+        }
+        >input[type="checkbox"]:checked+label {
+          filter: invert(38%) sepia(94%) saturate(419%) hue-rotate(138deg) brightness(110%) contrast(91%);
+        }
+      }
+      >button:last-of-type {
+        background-color: rgba(160, 0, 255, 0.3);
+
+        &:hover {
+          background-color: rgba(160, 0, 255, 0.4);
+        }
+
+        &.is-checked {
+          color: white;
+          outline: 0.15em solid rgba(160, 0, 255, 1);
+          background-color: rgba(160, 0, 255, 0.5);
+        }
+
+        >input[type="checkbox"]+label {
+          background-color: rgba(black, 0.5);
+        }
+
+        >input[type="checkbox"]:checked+label {
+          filter: invert(12%) sepia(76%) saturate(4388%) hue-rotate(278deg) brightness(110%) contrast(103%);
+        }
+      }
+    }
+
+    .validation-error-messages {
+      display: flex;
+      flex-direction: column;
+      padding: 1em 0;
+      gap: 1em;
+      background-color: rgba(black, 0.2);
+
+      >p {
+        color: red;
+        margin: 0;
+        font-size: 1.2em;
+        text-align: center;
+      }
+
+      >ul {
+        margin: 0;
+        padding-left: 1.5em;
+        list-style-type: square;
+
+        >li {
+          padding: 0.25em 0;
+          line-height: 1.5em;
+
+          >span {
+            color: white;
+            letter-spacing: 0.1em;
+          }
+        }
+      }
     }
 
     .action-buttons {
@@ -222,17 +314,19 @@
         transition: all 100ms ease-in-out;
       }
 
-      >button:hover {
-        color: white;
-      }
-
       >button:first-of-type {
         padding: 1.25em 0;
         background-color: rgba(0, 255, 0, 0.35);
-      }
 
-      >button:first-of-type:hover {
-        background-color: rgba(0, 255, 0, 0.75);
+        &:hover:not(:disabled) {
+          color: white;
+          background-color: rgba(0, 255, 0, 0.75);
+        }
+
+        &:disabled {
+          background-color: rgba(black, 0.25);
+          cursor: default;
+        }
       }
 
       >button:last-of-type {
@@ -241,6 +335,7 @@
       }
 
       >button:last-of-type:hover {
+        color: white;
         background-color: rgba(255, 0, 0, 0.75);
       }
 

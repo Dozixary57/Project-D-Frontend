@@ -1,41 +1,14 @@
 import { Helmet } from "react-helmet-async";
 import { Navbar } from "../../components/elements/navigation_bar/Navbar";
 import "./FileManagementPage_Avatars.scss"
-import { useEffect, useRef, useState } from "react";
-import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
-import { IFile } from "../../Interfaces/IFiles";
-import FileService from "../../backend/services/fileService";
+import { useEffect, useState } from "react";
+import { Outlet, useLocation, useNavigate } from "react-router-dom";
 
 const FileManagementPage_Avatars = () => {
 
   const [attachedFile, setAttachedFile] = useState<File | null>(null);
 
-  // const fileInputRef = useRef<HTMLInputElement>(null);
-
   const navigate = useNavigate();
-  const location = useLocation();
-  // const [fileAttached, setFileAttached] = useState<IFile | null>(null);
-
-  // const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-  //   console.log(event.target.files);
-  //   if (event.target.files && event.target.files[0]) {
-  //     const file = event.target.files[0];
-      // const reader = new FileReader();
-      // reader.onload = () => {
-      //   if (reader.readyState === 2) {
-      //     setFileAttached({ Name: file.name, Type: file.type, SizeMB: file.size / 1024 / 1024, URL: reader.result as string });
-      //   }
-      // };
-      // reader.readAsDataURL(file);
-  //   }
-  // };
-
-  useEffect(() => {
-    if (location.pathname === '/Service/File_management/Avatars/' || location.pathname === '/Service/File_management/Avatars') {
-      // clearFileInput();
-      console.log(attachedFile);
-    }
-  }, [navigate]);
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files[0]) {
@@ -43,26 +16,6 @@ const FileManagementPage_Avatars = () => {
       navigate('Upload')
     }
   };
-
-  // const handleFileUpload = () => {
-  //   if (fileAttached) {
-  //     const formData = new FormData();
-  //     formData.append('file', fileAttached);
-  //     FileService.uploadAvatar(formData);
-  //   }
-  // };
-
-  // const clearFileInput = () => {
-  //   console.log('clearing file input');
-  //   if (fileInputRef.current) {
-  //     fileInputRef.current.value = '';
-  //     console.log(fileInputRef.current.value);
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   console.log(fileAttached);
-  // }, [fileAttached]);
 
   return (
     <>
