@@ -11,6 +11,7 @@ import oneNewsData from "./Reducers/oneNewsData";
 import isLoadingState from "./Reducers/isLoadingState";
 import isAuthorized from "./Reducers/isAuthorized";
 import userPrivileges from "./Reducers/userPrivileges";
+import fileUploadErrors from "./Reducers/fileUploadErrors";
 
 export const rootReducer = combineReducers({
     itemObjectsNavigationIndex,
@@ -23,5 +24,6 @@ export const rootReducer = combineReducers({
     oneNewsData,
     isLoadingState,
     isAuthorized,
-    userPrivileges
+    userPrivileges,
+    fileUploadErrors,
 });

@@ -1,3 +1,7 @@
+import { useSelector } from 'react-redux';
+import { RootState } from '../ReduxStore/store';
+import { useState, useEffect } from 'react';
+
 export interface IErrorMessage {
   title: string;
   message: string;
@@ -8,22 +12,34 @@ export interface IAllowedFileProperties {
   Names: string[];
   Extensions: string[];
   Resolutions: string[];
-  isValidName: (name: string, setErrorMessages: React.Dispatch<React.SetStateAction<Array<IErrorMessage | null>>>) => void;
-  isValidExtension: (extension: string, setErrorMessages: React.Dispatch<React.SetStateAction<Array<IErrorMessage | null>>>) => void;
-  isValidResolution: (resolution: string, setErrorMessages: React.Dispatch<React.SetStateAction<Array<IErrorMessage | null>>>) => void;
-  isValidReset: (setErrorMessages: React.Dispatch<React.SetStateAction<Array<IErrorMessage | null>>>) => void;
+  isValidName: (name: string) => void;
+  isValidExtension: (extension: string) => void;
+  isValidResolution: (resolution: string) => void;
+  errorUploadToServer: () => void;
+  errorUploadToDatabase: () => void;
+  resetClientErrors: () => void;
+  resetServerErrors: () => void;
+  resetAllErrors: () => void;
+  fileUploadErrors: Array<IErrorMessage | null>;
 }
 
 const avatarExtensions: string[] = ['png'];
-const avatarResolutions: string[] = ['256x256'];
+const avatarResolutions: string[] = ['64x64'];
 const iconExtensions: string[] = ['png'];
 const iconResolutions: string[] = ['256x256'];
 const coverExtensions: string[] = ['jpg'];
 const coverResolutions: string[] = [];
 
-export const errorMessages: Array<IErrorMessage | null> = [];
+export const useAllowedFileProperties = (variety: 'avatar' | 'icon' | 'cover'): IAllowedFileProperties => {
+  const [fileUploadErrors, setFileUploadErrors] = useState<Array<IErrorMessage | null>>([]);
+  const reduxFileUploadErrors = useSelector((state: RootState) => state.fileUploadErrors) as Array<IErrorMessage | null>;
 
-export const AllowedFileProperties = (variety: 'avatar' | 'icon' | 'cover'): IAllowedFileProperties => {
+  useEffect(() => {
+    if (Array.isArray(reduxFileUploadErrors)) {
+      setFileUploadErrors(reduxFileUploadErrors);
+    }
+  }, [reduxFileUploadErrors]);
+
   let Extensions: string[];
   let Resolutions: string[];
 
@@ -49,60 +65,130 @@ export const AllowedFileProperties = (variety: 'avatar' | 'icon' | 'cover'): IAl
     Names: ['a-z', 'A-Z', '0-9'],
     Extensions,
     Resolutions,
+    fileUploadErrors,
 
-    isValidName: (name: string, setErrorMessages: React.Dispatch<React.SetStateAction<Array<IErrorMessage | null>>>) => {
-      setErrorMessages((prev: Array<IErrorMessage | null>) => {
-        const newMessages = [...prev];
+    isValidName: (name: string) => {
+      setFileUploadErrors(prev => {
+        if (!Array.isArray(prev)) return prev;
+
+        const newErrors = [...prev];
         if (!name) {
-          newMessages[0] = {
+          newErrors[0] = {
             title: 'Invalid name',
-            message: 'Name cannot be empty',
-            allowed: AllowedFileProperties(variety).Names.join(', '),
+            message: 'name cannot be empty ',
+            allowed: '(' + ['a-z', 'A-Z', '0-9'].join(', ') + ')',
           };
         } else if (!/^[A-Za-z0-9]+$/.test(name)) {
-          newMessages[0] = {
+          newErrors[0] = {
             title: 'Invalid name',
             message: 'Name cannot contain special characters',
-            allowed: AllowedFileProperties(variety).Names.join(', '),
+            allowed: ['a-z', 'A-Z', '0-9'].join(', '),
           };
         } else {
-          newMessages[0] = null;
+          newErrors[0] = null;
         }
-        return newMessages;
+        return newErrors;
       });
     },
-    isValidExtension: (extension: string, setErrorMessages: React.Dispatch<React.SetStateAction<Array<IErrorMessage | null>>>) => {
-      setErrorMessages((prev: Array<IErrorMessage | null>) => {
-        const newMessages = [...prev];
-        if (!AllowedFileProperties(variety).Extensions.includes(extension.split('.').at(-1) as string)) {
-          newMessages[1] = {
+
+    isValidExtension: (extension: string) => {
+      setFileUploadErrors(prev => {
+        if (!Array.isArray(prev)) return prev;
+
+        const newErrors = [...prev];
+        const ext = extension.split('.').at(-1) as string;
+        if (!Extensions.includes(ext)) {
+          newErrors[1] = {
             title: 'Invalid extension',
-            message: extension.split('.').at(-1) + '. Allowed extensions: ',
-            allowed: AllowedFileProperties(variety).Extensions.join(', '),
+            message: ext + '. Allowed extensions: ',
+            allowed: Extensions.join(', '),
           };
         } else {
-          newMessages[1] = null;
+          newErrors[1] = null;
         }
-        return newMessages;
+        return newErrors;
       });
     },
-    isValidResolution: (resolution: string, setErrorMessages: React.Dispatch<React.SetStateAction<Array<IErrorMessage | null>>>) => {
-      setErrorMessages((prev: Array<IErrorMessage | null>) => {
-        const newMessages = [...prev];
-        if (AllowedFileProperties(variety).Resolutions.length > 0 && !AllowedFileProperties(variety).Resolutions.includes(resolution)) {
-          newMessages[2] = {
+
+    isValidResolution: (resolution: string) => {
+      setFileUploadErrors(prev => {
+        if (!Array.isArray(prev)) return prev;
+
+        const newErrors = [...prev];
+        if (Resolutions.length > 0 && !Resolutions.includes(resolution)) {
+          newErrors[2] = {
             title: 'Invalid resolution',
             message: resolution + '. Allowed resolutions: ',
-            allowed: AllowedFileProperties(variety).Resolutions.join(', '),
+            allowed: Resolutions.join(', '),
           };
         } else {
-          newMessages[2] = null;
+          newErrors[2] = null;
         }
-        return newMessages;
+        return newErrors;
       });
     },
-    isValidReset: (setErrorMessages: React.Dispatch<React.SetStateAction<Array<IErrorMessage | null>>>) => {
-      setErrorMessages([null, null, null]);
+
+    errorUploadToServer: () => {
+      setFileUploadErrors(prev => {
+        if (!Array.isArray(prev)) return prev;
+
+        const newErrors = [...prev];
+        newErrors[3] = {
+          title: 'Error upload to server',
+          message: 'Current file is already exist on server',
+          allowed: '',
+        };
+        return newErrors;
+      });
+    },
+
+    errorUploadToDatabase: () => {
+      setFileUploadErrors(prev => {
+        if (!Array.isArray(prev)) return prev;
+
+        const newErrors = [...prev];
+        newErrors[4] = {
+          title: 'Error upload to database',
+          message: 'Current file is already exist on database',
+          allowed: '',
+        };
+        return newErrors;
+      });
+    },
+
+    resetClientErrors: () => {
+      setFileUploadErrors(prev => {
+        if (!Array.isArray(prev)) return prev;
+
+        const newErrors = [...prev];
+        for (let i = 0; i < 3; i++) {
+          newErrors[i] = null;
+        }
+        return newErrors;
+      });
+    },
+
+    resetServerErrors: () => {
+      setFileUploadErrors(prev => {
+        if (!Array.isArray(prev)) return prev;
+
+        const newErrors = [...prev];
+        for (let i = 3; i < newErrors.length; i++) {
+          newErrors[i] = null;
+        }
+        return newErrors;
+      });
+    },
+    resetAllErrors: () => {
+      setFileUploadErrors(prev => {
+        if (!Array.isArray(prev)) return prev;
+
+        const newErrors = [...prev];
+        for (let i = 0; i < newErrors.length; i++) {
+          newErrors[i] = null;
+        }
+        return newErrors;
+      });
     },
   };
 };

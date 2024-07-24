@@ -45,6 +45,9 @@ const FileManagementPage_Avatars = () => {
           />
           {attachedFile && <button onClick={() => navigate('Upload')}>Go to upload</button>}
         </div>
+        <div>
+          <button>Check consistency</button>
+        </div>
         <div className="PageContent">
         </div>
       </main>

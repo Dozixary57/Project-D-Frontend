@@ -48,7 +48,7 @@ const FileManagementPage = () => {
             <img src={require('../../images/objects/ThumbnailObjectIcon.png')} />
             <p>Avatars</p>
             <div>
-              <p>{avatarsData?.Quality} Q</p>
+              <p>x {avatarsData?.Quality}</p>
               <p>{avatarsData?.Size !== undefined && FileSizeFormatter(avatarsData?.Size)}</p>
             </div>
             <Link to="Avatars">

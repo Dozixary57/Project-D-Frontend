@@ -1,6 +1,7 @@
 import axios from 'axios';
 import AuthService from './authService';
 import { GetCurrentUserAccessTokenString } from '../../components/GetUserData/GetUserData';
+import { useAllowedFileProperties } from '../../AllowedValues/AllowedFileProperties';
 
 const FileService = {
   getAvatarsInfo: async () => {
@@ -29,11 +30,9 @@ const FileService = {
         'Authorization': 'Bearer ' + GetCurrentUserAccessTokenString()
       };
 
-      const formData = new FormData();
-      formData.append('file', data);
-
       await axios.post(`${process.env.REACT_APP_AUTH_API}/Avatars`, data, { headers: headers, timeout: 5000 })
         .then((res) => {
+          // console.log(res);
           result = res.data || null;
         }).catch(error => {
           console.log(error);
