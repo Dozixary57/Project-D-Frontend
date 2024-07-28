@@ -22,8 +22,16 @@ const LoadingImage = () => {
     }, []);
 
     return (
-        <div className='loading-image'>
-            <img ref={imgRef} src={dataLoadingSprite} alt="Loading..." />
+        <div
+        // className='loading-image'
+            style={{width: '100%', height: '100%'}}
+        >
+            <img
+                ref={imgRef}
+                src={dataLoadingSprite}
+                alt="Loading..."
+                style={{width: '100%', height: '100%'}}
+            />
         </div>
     );
 };

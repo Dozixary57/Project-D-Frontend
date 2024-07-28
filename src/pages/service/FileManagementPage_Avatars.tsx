@@ -2,13 +2,30 @@ import { Helmet } from "react-helmet-async";
 import { Navbar } from "../../components/elements/navigation_bar/Navbar";
 import "./FileManagementPage_Avatars.scss"
 import { useEffect, useState } from "react";
-import { Outlet, useLocation, useNavigate } from "react-router-dom";
+import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
+import { IAvatars } from "../../Interfaces/IFiles";
+import FileService from "../../backend/services/fileService";
+import LoadingImage from "../../components/LoadingImage/LoadingImage";
 
 const FileManagementPage_Avatars = () => {
+  const [isLoading, setIsLoading] = useState(false);
 
   const [attachedFile, setAttachedFile] = useState<File | null>(null);
 
+  const [avatarsData, setAvatarsData] = useState<IAvatars[] | null>(null);
+
   const navigate = useNavigate();
+
+  useEffect(() => {
+    setIsLoading(true);
+    FileService.getAvatars().then((result) => {
+      setAvatarsData(result);
+    }).finally(() => setIsLoading(false));
+  }, [navigate]);
+
+  useEffect(() => {
+    console.log(avatarsData);
+  }, [avatarsData]);
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files[0]) {
@@ -45,10 +62,40 @@ const FileManagementPage_Avatars = () => {
           />
           {attachedFile && <button onClick={() => navigate('Upload')}>Go to upload</button>}
         </div>
-        <div>
-          <button>Check consistency</button>
+        <div className="StatusIndicators">
+          <div>
+            <p>Server</p>
+            <div className="Indicator Server"></div>
+          </div>
+          <div>
+            <p>Database</p>
+            <div className="Indicator Database"></div>
+          </div>
         </div>
-        <div className="PageContent">
+        <div className="AvatarsList">
+          {avatarsData && avatarsData.map((avatar) => (
+            <Link to={`${avatar.filename.split('.')[0]}`} key={avatar.filename}>
+              <div className="AvatarCard">
+                <img src={avatar.joint_stats ? avatar.joint_stats.url : avatar.fs_stats ? avatar.fs_stats.url : avatar.db_stats.url} />
+                <div className="AvatarStatusIndicators">
+                  {avatar.fs_stats && <div className="Indicator Server"></div>}
+                  {avatar.db_stats && <div className="Indicator Database"></div>}
+                  {avatar.joint_stats && <>
+                    <div className="Indicator Server"></div>
+                    <div className="Indicator Database"></div>
+                  </>}
+                </div>
+                <caption>
+                  <p>{avatar.filename.split('.')[0]}</p>
+                </caption>
+              </div>
+            </Link>
+          ))}
+          {isLoading && <Link to="">
+            <div className="AvatarCard">
+              <LoadingImage />
+            </div>
+          </Link>}
         </div>
       </main>
     </>

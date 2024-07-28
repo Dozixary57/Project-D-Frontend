@@ -16,4 +16,19 @@ export interface IAvatar {
   url: string
 }
 
+
+interface IImageMetadata {
+  extension: string
+  format: string
+  resolution: string
+  size: number
+  url: string
+}
+export interface IAvatars {
+  filename: string
+  fs_stats: IImageMetadata
+  db_stats: IImageMetadata
+  joint_stats: IImageMetadata
+}
+
 export type IFile = Partial<_IFile>;
