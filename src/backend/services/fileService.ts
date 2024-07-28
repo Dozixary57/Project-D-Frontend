@@ -32,7 +32,7 @@ const FileService = {
 
       await axios.post(`${process.env.REACT_APP_AUTH_API}/Avatars`, data, { headers: headers, timeout: 5000 })
         .then((res) => {
-          // console.log(res);
+          console.log(res);
           result = res.data || null;
         }).catch(error => {
           console.log(error);

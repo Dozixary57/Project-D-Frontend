@@ -31,7 +31,7 @@ const coverExtensions: string[] = ['jpg'];
 const coverResolutions: string[] = [];
 
 export const useAllowedFileProperties = (variety: 'avatar' | 'icon' | 'cover'): IAllowedFileProperties => {
-  const [fileUploadErrors, setFileUploadErrors] = useState<Array<IErrorMessage | null>>([]);
+  const [fileUploadErrors, setFileUploadErrors] = useState<Array<IErrorMessage | null>>([null, null, null, null, null]);
   const reduxFileUploadErrors = useSelector((state: RootState) => state.fileUploadErrors) as Array<IErrorMessage | null>;
 
   useEffect(() => {

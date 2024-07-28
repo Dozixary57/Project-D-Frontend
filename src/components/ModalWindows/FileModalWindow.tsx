@@ -21,7 +21,10 @@ const FileModalWindow = () => {
   const [isUploadServerRewrite, setIsUploadServerRewrite] = useState<boolean>(false);
   const [isUploadDatabaseRewrite, setIsUploadDatabaseRewrite] = useState<boolean>(false);
 
-  const [isUploadAvailable, setIsUploadAvailable] = useState<boolean>(false);
+  const [isServerError, setIsServerError] = useState<boolean>(false);
+  const [isDatabaseError, setIsDatabaseError] = useState<boolean>(false);
+
+  // const [isServerRew]
 
   const allowedFileProps = useAllowedFileProperties('avatar');
 
@@ -79,18 +82,42 @@ const FileModalWindow = () => {
     if (imageMetadata.width && imageMetadata.height)
       allowedFileProps.isValidResolution(`${imageMetadata.width}x${imageMetadata.height}`);
 
+    allowedFileProps.resetAllErrors();
+    setIsServerError(false);
+    setIsDatabaseError(false);
+    setIsUploadServerRewrite(false);
+    setIsUploadDatabaseRewrite(false);
+    setServerImageUrl('');
+    setDatabaseImageUrl('');
+
   }, [attachedFile?.name, imageMetadata, inFormAttachedFile?.name]);
 
   useEffect(() => {
-    if (allowedFileProps.fileUploadErrors.slice(0, 3).filter(message => message !== null).length > 0)
-      setIsUploadAvailable(false);
+    if (allowedFileProps.fileUploadErrors[3] !== null)
+      setIsServerError(true);
     else
-      setIsUploadAvailable(true);
-  }, [allowedFileProps]);
+      setIsServerError(false);
+
+    if (allowedFileProps.fileUploadErrors[4] !== null)
+      setIsDatabaseError(true);
+    else
+      setIsDatabaseError(false);
+  }, [allowedFileProps.fileUploadErrors]);
 
   const resetName = () => {
     setInFormAttachedFile(attachedFile);
   };
+
+  // useEffect(() => {
+  //   console.log(isUploadToServer || isUploadToDatabase);
+  //   console.log(isServerError || isDatabaseError)
+  // }, [isUploadToServer, isUploadToDatabase, isServerError, isDatabaseError]);
+
+    useEffect(() => {
+    console.log(serverImageUrl);
+    console.log(databaseImageUrl);
+  }, [serverImageUrl, databaseImageUrl]);
+
 
   const uploadFile = () => {
     if (inFormAttachedFile) {
@@ -103,16 +130,24 @@ const FileModalWindow = () => {
         uploadDatabaseRewrite: isUploadDatabaseRewrite
       }));
       allowedFileProps.resetServerErrors();
+      setIsUploadServerRewrite(false);
+      setIsUploadDatabaseRewrite(false);
+      setServerImageUrl('');
+      setDatabaseImageUrl('');
       FileService.uploadAvatar(formData).then((res) => {
-        console.log(res);
-        if (res.errorUploadToServer || res.errorUploadToDatabase) {
-          if (res.errorUploadToServer) {            
+        // console.log(res);
+        if (res) {
+          if (res.errorUploadToServer) {
             allowedFileProps.errorUploadToServer();
-            setServerImageUrl(res.serverImageUrl);
           }
           if (res.errorUploadToDatabase) {
             allowedFileProps.errorUploadToDatabase();
-            setDatabaseImageUrl(res.databaseImageUrl);
+          }
+          if (res.serverImageUrl) {
+            setServerImageUrl(res.serverImageUrl + `?timestamp=${new Date().getTime()}`);
+          }
+          if (res.databaseImageUrl) {
+            setDatabaseImageUrl(res.databaseImageUrl + `?timestamp=${new Date().getTime()}`);
           }
         } else {
           navigate(`../${inFormAttachedFile.name}`);
@@ -121,10 +156,6 @@ const FileModalWindow = () => {
     }
   };
 
-  // useEffect(() => {
-  //   console.log(serverImageUrl, databaseImageUrl);
-  // }, [serverImageUrl, databaseImageUrl]);
-
   return (
     <>
       <div className="file-modal-overlay" onClick={() => navigate('../')}>
@@ -132,7 +163,14 @@ const FileModalWindow = () => {
         <div ref={thisWindowRef} className="modal-content"
           onClick={(e) => e.stopPropagation()}
           onKeyDown={(event) => {
-            if (event.key === 'Enter') {
+            if (event.key === 'Enter'
+              && (
+                (isUploadToServer || isUploadToDatabase) &&
+                (
+                  !(isServerError && isDatabaseError) ||
+                  (isServerError || isDatabaseError) && (isUploadServerRewrite || isUploadDatabaseRewrite)
+                )
+              )) {
               uploadFile();
             }
             if (event.key === 'Escape') {
@@ -150,17 +188,6 @@ const FileModalWindow = () => {
               {imageMetadata.url.length > 0 &&
                 <img src={imageMetadata.url} />
               }
-            </div>
-
-            <div className='exist-image-preview'>
-              <div className='server-image-preview'>
-                <p>Server</p>
-                {serverImageUrl.length > 0 && <img src={serverImageUrl} />}
-              </div>
-              <div className='database-image-preview'>
-                <p>Database</p>
-                {databaseImageUrl.length > 0 && <img src={databaseImageUrl} />}
-              </div>
             </div>
 
             <div className='upload-image-form'>
@@ -230,92 +257,103 @@ const FileModalWindow = () => {
                 />
               </div>
             </div>
-          </div>
 
-          <div className="checkbox-buttons">
-            <div>
-              <button
-                onClick={(e) => setIsUploadToServer(!isUploadToServer)}
-                className={`server-checkbox ${isUploadToServer ? 'is-checked' : 'is-not-checked'}`}
-              >
-                <input
-                  type='checkbox'
-                  checked={isUploadToServer}
-                  id="serverCheckbox"
+            {!isServerError && !isDatabaseError
+              && <div className="checkbox-buttons">
+                <button
                   onClick={() => setIsUploadToServer(!isUploadToServer)}
-                />
-                <label
-                  htmlFor="serverCheckbox"
-                  onClick={(e) => e.preventDefault()}
-                ></label>
-                <p>Server</p>
-              </button>
-              {isUploadToServer
-                && allowedFileProps.fileUploadErrors[3] !== null
-                && allowedFileProps.fileUploadErrors[3] !== undefined
-                && <div
-                className='rewrite-checkbox'
-                onClick={() => { setIsUploadServerRewrite(!isUploadServerRewrite) }}
-              >
-                <input type='checkbox' checked={isUploadServerRewrite} onChange={() => { setIsUploadServerRewrite(!isUploadServerRewrite) }} />
-                <p>Rewrite</p>
+                  className={`server-checkbox ${isUploadToServer ? 'is-checked' : 'is-not-checked'}`}
+                >
+                  <input
+                    type='checkbox'
+                    checked={isUploadToServer}
+                    id="serverCheckbox"
+                    onClick={() => setIsUploadToServer(!isUploadToServer)}
+                  />
+                  <label
+                    htmlFor="serverCheckbox"
+                    onClick={(e) => e.preventDefault()}
+                  ></label>
+                  <p>Server</p>
+                </button>
+                <button
+                  onClick={() => setIsUploadToDatabase(!isUploadToDatabase)}
+                  className={`database-checkbox ${isUploadToDatabase ? 'is-checked' : 'is-not-checked'}`}
+                >
+                  <input
+                    type='checkbox'
+                    checked={isUploadToDatabase}
+                    onChange={() => setIsUploadToDatabase(!isUploadToDatabase)}
+                    id="databaseCheckbox"
+                  />
+                  <label
+                    htmlFor="databaseCheckbox"
+                    onClick={(e) => e.preventDefault()}
+                  ></label>
+                  <p>Database</p>
+                </button>
               </div>}
-            </div>
-            <div>
+
+            {(isServerError || isDatabaseError)
+              && <div className='exist-image-preview'>
+                <div className='image-preview'>
+                  <div className='image-preview-title'>
+                    {isUploadToServer && <p>Server</p>}
+                    {isUploadToDatabase && <p>Database</p>}
+                  </div>
+                  <div className='image-preview-images'>
+                    {isUploadToServer && <div onClick={() => setIsUploadServerRewrite(!isUploadServerRewrite)}>
+                      {serverImageUrl.length > 0 && <img src={serverImageUrl} />}
+                      {isUploadServerRewrite
+                        && <div className='rewrite-overlay'>
+                          <p>Rewrite</p>
+                        </div>}
+                    </div>}
+                    {isUploadToDatabase && <div onClick={() => setIsUploadDatabaseRewrite(!isUploadDatabaseRewrite)}>
+                      {databaseImageUrl.length > 0 && <img src={databaseImageUrl} />}
+                      {isUploadDatabaseRewrite
+                        && <div className='rewrite-overlay'>
+                          <p>Rewrite</p>
+                        </div>}
+                    </div>}
+                  </div>
+                </div>
+              </div>}
+
+            {allowedFileProps.fileUploadErrors
+              && allowedFileProps.fileUploadErrors.filter(message => message !== null).length > 0
+              && <div className='validation-error-messages'>
+                <p>Validation errors:</p>
+                <ul>
+                  {
+                    allowedFileProps.fileUploadErrors
+                      .filter(message => message !== null)
+                      .map((message) =>
+                        <li key={message?.title}>{message?.title}: {message?.message} <span>{message?.allowed}</span>.</li>
+                      )}
+                </ul>
+              </div>}
+
+            <div className="action-buttons">
               <button
-                onClick={() => setIsUploadToDatabase(!isUploadToDatabase)}
-                className={`database-checkbox ${isUploadToDatabase ? 'is-checked' : 'is-not-checked'}`}
+                onClick={uploadFile}
+                disabled={
+                  !(
+                    (isUploadToServer || isUploadToDatabase) &&
+                    (
+                      !(isServerError && isDatabaseError) ||
+                      (isServerError || isDatabaseError) && (isUploadServerRewrite || isUploadDatabaseRewrite)
+                    )
+                  )
+                }
+                className={(isServerError || isDatabaseError) ? 'rewrite-button' : 'upload-button'}
               >
-                <input
-                  type='checkbox'
-                  checked={isUploadToDatabase}
-                  onChange={() => setIsUploadToDatabase(!isUploadToDatabase)}
-                  id="databaseCheckbox"
-                />
-                <label
-                  htmlFor="databaseCheckbox"
-                  onClick={(e) => e.preventDefault()}
-                ></label>
-                <p>Database</p>
+                {(isServerError || isDatabaseError) ? 'Rewrite' : 'Upload'}
               </button>
-              {isUploadToDatabase
-                && allowedFileProps.fileUploadErrors[4] !== null
-                && allowedFileProps.fileUploadErrors[4] !== undefined
-                && <div
-                className='rewrite-checkbox'
-                onClick={() => { setIsUploadDatabaseRewrite(!isUploadDatabaseRewrite) }}
-              >
-                <input type='checkbox' checked={isUploadDatabaseRewrite} onChange={() => { setIsUploadDatabaseRewrite(!isUploadDatabaseRewrite) }} />
-                <p>Rewrite</p>
-              </div>}
+              <button onClick={() => { navigate('../'); }}>
+                Close
+              </button>
             </div>
-          </div>
-
-          {allowedFileProps.fileUploadErrors
-            && allowedFileProps.fileUploadErrors.filter(message => message !== null).length > 0
-
-            && <div className='validation-error-messages'>
-              <p>Validation errors:</p>
-              <ul>
-                {
-                  allowedFileProps.fileUploadErrors
-                    .filter(message => message !== null)
-                    .map((message) =>
-                      <li key={message?.title}>{message?.title}: {message?.message} <span>{message?.allowed}</span>.</li>
-                    )}
-              </ul>
-            </div>}
-
-          <div className="action-buttons">
-            <button
-              onClick={uploadFile}
-              disabled={!((isUploadToServer || isUploadToDatabase) && isUploadAvailable)}
-            >
-              Upload
-            </button>
-            <button onClick={() => { navigate('../'); }}>
-              Close
-            </button>
           </div>
         </div>
         <hr />

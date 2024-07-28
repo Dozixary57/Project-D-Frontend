@@ -69,45 +69,6 @@
         }
       }
 
-      .exist-image-preview {
-        display: flex;
-        flex-direction: row;
-        padding: 1em;
-        border-radius: 0.4em;
-        background-color: rgba(0, 0, 0, 0.2);
-        gap: 1.5em;
-
-        >div {
-          width: 100%;
-          height: 100%;
-          display: flex;
-          flex-direction: column;
-          justify-content: center;
-          align-items: center;
-          gap: 0.75em;
-          border-radius: 0.4em;
-
-          >p {
-            width: max-content;
-            margin: 0;
-            padding: 0.2em 0.4em;
-            font-size: 1.4em;
-            color: #AAA;
-            border-radius: 0.2em;
-            background-color: #3a3a3a;
-          }
-
-          >img {
-            width: 100%;
-            height: 100%;
-            image-rendering: pixelated;
-            border-radius: 0.4em;
-            outline: orange solid 0.1em;
-            background-color: rgba(0, 0, 0, 0.2);
-          }
-        }
-      }
-
       .upload-image-form {
         display: grid;
         grid-template-columns: repeat(9, 1fr);
@@ -185,18 +146,23 @@
             text-align: center;
           }
         }
+
         >div:nth-of-type(2) {
           grid-area: 2 / 1 / 3 / 7;
         }
+
         >div:nth-of-type(3) {
           grid-area: 2 / 7 / 3 / 10;
         }
+
         >div:nth-of-type(4) {
           grid-area: 3 / 1 / 4 / 4;
         }
+
         >div:nth-of-type(5) {
           grid-area: 3 / 4 / 4 / 7;
         }
+
         >div:nth-of-type(6) {
           grid-area: 3 / 7 / 4 / 10;
         }
@@ -209,127 +175,190 @@
       justify-content: center;
       gap: 4em;
 
-      >div {
-        display: flex;
-        flex-direction: column;
+      >button {
+        width: 12em;
+        display: grid;
+        grid-template-columns: 1fr 100%;
+        justify-content: space-between;
+        // justify-content: center;
+        align-items: center;
+        box-sizing: border-box;
+        font-size: 1.2em;
+        font-family: 'F77 Minecraft', PressStart2P-Regular, 'Cascadia Mono', sans-serif;
+        border: none;
+        padding: 0 2em 0 0.5em;
+        border-radius: 0.2em;
+        color: #AAA;
+        cursor: pointer;
+        transition: all 100ms ease-in-out;
 
-        >button {
-          width: 12em;
-          display: grid;
-          grid-template-columns: 1fr 100%;
-          justify-content: space-between;
-          // justify-content: center;
-          align-items: center;
+        &:hover {
+          color: white;
+        }
+
+        >input[type="checkbox"] {
+          display: none;
+        }
+
+        >input[type="checkbox"]+label {
           box-sizing: border-box;
-          font-size: 1.2em;
-          font-family: 'F77 Minecraft', PressStart2P-Regular, 'Cascadia Mono', sans-serif;
-          border: none;
-          padding: 0 2em 0 0.5em;
+          width: 1.5em;
+          height: 1.5em;
           border-radius: 0.2em;
-          color: #AAA;
+          background: url('../../images/CheckboxOffSquareIcon.png');
+          background-size: contain;
+          background-position: center;
+          background-repeat: no-repeat;
           cursor: pointer;
-          transition: all 100ms ease-in-out;
-  
-          &:hover {
-            color: white;
-          }
-  
-          >input[type="checkbox"] {
-            display: none;
-          }
-  
-          >input[type="checkbox"]+label {
-            box-sizing: border-box;
-            width: 1.5em;
-            height: 1.5em;
-            border-radius: 0.2em;
-            background: url('../../images/CheckboxOffSquareIcon.png');
-            background-size: contain;
-            background-position: center;
-            background-repeat: no-repeat;
-            cursor: pointer;
-          }
-  
-          >input[type="checkbox"]:checked+label {
-            background: url('../../images/CheckboxOnSquareIcon.png');
-            background-size: contain;
-            background-position: center;
-            background-repeat: no-repeat;
-          }
-  
-          >p {
-            width: 100%;
-            margin: 0;
-            padding: 0.75em 0;
-          }
-        }
-  
-        .server-checkbox {
-          background-color: rgba(0, 225, 255, 0.3);
-  
-          &:hover {
-            background-color: rgba(0, 225, 255, 0.4);
-          }
-  
-          &.is-checked {
-            color: white;
-            outline: 0.15em solid rgba(0, 225, 255, 1);
-            background-color: rgba(0, 225, 255, 0.5);
-          }
-  
-          >input[type="checkbox"]+label {
-            background-color: rgba(black, 0.5);
-          }
-  
-          >input[type="checkbox"]:checked+label {
-            filter: invert(38%) sepia(94%) saturate(419%) hue-rotate(138deg) brightness(110%) contrast(91%);
-          }
-        }
-  
-        .database-checkbox {
-          background-color: rgba(160, 0, 255, 0.3);
-  
-          &:hover {
-            background-color: rgba(160, 0, 255, 0.4);
-          }
-  
-          &.is-checked {
-            color: white;
-            outline: 0.15em solid rgba(160, 0, 255, 1);
-            background-color: rgba(160, 0, 255, 0.5);
-          }
-  
-          >input[type="checkbox"]+label {
-            background-color: rgba(black, 0.5);
-          }
-  
-          >input[type="checkbox"]:checked+label {
-            filter: invert(12%) sepia(76%) saturate(4388%) hue-rotate(278deg) brightness(110%) contrast(103%);
-          }
         }
 
-        .rewrite-checkbox {
-          margin: 1em 0 0 0;
-          display: flex;
-          flex-direction: row;
-          justify-content: center;
-          align-items: center;
-          gap: 0.5em;
-          border-radius: 0.2em;
-          cursor: pointer;
+        >input[type="checkbox"]:checked+label {
+          background: url('../../images/CheckboxOnSquareIcon.png');
+          background-size: contain;
+          background-position: center;
+          background-repeat: no-repeat;
+        }
 
-          >input[type="checkbox"] {
-            zoom: 2;
-            cursor: pointer;
-          }
-
-          >p {
-            margin: 0;
-            font-size: 1.5em;
-          }
+        >p {
+          width: 100%;
+          margin: 0;
+          padding: 0.75em 0;
         }
       }
 
+      .server-checkbox {
+        background-color: rgba(0, 225, 255, 0.3);
+
+        &:hover {
+          background-color: rgba(0, 225, 255, 0.4);
+        }
+
+        &.is-checked {
+          color: white;
+          outline: 0.15em solid rgba(0, 225, 255, 1);
+          background-color: rgba(0, 225, 255, 0.5);
+        }
+
+        >input[type="checkbox"]+label {
+          background-color: rgba(black, 0.5);
+        }
+
+        >input[type="checkbox"]:checked+label {
+          filter: invert(38%) sepia(94%) saturate(419%) hue-rotate(138deg) brightness(110%) contrast(91%);
+        }
+      }
+
+      .database-checkbox {
+        background-color: rgba(160, 0, 255, 0.3);
+
+        &:hover {
+          background-color: rgba(160, 0, 255, 0.4);
+        }
+
+        &.is-checked {
+          color: white;
+          outline: 0.15em solid rgba(160, 0, 255, 1);
+          background-color: rgba(160, 0, 255, 0.5);
+        }
+
+        >input[type="checkbox"]+label {
+          background-color: rgba(black, 0.5);
+        }
+
+        >input[type="checkbox"]:checked+label {
+          filter: invert(12%) sepia(76%) saturate(4388%) hue-rotate(278deg) brightness(110%) contrast(103%);
+        }
+      }
+    }
+
+    .exist-image-preview {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+      padding: 1em;
+      border-radius: 0.4em;
+      background-color: rgba(0, 0, 0, 0.2);
+
+      .image-preview {
+        width: 100%;
+        // height: 100%;
+        display: flex;
+        flex-direction: column;
+        // justify-content: center;
+        // align-items: center;
+        border-radius: 0.4em;
+        gap: 0.75em;
+
+        .image-preview-title {
+          width: 100%;
+          display: flex;
+          flex-direction: row;
+          gap: 1.5em;
+
+          >p {
+            flex: 1;
+            margin: 0;
+            text-align: center;
+            padding: 0.2em 0.4em;
+            font-size: 1.4em;
+            color: #AAA;
+            border-radius: 0.2em;
+            background-color: #3a3a3a;
+          }
+        }
+
+        .image-preview-images {
+          width: 100%;
+          display: flex;
+          flex-direction: row;
+          gap: 1.5em;
+
+          >div {
+            flex: 1;
+            position: relative;
+            width: 100%;
+            background-color: rgba(0, 0, 0, 0.4);
+            border-radius: 0.4em;
+            background-image: url('../../images/HideImageIcon.png');
+            background-size: 40%;
+            background-position: center;
+            background-repeat: no-repeat;
+            cursor: pointer;
+
+
+            >img {
+              width: 100%;
+              image-rendering: pixelated;
+              border-radius: 0.4em;
+              outline: orange solid 0.1em;
+  
+            }
+
+            .rewrite-overlay {
+              position: absolute;
+              top: 0;
+              left: 0;
+              width: 100%;
+              height: 100%;
+              display: flex;
+              border-radius: 0.4em;
+              justify-content: center;
+              align-items: center;
+              background-color: rgba(white, 0.1);
+
+              >p {
+                margin: 0;
+                padding: 0.2em 0.4em;
+                font-size: 1.4em;
+                color: white;
+                border-radius: 0.2em;
+                background-color: rgb(216, 140, 0);
+              }
+            }
+          }
+        }
+      }
     }
 
     .validation-error-messages {
@@ -380,13 +409,28 @@
         transition: all 100ms ease-in-out;
       }
 
-      >button:first-of-type {
+      .upload-button {
         padding: 1.25em 0;
         background-color: rgba(0, 255, 0, 0.35);
 
         &:hover:not(:disabled) {
           color: white;
           background-color: rgba(0, 255, 0, 0.75);
+        }
+
+        &:disabled {
+          background-color: rgba(black, 0.25);
+          cursor: default;
+        }
+      }
+
+      .rewrite-button {
+        padding: 1.25em 0;
+        background-color: rgba(216, 140, 0, 0.35);
+
+        &:hover:not(:disabled) {
+          color: white;
+          background-color: rgba(216, 140, 0, 0.75);
         }
 
         &:disabled {
