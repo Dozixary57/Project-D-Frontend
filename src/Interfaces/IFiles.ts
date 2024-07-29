@@ -16,6 +16,11 @@ export interface IAvatar {
   url: string
 }
 
+export interface IAvatars {
+  filename: string
+  serverImageUrl: string
+  databaseImageUrl: string
+}
 
 interface IImageMetadata {
   extension: string
@@ -24,7 +29,7 @@ interface IImageMetadata {
   size: number
   url: string
 }
-export interface IAvatars {
+export interface IAvatarsWithMetadata {
   filename: string
   fs_stats: IImageMetadata
   db_stats: IImageMetadata

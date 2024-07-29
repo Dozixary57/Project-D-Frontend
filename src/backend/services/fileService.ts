@@ -34,6 +34,21 @@ const FileService = {
 
     return result;
   },
+  syncImagesStorage: async (filename: string) => {
+    let result: any = null;
+    const headers = {
+      'Content-Type': 'application/json'
+    };
+    await axios.get(`${process.env.REACT_APP_AUTH_API}/SyncImagesStorage/${filename}`, { headers, timeout: 5000 })
+      .then((res) => {
+        result = res.data || null;
+      }).catch(error => {
+        console.log(error);
+      }).finally(() => {
+      });
+
+    return result;
+  },
   // getAvatars: async () => {
   //   let cancelTokenSource: any = null;
 

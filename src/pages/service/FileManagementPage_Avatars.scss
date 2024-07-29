@@ -1,6 +1,6 @@
 .FILE_MANAGEMENT_PAGE_AVATARS {
   width: 50em;
-  margin: 4em auto 0 auto;
+  margin: 4em auto 2em auto;
   border-radius: 0.2em;
 
   .PageHeader {
@@ -96,13 +96,13 @@
 
     >a {
       width: 100%;
-      height: 99%;
+      height: 100%;
       text-decoration: none;
 
       .AvatarCard {
         position: relative;
         width: 100%;
-        height: 100%;
+        // height: 100%;
         color: #AAA;
         border-radius: 0.2em;
         background-color: rgba(black, 0.2);
@@ -131,6 +131,16 @@
           gap: 0.5em;
         }
 
+        .DatabaseImagePreview {
+          position: absolute;
+          right: 0.25em;
+          bottom: 0.25em;
+          width: 2.5em;
+          height: 2.5em;
+          border-radius: 0.2em;
+          outline: rgba(160, 0, 255, 1) solid 0.1em;
+        }
+
         >caption {
           position: absolute;
           display: flex;
@@ -148,6 +158,34 @@
             border-radius: 0.2em;
             background-color: rgba(black, 0.8);
           }
+        }
+      }
+
+      .SynchronizeImagesStorage {
+        margin-top: 0.5em;
+        width: 100%;
+        // height: 100%;
+        color: #AAA;
+        padding: 0.5em 0;
+        border: none;
+        border-radius: 0.2em;
+        font-size: 1em;
+        font-family: 'F77 Minecraft', PressStart2P-Regular, 'Cascadia Mono', sans-serif;
+        background-color: rgba(black, 0.2);
+        outline: #000000 solid 0.2em;
+        cursor: pointer;
+        transition: all 100ms ease-in-out;
+
+        &:hover:not(:disabled) {
+          color: white;
+          outline: rgba(white, 0.5) solid 0.2em;
+          background-color: rgba(white, 0.1);
+          filter: brightness(1.5);
+        }
+
+        &:disabled {
+          opacity: 0.5;
+          cursor: not-allowed;
         }
       }
     }

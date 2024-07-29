@@ -17,7 +17,9 @@ const FileManagementPage_Avatars = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    setIsLoading(true);
+    if (avatarsData)
+      setIsLoading(true);
+
     FileService.getAvatars().then((result) => {
       setAvatarsData(result);
     }).finally(() => setIsLoading(false));
@@ -33,6 +35,24 @@ const FileManagementPage_Avatars = () => {
       navigate('Upload')
     }
   };
+
+  const syncImagesStorage = (filename: string) => {
+    if (filename && filename !== '') {
+      FileService.syncImagesStorage(filename).then((res) => {
+        if (res && (res.serverImageUrl || res.databaseImageUrl)) {
+          const updatedAvatarsData = avatarsData!.map((avatar) => {
+            if (avatar.filename === filename) {
+              return { ...avatar, ...res };
+            }
+            return avatar;
+          });
+          setAvatarsData(updatedAvatarsData);  
+        }
+        console.log(res);
+      });
+      console.log(filename);
+    }
+  }
 
   return (
     <>
@@ -76,19 +96,27 @@ const FileManagementPage_Avatars = () => {
           {avatarsData && avatarsData.map((avatar) => (
             <Link to={`${avatar.filename.split('.')[0]}`} key={avatar.filename}>
               <div className="AvatarCard">
-                <img src={avatar.joint_stats ? avatar.joint_stats.url : avatar.fs_stats ? avatar.fs_stats.url : avatar.db_stats.url} />
+                <img src={avatar.serverImageUrl ? avatar.serverImageUrl : avatar.databaseImageUrl} />
                 <div className="AvatarStatusIndicators">
-                  {avatar.fs_stats && <div className="Indicator Server"></div>}
-                  {avatar.db_stats && <div className="Indicator Database"></div>}
-                  {avatar.joint_stats && <>
-                    <div className="Indicator Server"></div>
-                    <div className="Indicator Database"></div>
-                  </>}
+                  {avatar.serverImageUrl && <div className="Indicator Server"></div>}
+                  {avatar.databaseImageUrl && <div className="Indicator Database"></div>}
                 </div>
+                {avatar.serverImageUrl && avatar.databaseImageUrl
+                  && <img
+                    src={avatar.databaseImageUrl}
+                    className="DatabaseImagePreview"
+                  />}
                 <caption>
                   <p>{avatar.filename.split('.')[0]}</p>
                 </caption>
               </div>
+              <button
+                className="SynchronizeImagesStorage"
+                onClick={(e) => { e.preventDefault(); syncImagesStorage(avatar.filename) }}
+                disabled={!(avatar.serverImageUrl === null || avatar.databaseImageUrl === null)}
+              >
+                Synchronize
+              </button>
             </Link>
           ))}
           {isLoading && <Link to="">

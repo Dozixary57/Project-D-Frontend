@@ -52,9 +52,9 @@ const FileModalWindow = () => {
       };
       img.src = URL.createObjectURL(attachedFile);
     }
-    else {
-      navigate('../');
-    }
+    // else {
+    //   navigate('../');
+    // }
 
     document.body.style.overflow = 'hidden';
 
@@ -113,12 +113,6 @@ const FileModalWindow = () => {
   //   console.log(isServerError || isDatabaseError)
   // }, [isUploadToServer, isUploadToDatabase, isServerError, isDatabaseError]);
 
-    useEffect(() => {
-    console.log(serverImageUrl);
-    console.log(databaseImageUrl);
-  }, [serverImageUrl, databaseImageUrl]);
-
-
   const uploadFile = () => {
     if (inFormAttachedFile) {
       const formData = new FormData();
@@ -158,7 +152,7 @@ const FileModalWindow = () => {
 
   return (
     <>
-      <div className="file-modal-overlay" onClick={() => navigate('../')}>
+      <div className="file-modal-overlay" onClick={() => navigate('..')}>
         <hr />
         <div ref={thisWindowRef} className="modal-content"
           onClick={(e) => e.stopPropagation()}
@@ -174,7 +168,7 @@ const FileModalWindow = () => {
               uploadFile();
             }
             if (event.key === 'Escape') {
-              navigate('../');
+              navigate('..');
             }
           }}
           tabIndex={0}
