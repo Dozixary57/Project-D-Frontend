@@ -1,16 +1,24 @@
 import { useEffect, useRef, useState } from 'react';
 import "./FileModalWindow.scss"
-import { useNavigate, useOutletContext, useParams } from 'react-router-dom';
+import { useLocation, useNavigate, useOutletContext, useParams } from 'react-router-dom';
 import { FileExtensionFormatter, FileSizeFormatter } from '../../tools/DataFormatters';
 import FileService from '../../backend/services/fileService';
 import { useAllowedFileProperties } from '../../AllowedValues/AllowedFileProperties';
+import { IPictureMetadata, IPictureWithMetadata } from '../../Interfaces/IFiles';
 
-const FileModalWindow = () => {
+const ManagementFileModalWindow = () => {
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+
   const { attachedFile } = useOutletContext<{ attachedFile: File | null }>();
-  const [inFormAttachedFile, setInFormAttachedFile] = useState<File | null>(attachedFile);
   const [imageMetadata, setImageMetadata] = useState<{ width: number, height: number, url: string }>({ width: 0, height: 0, url: '' });
+  const [inFormAttachedFile, setInFormAttachedFile] = useState<File | null>(null);
 
-  const [dataIsModified, setDataIsModified] = useState<boolean>(false);
+  const [receivedFile, setReceivedFile] = useState<IPictureWithMetadata | null>(null);
+  // const [inFormReceivedFile, setInFormReceivedFile] = useState<IAvatarsWithMetadata | null>(null);
+  const [receivedFileFilename, setReceivedFileFilename] = useState<string | null>(null);
+  const [receivedFileServerMetadata, setReceivedFileServerMetadata] = useState<IPictureMetadata | null>(null);
+  const [receivedFileDatabaseMetadata, setReceivedFileDatabaseMetadata] = useState<IPictureMetadata | null>(null);
+  const [receivedFileJointMetadata, setReceivedFileJointMetadata] = useState<IPictureMetadata | null>(null);
 
   const [isUploadToServer, setIsUploadToServer] = useState<boolean>(true);
   const [isUploadToDatabase, setIsUploadToDatabase] = useState<boolean>(true);
@@ -24,8 +32,6 @@ const FileModalWindow = () => {
   const [isServerError, setIsServerError] = useState<boolean>(false);
   const [isDatabaseError, setIsDatabaseError] = useState<boolean>(false);
 
-  // const [isServerRew]
-
   const allowedFileProps = useAllowedFileProperties('avatar');
 
   const thisWindowRef = useRef<HTMLDivElement>(null);
@@ -36,6 +42,7 @@ const FileModalWindow = () => {
     thisWindowRef.current?.focus();
 
     if (attachedFile) {
+      setInFormAttachedFile(attachedFile);
       const img = new Image();
       img.onload = function () {
         const reader = new FileReader();
@@ -51,10 +58,17 @@ const FileModalWindow = () => {
         reader.readAsDataURL(attachedFile);
       };
       img.src = URL.createObjectURL(attachedFile);
+    } else if (ParamId) {
+      FileService.getAvatar(ParamId).then((res) => {
+        console.log(res);
+        if (res && res.filename)
+          setReceivedFile(res);
+        else
+          navigate('..');
+      });
     }
-    // else {
-    //   navigate('../');
-    // }
+
+    setIsLoading(false);
 
     document.body.style.overflow = 'hidden';
 
@@ -62,17 +76,17 @@ const FileModalWindow = () => {
       document.body.style.overflow = 'initial';
       allowedFileProps.resetServerErrors();
     };
-  }, [navigate, ParamId]);
+  }, [ParamId]);
 
   useEffect(() => {
-    setDataIsModified(attachedFile?.name !== inFormAttachedFile?.name ? true : false);
-  }, [inFormAttachedFile]);
+    allowedFileProps.resetAllErrors();
+    setIsServerError(false);
+    setIsDatabaseError(false);
+    setIsUploadServerRewrite(false);
+    setIsUploadDatabaseRewrite(false);
+    setServerImageUrl('');
+    setDatabaseImageUrl('');
 
-  useEffect(() => {
-    setInFormAttachedFile(attachedFile);
-  }, [attachedFile]);
-
-  useEffect(() => {
     if (inFormAttachedFile)
       allowedFileProps.isValidName(inFormAttachedFile?.name.split('.').at(0) as string);
 
@@ -82,15 +96,29 @@ const FileModalWindow = () => {
     if (imageMetadata.width && imageMetadata.height)
       allowedFileProps.isValidResolution(`${imageMetadata.width}x${imageMetadata.height}`);
 
-    allowedFileProps.resetAllErrors();
-    setIsServerError(false);
-    setIsDatabaseError(false);
-    setIsUploadServerRewrite(false);
-    setIsUploadDatabaseRewrite(false);
-    setServerImageUrl('');
-    setDatabaseImageUrl('');
-
   }, [attachedFile?.name, imageMetadata, inFormAttachedFile?.name]);
+
+  useEffect(() => {
+    if (receivedFile) {
+      setReceivedFileFilename(receivedFile.filename);
+      setReceivedFileServerMetadata(receivedFile.fs_stats);
+      setReceivedFileDatabaseMetadata(receivedFile.db_stats);
+      setReceivedFileJointMetadata(receivedFile.joint_stats);
+    } else {
+      setReceivedFileFilename(null);
+      setReceivedFileServerMetadata(null);
+      setReceivedFileDatabaseMetadata(null);
+      setReceivedFileJointMetadata(null);
+    }
+  }, [receivedFile]);
+
+  useEffect(() => {
+    allowedFileProps.resetAllErrors();
+
+    if (receivedFileFilename)
+      allowedFileProps.isValidName(receivedFileFilename.split('.').at(0) as string);
+
+  }, [receivedFileFilename]);
 
   useEffect(() => {
     if (allowedFileProps.fileUploadErrors[3] !== null)
@@ -108,13 +136,9 @@ const FileModalWindow = () => {
     setInFormAttachedFile(attachedFile);
   };
 
-  // useEffect(() => {
-  //   console.log(isUploadToServer || isUploadToDatabase);
-  //   console.log(isServerError || isDatabaseError)
-  // }, [isUploadToServer, isUploadToDatabase, isServerError, isDatabaseError]);
-
   const uploadFile = () => {
     if (inFormAttachedFile) {
+      setIsLoading(true);
       const formData = new FormData();
       formData.append('file', inFormAttachedFile);
       formData.append('fileProperties', JSON.stringify({
@@ -131,21 +155,23 @@ const FileModalWindow = () => {
       FileService.uploadAvatar(formData).then((res) => {
         // console.log(res);
         if (res) {
-          if (res.errorUploadToServer) {
+          // if (res.errorUploadToServer) {
+          // }
+          // if (res.errorUploadToDatabase) {
+          // }
+          if (res.serverImageUrl && res.serverImageUrl.length > 0) {
             allowedFileProps.errorUploadToServer();
-          }
-          if (res.errorUploadToDatabase) {
-            allowedFileProps.errorUploadToDatabase();
-          }
-          if (res.serverImageUrl) {
             setServerImageUrl(res.serverImageUrl + `?timestamp=${new Date().getTime()}`);
           }
-          if (res.databaseImageUrl) {
+          if (res.databaseImageUrl && res.databaseImageUrl.length > 0) {
+            allowedFileProps.errorUploadToDatabase();
             setDatabaseImageUrl(res.databaseImageUrl + `?timestamp=${new Date().getTime()}`);
           }
         } else {
           navigate(`../${inFormAttachedFile.name}`);
         }
+      }).finally(() => {
+        setIsLoading(false);
       });
     }
   };
@@ -174,41 +200,47 @@ const FileModalWindow = () => {
           tabIndex={0}
         >
           <div className="content-header">
-            <h2>File upload</h2>
+            <h2>File management</h2>
           </div>
 
           <div className='main-content'>
-            <div className="upload-image-preview">
-              {imageMetadata.url.length > 0 &&
+            {inFormAttachedFile
+              && FileExtensionFormatter(inFormAttachedFile?.type) === 'image'
+              && imageMetadata.url.length > 0
+              &&
+              <div className="upload-image-preview">
+                <p>Attached file preview</p>
                 <img src={imageMetadata.url} />
-              }
-            </div>
+              </div>
+            }
+
+            {receivedFileJointMetadata
+              &&
+              <div className="upload-image-preview">
+                <img src={receivedFileJointMetadata.url} />
+              </div>
+            }
 
             <div className='upload-image-form'>
-              <div>
-                <p>ID</p>
-                <input
-                  type="text"
-                  value='none'
-                  placeholder="ID"
-                  disabled
-                />
-              </div>
               <div>
                 <div>
                   <p>Name</p>
                   <button
                     onClick={resetName}
-                    disabled={!dataIsModified}
+                    // disabled={(location.pathname.includes('Upload') && (attachedFile?.name === inFormFileData?.name))}
+                    disabled={true}
                   >
                     Reset
                   </button>
                 </div>
                 <input
                   type="text"
-                  value={inFormAttachedFile?.name.split('.')[0] || ''}
+                  value={receivedFileFilename?.split('.')[0] || inFormAttachedFile?.name.split('.')[0] || ''}
                   onChange={(e) => {
-                    setInFormAttachedFile(new File([attachedFile as File], e.target.value + inFormAttachedFile?.name.substring(inFormAttachedFile?.name.indexOf('.')), { type: inFormAttachedFile?.type, lastModified: inFormAttachedFile?.lastModified }));
+                    if (receivedFileFilename)
+                      setReceivedFileFilename(e.target.value + '.' + receivedFileFilename?.split('.')[1]);
+                    else if (inFormAttachedFile)
+                      setInFormAttachedFile(new File([attachedFile as File], e.target.value + inFormAttachedFile?.name.substring(inFormAttachedFile?.name.indexOf('.')), { type: inFormAttachedFile?.type, lastModified: inFormAttachedFile?.lastModified }));
                   }}
                   className='activeInput'
                   placeholder="File name"
@@ -218,7 +250,7 @@ const FileModalWindow = () => {
                 <p>Extension</p>
                 <input
                   type="text"
-                  value={inFormAttachedFile?.name.substring(inFormAttachedFile?.name.indexOf('.')) || ''}
+                  value={receivedFile?.joint_stats.extension || attachedFile?.name.substring(attachedFile?.name.indexOf('.')) || ''}
                   placeholder="File ext"
                   readOnly
                 />
@@ -227,7 +259,7 @@ const FileModalWindow = () => {
                 <p>Format</p>
                 <input
                   type="text"
-                  value={inFormAttachedFile?.type !== undefined && FileExtensionFormatter(inFormAttachedFile?.type) || ''}
+                  value={receivedFile?.joint_stats.format || attachedFile?.type !== undefined && FileExtensionFormatter(attachedFile?.type) || ''}
                   placeholder="File format"
                   readOnly
                 />
@@ -236,8 +268,7 @@ const FileModalWindow = () => {
                 <p>Resolution</p>
                 <input
                   type="text"
-                  value={imageMetadata?.width + ' x ' + imageMetadata?.height || ''}
-                  placeholder="File res"
+                  value={receivedFile?.joint_stats.resolution || imageMetadata?.width + ' x ' + imageMetadata?.height || ''} placeholder="File res"
                   readOnly
                 />
               </div>
@@ -245,14 +276,14 @@ const FileModalWindow = () => {
                 <p>Size</p>
                 <input
                   type="text"
-                  value={inFormAttachedFile?.size !== undefined && FileSizeFormatter(inFormAttachedFile?.size) || ''}
+                  value={receivedFile?.joint_stats.size && FileSizeFormatter(receivedFile?.joint_stats.size) || attachedFile?.size !== undefined && FileSizeFormatter(attachedFile?.size) || ''}
                   placeholder="File size"
                   readOnly
                 />
               </div>
             </div>
 
-            {!isServerError && !isDatabaseError
+            {/* {!isServerError && !isDatabaseError
               && <div className="checkbox-buttons">
                 <button
                   onClick={() => setIsUploadToServer(!isUploadToServer)}
@@ -262,7 +293,7 @@ const FileModalWindow = () => {
                     type='checkbox'
                     checked={isUploadToServer}
                     id="serverCheckbox"
-                    onClick={() => setIsUploadToServer(!isUploadToServer)}
+                    onChange={() => setIsUploadToServer(!isUploadToServer)}
                   />
                   <label
                     htmlFor="serverCheckbox"
@@ -286,7 +317,7 @@ const FileModalWindow = () => {
                   ></label>
                   <p>Database</p>
                 </button>
-              </div>}
+              </div>} */}
 
             {(isServerError || isDatabaseError)
               && <div className='exist-image-preview'>
@@ -356,4 +387,4 @@ const FileModalWindow = () => {
   );
 };
 
-export default FileModalWindow;
+export default ManagementFileModalWindow;

@@ -27,7 +27,7 @@ const avatarExtensions: string[] = ['png'];
 const avatarResolutions: string[] = ['64x64'];
 const iconExtensions: string[] = ['png'];
 const iconResolutions: string[] = ['256x256'];
-const coverExtensions: string[] = ['jpg'];
+const coverExtensions: string[] = ['png'];
 const coverResolutions: string[] = [];
 
 export const useAllowedFileProperties = (variety: 'avatar' | 'icon' | 'cover'): IAllowedFileProperties => {
@@ -72,16 +72,10 @@ export const useAllowedFileProperties = (variety: 'avatar' | 'icon' | 'cover'): 
         if (!Array.isArray(prev)) return prev;
 
         const newErrors = [...prev];
-        if (!name) {
+        if (!name || !/^[A-Za-z0-9]+$/.test(name)) {
           newErrors[0] = {
             title: 'Invalid name',
-            message: 'name cannot be empty ',
-            allowed: '(' + ['a-z', 'A-Z', '0-9'].join(', ') + ')',
-          };
-        } else if (!/^[A-Za-z0-9]+$/.test(name)) {
-          newErrors[0] = {
-            title: 'Invalid name',
-            message: 'Name cannot contain special characters',
+            message: 'Name cannot be empty and must contain only ',
             allowed: ['a-z', 'A-Z', '0-9'].join(', '),
           };
         } else {

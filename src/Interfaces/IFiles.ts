@@ -22,18 +22,18 @@ export interface IAvatars {
   databaseImageUrl: string
 }
 
-interface IImageMetadata {
+export interface IPictureMetadata {
   extension: string
   format: string
   resolution: string
   size: number
   url: string
 }
-export interface IAvatarsWithMetadata {
+export interface IPictureWithMetadata {
   filename: string
-  fs_stats: IImageMetadata
-  db_stats: IImageMetadata
-  joint_stats: IImageMetadata
+  fs_stats: IPictureMetadata
+  db_stats: IPictureMetadata
+  joint_stats: IPictureMetadata
 }
 
 export type IFile = Partial<_IFile>;

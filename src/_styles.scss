@@ -1,0 +1,127 @@
+$baseTextColor: #AAA;
+$baseTextColorHover: white;
+
+$baseFontFamily: 'F77 Minecraft', 'Cascadia Mono', sans-serif;
+
+$baseBorderRadius: 0.2em;
+$baseBackgroundColor: #4b3529;
+$altBackgroundColor: #221812;
+
+// BUTTONS
+
+$baseAgreeColor: #00ff0080;
+$baseAgreeColorHover: #00ff00bf;
+$baseAgreeColorDisabled: $altBackgroundColor;
+
+$baseDisagreeColor: #bd0000;
+$baseDisagreeColorHover: #ff0000;
+$baseDisagreeColorDisabled: #7a0000;
+
+@mixin textHeader {
+  color: $baseTextColor;
+  width: max-content;
+  margin: 0;
+  padding: 0.2em 0.4em;
+  font-size: 1.4em;
+  color: #AAA;
+  border-radius: $baseBorderRadius;
+  background-color: $baseBackgroundColor;
+}
+
+@mixin flexColumnCenter {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+@mixin flexRowCenter {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+@mixin baseButtonStyle {
+  width: 100%;
+  box-sizing: border-box;
+  color: #AAA;
+  font-size: 1.2em;
+  font-family: $baseFontFamily;
+  border: none;
+  border-radius: $baseBorderRadius;
+  transition: all 100ms ease-in-out;
+  cursor: pointer;
+}
+@mixin agreeButtonStyle {
+  color:$baseTextColor;
+  background-color: $baseAgreeColor;
+  &:hover:not(:disabled) {
+    color: $baseTextColorHover;
+    background-color: $baseAgreeColorHover;
+  }
+  &:disabled {
+    background-color: $baseAgreeColorDisabled;
+    cursor: default;
+  }
+}
+
+@mixin disagreeButtonStyle {
+  color:$baseTextColor;
+  background-color: $baseDisagreeColor;
+  &:hover:not(:disabled) {
+    color: $baseTextColorHover;
+    background-color: $baseDisagreeColorHover;
+  }
+  &:disabled {
+    background-color: $baseDisagreeColorDisabled;
+    cursor: default;
+  }
+}
+
+
+
+$backgroundColor: #2a1e16;
+$elementBackgroundColor: #221812;
+$borderRadius: 0.2em;
+
+@mixin defaultBorderRadius {
+  border-radius: $borderRadius;
+}
+
+@mixin elementBackgroundRadius {
+  background-color: $elementBackgroundColor;
+  border-radius: $borderRadius;
+}
+
+@mixin defaultFontFamily {
+  font-family: 'F77 Minecraft', PressStart2P-Regular, 'Cascadia Mono', sans-serif;
+}
+
+@mixin SearchLineStyle {
+
+    > input[type="text"] {
+      width: 90%;
+      font-family: 'F77 Minecraft', PressStart2P-Regular, 'Cascadia Mono', sans-serif;
+      color: #AAA;
+      font-size: 1em;
+      border-radius: 0.2em;
+      padding: 0.6em 0.4em;
+      border: 0;
+      transition: all 0.25s ease-in-out;
+    }
+    > input[type="text"]:not(:disabled) {
+      background-color: rgba(0, 0, 0, 0.2);
+    }
+    > input[type="text"]:disabled {
+      background-color: rgba(lightgray, 0.4);
+    }
+    > input[type="text"]:focus {
+      color: white;
+      border: none;
+      outline: none;
+      background-color: rgba(0, 0, 0, 0.4);
+    }
+    > input[type="text"]:focus::placeholder {
+      color: transparent;
+    }
+}

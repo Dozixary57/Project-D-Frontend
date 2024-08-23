@@ -34,8 +34,7 @@
       margin: 0;
       font-size: 1.5em;
       text-align: center;
-      padding: 2.5em 0;
-      // background-color: red;
+      // padding: 2.25em 0 2.75em 0;
     }
 
     >input {
@@ -87,6 +86,7 @@
     margin-top: 1em;
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(10em, 15em));
+    grid-template-rows: repeat(auto-fit, minmax(10em, 17.5em));
     justify-content: center;
     gap: 1.5em;
     box-sizing: border-box;
@@ -94,20 +94,28 @@
     border-radius: 0.2em;
     background-color: rgba(black, 0.2);
 
+    >p {
+      margin: 0;
+      font-size: 1.5em;
+      text-align: center;
+      align-self: center;
+    }
+
     >a {
-      width: 100%;
-      height: 100%;
       text-decoration: none;
 
       .AvatarCard {
         position: relative;
-        width: 100%;
-        // height: 100%;
+        width: 15em;
+        height: 15em;
         color: #AAA;
         border-radius: 0.2em;
         background-color: rgba(black, 0.2);
         outline: 0.2em solid rgba(black, 1);
         transition: all 100ms ease-in-out;
+        background-image: url(../../images/TransparentBackground.png);
+        background-size: 36px;
+        image-rendering: pixelated;
 
         &:hover {
           color: white;
@@ -118,7 +126,7 @@
         >img {
           width: 100%;
           height: 100%;
-          border-radius: 0.2em;
+          border-radius: 0.1em;
           image-rendering: pixelated;
         }
 
@@ -141,52 +149,70 @@
           outline: rgba(160, 0, 255, 1) solid 0.1em;
         }
 
-        >caption {
+        >figcaption {
           position: absolute;
           display: flex;
           justify-content: flex-start;
-          left: 0.2em;
-          bottom: 0;
+          left: 0.15em;
+          bottom: 0em;
           width: 100%;
-          font-size: 1.2em;
           padding: 0.2em 0;
 
+          // >p {
+          //   max-width: 70%;
+          //   max-height: 0.9em;
+          //   overflow-y: hidden;
+          //   margin: 0;
+          //   padding: 0.2em 0.4em;
+          //   border-radius: 0.2em;
+          //   word-break: break-all;
+          //   background-color: rgba(black, 0.8);
+          // }
+
           >p {
-            width: fit-content;
+            max-width: 70%;
             margin: 0;
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 2;
+            line-clamp: 2;
+            word-break: break-all;
+            overflow: hidden;
+            line-height: 1.05em;
             padding: 0.2em 0.4em;
             border-radius: 0.2em;
+            text-overflow: ellipsis;
             background-color: rgba(black, 0.8);
           }
         }
       }
+    }
 
-      .SynchronizeImagesStorage {
-        margin-top: 0.5em;
-        width: 100%;
-        // height: 100%;
-        color: #AAA;
-        padding: 0.5em 0;
-        border: none;
-        border-radius: 0.2em;
-        font-size: 1em;
-        font-family: 'F77 Minecraft', PressStart2P-Regular, 'Cascadia Mono', sans-serif;
-        background-color: rgba(black, 0.2);
-        outline: #000000 solid 0.2em;
-        cursor: pointer;
-        transition: all 100ms ease-in-out;
+    .SynchronizeImagesStorage {
+      margin-top: 0.5em;
+      width: 100%;
+      // height: 100%;
+      color: #AAA;
+      padding: 0.5em 0;
+      border: none;
+      border-radius: 0.2em;
+      font-size: 1em;
+      font-family: 'F77 Minecraft', PressStart2P-Regular, 'Cascadia Mono', sans-serif;
+      background-color: rgba(black, 0.2);
+      outline: #000000 solid 0.2em;
+      cursor: pointer;
+      transition: all 100ms ease-in-out;
 
-        &:hover:not(:disabled) {
-          color: white;
-          outline: rgba(white, 0.5) solid 0.2em;
-          background-color: rgba(white, 0.1);
-          filter: brightness(1.5);
-        }
+      &:hover:not(:disabled) {
+        color: white;
+        outline: rgba(white, 0.5) solid 0.2em;
+        background-color: rgba(white, 0.1);
+        filter: brightness(1.5);
+      }
 
-        &:disabled {
-          opacity: 0.5;
-          cursor: not-allowed;
-        }
+      &:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
       }
     }
   }
@@ -198,10 +224,16 @@
     border-radius: 0.1em;
     outline: black solid 0.15em;
   }
+
   .Indicator.Server {
-    background-color: rgba(0, 225, 255, 1);
+    background-color: rgb(0, 225, 255);
   }
+
   .Indicator.Database {
-    background-color: rgba(160, 0, 255, 1);
+    background-color: rgb(160, 0, 255, );
+  }
+
+  .Indicator.Conflict {
+    background-color: rgb(255, 0, 0);
   }
 }

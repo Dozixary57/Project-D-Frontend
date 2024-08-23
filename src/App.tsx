@@ -28,7 +28,8 @@ import AccountModalWindow from './components/ModalWindows/AccountModalWindow';
 import { IPrivileges } from './Interfaces/IAccounts';
 import { FileManagementPage } from './pages/service/FileManagementPage';
 import { FileManagementPage_Avatars } from './pages/service/FileManagementPage_Avatars';
-import FileModalWindow from './components/ModalWindows/FileModalWindow';
+import ManagementFileModalWindow from './components/ModalWindows/ManagementFileModalWindow';
+import UploadFileModalWindow from './components/ModalWindows/UploadFileModalWindow';
 
 function App() {
   const navigate = useNavigate();
@@ -88,7 +89,8 @@ function App() {
           <>
             <Route path="/Service/File_management" element={<FileManagementPage />} />
             <Route path="/Service/File_management/Avatars" element={<FileManagementPage_Avatars />}>
-              <Route path=":avatarId" element={<FileModalWindow />} />
+              <Route path="Upload" element={<UploadFileModalWindow />} />
+              <Route path=":avatarId" element={<ManagementFileModalWindow />} />
             </Route>
           </>
         )}
