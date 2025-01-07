@@ -46,23 +46,68 @@
       border-radius: 0.2em;
       background-color: rgba(black, 0.2);
 
+      >p {
+        position: absolute;
+        left: 0.5em;
+        width: 30%;
+        margin: 0;
+        padding: 0.25em 0;
+        font-size: 1.2em;
+        gap: 1em;
+      }
+
       >h2 {
         margin: 0;
         padding: 0.25em 0;
         font-size: 1.5em;
         gap: 1em;
       }
+
+      >button {
+        position: absolute;
+        right: 0.5em;
+        @include resetButtonStyle;
+      }
     }
 
     .main-content {
-      display: flex;
-      flex-direction: column;
       gap: 1.5em;
 
-      .upload-image-preview {
+      &.single-form {
+        display: flex;
+        flex-direction: column;
+      }
+
+      &.multiple-form {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        grid-template-rows: repeat(4, auto);
+      }
+
+      .server-header {
+        @include flexColumnCenter;
+        margin: 0;
+        grid-area: 1 / 1 / 2 / 2;
+      }
+
+      .database-header {
+        @include flexColumnCenter;
+        margin: 0;
+        grid-area: 1 / 2 / 2 / 3;
+      }
+
+      .image-preview {
         width: 100%;
         @include flexColumnCenter;
         gap: 0.5em;
+
+        &.server-image {
+          grid-area: 2 / 1 / 3 / 2;
+        }
+
+        &.database-image {
+          grid-area: 2 / 2 / 3 / 3;
+        }
 
         >p {
           @include textHeader;
@@ -77,11 +122,77 @@
         }
       }
 
-      .upload-image-form {
+      .image-filename-field {
+        grid-area: 3 / 1 / 4 / 3;
+        @include textHeader_textInputField;
+
+        >p {
+          @include textHeader;
+        }
+
+        >input[type="text"] {
+          @include textInputField;
+        }
+      }
+
+      .data-image-form {
         display: grid;
-        grid-template-columns: repeat(9, 1fr);
-        grid-template-rows: repeat(2, auto);
         gap: 1.5em;
+        // justify-content: center;
+
+        &.joint-form {
+          grid-template-columns: repeat(9, 1fr);
+          grid-template-rows: repeat(2, auto);
+
+          >div:nth-of-type(1) {
+            grid-area: 1 / 1 / 2 / 7;
+          }
+
+          >div:nth-of-type(2) {
+            grid-area: 1 / 7 / 2 / 10;
+          }
+
+          >div:nth-of-type(3) {
+            grid-area: 2 / 1 / 3 / 4;
+          }
+
+          >div:nth-of-type(4) {
+            grid-area: 2 / 4 / 3 / 7;
+          }
+
+          >div:nth-of-type(5) {
+            grid-area: 2 / 7 / 3 / 10;
+          }
+        }
+
+        &.server-form {
+          grid-area: 4 / 1 / 5 / 2;
+        }
+
+        &.database-form {
+          grid-area: 4 / 2 / 5 / 3;
+        }
+
+        >p {
+          // justify-self: center;
+          // align-self: center;
+          margin: 0;
+          font-size: 1.5em;
+        }
+
+        >button {
+          // justify-self: center;
+          // align-self: center;
+          // margin-bottom: 10em;
+          @include baseButtonStyle;
+          @include altButtonStyle;
+        }
+
+        .drop-file-field {
+          // justify-self: center;
+          // align-self: center;
+          @include dropFileFieldStyle;
+        }
 
         >div {
           width: 100%;
@@ -89,77 +200,19 @@
           flex-direction: column;
           gap: 0.75em;
 
-          >p,
-          >div>p {
+          >p {
             @include textHeader;
           }
 
-          >div {
-            display: flex;
-            flex-direction: row;
-            align-items: center;
+          >input[type="text"] {
+            @include textInputField;
           }
-
-          >div>button {
-            font-size: 1.2em;
-            font-family: 'F77 Minecraft', PressStart2P-Regular, 'Cascadia Mono', sans-serif;
-            color: rgba(255, 0, 0, 0.75);
-            margin-left: 0.75em;
-            text-decoration: underline;
-            border: none;
-            background-color: transparent;
-            transition: all 100ms ease-in-out;
-            cursor: pointer;
-
-            &:hover {
-              color: rgba(255, 0, 0, 1);
-            }
-
-            &:disabled {
-              opacity: 0;
-              cursor: default;
-            }
-          }
-
-          >input {
-            width: 100%;
-            box-sizing: border-box;
-            font-size: 1.4em;
-            color: #d4d4d4;
-            font-family: 'F77 Minecraft', PressStart2P-Regular, 'Cascadia Mono', sans-serif;
-            border-radius: 0.2em;
-            text-indent: 0.4em;
-            padding: 0.4em 0;
-            border: none;
-            outline: none;
-          }
-
-          >input:read-only,
-          >input:disabled {
-            background-color: rgba(255, 255, 255, 0.05);
-          }
-        }
-
-        >div:nth-of-type(1) {
-          grid-area: 1 / 1 / 2 / 7;
-        }
-
-        >div:nth-of-type(2) {
-          grid-area: 1 / 7 / 2 / 10;
-        }
-
-        >div:nth-of-type(3) {
-          grid-area: 2 / 1 / 3 / 4;
-        }
-
-        >div:nth-of-type(4) {
-          grid-area: 2 / 4 / 3 / 7;
-        }
-
-        >div:nth-of-type(5) {
-          grid-area: 2 / 7 / 3 / 10;
         }
       }
+
+      // .data-conflict-image-form {
+
+      // }
     }
 
     // .checkbox-buttons {
@@ -275,11 +328,8 @@
 
       .image-preview {
         width: 100%;
-        // height: 100%;
         display: flex;
         flex-direction: column;
-        // justify-content: center;
-        // align-items: center;
         border-radius: 0.4em;
         gap: 0.75em;
 
@@ -317,37 +367,11 @@
             background-size: 40%;
             background-position: center;
             background-repeat: no-repeat;
-            cursor: pointer;
-
 
             >img {
               width: 100%;
               image-rendering: pixelated;
               border-radius: 0.4em;
-              outline: orange solid 0.1em;
-
-            }
-
-            .rewrite-overlay {
-              position: absolute;
-              top: 0;
-              left: 0;
-              width: 100%;
-              height: 100%;
-              display: flex;
-              border-radius: 0.4em;
-              justify-content: center;
-              align-items: center;
-              background-color: rgba(white, 0.1);
-
-              >p {
-                margin: 0;
-                padding: 0.2em 0.4em;
-                font-size: 1.4em;
-                color: white;
-                border-radius: 0.2em;
-                background-color: rgb(216, 140, 0);
-              }
             }
           }
         }
@@ -357,8 +381,9 @@
     .validation-error-messages {
       display: flex;
       flex-direction: column;
-      padding: 1em 0;
+      padding: 1em;
       gap: 1em;
+      border-radius: 0.4em;
       background-color: rgba(black, 0.2);
 
       >p {
@@ -386,6 +411,7 @@
     }
 
     .action-buttons {
+      grid-area: 5 / 1 / 6 / 3;
       display: flex;
       flex-direction: column;
       gap: 0.5em;
@@ -399,23 +425,8 @@
         padding: 1.25em 0;
       }
 
-      // .rewrite-button {
-      //   padding: 1.25em 0;
-      //   background-color: rgba(216, 140, 0, 0.35);
-
-      //   &:hover:not(:disabled) {
-      //     color: white;
-      //     background-color: rgba(216, 140, 0, 0.75);
-      //   }
-
-      //   &:disabled {
-      //     background-color: rgba(black, 0.25);
-      //     cursor: default;
-      //   }
-      // }
-
       .close-button {
-        @include disagreeButtonStyle;
+        @include neutralButtonStyle;
         padding: 0.75em 0;
       }
     }
@@ -442,14 +453,14 @@
 //   }
 // }
 
-.activeInput {
-  background-color: rgba(black, 0.4);
-}
+// .activeInput {
+//   background-color: rgba(black, 0.4);
+// }
 
-.disabledInput {
-  // cursor: not-allowed;
-  background-color: rgba(white, 0.05);
-}
+// .disabledInput {
+//   // cursor: not-allowed;
+//   background-color: rgba(white, 0.05);
+// }
 
 .loading-indicator {
   display: flex;

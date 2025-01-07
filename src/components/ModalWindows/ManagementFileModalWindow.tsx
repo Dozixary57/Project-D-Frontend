@@ -5,32 +5,41 @@ import { FileExtensionFormatter, FileSizeFormatter } from '../../tools/DataForma
 import FileService from '../../backend/services/fileService';
 import { useAllowedFileProperties } from '../../AllowedValues/AllowedFileProperties';
 import { IPictureMetadata, IPictureWithMetadata } from '../../Interfaces/IFiles';
+import LoadingImage from '../LoadingImage/LoadingImage';
 
 const ManagementFileModalWindow = () => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [successfulMessage, setSuccessfulMessage] = useState<boolean>(false);
 
-  const { attachedFile } = useOutletContext<{ attachedFile: File | null }>();
+  // const { attachedFile } = useOutletContext<{ attachedFile: File | null }>();
+  const [attachedFile, setAttachedFile] = useState<File | null>(null);
   const [imageMetadata, setImageMetadata] = useState<{ width: number, height: number, url: string }>({ width: 0, height: 0, url: '' });
   const [inFormAttachedFile, setInFormAttachedFile] = useState<File | null>(null);
 
   const [receivedFile, setReceivedFile] = useState<IPictureWithMetadata | null>(null);
+  const [inFormFileData, setInFormFileData] = useState<IPictureWithMetadata | null>(null);
   // const [inFormReceivedFile, setInFormReceivedFile] = useState<IAvatarsWithMetadata | null>(null);
-  const [receivedFileFilename, setReceivedFileFilename] = useState<string | null>(null);
-  const [receivedFileServerMetadata, setReceivedFileServerMetadata] = useState<IPictureMetadata | null>(null);
-  const [receivedFileDatabaseMetadata, setReceivedFileDatabaseMetadata] = useState<IPictureMetadata | null>(null);
-  const [receivedFileJointMetadata, setReceivedFileJointMetadata] = useState<IPictureMetadata | null>(null);
+  // const [receivedFileFilename, setReceivedFileFilename] = useState<string | null>(null);
+  // const [receivedFileServerMetadata, setReceivedFileServerMetadata] = useState<IPictureMetadata | null>(null);
+  // const [receivedFileDatabaseMetadata, setReceivedFileDatabaseMetadata] = useState<IPictureMetadata | null>(null);
+  // const [receivedFileJointMetadata, setReceivedFileJointMetadata] = useState<IPictureMetadata | null>(null);
 
-  const [isUploadToServer, setIsUploadToServer] = useState<boolean>(true);
-  const [isUploadToDatabase, setIsUploadToDatabase] = useState<boolean>(true);
+  // const [filename, setFilename] = useState<string | null>(null);
+  // const [jointFileMetadata, setJointFileMetadata] = useState<IPictureMetadata | null>(null);
+  // const [serverFileMetadata, setServerFileMetadata] = useState<IPictureMetadata | null>(null);
+  // const [databaseFileMetadata, setDatabaseFileMetadata] = useState<IPictureMetadata | null>(null);
 
-  const [serverImageUrl, setServerImageUrl] = useState<string>('');
-  const [databaseImageUrl, setDatabaseImageUrl] = useState<string>('');
+  // const [isUploadToServer, setIsUploadToServer] = useState<boolean>(true);
+  // const [isUploadToDatabase, setIsUploadToDatabase] = useState<boolean>(true);
 
-  const [isUploadServerRewrite, setIsUploadServerRewrite] = useState<boolean>(false);
-  const [isUploadDatabaseRewrite, setIsUploadDatabaseRewrite] = useState<boolean>(false);
+  // const [serverImageUrl, setServerImageUrl] = useState<string>('');
+  // const [databaseImageUrl, setDatabaseImageUrl] = useState<string>('');
 
-  const [isServerError, setIsServerError] = useState<boolean>(false);
-  const [isDatabaseError, setIsDatabaseError] = useState<boolean>(false);
+  // const [isUploadServerRewrite, setIsUploadServerRewrite] = useState<boolean>(false);
+  // const [isUploadDatabaseRewrite, setIsUploadDatabaseRewrite] = useState<boolean>(false);
+
+  // const [isServerError, setIsServerError] = useState<boolean>(false);
+  // const [isDatabaseError, setIsDatabaseError] = useState<boolean>(false);
 
   const allowedFileProps = useAllowedFileProperties('avatar');
 
@@ -41,34 +50,47 @@ const ManagementFileModalWindow = () => {
   useEffect(() => {
     thisWindowRef.current?.focus();
 
-    if (attachedFile) {
-      setInFormAttachedFile(attachedFile);
-      const img = new Image();
-      img.onload = function () {
-        const reader = new FileReader();
-        reader.onload = () => {
-          if (reader.readyState === 2) {
-            setImageMetadata({
-              width: img.width,
-              height: img.height,
-              url: reader.result as string
-            })
-          }
-        };
-        reader.readAsDataURL(attachedFile);
-      };
-      img.src = URL.createObjectURL(attachedFile);
-    } else if (ParamId) {
+    // if (attachedFile) {
+    //   setInFormAttachedFile(attachedFile);
+    //   const img = new Image();
+    //   img.onload = function () {
+    //     const reader = new FileReader();
+    //     reader.onload = () => {
+    //       if (reader.readyState === 2) {
+    //         setImageMetadata({
+    //           width: img.width,
+    //           height: img.height,
+    //           url: reader.result as string
+    //         })
+    //       }
+    //     };
+    //     reader.readAsDataURL(attachedFile);
+    //   };
+    //   img.src = URL.createObjectURL(attachedFile);
+    // } else if (ParamId) {
+    //   console.log(ParamId);
+    //   FileService.getAvatar(ParamId).then((res) => {
+    //     console.log(res);
+    //     if (res && res.filename)
+    //       setReceivedFile(res);
+    //     else
+    //       navigate('..');
+    //   });
+    // }
+
+    if (ParamId) {
+      // console.log(ParamId);
       FileService.getAvatar(ParamId).then((res) => {
-        console.log(res);
-        if (res && res.filename)
+        if (res && res.filename) {
           setReceivedFile(res);
+          setInFormFileData(res);
+        }
         else
           navigate('..');
+      }).finally(() => {
+        setIsLoading(false);
       });
     }
-
-    setIsLoading(false);
 
     document.body.style.overflow = 'hidden';
 
@@ -79,62 +101,62 @@ const ManagementFileModalWindow = () => {
   }, [ParamId]);
 
   useEffect(() => {
-    allowedFileProps.resetAllErrors();
-    setIsServerError(false);
-    setIsDatabaseError(false);
-    setIsUploadServerRewrite(false);
-    setIsUploadDatabaseRewrite(false);
-    setServerImageUrl('');
-    setDatabaseImageUrl('');
+    allowedFileProps.isValidName(inFormFileData?.filename.split('.').at(0) as string);
+  }, [inFormFileData]);
 
-    if (inFormAttachedFile)
-      allowedFileProps.isValidName(inFormAttachedFile?.name.split('.').at(0) as string);
+  // useEffect(() => {
+  //   allowedFileProps.resetAllErrors();
+  //   setIsServerError(false);
+  //   setIsDatabaseError(false);
+  //   setIsUploadServerRewrite(false);
+  //   setIsUploadDatabaseRewrite(false);
+  //   setServerImageUrl('');
+  //   setDatabaseImageUrl('');
 
-    if (attachedFile)
-      allowedFileProps.isValidExtension(attachedFile?.name);
+  //   if (inFormAttachedFile)
+  //     allowedFileProps.isValidName(inFormAttachedFile?.name.split('.').at(0) as string);
 
-    if (imageMetadata.width && imageMetadata.height)
-      allowedFileProps.isValidResolution(`${imageMetadata.width}x${imageMetadata.height}`);
+  //   if (attachedFile)
+  //     allowedFileProps.isValidExtension(attachedFile?.name);
 
-  }, [attachedFile?.name, imageMetadata, inFormAttachedFile?.name]);
+  //   if (imageMetadata.width && imageMetadata.height)
+  //     allowedFileProps.isValidResolution(`${imageMetadata.width}x${imageMetadata.height}`);
 
-  useEffect(() => {
-    if (receivedFile) {
-      setReceivedFileFilename(receivedFile.filename);
-      setReceivedFileServerMetadata(receivedFile.fs_stats);
-      setReceivedFileDatabaseMetadata(receivedFile.db_stats);
-      setReceivedFileJointMetadata(receivedFile.joint_stats);
-    } else {
-      setReceivedFileFilename(null);
-      setReceivedFileServerMetadata(null);
-      setReceivedFileDatabaseMetadata(null);
-      setReceivedFileJointMetadata(null);
-    }
-  }, [receivedFile]);
+  // }, [attachedFile?.name, imageMetadata, inFormAttachedFile?.name]);
 
-  useEffect(() => {
-    allowedFileProps.resetAllErrors();
+  // useEffect(() => {
+  //   if (receivedFile) {
+  //     setReceivedFileFilename(receivedFile.filename);
+  //     setReceivedFileServerMetadata(receivedFile.fs_stats);
+  //     setReceivedFileDatabaseMetadata(receivedFile.db_stats);
+  //     setReceivedFileJointMetadata(receivedFile.joint_stats);
+  //   } else {
+  //     setReceivedFileFilename(null);
+  //     setReceivedFileServerMetadata(null);
+  //     setReceivedFileDatabaseMetadata(null);
+  //     setReceivedFileJointMetadata(null);
+  //   }
+  // }, [receivedFile]);
 
-    if (receivedFileFilename)
-      allowedFileProps.isValidName(receivedFileFilename.split('.').at(0) as string);
+  // useEffect(() => {
+  //   allowedFileProps.resetAllErrors();
 
-  }, [receivedFileFilename]);
+  //   if (receivedFileFilename)
+  //     allowedFileProps.isValidName(receivedFileFilename.split('.').at(0) as string);
 
-  useEffect(() => {
-    if (allowedFileProps.fileUploadErrors[3] !== null)
-      setIsServerError(true);
-    else
-      setIsServerError(false);
+  // }, [receivedFileFilename]);
 
-    if (allowedFileProps.fileUploadErrors[4] !== null)
-      setIsDatabaseError(true);
-    else
-      setIsDatabaseError(false);
-  }, [allowedFileProps.fileUploadErrors]);
+  // useEffect(() => {
+  //   if (allowedFileProps.fileUploadErrors[3] !== null)
+  //     setIsServerError(true);
+  //   else
+  //     setIsServerError(false);
 
-  const resetName = () => {
-    setInFormAttachedFile(attachedFile);
-  };
+  //   if (allowedFileProps.fileUploadErrors[4] !== null)
+  //     setIsDatabaseError(true);
+  //   else
+  //     setIsDatabaseError(false);
+  // }, [allowedFileProps.fileUploadErrors]);
 
   const uploadFile = () => {
     if (inFormAttachedFile) {
@@ -142,16 +164,16 @@ const ManagementFileModalWindow = () => {
       const formData = new FormData();
       formData.append('file', inFormAttachedFile);
       formData.append('fileProperties', JSON.stringify({
-        uploadToServer: isUploadToServer,
-        uploadToDatabase: isUploadToDatabase,
-        uploadServerRewrite: isUploadServerRewrite,
-        uploadDatabaseRewrite: isUploadDatabaseRewrite
+        // uploadToServer: isUploadToServer,
+        // uploadToDatabase: isUploadToDatabase,
+        // uploadServerRewrite: isUploadServerRewrite,
+        // uploadDatabaseRewrite: isUploadDatabaseRewrite
       }));
       allowedFileProps.resetServerErrors();
-      setIsUploadServerRewrite(false);
-      setIsUploadDatabaseRewrite(false);
-      setServerImageUrl('');
-      setDatabaseImageUrl('');
+      // setIsUploadServerRewrite(false);
+      // setIsUploadDatabaseRewrite(false);
+      // setServerImageUrl('');
+      // setDatabaseImageUrl('');
       FileService.uploadAvatar(formData).then((res) => {
         // console.log(res);
         if (res) {
@@ -159,20 +181,56 @@ const ManagementFileModalWindow = () => {
           // }
           // if (res.errorUploadToDatabase) {
           // }
-          if (res.serverImageUrl && res.serverImageUrl.length > 0) {
-            allowedFileProps.errorUploadToServer();
-            setServerImageUrl(res.serverImageUrl + `?timestamp=${new Date().getTime()}`);
-          }
-          if (res.databaseImageUrl && res.databaseImageUrl.length > 0) {
-            allowedFileProps.errorUploadToDatabase();
-            setDatabaseImageUrl(res.databaseImageUrl + `?timestamp=${new Date().getTime()}`);
-          }
+          // if (res.serverImageUrl && res.serverImageUrl.length > 0) {
+          //   allowedFileProps.errorUploadToServer();
+          //   setServerImageUrl(res.serverImageUrl + `?timestamp=${new Date().getTime()}`);
+          // }
+          // if (res.databaseImageUrl && res.databaseImageUrl.length > 0) {
+          //   allowedFileProps.errorUploadToDatabase();
+          //   setDatabaseImageUrl(res.databaseImageUrl + `?timestamp=${new Date().getTime()}`);
+          // }
         } else {
-          navigate(`../${inFormAttachedFile.name}`);
+          // navigate(`../${inFormAttachedFile.name}`);
         }
       }).finally(() => {
         setIsLoading(false);
       });
+    }
+  };
+
+  // useEffect(() => {
+  //   console.log(receivedFile);
+  // }, [receivedFile])
+
+  // useEffect(() => {
+  //   console.log(inFormFileData?.filename === '');
+  // }, [inFormFileData])
+
+  const syncImagesStorage = (filename: string) => {
+    setIsLoading(true);
+    if (filename && filename !== '') {
+      FileService.syncImagesStorage(filename).then((res) => {
+        if (res && (res.serverImageUrl || res.databaseImageUrl)) {
+          if (ParamId) {
+            FileService.getAvatar(ParamId).then((r) => {
+              if (r && r.filename) {
+                setReceivedFile(r);
+                setInFormFileData(r);
+              }
+              else
+                navigate('..');
+            });
+          }
+        }
+      }).finally(() => {
+        setIsLoading(false);
+      });
+    }
+  }
+
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (event.target.files && event.target.files[0]) {
+      setAttachedFile(event.target.files[0]);
     }
   };
 
@@ -183,16 +241,16 @@ const ManagementFileModalWindow = () => {
         <div ref={thisWindowRef} className="modal-content"
           onClick={(e) => e.stopPropagation()}
           onKeyDown={(event) => {
-            if (event.key === 'Enter'
-              && (
-                (isUploadToServer || isUploadToDatabase) &&
-                (
-                  !(isServerError && isDatabaseError) ||
-                  (isServerError || isDatabaseError) && (isUploadServerRewrite || isUploadDatabaseRewrite)
-                )
-              )) {
-              uploadFile();
-            }
+            // if (event.key === 'Enter'
+            //   && (
+            //     (isUploadToServer || isUploadToDatabase) &&
+            //     (
+            //       !(isServerError && isDatabaseError) ||
+            //       (isServerError || isDatabaseError) && (isUploadServerRewrite || isUploadDatabaseRewrite)
+            //     )
+            //   )) {
+            //   uploadFile();
+            // }
             if (event.key === 'Escape') {
               navigate('..');
             }
@@ -200,90 +258,255 @@ const ManagementFileModalWindow = () => {
           tabIndex={0}
         >
           <div className="content-header">
+            <p
+              style={receivedFile === inFormFileData ? { opacity: '0.35' } : { opacity: '1' }}
+            >{attachedFile === inFormAttachedFile ? 'Used default changes' : 'Used new changes'}</p>
             <h2>File management</h2>
+            <button
+              onClick={() => setInFormFileData(receivedFile)}
+              disabled={receivedFile === inFormFileData}
+            >Reset</button>
           </div>
 
-          <div className='main-content'>
-            {inFormAttachedFile
-              && FileExtensionFormatter(inFormAttachedFile?.type) === 'image'
-              && imageMetadata.url.length > 0
-              &&
-              <div className="upload-image-preview">
-                <p>Attached file preview</p>
-                <img src={imageMetadata.url} />
-              </div>
-            }
+          {isLoading ?
+            <div className='loading-indicator'>
+              <LoadingImage />
+            </div>
+            :
+            successfulMessage ?
+              <p></p>
+              :
+              <div className={`main-content ${receivedFile?.joint_stats ? 'single-form' : 'multiple-form'}`}>
+                {inFormFileData?.joint_stats &&
+                  <>
+                    <div className='image-preview'>
+                      <img src={inFormFileData?.joint_stats.url} />
+                    </div>
+                    <div className='data-image-form joint-form'>
+                      <div>
+                        <p>Name</p>
+                        <input
+                          type="text"
+                          value={inFormFileData?.filename?.split('.')[0]}
+                          onChange={(e) => {
+                            if (inFormFileData)
+                              setInFormFileData({ ...inFormFileData, filename: e.target.value + '.' + inFormFileData.filename?.split('.')[1] });
+                          }}
+                          placeholder="File name"
+                        />
+                      </div>
+                      <div>
+                        <p>Extension</p>
+                        <input
+                          type="text"
+                          value={inFormFileData?.joint_stats.extension || ''}
+                          placeholder="File ext"
+                          readOnly
+                        />
+                      </div>
+                      <div>
+                        <p>Format</p>
+                        <input
+                          type="text"
+                          value={inFormFileData?.joint_stats.format || ''}
+                          placeholder="File format"
+                          readOnly
+                        />
+                      </div>
+                      <div>
+                        <p>Resolution</p>
+                        <input
+                          type="text"
+                          value={inFormFileData?.joint_stats.resolution || ''}
+                          placeholder="File res"
+                          readOnly
+                        />
+                      </div>
+                      <div>
+                        <p>Size</p>
+                        <input
+                          type="text"
+                          value={inFormFileData?.joint_stats.size && FileSizeFormatter(inFormFileData?.joint_stats.size) || ''}
+                          placeholder="File size"
+                          readOnly
+                        />
+                      </div>
+                    </div>
+                  </>
+                }
 
-            {receivedFileJointMetadata
+                {(inFormFileData?.fs_stats || inFormFileData?.db_stats) &&
+                  <>
+                    {/* <div> */}
+                    <h3 className='server-header'>Server</h3>
+                    <h3 className='database-header'>Database</h3>
+                    <div className='image-preview server-image'>
+                      {inFormFileData.fs_stats?.url ?
+                        <img src={inFormFileData.fs_stats.url} />
+                        :
+                        <img src={require('../../images/HideImageIcon.png')} />
+                      }
+                    </div>
+                    <div className='image-preview database-image'>
+                      {inFormFileData.db_stats?.url ?
+                        <img src={inFormFileData.db_stats.url} />
+                        :
+                        <img src={require('../../images/HideImageIcon.png')} />
+                      }
+                    </div>
+                    <div className='image-filename-field'>
+                      <p>Name</p>
+                      <input
+                        type="text"
+                        value={inFormFileData?.filename?.split('.')[0]}
+                        onChange={(e) => {
+                          if (inFormFileData)
+                            setInFormFileData({ ...inFormFileData, filename: e.target.value + '.' + inFormFileData.filename?.split('.')[1] });
+                        }}
+                        placeholder="File name"
+                      />
+                    </div>
+                    <div className='data-image-form server-form'>
+                      {inFormFileData.fs_stats ?
+                        <>
+                          <div>
+                            <p>Extension</p>
+                            <input
+                              type="text"
+                              value={inFormFileData?.fs_stats.extension || ''}
+                              placeholder="File ext"
+                              readOnly
+                            />
+                          </div>
+                          <div>
+                            <p>Format</p>
+                            <input
+                              type="text"
+                              value={inFormFileData?.fs_stats.format || ''}
+                              placeholder="File format"
+                              readOnly
+                            />
+                          </div>
+                          <div>
+                            <p>Resolution</p>
+                            <input
+                              type="text"
+                              value={inFormFileData?.fs_stats.resolution || ''}
+                              placeholder="File res"
+                              readOnly
+                            />
+                          </div>
+                          <div>
+                            <p>Size</p>
+                            <input
+                              type="text"
+                              value={inFormFileData?.fs_stats.size && FileSizeFormatter(inFormFileData?.fs_stats.size) || ''}
+                              placeholder="File size"
+                              readOnly
+                            />
+                          </div>
+                        </>
+                        :
+                        <>
+                          <p>No image data</p>
+                          <button
+                            onClick={() => {
+                              syncImagesStorage(inFormFileData.filename);
+                            }}
+                            disabled={isLoading || inFormFileData.filename.split('.')[0] === ''}
+                          >Synchronize with the database?</button>
+                          <p>or</p>
+                          <div className="drop-file-field">
+                            <label htmlFor="fileInput" style={attachedFile ? { padding: '2.1em 0 2.9em 0' } : {}}>
+                              {attachedFile ?
+                                <>
+                                  <span style={{ fontWeight: 'bold', color: 'white' }}>{attachedFile.name}</span> is attached
+                                </>
+                                :
+                                <>
+                                  <span style={{ fontWeight: 'bold', color: 'white' }}>Upload file</span>
+                                  <br />
+                                  <span>[ click & drop ]</span>
+                                </>
+                              }
+                            </label>
+                            <input
+                              type="file"
+                              accept="image/png"
+                              onChange={handleFileChange}
+                              id="fileInput"
+                            />
+                            {attachedFile && <button onClick={() => navigate('Upload')}>Go to upload</button>}
+                          </div>
+                        </>
+                      }
+                    </div>
+                    {/* </div> */}
+                    {/* <div> */}
+                    <div className='data-image-form database-form'>
+                      {inFormFileData.db_stats ?
+                        <>
+                          <div>
+                            <p>Extension</p>
+                            <input
+                              type="text"
+                              value={inFormFileData?.db_stats.extension || ''}
+                              placeholder="File ext"
+                              readOnly
+                            />
+                          </div>
+                          <div>
+                            <p>Format</p>
+                            <input
+                              type="text"
+                              value={inFormFileData?.db_stats.format || ''}
+                              placeholder="File format"
+                              readOnly
+                            />
+                          </div>
+                          <div>
+                            <p>Resolution</p>
+                            <input
+                              type="text"
+                              value={inFormFileData?.db_stats.resolution || ''}
+                              placeholder="File res"
+                              readOnly
+                            />
+                          </div>
+                          <div>
+                            <p>Size</p>
+                            <input
+                              type="text"
+                              value={inFormFileData?.db_stats.size && FileSizeFormatter(inFormFileData?.db_stats.size) || ''}
+                              placeholder="File size"
+                              readOnly
+                            />
+                          </div>
+                        </>
+                        :
+                        <>
+                          <p>No image data</p>
+                          <button
+                            onClick={() => {
+                              syncImagesStorage(inFormFileData.filename);
+                            }}
+                            disabled={isLoading || inFormFileData.filename.split('.')[0] === ''}
+                          >Synchronize with the server?</button>
+                          <p>OR</p>
+                        </>
+                      }
+                    </div>
+                    {/* </div> */}
+                  </>
+                }
+                {/* {receivedFileJointMetadata
               &&
               <div className="upload-image-preview">
                 <img src={receivedFileJointMetadata.url} />
               </div>
-            }
+            } */}
 
-            <div className='upload-image-form'>
-              <div>
-                <div>
-                  <p>Name</p>
-                  <button
-                    onClick={resetName}
-                    // disabled={(location.pathname.includes('Upload') && (attachedFile?.name === inFormFileData?.name))}
-                    disabled={true}
-                  >
-                    Reset
-                  </button>
-                </div>
-                <input
-                  type="text"
-                  value={receivedFileFilename?.split('.')[0] || inFormAttachedFile?.name.split('.')[0] || ''}
-                  onChange={(e) => {
-                    if (receivedFileFilename)
-                      setReceivedFileFilename(e.target.value + '.' + receivedFileFilename?.split('.')[1]);
-                    else if (inFormAttachedFile)
-                      setInFormAttachedFile(new File([attachedFile as File], e.target.value + inFormAttachedFile?.name.substring(inFormAttachedFile?.name.indexOf('.')), { type: inFormAttachedFile?.type, lastModified: inFormAttachedFile?.lastModified }));
-                  }}
-                  className='activeInput'
-                  placeholder="File name"
-                />
-              </div>
-              <div>
-                <p>Extension</p>
-                <input
-                  type="text"
-                  value={receivedFile?.joint_stats.extension || attachedFile?.name.substring(attachedFile?.name.indexOf('.')) || ''}
-                  placeholder="File ext"
-                  readOnly
-                />
-              </div>
-              <div>
-                <p>Format</p>
-                <input
-                  type="text"
-                  value={receivedFile?.joint_stats.format || attachedFile?.type !== undefined && FileExtensionFormatter(attachedFile?.type) || ''}
-                  placeholder="File format"
-                  readOnly
-                />
-              </div>
-              <div>
-                <p>Resolution</p>
-                <input
-                  type="text"
-                  value={receivedFile?.joint_stats.resolution || imageMetadata?.width + ' x ' + imageMetadata?.height || ''} placeholder="File res"
-                  readOnly
-                />
-              </div>
-              <div>
-                <p>Size</p>
-                <input
-                  type="text"
-                  value={receivedFile?.joint_stats.size && FileSizeFormatter(receivedFile?.joint_stats.size) || attachedFile?.size !== undefined && FileSizeFormatter(attachedFile?.size) || ''}
-                  placeholder="File size"
-                  readOnly
-                />
-              </div>
-            </div>
-
-            {/* {!isServerError && !isDatabaseError
+                {/* {!isServerError && !isDatabaseError
               && <div className="checkbox-buttons">
                 <button
                   onClick={() => setIsUploadToServer(!isUploadToServer)}
@@ -319,7 +542,7 @@ const ManagementFileModalWindow = () => {
                 </button>
               </div>} */}
 
-            {(isServerError || isDatabaseError)
+                {/* {(isServerError || isDatabaseError)
               && <div className='exist-image-preview'>
                 <div className='image-preview'>
                   <div className='image-preview-title'>
@@ -343,24 +566,24 @@ const ManagementFileModalWindow = () => {
                     </div>}
                   </div>
                 </div>
-              </div>}
+              </div>} */}
 
-            {allowedFileProps.fileUploadErrors
-              && allowedFileProps.fileUploadErrors.filter(message => message !== null).length > 0
-              && <div className='validation-error-messages'>
-                <p>Validation errors:</p>
-                <ul>
-                  {
-                    allowedFileProps.fileUploadErrors
-                      .filter(message => message !== null)
-                      .map((message) =>
-                        <li key={message?.title}>{message?.title}: {message?.message} <span>{message?.allowed}</span>.</li>
-                      )}
-                </ul>
-              </div>}
+                {allowedFileProps.fileUploadErrors
+                  && allowedFileProps.fileUploadErrors.filter(message => message !== null).length > 0
+                  && <div className='validation-error-messages'>
+                    <p>Validation errors:</p>
+                    <ul>
+                      {
+                        allowedFileProps.fileUploadErrors
+                          .filter(message => message !== null)
+                          .map((message) =>
+                            <li key={message?.title}>{message?.title}: {message?.message} <span>{message?.allowed}</span>.</li>
+                          )}
+                    </ul>
+                  </div>}
 
-            <div className="action-buttons">
-              <button
+                <div className="action-buttons">
+                  {/* <button
                 onClick={uploadFile}
                 disabled={
                   !(
@@ -374,12 +597,16 @@ const ManagementFileModalWindow = () => {
                 className={(isServerError || isDatabaseError) ? 'rewrite-button' : 'upload-button'}
               >
                 {(isServerError || isDatabaseError) ? 'Rewrite' : 'Upload'}
-              </button>
-              <button onClick={() => { navigate('../'); }}>
-                Close
-              </button>
-            </div>
-          </div>
+              </button> */}
+                  <button
+                    className='close-button'
+                    onClick={() => { navigate('../'); }}
+                  >
+                    Close
+                  </button>
+                </div>
+              </div>
+          }
         </div>
         <hr />
       </div>

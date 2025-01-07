@@ -85,10 +85,6 @@ const UploadFileModalWindow = () => {
 
   }, [attachedFile?.name, imageMetadata, inFormAttachedFile?.name]);
 
-  const resetName = () => {
-    setInFormAttachedFile(attachedFile);
-  };
-
   const uploadFile = () => {
     setIsLoading(true);
     allowedFileProps.resetServerErrors();
@@ -113,8 +109,6 @@ const UploadFileModalWindow = () => {
             setDatabaseImageUrl(res.databaseImageUrl + `?timestamp=${new Date().getTime()}`);
           }
           if (res.errorUploadToServer !== true && res.errorUploadToDatabase !== true) {
-            // console.log(message);
-            // console.log(res.errorUploadToServer !== true && res.errorUploadToDatabase !== true);
             setSuccessfulMessage(true);
           }
         } else {
@@ -130,7 +124,7 @@ const UploadFileModalWindow = () => {
     <>
       <div className="file-modal-overlay" onClick={() => navigate('..')}>
         <hr />
-        <div ref={thisWindowRef} className="modal-content"
+        <div ref={thisWindowRef} className="modal-content "
           onClick={(e) => e.stopPropagation()}
           onKeyDown={(event) => {
             if (event.key === 'Enter' && !uploadErrors && !isLoading)
@@ -141,38 +135,36 @@ const UploadFileModalWindow = () => {
           tabIndex={0}
         >
           <div className="content-header">
+            <p
+              style={attachedFile === inFormAttachedFile ? { opacity: '0.35' } : { opacity: '1' }}
+            >{attachedFile === inFormAttachedFile ? 'Used default changes' : 'Used new changes'}</p>
             <h2>File upload</h2>
+            <button
+              onClick={() => setInFormAttachedFile(attachedFile)}
+              disabled={inFormAttachedFile === attachedFile}
+            >Reset</button>
           </div>
 
           {isLoading ?
             <div className='loading-indicator'>
               <LoadingImage />
-              <p>Loading...</p>
             </div>
             :
             successfulMessage ?
-              <p
-                style={{ fontSize: '1.25em', textAlign: 'center', lineHeight: '1.25em', letterSpacing: '0.1em' }}
-              >File is successfully uploaded to server and database</p>
+              <p style={{ fontSize: '1.25em', textAlign: 'center', lineHeight: '1.25em', letterSpacing: '0.1em' }}>
+                File is successfully uploaded to server and database
+              </p>
               :
-              <div className='main-content'>
-                <div className="upload-image-preview">
+              <div className='main-content single-form'>
+                <div className="image-preview">
                   {imageMetadata.url.length > 0 &&
                     <img src={imageMetadata.url} />
                   }
                 </div>
 
-                <div className='upload-image-form'>
+                <div className='data-image-form joint-form'>
                   <div>
-                    <div>
-                      <p>Name</p>
-                      <button
-                        onClick={resetName}
-                        disabled={attachedFile?.name === inFormAttachedFile?.name}
-                      >
-                        Reset
-                      </button>
-                    </div>
+                    <p>Name</p>
                     <input
                       type="text"
                       value={inFormAttachedFile?.name.split('.')[0] || ''}

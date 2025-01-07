@@ -1,4 +1,5 @@
 @import "../styles";
+
 .ObjectInfoPage {
   width: auto;
   display: grid;
@@ -28,7 +29,7 @@
       background-color: $elementBackgroundColor;
       display: grid;
       grid-template-columns: 4.5em auto 4.5em;
-  
+
       .BackButton {
         border-radius: 0.1em;
         font-size: 2em;
@@ -36,6 +37,7 @@
         background: linear-gradient(to right, rgba(red, 0.2), transparent);
         border: none;
       }
+
       .BackButton:hover {
         color: white;
         background: linear-gradient(to right, rgba(red, 0.4), transparent);
@@ -46,7 +48,8 @@
         flex-direction: row;
 
         justify-content: center;
-        > button {
+
+        >button {
           border: none;
           background-color: transparent;
 
@@ -54,12 +57,13 @@
             width: 2.5em;
             height: 2.5em;
             padding-left: 0.5em;
-            filter: invert(84%) sepia(12%) saturate(3%) hue-rotate(321deg) brightness(82%) contrast(80%);  
+            filter: invert(84%) sepia(12%) saturate(3%) hue-rotate(321deg) brightness(82%) contrast(80%);
           }
         }
 
       }
-      .TitleData > h2 {
+
+      .TitleData>h2 {
         font-size: 1.5em;
         padding: 0.5em 0;
         margin: 0;
@@ -71,26 +75,28 @@
         align-self: center;
         justify-self: end;
 
-        > button {
+        >button {
           width: 3em;
           height: 3em;
           border: none;
           border-radius: 0.2em;
           margin-right: 0.75em;
           background-color: rgba(0, 0, 0, 0.2);
-          
+
           display: flex;
           align-items: center;
           justify-content: center;
 
-          > img {
+          >img {
             width: 2.5em;
             filter: invert(45%) sepia(62%) saturate(6%) hue-rotate(70deg) brightness(89%) contrast(80%);
           }
         }
-        > button:hover {
+
+        >button:hover {
           cursor: pointer;
         }
+
         // > button:hover {
         //   > img {
         //     transition: all 1s ease-in-out;
@@ -103,28 +109,34 @@
         //   }
         // }
         .AgreeButton:hover {
-          > img {
+          >img {
             filter: invert(38%) sepia(92%) saturate(1192%) hue-rotate(89deg) brightness(100%) contrast(110%);
           }
         }
+
         // .DisagreeButton {
         //   > img {
         //     filter: invert(34%) sepia(95%) saturate(3792%) hue-rotate(5deg) brightness(92%) contrast(101%);
         //   }
         // }
-        .DisagreeButton:hover {//
-          > img {
-            filter: invert(9%) sepia(81%) saturate(5982%) hue-rotate(358deg) brightness(90%) contrast(109%);            
+        .DisagreeButton:hover {
+
+          //
+          >img {
+            filter: invert(9%) sepia(81%) saturate(5982%) hue-rotate(358deg) brightness(90%) contrast(109%);
           }
         }
+
         // .EditingButton {
         //   > img {
         //     filter: invert(45%) sepia(62%) saturate(6%) hue-rotate(70deg) brightness(89%) contrast(80%);
         //   }
         // }
-        .EditingButton:hover {//
-          > img {
-            filter: invert(34%) sepia(95%) saturate(3792%) hue-rotate(5deg) brightness(92%) contrast(101%);            
+        .EditingButton:hover {
+
+          //
+          >img {
+            filter: invert(34%) sepia(95%) saturate(3792%) hue-rotate(5deg) brightness(92%) contrast(101%);
           }
         }
       }
@@ -136,7 +148,7 @@
         transform-origin: top left;
 
         p {
-          position: absolute;  
+          position: absolute;
           margin: 0;
           font-size: 1.2em;
           color: #AAA;
@@ -149,77 +161,74 @@
       }
     }
 
-    .TextData {
+    .GeneralData {
       z-index: 3;
       grid-area: 2 / 1 / 4 / 2;
       position: relative;
-      width: 98%;
+      width: calc(100% - 0.8em);
+      display: flex;
+      flex-direction: column;
+      gap: 0.8em;
       border-radius: 0.2em;
       justify-self: start;
-      background-color: $elementBackgroundColor;
 
-      .itemInfoLastUpd {
-        position: absolute;
-        top: 0;
-        right: 0;
-        margin: 0.7em;
-        color: rgba(170, 170, 170, 0.5);
+      .section {
+        border-radius: 0.2em;
+        padding: 0.25em;
+        background-color: $elementBackgroundColor;
+      }
+
+      .generalDataHeader {
+        font-size: 1.4em;
+        margin: 0;
+        text-indent: 0.5em;
+        padding: 0.6em;
+        border-radius: 0.1em;
+        background: linear-gradient(to right, rgba(0, 0, 0, 0.15) 0.1em, rgba(0, 0, 0, 0.2) 1em, transparent);
+      }
+
+      .generalDataContent {
+        padding: 0.5em;
+
+        .noData {
+          text-align: center;
+        }
       }
 
       .descriptionData {
 
-        .descriptionHeader {
-          font-size: 1.4em;
-          margin: 0;
-          text-indent: 0.5em;
-          padding-top: 0.6em;
-        }
-        p {
-          margin: 0;
-          text-align: justify;
-          text-indent: 2em;
-          padding: 0.25em 1.5em;
-          line-height: 1.75em;
-          white-space: pre-line;
+        .itemInfoLastUpd {
+          position: absolute;
+          top: 0;
+          right: 0;
+          margin: 0.7em;
+          color: rgba(170, 170, 170, 0.5);
         }
 
-        .GeneralDescription {
-          margin: 1em 0;
-        }
-        .AuthorialDescription {
-          background-color: rgba(0, 0, 0, 0.2);
-          overflow-y: hidden;
-          transition: all 0.5s ease-in-out;
-        }
-        .AuthorialDescriptionIsActive {
-          max-height: 20em;
-        }
-        .AuthorialDescriptionIsInactive {
-          max-height: 0;
-        }
+        // p {
+        //   margin: 0;
+        //   text-align: justify;
+        //   text-indent: 2em;
+        //   line-height: 1.75em;
+        //   white-space: pre-line;
+        // }
 
-        button {
-          width: 100%;
-          font-size: 1em;
-          margin: 0;
-          padding: 0;
-          //border: solid #AAA 0.1em;
-          border: solid 0.2em #221812;
-          background-color: rgba(255, 255, 255, 0.02);
+        // .GeneralDescription {
+        //   // margin: 1em 0;
+        //   // padding: 0.75em;
+        // }
 
-          > span {
-            color: #AAA;
-            display: inline-block;
-            transition: all 0.5s ease-in-out;
-          }
-          .arrowIsActive {
-            transform: rotateX(180deg);
-          }
-          .arrowIsInactive {
-            transform: rotate(0deg);
-            transform: translateX(-1em);
-          }
-        }
+        // .AuthorialDescription {
+        //   background-color: rgba(0, 0, 0, 0.1);
+        //   // overflow-y: hidden;
+        // }
+      }
+
+      .acquisitionData {
+
+      }
+
+      .storyData {
       }
     }
 
@@ -228,7 +237,8 @@
       grid-area: 2 / 2 / 3 / 3;
 
       display: grid;
-      grid-template-columns: 1fr 1fr 1fr;
+      // grid-template-columns: 1fr 1fr 1fr;
+      grid-template-columns: 1fr 1fr;
       grid-template-rows: auto auto;
       grid-row-gap: 0.25em;
 
@@ -246,40 +256,51 @@
         height: auto;
         background-color: $elementBackgroundColor;
 
-        > img {
+        >img {
           padding-top: 0.2em;
-          width: 40%;
+          width: 30%;
           filter: invert(78%) sepia(7%) saturate(16%) hue-rotate(37deg) brightness(87%) contrast(89%);
         }
       }
+
       .objActiveTab {
         opacity: 1;
       }
+
       .objInactiveTab {
         opacity: 0.5;
       }
+
       .objUndefinedTab {
-        background-color: rgba(#787878, 0.4);
+        background-color: rgba(255, 255, 255, 0.2);
       }
+
       .objTab1 {
+        // grid-area: 1 / 1 / 2 / 2;
         grid-area: 1 / 1 / 2 / 2;
         margin-right: 0.35em;
       }
+
       .objTab2 {
         grid-area: 1 / 2 / 2 / 3;
         margin: 0 0.25em;
       }
+
       .objTab3 {
-        grid-area: 1 / 3 / 2 / 4;
+        // grid-area: 1 / 3 / 2 / 4;
+        grid-area: 1 / 2 / 2 / 3;
         margin-left: 0.35em;
       }
 
 
       .objectView {
         position: relative;
-        grid-area: 2 / 1 / 3 / 4;
-        padding: 0.5em;
+        width: 100%;
+        aspect-ratio: 1 / 1;
+        // grid-area: 2 / 1 / 3 / 4;
+        grid-area: 2 / 1 / 3 / 3;
         @include defaultBorderRadius;
+        transform: scale(0.9);
         background-color: $elementBackgroundColor;
 
         // button {
@@ -302,24 +323,19 @@
 
         img {
           width: 100%;
-          transition: all 0.1s ease-in-out;
+          aspect-ratio: 1 / 1;
+          box-sizing: border-box;
+          transform: scale(0.95);
+          transition:
+            transform 0.2s 0.1s ease-out,
+            transform 0.2s 0.1s ease-out;
         }
+
         img:hover {
-          scale: 1.05;
+          transform: scale(1.05);
           cursor: pointer;
         }
       }
-      // .objectView:hover {
-
-      //   button {
-      //     opacity: 1;
-      //   }
-      //   button:hover {
-      //     width: 3.5em;
-      //     height: 3.5em;
-      //     filter: invert(80%) sepia(10%) saturate(15%) hue-rotate(35deg) brightness(100%) contrast(90%);
-      //   }
-      // }
     }
 
     .DefinitionData {
@@ -327,31 +343,33 @@
       grid-area: 3 / 2 / 4 / 3;
       @include elementBackgroundRadius;
 
-      > div > h3 {
+      >div>h3 {
         text-align: center;
         margin: 0;
         padding: 0.25em 0;
         background-color: rgba(0, 0, 0, 0.2);
       }
 
-      .ObjectType, .ObjectSubclass {
+      .ObjectType,
+      .ObjectSubclass {
 
         // .ObjectTypeTitle {
         // }
-        
-        .ObjectTypeValue, .ObjectSubclassValue {
+
+        .ObjectTypeValue,
+        .ObjectSubclassValue {
           display: flex;
           flex-direction: row;
           align-items: center;
           justify-content: center;
 
           text-align: center;
-          
+
 
           margin: 0.25em 0.25em;
           border-radius: 0.2em;
 
-          > img {
+          >img {
             padding-right: 0.5em;
             width: 1.5em;
             height: 1.5em;
@@ -359,12 +377,13 @@
           }
 
 
-          > p {
+          >p {
             display: inline-block;
             margin: 0;
             padding: 0.5em 0;
           }
         }
+
         .ObjectTypeValue {
           background-color: #0099ff63;
         }
