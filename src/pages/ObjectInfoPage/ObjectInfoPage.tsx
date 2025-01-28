@@ -5,7 +5,6 @@ import { Helmet } from "react-helmet-async";
 import { Navbar } from "../../components/elements/navigation_bar/Navbar";
 import "./ObjectInfoPage.scss"
 import { DataForNavigation, PrevButton, NextButton } from "../../components/elements/ObjectNavigation/ObjectNavigation";
-import ModalWindow, { OpenModalWindow } from "../../components/ModalWindows/ModalWindow1";
 import { useSelector } from "react-redux";
 import { RootState } from "../../ReduxStore/store";
 import StyledMarkdown from "../../components/StyledMarkdown";
@@ -21,21 +20,10 @@ const ObjectInfoPage = () => {
 
   const [isEditingMode, setIsEditingMode] = useState(false);
 
-  // MODAL WINDOW
-  // const MediaModalWindowRef = useRef<IMediaModalWindow | null>(null);
-  // const openMediaModalWindow = (url: string) => {
-  //   MediaModalWindowRef.current?.open(url);
-  // }
-
   const { titleId } = useParams<{ titleId: string }>();
   const [item, setItem] = useState<any>(null);
 
-  // const [viewActiveTab, setViewActiveTab] = useState(1);
-
   const [favoriteToggle, setFavoriteToggle] = useState(false);
-
-  // const [loadIconError, setLoadIconError] = useState(false);
-  // const [loadModelError, setLoadModelError] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -52,37 +40,6 @@ const ObjectInfoPage = () => {
 
     fetchData();
   }, [titleId]);
-
-  // const ViewTabContent = () => {
-  //   switch (viewActiveTab) {
-  //     case 1:
-  //       return (
-  //         item.IconURL?.length > 0 && !loadIconError ?
-  //           <img
-  //             src={item.IconURL}
-  //             onClick={() => openModalWindow(item.IconURL)}
-  //             alt={item.Title + " icon view."}
-  //             onError={() => setLoadIconError(true)}
-  //           />
-  //           :
-  //           <img src={require('../../images/objects/NoThumbnailObjectIcon.png')} alt={item.Title + " icon view."} />
-  //       );
-  //     case 2:
-  //       return (
-  //         item.ModelURL?.length > 0 && !loadModelError ?
-  //           <img
-  //             src={item.ModelURL}
-  //             onClick={() => openModalWindow(item.ModelURL)}
-  //             alt={item.Title + " 3D model view."}
-  //             onError={() => setLoadModelError(true)}
-  //           />
-  //           :
-  //           <img src={require('../../images/objects/No3DObjectIcon.png')} alt={item.Title + " 3D model view."} />
-  //       );
-  //     default:
-  //       return <img src={item.IconURL ? item.IconURL : require('../../images/objects/NoThumbnailObjectIcon.png')} alt={item.Title + " icon view."} />;
-  //   }
-  // };
 
   const renderItem = (item: IObject) => {
     return (
@@ -186,25 +143,6 @@ const ObjectInfoPage = () => {
             </div>
           </div>
           <VisualTabContent iconUrl={item.IconURL} modelUrl={item.ModelURL} />
-          {/* <div className="VisualData">
-            <button
-              className={`objectTabs objTab1 ${viewActiveTab === 1 ? 'objActiveTab' : 'objInactiveTab'} ${item.IconURL?.length > 0 ? '' : 'objUndefinedTab'}`}
-              onClick={() => setViewActiveTab(1)}
-              title="In-game object icon"
-            >
-              <img src={require('../../images/objects/ThumbnailObjectIcon.png')} />
-            </button>
-            <button
-              className={`objectTabs objTab3 ${viewActiveTab === 3 ? 'objActiveTab' : 'objInactiveTab'} ${item.ModelURL?.length > 0 ? '' : 'objUndefinedTab'}`}
-              onClick={() => setViewActiveTab(2)}
-              title="In-game 3D Model"
-            >
-              <img src={require('../../images/objects/3DObjectIcon.png')} />
-            </button>
-            <div className="objectView">
-              <ViewTabContent />
-            </div>
-          </div> */}
           <div className="DefinitionData">
             <div className="ObjectType">
               <h3 className="ObjectTypeTitle">Type</h3>
@@ -254,8 +192,6 @@ const ObjectInfoPage = () => {
           <title>{`${item.Title} | DizaQute`}</title>
         </Helmet>
         <Navbar />
-        {/* <MediaModalWindow /> */}
-        {/* <ModalWindow ref={modalRef} /> */}
         <>
           <DataForNavigation />
           {renderItem(item)}
