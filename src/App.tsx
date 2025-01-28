@@ -11,7 +11,7 @@ import { ItemsPage } from './pages/ItemsPage';
 import { LocationsPage } from './pages/LocationsPage';
 import { NewsPage } from './pages/NewsPage';
 import { NowherePage } from './pages/NowherePage';
-import { ItemInfoPage } from './pages/ItemInfoPage';
+import ObjectInfoPage from './pages/ObjectInfoPage/ObjectInfoPage';
 import { ReceivePage } from './pages/ReceivePage';
 import { TestPage } from './pages/TESTpage';
 import { Spoiler } from './pages/Teaser';
@@ -25,7 +25,7 @@ import { RootState } from './ReduxStore/store';
 import { useSelector } from 'react-redux';
 import { AccountManagementPage } from './pages/service/AccountManagementPage';
 import AccountModalWindow from './components/ModalWindows/AccountModalWindow';
-import { IPrivileges } from './Interfaces/IAccounts';
+import { IPrivileges } from './interfaces/IAccounts';
 import { FileManagementPage } from './pages/service/FileManagementPage';
 import { FileManagementPage_Avatars } from './pages/service/FileManagementPage_Avatars';
 import ManagementFileModalWindow from './components/ModalWindows/ManagementFileModalWindow';
@@ -53,7 +53,7 @@ function App() {
       <Route path="/Home" element={<HomePage />} />
       <Route path="/Content" element={<ContentPage />} />
       <Route path="/Content/Items" element={<ItemsPage />} />
-      <Route path="/Content/Item/:titleId" element={<ItemInfoPage />} />
+      <Route path="/Content/Item/:titleId" element={<ObjectInfoPage />} />
       <Route path="/Content/Creatures" element={<CreaturesPage />} />
       <Route path="/Content/Locations" element={<LocationsPage />} />
       <Route path="/News" element={<NewsFeedPage />} >

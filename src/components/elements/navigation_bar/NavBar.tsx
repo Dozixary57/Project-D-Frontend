@@ -8,7 +8,7 @@ import { NavUsername } from "../../Username";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../ReduxStore/store";
 import authService from "../../../backend/services/authService";
-import { IPrivileges } from "../../../Interfaces/IAccounts";
+import { IPrivileges } from "../../../interfaces/IAccounts";
 
 export function Navbar() {
 

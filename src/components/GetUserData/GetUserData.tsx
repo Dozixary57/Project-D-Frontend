@@ -1,5 +1,5 @@
 import { jwtDecode } from 'jwt-decode';
-import { IAccount } from '../../Interfaces/IAccounts';
+import { IAccount } from '../../interfaces/IAccounts';
 
 export const GetCurrentUserAccessTokenString = () => {
   const userAccessToken = localStorage.getItem('AccessToken');

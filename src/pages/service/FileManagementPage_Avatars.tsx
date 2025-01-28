@@ -3,7 +3,7 @@ import { Navbar } from "../../components/elements/navigation_bar/Navbar";
 import "./FileManagementPage_Avatars.scss"
 import { useEffect, useState } from "react";
 import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
-import { IAvatars } from "../../Interfaces/IFiles";
+import { IAvatars } from "../../interfaces/IFiles";
 import FileService from "../../backend/services/fileService";
 import LoadingImage from "../../components/LoadingImage/LoadingImage";
 import { useSelector } from "react-redux";

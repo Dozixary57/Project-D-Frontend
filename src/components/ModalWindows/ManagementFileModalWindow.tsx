@@ -4,7 +4,7 @@ import { useLocation, useNavigate, useOutletContext, useParams } from 'react-rou
 import { FileExtensionFormatter, FileSizeFormatter } from '../../tools/DataFormatters';
 import FileService from '../../backend/services/fileService';
 import { useAllowedFileProperties } from '../../AllowedValues/AllowedFileProperties';
-import { IPictureMetadata, IPictureWithMetadata } from '../../Interfaces/IFiles';
+import { IPictureMetadata, IPictureWithMetadata } from '../../interfaces/IFiles';
 import LoadingImage from '../LoadingImage/LoadingImage';
 
 const ManagementFileModalWindow = () => {

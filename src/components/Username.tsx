@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { jwtDecode } from 'jwt-decode';
-import { IAccount } from '../Interfaces/IAccounts';
+import { IAccount } from '../interfaces/IAccounts';
 
 export function Username() {
   const [username, setUsername] = useState<string>('');

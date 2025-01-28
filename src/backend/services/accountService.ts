@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { store } from '../../ReduxStore/store';
-import { IAccount } from '../../Interfaces/IAccounts';
+import { IAccount } from '../../interfaces/IAccounts';
 import AuthService from './authService';
 import { GetCurrentUserAccessTokenString } from '../../components/GetUserData/GetUserData';
 

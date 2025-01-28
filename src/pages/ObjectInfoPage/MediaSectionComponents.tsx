@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
-import StyledMarkdown from "../components/StyledMarkdown";
-import { IMediaUnit } from "../Interfaces/IMediaSectionComponents";
+import StyledMarkdown from "../../components/StyledMarkdown";
 import style from "./MediaSectionComponents.module.scss";
+import { IMediaUnit } from "interfaces/IObject";
 
 const SoundsTabContent = ({ data }: { data: IMediaUnit[] }) => {
   const [activeTab, setActiveTab] = useState(0);
@@ -34,22 +34,6 @@ const SoundsTabContent = ({ data }: { data: IMediaUnit[] }) => {
                 onClick={() => { setActiveTab(index) }}
               >{sound.Title}</button>
             ))}
-            {/* <button
-              className={`${style.selectButton} ${style.soundSelectButton} ${activeTab === 9 ? style.activeButton : style.inactiveButton}`}
-              onClick={() => { setActiveTab(9) }}
-            >9</button>
-            <button
-              className={`${style.selectButton} ${style.soundSelectButton} ${activeTab === 99 ? style.activeButton : style.inactiveButton}`}
-              onClick={() => { setActiveTab(99) }}
-            >99</button>
-            <button
-              className={`${style.selectButton} ${style.soundSelectButton} ${activeTab === 999 ? style.activeButton : style.inactiveButton}`}
-              onClick={() => { setActiveTab(999) }}
-            >999</button>
-            <button
-              className={`${style.selectButton} ${style.soundSelectButton} ${activeTab === 9999 ? style.activeButton : style.inactiveButton}`}
-              onClick={() => { setActiveTab(9999) }}
-            >9999</button> */}
           </div>
 
           <hr className={style.separatorVertical} />

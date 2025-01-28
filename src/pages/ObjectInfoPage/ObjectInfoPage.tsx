@@ -1,40 +1,18 @@
 ﻿import { useEffect, useState, useRef } from "react";
-import itemService from '../backend/services/itemService';
+import itemService from '@services/itemService';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Helmet } from "react-helmet-async";
-import { Navbar } from "../components/elements/navigation_bar/Navbar";
-import "./ItemInfoPage.scss"
-import { DataForNavigation, PrevButton, NextButton } from "../components/elements/ObjectNavigation/ObjectNavigation";
-import ModalWindow, { OpenModalWindow } from "../components/ModalWindows/ModalWindow1";
+import { Navbar } from "../../components/elements/navigation_bar/Navbar";
+import "./ObjectInfoPage.scss"
+import { DataForNavigation, PrevButton, NextButton } from "../../components/elements/ObjectNavigation/ObjectNavigation";
+import ModalWindow, { OpenModalWindow } from "../../components/ModalWindows/ModalWindow1";
 import { useSelector } from "react-redux";
-import { RootState } from "../ReduxStore/store";
-import StyledMarkdown from "../components/StyledMarkdown";
-import { IMediaUnit } from "../Interfaces/IMediaSectionComponents";
+import { RootState } from "../../ReduxStore/store";
+import StyledMarkdown from "../../components/StyledMarkdown";
 import { ImagesAndVideosTabContent, SoundsTabContent } from "./MediaSectionComponents";
+import { IObject } from '@interfaces/IObject';
 
-interface Item {
-  _id: string;
-  Title: string;
-  Description: {
-    General: string;
-    Authorial: string;
-  };
-  Lore: string;
-  Classification: {
-    Type: string;
-    Subclass: string;
-  }
-  IconURL: string;
-  ParallaxURL: string;
-  ModelURL: string;
-  Media: {
-    Sounds: IMediaUnit[];
-    Videos: IMediaUnit[];
-    Images: IMediaUnit[];
-  }
-}
-
-const ItemInfoPage = () => {
+const ObjectInfoPage = () => {
   const navigate = useNavigate();
 
   const userPrivileges = useSelector((state: RootState) => state.userPrivileges);
@@ -50,14 +28,10 @@ const ItemInfoPage = () => {
   const [item, setItem] = useState<any>(null);
 
   const [viewActiveTab, setViewActiveTab] = useState(1);
-  // const [soundActiveTab, setSoundActiveTab] = useState(0);
-
-  // const [imageActiveTab, setImageActiveTab] = useState(0);
 
   const [favoriteToggle, setFavoriteToggle] = useState(false);
 
   const [loadIconError, setLoadIconError] = useState(false);
-  // const [loadParallaxError, setLoadParallaxError] = useState(false);
   const [loadModelError, setLoadModelError] = useState(false);
 
   useEffect(() => {
@@ -76,40 +50,6 @@ const ItemInfoPage = () => {
     fetchData();
   }, [titleId]);
 
-  // TEST DATA
-  // useEffect(() => {
-  //   if (item === null || item.Media.Sounds.length > 3) return;
-
-  //   // setItem((prevItem: any) => ({
-  //   //   ...prevItem,
-  //   //   Media: {
-  //   //     ...prevItem.Media,
-  //   //     Sounds: [
-  //   //       ...(prevItem.Media.Sounds || []),
-  //   //       {
-  //   //         Title: "9",
-  //   //         Url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-9.mp3",
-  //   //         Description:
-  //   //           "long sound long sound long sound long sound long sound long sound long sound long sound long sound long sound long sound long sound ",
-  //   //       },
-  //   //     ],
-  //   //   },
-  //   // }));
-  //   setItem((prevItem: any) => ({
-  //     ...prevItem,
-  //     Media: {
-  //       ...prevItem.Media,
-  //       Sounds: [
-  //         ...(prevItem.Media.Sounds || []),
-  //         {
-  //           Title: "9",
-  //         },
-  //       ],
-  //     },
-  //   }));
-  // }, [item]);
-  //
-
   const ViewTabContent = () => {
     switch (viewActiveTab) {
       case 1:
@@ -122,21 +62,9 @@ const ItemInfoPage = () => {
               onError={() => setLoadIconError(true)}
             />
             :
-            <img src={require('../images/objects/NoThumbnailObjectIcon.png')} alt={item.Title + " icon view."} />
+            <img src={require('../../images/objects/NoThumbnailObjectIcon.png')} alt={item.Title + " icon view."} />
         );
-      // case 2:
-      //   return (
-      //     item.ParallaxURL?.length > 0 && !loadParallaxError ?
-      //       <img
-      //         src={item.ParallaxURL}
-      //         onClick={() => openModalWindow(item.ParallaxURL)}
-      //         alt={item.Title + " parallax view."}
-      //         onError={() => setLoadParallaxError(true)}
-      //       />
-      //       :
-      //       <img src={require('../images/objects/NoParallaxObjectIcon.png')} alt={item.Title + " parallax view."} />
-      //   );
-      case 3:
+      case 2:
         return (
           item.ModelURL?.length > 0 && !loadModelError ?
             <img
@@ -146,14 +74,14 @@ const ItemInfoPage = () => {
               onError={() => setLoadModelError(true)}
             />
             :
-            <img src={require('../images/objects/No3DObjectIcon.png')} alt={item.Title + " 3D model view."} />
+            <img src={require('../../images/objects/No3DObjectIcon.png')} alt={item.Title + " 3D model view."} />
         );
       default:
-        return <img src={item.IconURL ? item.IconURL : require('../images/objects/NoThumbnailObjectIcon.png')} alt={item.Title + " icon view."} />;
+        return <img src={item.IconURL ? item.IconURL : require('../../images/objects/NoThumbnailObjectIcon.png')} alt={item.Title + " icon view."} />;
     }
   };
 
-  const renderItem = (item: Item) => {
+  const renderItem = (item: IObject) => {
     return (
       <main className="ObjectInfoPage">
         <PrevButton />
@@ -163,29 +91,29 @@ const ItemInfoPage = () => {
             <div className="TitleData">
               <h2>{item.Title}</h2>
               <button onClick={() => setFavoriteToggle(prev => !prev)}>
-                <img src={favoriteToggle ? require('../images/FavoriteActive.png') : require('../images/FavoriteInactive.png')} alt="FavoriteIcon" />
+                <img src={favoriteToggle ? require('../../images/FavoriteActive.png') : require('../../images/FavoriteInactive.png')} alt="FavoriteIcon" />
               </button>
             </div>
             <div className="EditingActions">
               {isEditingMode ?
                 <>
                   <button className="AgreeButton">
-                    <img src={require('../images/YesIcon.png')} alt="BinIcon"></img>
+                    <img src={require('../../images/YesIcon.png')} alt="BinIcon"></img>
                   </button>
                   <button className="DisagreeButton" onClick={() => setIsEditingMode(prev => !prev)}>
-                    <img src={require('../images/NoIcon.png')} alt="BinIcon"></img>
+                    <img src={require('../../images/NoIcon.png')} alt="BinIcon"></img>
                   </button>
                 </>
                 :
                 <>
                   {userPrivileges && userPrivileges.map(privilege => privilege.Title).includes('ObjectEdit') && (
                     <button className="EditingButton" onClick={() => setIsEditingMode(true)}>
-                      <img src={require('../images/EditingIcon.png')} alt="EditingIcon" />
+                      <img src={require('../../images/EditingIcon.png')} alt="EditingIcon" />
                     </button>
                   )}
                   {userPrivileges && userPrivileges.map(privilege => privilege.Title).includes('ObjectDelete') && (
                     <button className="DisagreeButton">
-                      <img src={require('../images/BinIcon.png')} alt="BinIcon"></img>
+                      <img src={require('../../images/BinIcon.png')} alt="BinIcon"></img>
                     </button>
                   )}
                 </>
@@ -260,21 +188,14 @@ const ItemInfoPage = () => {
               onClick={() => setViewActiveTab(1)}
               title="In-game object icon"
             >
-              <img src={require('../images/objects/ThumbnailObjectIcon.png')} />
+              <img src={require('../../images/objects/ThumbnailObjectIcon.png')} />
             </button>
-            {/* <button
-              className={`objectTabs objTab2 ${viewActiveTab === 2 ? 'objActiveTab' : 'objInactiveTab'} ${item.ParallaxURL?.length > 0 ? '' : 'objUndefinedTab'}`}
-              onClick={() => setViewActiveTab(2)}
-              title="Parallax view"
-            >
-              <img src={require('../images/objects/ParallaxObjectIcon.png')} />
-            </button> */}
             <button
               className={`objectTabs objTab3 ${viewActiveTab === 3 ? 'objActiveTab' : 'objInactiveTab'} ${item.ModelURL?.length > 0 ? '' : 'objUndefinedTab'}`}
-              onClick={() => setViewActiveTab(3)}
+              onClick={() => setViewActiveTab(2)}
               title="In-game 3D Model"
             >
-              <img src={require('../images/objects/3DObjectIcon.png')} />
+              <img src={require('../../images/objects/3DObjectIcon.png')} />
             </button>
             <div className="objectView">
               <ViewTabContent />
@@ -284,14 +205,14 @@ const ItemInfoPage = () => {
             <div className="ObjectType">
               <h3 className="ObjectTypeTitle">Type</h3>
               <div className="ObjectTypeValue">
-                <img src={require('../images/ObjectTypeWeapon.png')} />
+                <img src={require('../../images/ObjectTypeWeapon.png')} />
                 <p>{item.Classification.Type}</p>
               </div>
             </div>
             <div className="ObjectSubclass">
               <h3 className="ObjectSubclassTitle">Subclass</h3>
               <div className="ObjectSubclassValue">
-                <img src={require('../images/ObjectSubclassShortRange.png')} />
+                <img src={require('../../images/ObjectSubclassShortRange.png')} />
                 <p>{item.Classification.Subclass}</p>
               </div>
             </div>
@@ -302,14 +223,14 @@ const ItemInfoPage = () => {
 
             <div>
               <div>
-                <img src={require(('../images/HealthPropertyIcon.png'))} />
+                <img src={require(('../../images/HealthPropertyIcon.png'))} />
               </div>
               <p>Health</p>
               <p>20000</p>
             </div>
             <div>
               <div>
-                <img src={require(('../images/HealthPropertyIcon.png'))} />
+                <img src={require(('../../images/HealthPropertyIcon.png'))} />
               </div>
               <p>HealthHealth</p>
               <p>20000</p>
@@ -341,4 +262,4 @@ const ItemInfoPage = () => {
   )
 }
 
-export { ItemInfoPage };
+export default ObjectInfoPage;

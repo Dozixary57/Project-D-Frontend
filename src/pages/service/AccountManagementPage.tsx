@@ -8,7 +8,7 @@ import { useSelector } from "react-redux";
 import { DateFormatter } from "../../tools/DataFormatters";
 import LoadingImage from "../../components/LoadingImage/LoadingImage";
 import { Link, Outlet } from "react-router-dom";
-import { IAccount } from "../../Interfaces/IAccounts";
+import { IAccount } from "../../interfaces/IAccounts";
 import { CurrentUserPrivilege, GetCurrentUserId } from "../../components/GetUserData/GetUserData";
 
 const AccountManagementPage = () => {

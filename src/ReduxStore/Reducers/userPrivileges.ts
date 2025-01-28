@@ -1,4 +1,4 @@
-import { IPrivileges } from "../../Interfaces/IAccounts";
+import { IPrivileges } from "../../interfaces/IAccounts";
 
 interface Action {
     type: string;
