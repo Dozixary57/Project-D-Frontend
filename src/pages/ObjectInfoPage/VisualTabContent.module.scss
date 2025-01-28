@@ -1,0 +1,82 @@
+@import "../../styles";
+
+.objectVisualTabs {
+  z-index: 3;
+  width: 100%;
+
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: auto auto;
+  grid-row-gap: 0.25em;
+
+  border-radius: 0.2em;
+  justify-self: end;
+
+  .objectTabs {
+    border-radius: 0.2em;
+    border: none;
+    width: auto;
+    height: auto;
+    background-color: $elementBackgroundColor;
+
+    >img {
+      padding-top: 0.2em;
+      width: 30%;
+      filter: invert(78%) sepia(7%) saturate(16%) hue-rotate(37deg) brightness(87%) contrast(89%);
+    }
+  }
+
+  .objActiveTab {
+    opacity: 1;
+    background-color: rgba(black, 0.4);
+  }
+
+  .objInactiveTab {
+    opacity: 0.5;
+    cursor: pointer;
+  }
+
+  .objUndefinedTab {
+    background-color: rgba(255, 255, 255, 0.2);
+  }
+
+  .objIconTab {
+    grid-area: 1 / 1 / 2 / 2;
+    margin-right: 0.35em;
+  }
+
+  .objModelTab {
+    grid-area: 1 / 2 / 2 / 3;
+    margin-left: 0.35em;
+  }
+
+  .objectView {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    grid-area: 2 / 1 / 3 / 3;
+    @include defaultBorderRadius;
+    transform: scale(0.9);
+    background-color: $elementBackgroundColor;
+
+    >img {
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      box-sizing: border-box;
+      transform: scale(0.95);
+      transition:
+        transform 0.2s 0.1s ease-out,
+        transform 0.2s 0.1s ease-out;
+    }
+
+    .imageAnim:hover {
+      transform: scale(1.07);
+      cursor: pointer;
+    }
+
+    // >img:hover {
+    //   transform: scale(1.05);
+    //   cursor: pointer;
+    // }
+  }
+}

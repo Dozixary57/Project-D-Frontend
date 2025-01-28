@@ -3,7 +3,7 @@ import { Navbar } from "../../components/elements/navigation_bar/Navbar";
 import "./FileManagementPage.scss"
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { IFile } from "../../interfaces/IFiles";
+import { IFile } from '@interfaces/IFiles';
 import FileService from "../../backend/services/fileService";
 import { FileSizeFormatter } from "../../tools/DataFormatters";
 

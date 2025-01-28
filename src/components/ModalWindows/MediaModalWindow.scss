@@ -1,0 +1,58 @@
+.ModalWindowLayout {
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+
+  // backdrop-filter: blur(0.1em);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  background-color: rgba(black, 0.5);
+  animation: OpenModalWindowLayout 0.15s ease-in-out;
+  cursor: pointer;
+  z-index: 10;
+
+  @keyframes OpenModalWindowLayout {
+    0% {
+      opacity: 0;
+    }
+
+    100% {
+      opacity: 1;
+    }
+  }
+
+  .ModalWindowContent {
+    width: auto;
+    height: auto;
+
+    border-radius: 0.2em;
+    background-color: white;
+    border: solid 0.25em black;
+
+    animation: OpenModalWindowContent 0.15s ease-in-out;
+    cursor: default;
+
+    @keyframes OpenModalWindowContent {
+      0% {
+        scale: 0.75;
+        opacity: 0;
+      }
+
+      100% {
+        scale: 1;
+        opacity: 1;
+      }
+    }
+
+    >img {
+      padding: 1em;
+    }
+  }
+}

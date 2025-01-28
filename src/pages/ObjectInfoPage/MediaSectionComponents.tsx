@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import StyledMarkdown from "../../components/StyledMarkdown";
 import style from "./MediaSectionComponents.module.scss";
-import { IMediaUnit } from "interfaces/IObject";
+import { IMediaUnit } from '@interfaces/IObject';
 
 const SoundsTabContent = ({ data }: { data: IMediaUnit[] }) => {
   const [activeTab, setActiveTab] = useState(0);
@@ -147,65 +147,6 @@ const ImagesAndVideosTabContent = ({ data }: { data: IMediaUnit[] }) => {
     return <p className={style.noData}>Images are unknown...</p>;
   }
 };
-
-// const ImagesTabContent = ({ data }: { data: IMediaUnit[] }) => {
-//   const [activeTab, setActiveTab] = useState(0);
-
-//   const showcaseActiveButtonRef = useRef<HTMLDivElement | null>(null);
-
-//   useEffect(() => {
-//     if (showcaseActiveButtonRef.current) {
-//       const activeButton = showcaseActiveButtonRef.current.children[activeTab] as HTMLElement;
-
-//       const buttonOffsetLeft = activeButton.offsetLeft;
-//       const buttonWidth = activeButton.offsetWidth;
-//       const containerWidth = showcaseActiveButtonRef.current.offsetWidth;
-
-//       const scrollPosition = buttonOffsetLeft - (containerWidth / 2) + (buttonWidth / 2);
-
-//       showcaseActiveButtonRef.current.scrollTo({
-//         left: scrollPosition,
-//         behavior: 'smooth',
-//       });
-//     }
-//   }, [activeTab]);
-
-//   if (data && data.length > 0) {
-//     return (
-//       <div className={style.imagesSection}>
-//         <h3 className={style.sectionHeader}>Images</h3>
-//         <div className={style.imageData}>
-//           <div className={style.imagePreview}>
-//             <img src={data[activeTab].Url} alt={data[activeTab].Description} />
-//           </div>
-//           <div className={style.imageDescription}>
-//             <div className={style.imageHeader}>{data[activeTab].Title}</div>
-//             <StyledMarkdown>{data[activeTab].Description}</StyledMarkdown>
-//           </div>
-//         </div>
-//         <div
-//           ref={showcaseActiveButtonRef}
-//           className={style.imagesShowcase}
-//         >
-//           {data.map((image: IMediaUnit, index: number) => (
-//             <button
-//               key={index}
-//               className={`${style.imageSelectButton} ${activeTab === index ? style.activeImageButton : style.inactiveImageButton}`}
-//               onClick={() => setActiveTab(index)}
-//             >
-//               <img
-//                 src={image.Url}
-//                 alt={image.Description}
-//               />
-//             </button>
-//           ))}
-//         </div>
-//       </div>
-//     );
-//   } else {
-//     return <p className={style.noData}>Images are unknown...</p>;
-//   }
-// };
 
 export {
   SoundsTabContent,

@@ -11,6 +11,8 @@ import { RootState } from "../../ReduxStore/store";
 import StyledMarkdown from "../../components/StyledMarkdown";
 import { ImagesAndVideosTabContent, SoundsTabContent } from "./MediaSectionComponents";
 import { IObject } from '@interfaces/IObject';
+import VisualTabContent from "./VisualTabContent";
+// import MediaModalWindow, { IMediaModalWindow } from "components/ModalWindows/MediaModalWindow";
 
 const ObjectInfoPage = () => {
   const navigate = useNavigate();
@@ -19,20 +21,21 @@ const ObjectInfoPage = () => {
 
   const [isEditingMode, setIsEditingMode] = useState(false);
 
-  const modalRef = useRef<OpenModalWindow | null>(null);
-  const openModalWindow = (url: string) => {
-    modalRef.current?.open(url);
-  }
+  // MODAL WINDOW
+  // const MediaModalWindowRef = useRef<IMediaModalWindow | null>(null);
+  // const openMediaModalWindow = (url: string) => {
+  //   MediaModalWindowRef.current?.open(url);
+  // }
 
   const { titleId } = useParams<{ titleId: string }>();
   const [item, setItem] = useState<any>(null);
 
-  const [viewActiveTab, setViewActiveTab] = useState(1);
+  // const [viewActiveTab, setViewActiveTab] = useState(1);
 
   const [favoriteToggle, setFavoriteToggle] = useState(false);
 
-  const [loadIconError, setLoadIconError] = useState(false);
-  const [loadModelError, setLoadModelError] = useState(false);
+  // const [loadIconError, setLoadIconError] = useState(false);
+  // const [loadModelError, setLoadModelError] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -41,7 +44,7 @@ const ObjectInfoPage = () => {
 
         setItem(res);
         console.log(res)
-        setViewActiveTab(1)
+        // setViewActiveTab(1)
       } catch (error) {
         if (error) throw error
       }
@@ -50,36 +53,36 @@ const ObjectInfoPage = () => {
     fetchData();
   }, [titleId]);
 
-  const ViewTabContent = () => {
-    switch (viewActiveTab) {
-      case 1:
-        return (
-          item.IconURL?.length > 0 && !loadIconError ?
-            <img
-              src={item.IconURL}
-              onClick={() => openModalWindow(item.IconURL)}
-              alt={item.Title + " icon view."}
-              onError={() => setLoadIconError(true)}
-            />
-            :
-            <img src={require('../../images/objects/NoThumbnailObjectIcon.png')} alt={item.Title + " icon view."} />
-        );
-      case 2:
-        return (
-          item.ModelURL?.length > 0 && !loadModelError ?
-            <img
-              src={item.ModelURL}
-              onClick={() => openModalWindow(item.ModelURL)}
-              alt={item.Title + " 3D model view."}
-              onError={() => setLoadModelError(true)}
-            />
-            :
-            <img src={require('../../images/objects/No3DObjectIcon.png')} alt={item.Title + " 3D model view."} />
-        );
-      default:
-        return <img src={item.IconURL ? item.IconURL : require('../../images/objects/NoThumbnailObjectIcon.png')} alt={item.Title + " icon view."} />;
-    }
-  };
+  // const ViewTabContent = () => {
+  //   switch (viewActiveTab) {
+  //     case 1:
+  //       return (
+  //         item.IconURL?.length > 0 && !loadIconError ?
+  //           <img
+  //             src={item.IconURL}
+  //             onClick={() => openModalWindow(item.IconURL)}
+  //             alt={item.Title + " icon view."}
+  //             onError={() => setLoadIconError(true)}
+  //           />
+  //           :
+  //           <img src={require('../../images/objects/NoThumbnailObjectIcon.png')} alt={item.Title + " icon view."} />
+  //       );
+  //     case 2:
+  //       return (
+  //         item.ModelURL?.length > 0 && !loadModelError ?
+  //           <img
+  //             src={item.ModelURL}
+  //             onClick={() => openModalWindow(item.ModelURL)}
+  //             alt={item.Title + " 3D model view."}
+  //             onError={() => setLoadModelError(true)}
+  //           />
+  //           :
+  //           <img src={require('../../images/objects/No3DObjectIcon.png')} alt={item.Title + " 3D model view."} />
+  //       );
+  //     default:
+  //       return <img src={item.IconURL ? item.IconURL : require('../../images/objects/NoThumbnailObjectIcon.png')} alt={item.Title + " icon view."} />;
+  //   }
+  // };
 
   const renderItem = (item: IObject) => {
     return (
@@ -182,7 +185,8 @@ const ObjectInfoPage = () => {
               </div>
             </div>
           </div>
-          <div className="VisualData">
+          <VisualTabContent iconUrl={item.IconURL} modelUrl={item.ModelURL} />
+          {/* <div className="VisualData">
             <button
               className={`objectTabs objTab1 ${viewActiveTab === 1 ? 'objActiveTab' : 'objInactiveTab'} ${item.IconURL?.length > 0 ? '' : 'objUndefinedTab'}`}
               onClick={() => setViewActiveTab(1)}
@@ -200,7 +204,7 @@ const ObjectInfoPage = () => {
             <div className="objectView">
               <ViewTabContent />
             </div>
-          </div>
+          </div> */}
           <div className="DefinitionData">
             <div className="ObjectType">
               <h3 className="ObjectTypeTitle">Type</h3>
@@ -250,7 +254,8 @@ const ObjectInfoPage = () => {
           <title>{`${item.Title} | DizaQute`}</title>
         </Helmet>
         <Navbar />
-        <ModalWindow ref={modalRef} />
+        {/* <MediaModalWindow /> */}
+        {/* <ModalWindow ref={modalRef} /> */}
         <>
           <DataForNavigation />
           {renderItem(item)}
