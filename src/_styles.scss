@@ -275,3 +275,35 @@ $borderRadius: 0.2em;
     color: transparent;
   }
 }
+
+@mixin minimalisticScrollbar {
+  scrollbar-width: auto;
+  scrollbar-color: #aaa transparent;
+
+  &::-webkit-scrollbar {
+    width: 0.5em;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: #aaa;
+    border-radius: 0.25em;
+  }
+
+  &::-webkit-scrollbar-button {
+    background: #aaa;
+    height: 0.75em;
+    border-radius: 50%;
+  }
+
+  &::-webkit-scrollbar-button:increment {
+    background: #aaa;
+  }
+
+  &::-webkit-scrollbar-button:decrement {
+    background: #aaa;
+  }
+}

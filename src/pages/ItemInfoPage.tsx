@@ -9,6 +9,8 @@ import ModalWindow, { OpenModalWindow } from "../components/ModalWindows/ModalWi
 import { useSelector } from "react-redux";
 import { RootState } from "../ReduxStore/store";
 import StyledMarkdown from "../components/StyledMarkdown";
+import { IMediaUnit } from "../Interfaces/IMediaSectionComponents";
+import { ImagesAndVideosTabContent, SoundsTabContent } from "./MediaSectionComponents";
 
 interface Item {
   _id: string;
@@ -25,10 +27,11 @@ interface Item {
   IconURL: string;
   ParallaxURL: string;
   ModelURL: string;
-  /*
-      VolumeURL: string;
-      ModelURL: string;
-  */
+  Media: {
+    Sounds: IMediaUnit[];
+    Videos: IMediaUnit[];
+    Images: IMediaUnit[];
+  }
 }
 
 const ItemInfoPage = () => {
@@ -47,6 +50,9 @@ const ItemInfoPage = () => {
   const [item, setItem] = useState<any>(null);
 
   const [viewActiveTab, setViewActiveTab] = useState(1);
+  // const [soundActiveTab, setSoundActiveTab] = useState(0);
+
+  // const [imageActiveTab, setImageActiveTab] = useState(0);
 
   const [favoriteToggle, setFavoriteToggle] = useState(false);
 
@@ -69,6 +75,40 @@ const ItemInfoPage = () => {
 
     fetchData();
   }, [titleId]);
+
+  // TEST DATA
+  // useEffect(() => {
+  //   if (item === null || item.Media.Sounds.length > 3) return;
+
+  //   // setItem((prevItem: any) => ({
+  //   //   ...prevItem,
+  //   //   Media: {
+  //   //     ...prevItem.Media,
+  //   //     Sounds: [
+  //   //       ...(prevItem.Media.Sounds || []),
+  //   //       {
+  //   //         Title: "9",
+  //   //         Url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-9.mp3",
+  //   //         Description:
+  //   //           "long sound long sound long sound long sound long sound long sound long sound long sound long sound long sound long sound long sound ",
+  //   //       },
+  //   //     ],
+  //   //   },
+  //   // }));
+  //   setItem((prevItem: any) => ({
+  //     ...prevItem,
+  //     Media: {
+  //       ...prevItem.Media,
+  //       Sounds: [
+  //         ...(prevItem.Media.Sounds || []),
+  //         {
+  //           Title: "9",
+  //         },
+  //       ],
+  //     },
+  //   }));
+  // }, [item]);
+  //
 
   const ViewTabContent = () => {
     switch (viewActiveTab) {
@@ -180,6 +220,13 @@ const ItemInfoPage = () => {
               </div>
             </div>
 
+            <div className="usedForData section">
+              <h2 className="generalDataHeader">Used for</h2>
+              <div className="generalDataContent">
+                <p className="noData">Usage unknown...</p>
+              </div>
+            </div>
+
             <div className="storyData section">
               <h2 className="generalDataHeader">Story</h2>
               <div className="generalDataContent">
@@ -187,6 +234,22 @@ const ItemInfoPage = () => {
                   <StyledMarkdown>{item.Lore}</StyledMarkdown>
                   :
                   <p className="noData">Story isn't written...</p>
+                }
+              </div>
+            </div>
+
+            <div className="mediaData section">
+              <h2 className="generalDataHeader">Media</h2>
+              <div className="generalDataContent">
+                <SoundsTabContent data={item.Media.Sounds} />
+                <hr className="sectionSeparator" />
+                <ImagesAndVideosTabContent data={item.Media.Images} />
+                <hr className="sectionSeparator" />
+
+                {item.Media?.Videos ?
+                  <div></div>
+                  :
+                  <p className="noData">Videos are unknown...</p>
                 }
               </div>
             </div>

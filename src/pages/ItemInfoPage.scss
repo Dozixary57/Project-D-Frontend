@@ -7,6 +7,7 @@
   margin: 4em 9vw 0 9vw;
   background-color: transparent;
   grid-template-columns: auto minmax(auto, 65em) auto;
+  // background-color: red;
 
   .Content {
     //min-width: auto;
@@ -16,7 +17,7 @@
     display: grid;
     grid-template-columns: 75% 25%;
     //grid-template-columns: minmax(auto, 75%) minmax(16em, 25%);
-    grid-template-rows: repeat(3, auto);
+    // grid-template-rows: repeat(3, auto);
     grid-row-gap: 0.8em;
     //grid-column-gap: 1em;
     align-items: start;
@@ -28,19 +29,19 @@
       border-radius: 0.2em;
       background-color: $elementBackgroundColor;
       display: grid;
-      grid-template-columns: 4.5em auto 4.5em;
+      grid-template-columns: 10% auto 10%;
 
       .BackButton {
         border-radius: 0.1em;
         font-size: 2em;
         color: #AAA;
-        background: linear-gradient(to right, rgba(red, 0.2), transparent);
+        background: linear-gradient(to right, rgba(red, 0.1), transparent);
         border: none;
       }
 
       .BackButton:hover {
         color: white;
-        background: linear-gradient(to right, rgba(red, 0.4), transparent);
+        background: linear-gradient(to right, rgba(red, 0.2), transparent);
       }
 
       .TitleData {
@@ -188,11 +189,19 @@
       }
 
       .generalDataContent {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5em;
         padding: 0.5em;
+      }
 
-        .noData {
-          text-align: center;
-        }
+      .sectionSeparator {
+        width: 100%;
+        height: 0.5em;
+        margin: 0;
+        border: none;
+        border-radius: 0.2em;
+        background-color: rgba(0, 0, 0, 0.2);
       }
 
       .descriptionData {
@@ -224,12 +233,9 @@
         // }
       }
 
-      .acquisitionData {
+      .acquisitionData {}
 
-      }
-
-      .storyData {
-      }
+      .storyData {}
     }
 
     .VisualData {

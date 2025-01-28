@@ -1,0 +1,229 @@
+import { useEffect, useRef, useState } from "react";
+import StyledMarkdown from "../components/StyledMarkdown";
+import { IMediaUnit } from "../Interfaces/IMediaSectionComponents";
+import style from "./MediaSectionComponents.module.scss";
+
+const SoundsTabContent = ({ data }: { data: IMediaUnit[] }) => {
+  const [activeTab, setActiveTab] = useState(0);
+
+  const mediaListRef = useRef<HTMLDivElement | null>(null);
+
+  const [soundVolume, setSoundVolume] = useState(0.25);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
+
+  useEffect(() => {
+    if (audioRef.current) {
+      audioRef.current.load();
+      audioRef.current.volume = soundVolume;
+    }
+  }, [activeTab]);
+
+  if (data && data.length > 0) {
+    return (
+      <div className={style.sectionOfMedia}>
+        <h3 className={style.sectionHeader}>Sounds</h3>
+        <div className={`${style.sectionContent} ${style.soundsSection}`}>
+          <div
+            ref={mediaListRef}
+            className={`${style.mediaList} ${style.soundsList}`}
+          >
+            {data.map((sound: IMediaUnit, index: number) => (
+              <button
+                key={index}
+                className={`${style.selectButton} ${style.soundSelectButton} ${activeTab === index ? style.activeButton : style.inactiveButton}`}
+                onClick={() => { setActiveTab(index) }}
+              >{sound.Title}</button>
+            ))}
+            {/* <button
+              className={`${style.selectButton} ${style.soundSelectButton} ${activeTab === 9 ? style.activeButton : style.inactiveButton}`}
+              onClick={() => { setActiveTab(9) }}
+            >9</button>
+            <button
+              className={`${style.selectButton} ${style.soundSelectButton} ${activeTab === 99 ? style.activeButton : style.inactiveButton}`}
+              onClick={() => { setActiveTab(99) }}
+            >99</button>
+            <button
+              className={`${style.selectButton} ${style.soundSelectButton} ${activeTab === 999 ? style.activeButton : style.inactiveButton}`}
+              onClick={() => { setActiveTab(999) }}
+            >999</button>
+            <button
+              className={`${style.selectButton} ${style.soundSelectButton} ${activeTab === 9999 ? style.activeButton : style.inactiveButton}`}
+              onClick={() => { setActiveTab(9999) }}
+            >9999</button> */}
+          </div>
+
+          <hr className={style.separatorVertical} />
+
+          {data[activeTab] && data[activeTab].Url ?
+            <div className={style.mediaContent}>
+              <div className={style.mediaFile}>
+                <audio
+                  ref={audioRef}
+                  onVolumeChange={(e: React.ChangeEvent<HTMLAudioElement>) => setSoundVolume(e.target.volume)}
+                  controls>
+                  <source src={data[activeTab].Url} type="audio/mp3" />
+                  Your browser does not support the audio element.
+                </audio>
+              </div>
+              <div className={style.mediaDescription}>
+                {data[activeTab].Description && data[activeTab].Description.length > 0 ?
+                  <StyledMarkdown>{data[activeTab].Description}</StyledMarkdown>
+                  :
+                  <p className={style.noData}>This sound description is unknown...</p>
+                }
+              </div>
+            </div>
+            :
+            <p className={style.noData}>This sound is missing...</p>
+          }
+        </div>
+      </div>
+    );
+  } else {
+    return <p className={style.noData}>Sounds are unknown...</p>;
+  }
+};
+
+const ImagesAndVideosTabContent = ({ data }: { data: IMediaUnit[] }) => {
+  const [activeTab, setActiveTab] = useState(0);
+
+  const showcaseRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    if (showcaseRef.current) {
+      const container = showcaseRef.current;
+
+      container.style.scrollSnapType = "x proximity";
+      Array.from(container.children).forEach((child) => {
+        const button = child as HTMLElement;
+        button.style.scrollSnapAlign = "center";
+      });
+
+      const activeButton = container.children[activeTab] as HTMLElement;
+      if (activeButton) {
+        const buttonRect = activeButton.getBoundingClientRect();
+        const containerRect = container.getBoundingClientRect();
+
+        const buttonCenter = buttonRect.top + buttonRect.height / 2;
+        const containerCenter = containerRect.top + containerRect.height / 2;
+
+        const scrollOffset = buttonCenter - containerCenter;
+
+        container.scrollBy({
+          top: scrollOffset,
+          behavior: "smooth",
+        });
+      }
+    }
+  }, [activeTab]);
+
+  if (data && data.length > 0) {
+    return (
+      <div className={style.sectionOfMedia}>
+        <h3 className={style.sectionHeader}>Images</h3>
+        <div className={`${style.sectionContent} ${style.imagesSection}`}>
+          <div ref={showcaseRef} className={`${style.mediaList} ${style.imagesAndVideosList}`}>
+            {data.map((image: IMediaUnit, index: number) => (
+              <button
+                key={index}
+                className={`${style.selectButton} ${style.imageSelectButton} ${activeTab === index ? style.activeButton : style.inactiveButton}`}
+                onClick={() => setActiveTab(index)}
+              >
+                <img
+                  src={image.Url}
+                  alt={image.Description ? image.Description : image.Title}
+                />
+              </button>
+            ))}
+          </div>
+
+          <hr className={style.separatorVertical} />
+
+          {data[activeTab] && data[activeTab].Url ?
+            <div className={style.mediaContent}>
+              <h4 className={style.subheader}>{data[activeTab].Title}</h4>
+              <div className={style.mediaFile}>
+                <img src={data[activeTab].Url} alt={data[activeTab].Description} />
+              </div>
+              <div className={style.imageDescription}>
+                {data[activeTab].Description && data[activeTab].Description.length > 0 ?
+                  <StyledMarkdown>{data[activeTab].Description}</StyledMarkdown>
+                  :
+                  <p className={style.noData}>This media description is missing...</p>
+                }
+              </div>
+            </div>
+            :
+            <p className={style.noData}>This image is missing...</p>
+          }
+        </div>
+      </div>
+    );
+  } else {
+    return <p className={style.noData}>Images are unknown...</p>;
+  }
+};
+
+// const ImagesTabContent = ({ data }: { data: IMediaUnit[] }) => {
+//   const [activeTab, setActiveTab] = useState(0);
+
+//   const showcaseActiveButtonRef = useRef<HTMLDivElement | null>(null);
+
+//   useEffect(() => {
+//     if (showcaseActiveButtonRef.current) {
+//       const activeButton = showcaseActiveButtonRef.current.children[activeTab] as HTMLElement;
+
+//       const buttonOffsetLeft = activeButton.offsetLeft;
+//       const buttonWidth = activeButton.offsetWidth;
+//       const containerWidth = showcaseActiveButtonRef.current.offsetWidth;
+
+//       const scrollPosition = buttonOffsetLeft - (containerWidth / 2) + (buttonWidth / 2);
+
+//       showcaseActiveButtonRef.current.scrollTo({
+//         left: scrollPosition,
+//         behavior: 'smooth',
+//       });
+//     }
+//   }, [activeTab]);
+
+//   if (data && data.length > 0) {
+//     return (
+//       <div className={style.imagesSection}>
+//         <h3 className={style.sectionHeader}>Images</h3>
+//         <div className={style.imageData}>
+//           <div className={style.imagePreview}>
+//             <img src={data[activeTab].Url} alt={data[activeTab].Description} />
+//           </div>
+//           <div className={style.imageDescription}>
+//             <div className={style.imageHeader}>{data[activeTab].Title}</div>
+//             <StyledMarkdown>{data[activeTab].Description}</StyledMarkdown>
+//           </div>
+//         </div>
+//         <div
+//           ref={showcaseActiveButtonRef}
+//           className={style.imagesShowcase}
+//         >
+//           {data.map((image: IMediaUnit, index: number) => (
+//             <button
+//               key={index}
+//               className={`${style.imageSelectButton} ${activeTab === index ? style.activeImageButton : style.inactiveImageButton}`}
+//               onClick={() => setActiveTab(index)}
+//             >
+//               <img
+//                 src={image.Url}
+//                 alt={image.Description}
+//               />
+//             </button>
+//           ))}
+//         </div>
+//       </div>
+//     );
+//   } else {
+//     return <p className={style.noData}>Images are unknown...</p>;
+//   }
+// };
+
+export {
+  SoundsTabContent,
+  ImagesAndVideosTabContent,
+};
