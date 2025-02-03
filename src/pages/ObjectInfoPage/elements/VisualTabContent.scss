@@ -1,16 +1,12 @@
-@import "../../styles";
+@import "../../../styles";
 
 .objectVisualTabs {
   z-index: 3;
   width: 100%;
-
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-template-rows: auto auto;
-  grid-row-gap: 0.25em;
-
   border-radius: 0.2em;
-  justify-self: end;
 
   .objectTabs {
     border-radius: 0.2em;

@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
-import StyledMarkdown from "../../components/StyledMarkdown";
+import StyledMarkdown from "../../../components/StyledMarkdown";
 import style from "./MediaSectionComponents.module.scss";
-import { IMediaUnit } from '@interfaces/IObject';
+import { IMediaUnit } from '@interfaces/IObjectInfo';
 
 const SoundsTabContent = ({ data }: { data: IMediaUnit[] }) => {
   const [activeTab, setActiveTab] = useState(0);
@@ -68,7 +68,7 @@ const SoundsTabContent = ({ data }: { data: IMediaUnit[] }) => {
   }
 };
 
-const ImagesAndVideosTabContent = ({ data }: { data: IMediaUnit[] }) => {
+const ImagesAndVideosTabContent = ({ data, title = "Image" }: { data: IMediaUnit[], title?: string }) => {
   const [activeTab, setActiveTab] = useState(0);
 
   const showcaseRef = useRef<HTMLDivElement | null>(null);
@@ -104,7 +104,7 @@ const ImagesAndVideosTabContent = ({ data }: { data: IMediaUnit[] }) => {
   if (data && data.length > 0) {
     return (
       <div className={style.sectionOfMedia}>
-        <h3 className={style.sectionHeader}>Images</h3>
+        <h3 className={style.sectionHeader}>{title[0].toUpperCase() + title.slice(1)}</h3>
         <div className={`${style.sectionContent} ${style.imagesSection}`}>
           <div ref={showcaseRef} className={`${style.mediaList} ${style.imagesAndVideosList}`}>
             {data.map((image: IMediaUnit, index: number) => (
@@ -138,13 +138,13 @@ const ImagesAndVideosTabContent = ({ data }: { data: IMediaUnit[] }) => {
               </div>
             </div>
             :
-            <p className={style.noData}>This image is missing...</p>
+            <p className={style.noData}>{`This ${title[0].toLowerCase() + title.slice(1)} is missing...`}</p>
           }
         </div>
       </div>
     );
   } else {
-    return <p className={style.noData}>Images are unknown...</p>;
+    return <p className={style.noData}>{`${title[0].toUpperCase() + title.slice(1)}s are unknown...`}</p>;
   }
 };
 

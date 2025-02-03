@@ -1,0 +1,150 @@
+@import "../../../styles";
+
+.objectTitle {
+  width: 100%;
+  z-index: 3;
+  border-radius: 0.2em;
+  background-color: $elementBackgroundColor;
+  display: grid;
+  grid-template-columns: 12% auto 12%;
+  grid-template-rows: auto auto;
+  margin-bottom: 0.8em;
+
+  .backButton {
+    grid-area: 1 / 1 / 3 / 2;
+
+    >button {
+      width: 100%;
+      height: 100%;  
+      padding: 0 1.5em 0 0.5em;
+      border-radius: 0.1em;
+      font-size: 2em;
+      color: #AAA;
+      background: linear-gradient(to right, rgba(red, 0.1), transparent);
+      border: none;
+    }
+  
+    >button:hover {
+      color: white;
+      background: linear-gradient(to right, rgba(red, 0.2), transparent);
+    }
+  }
+
+  .titleData {
+    grid-area: 1 / 2 / 2 / 3;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding-top: 0.25em;
+
+    >h2 {
+      font-size: 1.5em;
+      text-align: center;
+      // padding: 0.5em 0;
+      margin: 0;
+    }
+
+    >button {
+      border: none;
+      background-color: transparent;
+
+      img {
+        width: 2.5em;
+        height: 2.5em;
+        padding-left: 0.5em;
+        filter: invert(84%) sepia(12%) saturate(3%) hue-rotate(321deg) brightness(82%) contrast(80%);
+      }
+    }
+
+  }
+
+  .subtitleData {
+    grid-area: 2 / 2 / 3 / 3;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+
+    >p {
+      font-size: 1.2em;
+      padding-bottom: 0.25em;
+      margin: 0;
+      text-align: center;
+    }
+  }
+
+  .editingActions {
+    grid-area: 1 / 3 / 3 / 4;
+    width: 100%;
+    height: 100%;  
+    display: flex;
+    flex-direction: row;
+    align-self: center;
+    justify-self: end;
+
+    >button {
+      width: 3em;
+      height: 3em;
+      border: none;
+      border-radius: 0.2em;
+      margin-right: 0.75em;
+      background-color: rgba(0, 0, 0, 0.2);
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      >img {
+        width: 2.5em;
+        filter: invert(45%) sepia(62%) saturate(6%) hue-rotate(70deg) brightness(89%) contrast(80%);
+      }
+    }
+
+    >button:hover {
+      cursor: pointer;
+    }
+
+    .agreeButton:hover {
+      >img {
+        filter: invert(38%) sepia(92%) saturate(1192%) hue-rotate(89deg) brightness(100%) contrast(110%);
+      }
+    }
+
+    .disagreeButton:hover {
+
+      //
+      >img {
+        filter: invert(9%) sepia(81%) saturate(5982%) hue-rotate(358deg) brightness(90%) contrast(109%);
+      }
+    }
+
+    .editingButton:hover {
+
+      >img {
+        filter: invert(34%) sepia(95%) saturate(3792%) hue-rotate(5deg) brightness(92%) contrast(101%);
+      }
+    }
+  }
+
+  
+
+  // .actionIndicator {
+  //   position: absolute;
+  //   top: 0.1em;
+  //   right: -2.5em;
+  //   transform-origin: top left;
+
+  //   p {
+  //     position: absolute;
+  //     margin: 0;
+  //     font-size: 1.2em;
+  //     color: #AAA;
+  //     letter-spacing: 0.05em;
+  //     transform-origin: top left;
+  //     transform: rotate(90deg);
+  //     padding: 0.4em 0.5em 0.3em 0.5em;
+  //     border-radius: 0.2em;
+  //   }
+  // }
+}

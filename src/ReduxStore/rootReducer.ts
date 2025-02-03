@@ -12,6 +12,7 @@ import isLoadingState from "./Reducers/isLoadingState";
 import isAuthorized from "./Reducers/isAuthorized";
 import userPrivileges from "./Reducers/userPrivileges";
 import fileUploadErrors from "./Reducers/fileUploadErrors";
+import isEditingMode from "./Reducers/isEditingMode";
 
 export const rootReducer = combineReducers({
     itemObjectsNavigationIndex,
@@ -26,4 +27,5 @@ export const rootReducer = combineReducers({
     isAuthorized,
     userPrivileges,
     fileUploadErrors,
+    isEditingMode,
 });

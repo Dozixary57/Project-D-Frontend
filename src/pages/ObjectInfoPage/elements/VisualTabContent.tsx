@@ -1,7 +1,7 @@
-import MediaModalWindow, { IMediaModalWindow } from "../../components/ModalWindows/MediaModalWindow";
+import MediaModalWindow, { IMediaModalWindow } from "../../../components/ModalWindows/MediaModalWindow";
 import { useRef, useState } from "react";
-import { GetTitleFromLink } from "../../tools/GetTitleFromLink";
-import style from "./VisualTabContent.module.scss";
+import { GetTitleFromLink } from "../../../tools/GetTitleFromLink";
+import "./VisualTabContent.scss";
 
 interface VisualTabContentProps {
   iconUrl: string;
@@ -32,12 +32,12 @@ const VisualTabContent = ({ iconUrl, modelUrl }: VisualTabContentProps) => {
             onClick={() => openMediaModalWindow(iconUrl)}
             alt={`${objectTitle} icon view`}
             onError={() => setLoadIconError(true)}
-            className={style.imageAnim}
+            className="imageAnim"
             style={{ cursor: 'pointer' }}
           />
         ) : (
           <img
-            src={require("../../images/objects/NoThumbnailObjectIcon.png")}
+            src={require("@images/objects/NoThumbnailObjectIcon.png")}
             alt={`${objectTitle} icon view`}
             style={{ cursor: 'not-allowed' }}
           />
@@ -49,12 +49,12 @@ const VisualTabContent = ({ iconUrl, modelUrl }: VisualTabContentProps) => {
             onClick={() => openMediaModalWindow(modelUrl)}
             alt={`${objectTitle} 3D model view`}
             onError={() => setLoadModelError(true)}
-            className={style.imageAnim}
+            className="imageAnim"
             style={{ cursor: 'pointer' }}
-            />
+          />
         ) : (
           <img
-            src={require("../../images/objects/No3DObjectIcon.png")}
+            src={require("@images/objects/No3DObjectIcon.png")}
             alt={`${objectTitle} 3D model view`}
             style={{ cursor: 'not-allowed' }}
           />
@@ -67,22 +67,22 @@ const VisualTabContent = ({ iconUrl, modelUrl }: VisualTabContentProps) => {
   return (
     <>
       <MediaModalWindow ref={MediaModalWindowRef} />
-      <div className={style.objectVisualTabs}>
+      <div className="objectVisualTabs">
         <button
-          className={`${style.objectTabs} ${style.objIconTab} ${activeTab === 1 ? style.objActiveTab : style.objInactiveTab} ${iconUrl?.length > 0 ? '' : style.objUndefinedTab}`}
+          className={`objectTabs objIconTab ${activeTab === 1 ? 'objActiveTab' : 'objInactiveTab'} ${iconUrl?.length > 0 ? '' : 'objUndefinedTab'}`}
           onClick={() => setActiveTab(1)}
           title="In-game icon"
         >
           <img src={require('@images/objects/ThumbnailObjectIcon.png')} />
         </button>
         <button
-          className={`${style.objectTabs} ${style.objModelTab} ${activeTab === 2 ? style.objActiveTab : style.objInactiveTab} ${modelUrl?.length > 0 ? '' : style.objUndefinedTab}`}
+          className={`objectTabs objModelTab ${activeTab === 2 ? 'objActiveTab' : 'objInactiveTab'} ${modelUrl?.length > 0 ? '' : 'objUndefinedTab'}`}
           onClick={() => setActiveTab(2)}
           title="In-game 3D Model"
         >
           <img src={require('@images/objects/3DObjectIcon.png')} />
         </button>
-        <div className={style.objectView}>
+        <div className="objectView">
           <RenderTabContent />
         </div>
       </div>

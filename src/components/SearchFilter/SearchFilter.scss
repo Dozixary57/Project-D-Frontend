@@ -9,6 +9,7 @@
   align-items: center;
 
   > p {
+    word-break: normal;
     font-size: 1.4em;
     text-indent: 1em;
     padding: 0.6em 0.8em 0.6em 0;
@@ -112,6 +113,7 @@
         padding-right: 0.2em;
         filter: invert(45%) sepia(62%) saturate(6%) hue-rotate(70deg) brightness(89%) contrast(80%);      }
       > label {
+        word-break: normal;
         padding-right: 0.25em;
       }
     }

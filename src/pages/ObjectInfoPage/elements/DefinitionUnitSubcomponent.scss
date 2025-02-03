@@ -1,0 +1,64 @@
+.defUnitContainer {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: 0.5em;
+  margin: 0.25em;
+  padding: 0.25em 0.5em;
+  border-radius: 0.2em;
+  background-color: rgba(255, 255, 255, 0.1);
+
+  >img {
+    width: 1.5em;
+    height: 1.5em;
+    filter: invert(73%) sepia(2%) saturate(25%) hue-rotate(356deg) brightness(94%) contrast(86%);
+    image-rendering: crisp-edges;
+  }
+
+  >p {
+    margin: 0;
+  }
+
+  .defPropUnit {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+
+    .propTitle {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: 0.5em;
+
+      >img {
+        width: 1.5em;
+        height: 1.5em;
+        filter: invert(73%) sepia(2%) saturate(25%) hue-rotate(356deg) brightness(94%) contrast(86%);
+        image-rendering: crisp-edges;
+      }
+
+      >p {
+        margin: 0;
+      }
+    }
+
+    .propValue {
+
+      >p {
+        margin: 0;
+      }
+    }
+  }
+}
+
+// .objectTypeValue {
+//   background-color: #0099ff63;
+// }
+
+// .objectSubclassValue {
+//   background-color: #ff51008f;
+// }

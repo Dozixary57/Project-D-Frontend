@@ -1,38 +1,34 @@
 ﻿import { useEffect, useState, useRef } from "react";
 import itemService from '@services/itemService';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { Helmet } from "react-helmet-async";
 import { Navbar } from "../../components/elements/navigation_bar/Navbar";
-import "./ObjectInfoPage.scss"
 import { DataForNavigation, PrevButton, NextButton } from "../../components/elements/ObjectNavigation/ObjectNavigation";
-import { useSelector } from "react-redux";
-import { RootState } from "../../ReduxStore/store";
 import StyledMarkdown from "../../components/StyledMarkdown";
-import { ImagesAndVideosTabContent, SoundsTabContent } from "./MediaSectionComponents";
-import { IObject } from '@interfaces/IObject';
-import VisualTabContent from "./VisualTabContent";
-// import MediaModalWindow, { IMediaModalWindow } from "components/ModalWindows/MediaModalWindow";
+import { ImagesAndVideosTabContent, SoundsTabContent } from "./elements/MediaSectionComponents";
+import { IObjectInfo } from '@interfaces/IObjectInfo';
+import VisualTabContent from "./elements/VisualTabContent";
+import PageHeaderComponent from "./elements/PageHeaderComponent";
+import "./ObjectInfoPage.scss"
+import DefinitionInfoComponent from "./elements/DefinitionInfoComponent";
 
 const ObjectInfoPage = () => {
-  const navigate = useNavigate();
-
-  const userPrivileges = useSelector((state: RootState) => state.userPrivileges);
-
-  const [isEditingMode, setIsEditingMode] = useState(false);
+  // const [isEditingMode, setIsEditingMode] = useState(false);
 
   const { titleId } = useParams<{ titleId: string }>();
-  const [item, setItem] = useState<any>(null);
-
-  const [favoriteToggle, setFavoriteToggle] = useState(false);
+  const [objectInfo, setObjectInfo] = useState<IObjectInfo | null>(null);
 
   useEffect(() => {
+    setObjectInfo(null);
+
     const fetchData = async () => {
       try {
         const res = await itemService.getItemByTitle(titleId);
 
-        setItem(res);
+        setObjectInfo(res);
+        //
         console.log(res)
-        // setViewActiveTab(1)
+        //
       } catch (error) {
         if (error) throw error
       }
@@ -41,161 +37,87 @@ const ObjectInfoPage = () => {
     fetchData();
   }, [titleId]);
 
-  const renderItem = (item: IObject) => {
-    return (
-      <main className="ObjectInfoPage">
-        <PrevButton />
-        <div className="Content">
-          <div className="ObjectTitle">
-            <button className="BackButton" onClick={() => navigate('/Content/Items')}>&lt;&nbsp;&nbsp;</button>
-            <div className="TitleData">
-              <h2>{item.Title}</h2>
-              <button onClick={() => setFavoriteToggle(prev => !prev)}>
-                <img src={favoriteToggle ? require('../../images/FavoriteActive.png') : require('../../images/FavoriteInactive.png')} alt="FavoriteIcon" />
-              </button>
-            </div>
-            <div className="EditingActions">
-              {isEditingMode ?
-                <>
-                  <button className="AgreeButton">
-                    <img src={require('../../images/YesIcon.png')} alt="BinIcon"></img>
-                  </button>
-                  <button className="DisagreeButton" onClick={() => setIsEditingMode(prev => !prev)}>
-                    <img src={require('../../images/NoIcon.png')} alt="BinIcon"></img>
-                  </button>
-                </>
-                :
-                <>
-                  {userPrivileges && userPrivileges.map(privilege => privilege.Title).includes('ObjectEdit') && (
-                    <button className="EditingButton" onClick={() => setIsEditingMode(true)}>
-                      <img src={require('../../images/EditingIcon.png')} alt="EditingIcon" />
-                    </button>
-                  )}
-                  {userPrivileges && userPrivileges.map(privilege => privilege.Title).includes('ObjectDelete') && (
-                    <button className="DisagreeButton">
-                      <img src={require('../../images/BinIcon.png')} alt="BinIcon"></img>
-                    </button>
-                  )}
-                </>
-              }
-            </div>
-            <div className="ActionIndicator">
-              <p style={isEditingMode ? { backgroundColor: 'rgba(226, 64, 0, 0.4)' } : { backgroundColor: 'rgba(170, 170, 170, 0.4)' }}>{isEditingMode ? "Editing" : "Viewing"}</p>
-            </div>
-          </div>
-          <div className="GeneralData">
-            <div className="descriptionData section">
-              <h2 className="generalDataHeader">Description</h2>
-              {/* <h5 className="itemInfoLastUpd">Last update: 11/1/23 </h5> */}
-              <div className="generalDataContent">
-                <div className="GeneralDescription">
-                  <StyledMarkdown>{item.Description.General}</StyledMarkdown>
-                </div>
-                <div className="AuthorialDescription">
-                  <StyledMarkdown>{item.Description.Authorial}</StyledMarkdown>
-                </div>
-              </div>
-            </div>
-
-            <div className="acquisitionData section">
-              <h2 className="generalDataHeader">Acquisition</h2>
-              <div className="generalDataContent">
-                {/* {item.Acquisition ?
-                <StyledMarkdown>{item.Lore}</StyledMarkdown>
-                : */}
-                <p className="noData">Acquisition is unknown...</p>
-                {/* } */}
-              </div>
-            </div>
-
-            <div className="usedForData section">
-              <h2 className="generalDataHeader">Used for</h2>
-              <div className="generalDataContent">
-                <p className="noData">Usage unknown...</p>
-              </div>
-            </div>
-
-            <div className="storyData section">
-              <h2 className="generalDataHeader">Story</h2>
-              <div className="generalDataContent">
-                {item.Lore ?
-                  <StyledMarkdown>{item.Lore}</StyledMarkdown>
-                  :
-                  <p className="noData">Story isn't written...</p>
-                }
-              </div>
-            </div>
-
-            <div className="mediaData section">
-              <h2 className="generalDataHeader">Media</h2>
-              <div className="generalDataContent">
-                <SoundsTabContent data={item.Media.Sounds} />
-                <hr className="sectionSeparator" />
-                <ImagesAndVideosTabContent data={item.Media.Images} />
-                <hr className="sectionSeparator" />
-
-                {item.Media?.Videos ?
-                  <div></div>
-                  :
-                  <p className="noData">Videos are unknown...</p>
-                }
-              </div>
-            </div>
-          </div>
-          <VisualTabContent iconUrl={item.IconURL} modelUrl={item.ModelURL} />
-          <div className="DefinitionData">
-            <div className="ObjectType">
-              <h3 className="ObjectTypeTitle">Type</h3>
-              <div className="ObjectTypeValue">
-                <img src={require('../../images/ObjectTypeWeapon.png')} />
-                <p>{item.Classification.Type}</p>
-              </div>
-            </div>
-            <div className="ObjectSubclass">
-              <h3 className="ObjectSubclassTitle">Subclass</h3>
-              <div className="ObjectSubclassValue">
-                <img src={require('../../images/ObjectSubclassShortRange.png')} />
-                <p>{item.Classification.Subclass}</p>
-              </div>
-            </div>
-
-            <div className="ObjectPropertiesTitle">
-              <h3>Properties</h3>
-            </div>
-
-            <div>
-              <div>
-                <img src={require(('../../images/HealthPropertyIcon.png'))} />
-              </div>
-              <p>Health</p>
-              <p>20000</p>
-            </div>
-            <div>
-              <div>
-                <img src={require(('../../images/HealthPropertyIcon.png'))} />
-              </div>
-              <p>HealthHealth</p>
-              <p>20000</p>
-            </div>
-          </div>
-        </div>
-        <NextButton />
-      </main>
-    );
-  };
-
   return (
-    (item) ? (
+    (objectInfo) ? (
       <>
         <Helmet>
           <meta charSet="utf-8" />
-          <title>{`${item.Title} | DizaQute`}</title>
+          <title>{`${objectInfo.Title} | DizaQute`}</title>
         </Helmet>
         <Navbar />
-        <>
-          <DataForNavigation />
-          {renderItem(item)}
-        </>
+        <DataForNavigation />
+        <main className="objectInfoPage">
+          <PrevButton />
+          <div className="contentLayout">
+            <PageHeaderComponent title={objectInfo.Title} category={objectInfo.Category} />
+            <div className="content">
+              <div className="generalData">
+                <div className="descriptionData section">
+                  <h2 className="generalDataHeader">Description</h2>
+                  {/* <h5 className="itemInfoLastUpd">Last update: 11/1/23 </h5> */}
+                  <div className="generalDataContent">
+                    <div>
+                      <StyledMarkdown>{objectInfo.Description.General}</StyledMarkdown>
+                    </div>
+                    <div>
+                      <StyledMarkdown>{objectInfo.Description.Authorial}</StyledMarkdown>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="acquisitionData section">
+                  <h2 className="generalDataHeader">Acquisition</h2>
+                  <div className="generalDataContent">
+                    {/* {item.Acquisition ?
+                <StyledMarkdown>{item.Lore}</StyledMarkdown>
+                : */}
+                    <p className="noData">Acquisition is unknown...</p>
+                    {/* } */}
+                  </div>
+                </div>
+
+                <div className="usedForData section">
+                  <h2 className="generalDataHeader">Used for</h2>
+                  <div className="generalDataContent">
+                    <p className="noData">Usage unknown...</p>
+                  </div>
+                </div>
+
+                <div className="storyData section">
+                  <h2 className="generalDataHeader">Story</h2>
+                  <div className="generalDataContent">
+                    {objectInfo.Lore ?
+                      <StyledMarkdown>{objectInfo.Lore}</StyledMarkdown>
+                      :
+                      <p className="noData">Story isn't written...</p>
+                    }
+                  </div>
+                </div>
+
+                <div className="mediaData section">
+                  <h2 className="generalDataHeader">Media</h2>
+                  <div className="generalDataContent">
+                    <SoundsTabContent data={objectInfo.Media.Sounds} />
+                    <hr className="sectionSeparator" />
+                    <ImagesAndVideosTabContent data={objectInfo.Media.Images} />
+                    <hr className="sectionSeparator" />
+                    <ImagesAndVideosTabContent data={objectInfo.Media.Videos} title="Video" />
+                  </div>
+                </div>
+              </div>
+              <div className="visualAndDefinitionData">
+                <VisualTabContent iconUrl={objectInfo.IconURL} modelUrl={objectInfo.ModelURL} />
+                <DefinitionInfoComponent
+                  defData={{
+                    ...objectInfo.Classification,
+                    Characteristics: objectInfo.Characteristics
+                  }}
+                />
+              </div>
+            </div>
+          </div>
+          <NextButton />
+        </main>
       </>
     ) : (
       <p>No items found</p>
