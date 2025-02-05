@@ -11,6 +11,7 @@ import VisualTabContent from "./elements/VisualTabContent";
 import PageHeaderComponent from "./elements/PageHeaderComponent";
 import "./ObjectInfoPage.scss"
 import DefinitionInfoComponent from "./elements/DefinitionInfoComponent";
+import AuthorialInfoComponent from "./elements/AuthorialInfoComponent";
 
 const ObjectInfoPage = () => {
   // const [isEditingMode, setIsEditingMode] = useState(false);
@@ -50,6 +51,7 @@ const ObjectInfoPage = () => {
           <PrevButton />
           <div className="contentLayout">
             <PageHeaderComponent title={objectInfo.Title} category={objectInfo.Category} />
+            {/* <AuthorialInfoComponent data={objectInfo} /> */}
             <div className="content">
               <div className="generalData">
                 <div className="descriptionData section">

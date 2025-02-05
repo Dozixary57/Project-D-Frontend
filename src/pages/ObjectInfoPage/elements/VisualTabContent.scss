@@ -61,8 +61,8 @@
       box-sizing: border-box;
       transform: scale(0.95);
       transition:
-        transform 0.2s 0.1s ease-out,
-        transform 0.2s 0.1s ease-out;
+        transform 0.1s 0s ease-out,
+        transform 0.1s 0s ease-out;
     }
 
     .imageAnim:hover {

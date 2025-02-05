@@ -8,7 +8,6 @@
   display: grid;
   grid-template-columns: 12% auto 12%;
   grid-template-rows: auto auto;
-  margin-bottom: 0.8em;
 
   .backButton {
     grid-area: 1 / 1 / 3 / 2;
@@ -46,15 +45,35 @@
       margin: 0;
     }
 
-    >button {
+    .favoriteButton {
       border: none;
       background-color: transparent;
+
+      &:disabled {
+        cursor: not-allowed;
+        filter: invert(36%) sepia(1%) saturate(3364%) hue-rotate(320deg) brightness(88%) contrast(78%);
+      }
+
+      &:not(:disabled) {
+        cursor: pointer;
+        filter: invert(84%) sepia(12%) saturate(3%) hue-rotate(321deg) brightness(82%) contrast(80%);
+      }
+
+      &:hover:not(:disabled) {
+      }
+
+      // &.enabled {
+      //   color: #AAA;
+      // }
+
+      // &.disabled {
+      //   color: #5c5c5c;
+      // }
 
       img {
         width: 2.5em;
         height: 2.5em;
         padding-left: 0.5em;
-        filter: invert(84%) sepia(12%) saturate(3%) hue-rotate(321deg) brightness(82%) contrast(80%);
       }
     }
 

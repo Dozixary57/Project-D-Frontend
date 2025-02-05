@@ -7,6 +7,7 @@ import style from "./PageHeaderComponent.module.scss";
 const PageHeaderComponent = ({ title, category = "" }: { title: string, category?: string }) => {
   const navigate = useNavigate();
 
+  const isAuthorized = useSelector((state: RootState) => state.isAuthorized);
   const userPrivileges = useSelector((state: RootState) => state.userPrivileges);
   const isEditingMode = useSelector((state: RootState) => state.isEditingMode);
 
@@ -24,7 +25,12 @@ const PageHeaderComponent = ({ title, category = "" }: { title: string, category
 
       <div className={style.titleData}>
         <h2>{title}</h2>
-        <button onClick={() => setFavoriteToggle(prev => !prev)}>
+        <button
+        title={!isAuthorized ? 'Sign in to add to favorites' : ''}
+          className={style.favoriteButton}
+          onClick={() => setFavoriteToggle(prev => !prev)}
+          disabled={!isAuthorized}
+        >
           <img src={favoriteToggle ? require('@images/BookmarkOn.png') : require('@images/BookmarkOff.png')} alt="FavoriteIcon" />
         </button>
       </div>

@@ -25,21 +25,6 @@ const DefinitionInfoComponent = ({ defData }: { defData: IDefinitionInfo }) => {
         <h3>Properties</h3>
         <SinglePropUnit propUnits={defData?.Characteristics} />
       </div>
-
-      {/* <div>
-        <div>
-          <img src={require(('@images/HealthPropertyIcon.png'))} />
-        </div>
-        <p>Health</p>
-        <p>20000</p>
-      </div>
-      <div>
-        <div>
-          <img src={require(('@images/HealthPropertyIcon.png'))} />
-        </div>
-        <p>HealthHealth</p>
-        <p>20000</p>
-      </div> */}
     </div>
   );
 };

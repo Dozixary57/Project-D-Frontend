@@ -18,19 +18,22 @@
 
   .contentLayout {
     width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5em;
 
     .content {
       width: 100%;
       display: grid;
       grid-template-columns: 5fr 2fr;
-      gap: 0.8em;
+      gap: 0.5em;
 
       .generalData {
         position: relative;
         width: 100%;
         display: flex;
         flex-direction: column;
-        gap: 0.8em;
+        gap: 0.5em;
         justify-self: start;
 
         .section {
