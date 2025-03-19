@@ -1,8 +1,9 @@
 import { Helmet } from "react-helmet-async";
-import { FooterBar } from "../components/elements/footer_bar/FooterBar";
+// import { FooterBar } from "../components/elements/footer_bar/FooterBar";
 import { Navbar } from "../components/elements/navigation_bar/Navbar";
 import { Slider } from "../components/elements/slider/Slider";
 import "./HomePage.scss"
+import { Footer } from "@components/Footer/Footer";
 
 const HomePage = () => {
     return (
@@ -25,7 +26,7 @@ const HomePage = () => {
                 <p>Home page</p>
                 <p>Home page</p>
             </main>
-            <FooterBar />
+            <Footer />
         </>
     )
 }

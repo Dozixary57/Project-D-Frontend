@@ -12,6 +12,7 @@ import PageHeaderComponent from "./elements/PageHeaderComponent";
 import "./ObjectInfoPage.scss"
 import DefinitionInfoComponent from "./elements/DefinitionInfoComponent";
 import AuthorialInfoComponent from "./elements/AuthorialInfoComponent";
+import { Footer } from "@components/Footer/Footer";
 
 const ObjectInfoPage = () => {
   // const [isEditingMode, setIsEditingMode] = useState(false);
@@ -120,6 +121,7 @@ const ObjectInfoPage = () => {
           </div>
           <NextButton />
         </main>
+        <Footer />
       </>
     ) : (
       <p>No items found</p>
