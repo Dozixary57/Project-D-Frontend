@@ -93,22 +93,37 @@
     }
   }
 
-  .editingActions {
+  .editButton {
     grid-area: 1 / 3 / 3 / 4;
     width: 100%;
     height: 100%;  
     display: flex;
     flex-direction: row;
-    align-self: center;
-    justify-self: end;
+    justify-content: flex-end;
+    align-items: center;
+
+    .active {
+      background-color: rgba(black, 0.2);
+      box-shadow: 0 0 0 0.1em rgba(white, 0.25) inset;
+      filter: invert(29%) sepia(16%) saturate(1567%) hue-rotate(70deg) brightness(98%) contrast(91%);
+    }
+
+    .modified {
+      background-color: rgba(black, 0.2);
+      box-shadow: 0 0 0 0.1em rgba(white, 0.25) inset;
+      filter: invert(40%) sepia(80%) saturate(1291%) hue-rotate(22deg) brightness(104%) contrast(101%);
+    }
+
+    .inactive {
+      background-color: rgba(white, 0.025);
+    }
 
     >button {
-      width: 3em;
-      height: 3em;
+      width: 4em;
+      height: 4em;
       border: none;
       border-radius: 0.2em;
       margin-right: 0.75em;
-      background-color: rgba(0, 0, 0, 0.2);
 
       display: flex;
       align-items: center;
@@ -123,47 +138,5 @@
     >button:hover {
       cursor: pointer;
     }
-
-    .agreeButton:hover {
-      >img {
-        filter: invert(38%) sepia(92%) saturate(1192%) hue-rotate(89deg) brightness(100%) contrast(110%);
-      }
-    }
-
-    .disagreeButton:hover {
-
-      //
-      >img {
-        filter: invert(9%) sepia(81%) saturate(5982%) hue-rotate(358deg) brightness(90%) contrast(109%);
-      }
-    }
-
-    .editingButton:hover {
-
-      >img {
-        filter: invert(34%) sepia(95%) saturate(3792%) hue-rotate(5deg) brightness(92%) contrast(101%);
-      }
-    }
   }
-
-  
-
-  // .actionIndicator {
-  //   position: absolute;
-  //   top: 0.1em;
-  //   right: -2.5em;
-  //   transform-origin: top left;
-
-  //   p {
-  //     position: absolute;
-  //     margin: 0;
-  //     font-size: 1.2em;
-  //     color: #AAA;
-  //     letter-spacing: 0.05em;
-  //     transform-origin: top left;
-  //     transform: rotate(90deg);
-  //     padding: 0.4em 0.5em 0.3em 0.5em;
-  //     border-radius: 0.2em;
-  //   }
-  // }
 }

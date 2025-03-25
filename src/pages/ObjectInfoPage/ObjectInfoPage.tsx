@@ -1,6 +1,6 @@
 ﻿import { useEffect, useState, useRef } from "react";
 import itemService from '@services/itemService';
-import { useParams } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 import { Helmet } from "react-helmet-async";
 import { Navbar } from "../../components/elements/navigation_bar/Navbar";
 import { DataForNavigation, PrevButton, NextButton } from "../../components/elements/ObjectNavigation/ObjectNavigation";
@@ -9,16 +9,30 @@ import { ImagesAndVideosTabContent, SoundsTabContent } from "./elements/MediaSec
 import { IObjectInfo } from '@interfaces/IObjectInfo';
 import VisualTabContent from "./elements/VisualTabContent";
 import PageHeaderComponent from "./elements/PageHeaderComponent";
-import "./ObjectInfoPage.scss"
+import style from "./ObjectInfoPage.module.scss"
 import DefinitionInfoComponent from "./elements/DefinitionInfoComponent";
-import AuthorialInfoComponent from "./elements/AuthorialInfoComponent";
 import { Footer } from "@components/Footer/Footer";
+import EditingActionsComponent from "./elements/EditingActionsComponent";
+import ObjectDescriptionComponent from "./elements/ObjectDescriptionComponent";
+import useNavigationBlock from "@tools/useNavigationBlock";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "ReduxStore/store";
 
 const ObjectInfoPage = () => {
-  // const [isEditingMode, setIsEditingMode] = useState(false);
+  const location = useLocation();
 
   const { titleId } = useParams<{ titleId: string }>();
   const [objectInfo, setObjectInfo] = useState<IObjectInfo | null>(null);
+
+  const editingState = useSelector((state: RootState) => state.editingState);
+  const dispatch = useDispatch();
+  
+  const navigate = useNavigationBlock(editingState === 'MODIFIED');
+
+  useEffect(() => {
+    if (editingState === 'ACTIVE') dispatch({ type: 'STOP_EDITING' });
+  }, [location]);
+
 
   useEffect(() => {
     setObjectInfo(null);
@@ -28,9 +42,6 @@ const ObjectInfoPage = () => {
         const res = await itemService.getItemByTitle(titleId);
 
         setObjectInfo(res);
-        //
-        console.log(res)
-        //
       } catch (error) {
         if (error) throw error
       }
@@ -48,67 +59,57 @@ const ObjectInfoPage = () => {
         </Helmet>
         <Navbar />
         <DataForNavigation />
-        <main className="objectInfoPage">
+        <main className={style.objectInfoPage}>
           <PrevButton />
-          <div className="contentLayout">
+          <div className={style.contentLayout}>
             <PageHeaderComponent title={objectInfo.Title} category={objectInfo.Category} />
+            <EditingActionsComponent />
             {/* <AuthorialInfoComponent data={objectInfo} /> */}
-            <div className="content">
-              <div className="generalData">
-                <div className="descriptionData section">
-                  <h2 className="generalDataHeader">Description</h2>
-                  {/* <h5 className="itemInfoLastUpd">Last update: 11/1/23 </h5> */}
-                  <div className="generalDataContent">
-                    <div>
-                      <StyledMarkdown>{objectInfo.Description.General}</StyledMarkdown>
-                    </div>
-                    <div>
-                      <StyledMarkdown>{objectInfo.Description.Authorial}</StyledMarkdown>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="acquisitionData section">
-                  <h2 className="generalDataHeader">Acquisition</h2>
-                  <div className="generalDataContent">
+            <div className={style.content}>
+              <div className={style.generalData}>
+                {/* <ObjectDescriptionComponent description={{ General: "2131", Authorial: "wqeqwe" }} /> */}
+                <ObjectDescriptionComponent description={objectInfo.Description} />
+                <div className={`${style.acquisitionData} ${style.section}`}>
+                  <h2 className={style.generalDataHeader}>Acquisition</h2>
+                  <div className={style.generalDataContent}>
                     {/* {item.Acquisition ?
                 <StyledMarkdown>{item.Lore}</StyledMarkdown>
                 : */}
-                    <p className="noData">Acquisition is unknown...</p>
+                    <p className={style.noData}>Acquisition is unknown...</p>
                     {/* } */}
                   </div>
                 </div>
 
-                <div className="usedForData section">
-                  <h2 className="generalDataHeader">Used for</h2>
-                  <div className="generalDataContent">
-                    <p className="noData">Usage unknown...</p>
+                <div className={`${style.usedForData} ${style.section}`}>
+                  <h2 className={style.generalDataHeader}>Used for</h2>
+                  <div className={style.generalDataContent}>
+                    <p className={style.noData}>Usage unknown...</p>
                   </div>
                 </div>
 
-                <div className="storyData section">
-                  <h2 className="generalDataHeader">Story</h2>
-                  <div className="generalDataContent">
+                <div className={`${style.storyData} ${style.section}`}>
+                  <h2 className={style.generalDataHeader}>Story</h2>
+                  <div className={style.generalDataContent}>
                     {objectInfo.Lore ?
                       <StyledMarkdown>{objectInfo.Lore}</StyledMarkdown>
                       :
-                      <p className="noData">Story isn't written...</p>
+                      <p className={style.noData}>Story isn't written...</p>
                     }
                   </div>
                 </div>
 
-                <div className="mediaData section">
-                  <h2 className="generalDataHeader">Media</h2>
-                  <div className="generalDataContent">
+                <div className={`${style.mediaData} ${style.section}`}>
+                  <h2 className={style.generalDataHeader}>Media</h2>
+                  <div className={style.generalDataContent}>
                     <SoundsTabContent data={objectInfo.Media.Sounds} />
-                    <hr className="sectionSeparator" />
+                    <hr className={style.sectionSeparator} />
                     <ImagesAndVideosTabContent data={objectInfo.Media.Images} />
-                    <hr className="sectionSeparator" />
+                    <hr className={style.sectionSeparator} />
                     <ImagesAndVideosTabContent data={objectInfo.Media.Videos} title="Video" />
                   </div>
                 </div>
               </div>
-              <div className="visualAndDefinitionData">
+              <div className={style.visualAndDefinitionData}>
                 <VisualTabContent iconUrl={objectInfo.IconURL} modelUrl={objectInfo.ModelURL} />
                 <DefinitionInfoComponent
                   defData={{

@@ -7,6 +7,7 @@ module.exports = {
       '@services': path.resolve(__dirname, 'src/backend/services'),
       '@interfaces': path.resolve(__dirname, 'src/interfaces'),
       '@images': path.resolve(__dirname, 'src/images'),
+      '@tools': path.resolve(__dirname, 'src/tools'),
     },
   },
 };

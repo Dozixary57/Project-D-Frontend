@@ -2,7 +2,7 @@ import axios from 'axios';
 import { store } from '../../ReduxStore/store';
 import { IAccount } from '../../interfaces/IAccounts';
 import AuthService from './authService';
-import { GetCurrentUserAccessTokenString } from '../../components/GetUserData/GetUserData';
+import { GetCurrentUserAccessTokenString } from '@tools/GetUserData';
 
 const AccountService = {
   getAccounts: async () => {

@@ -1,6 +1,6 @@
 import axios from 'axios';
 import AuthService from './authService';
-import { GetCurrentUserAccessTokenString } from '../../components/GetUserData/GetUserData';
+import { GetCurrentUserAccessTokenString } from '@tools/GetUserData';
 import { useAllowedFileProperties } from '../../AllowedValues/AllowedFileProperties';
 import { store } from '../../ReduxStore/store';
 

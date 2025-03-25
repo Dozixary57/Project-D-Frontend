@@ -1,5 +1,4 @@
 import { Link } from "react-router-dom";
-import { useCookies } from 'react-cookie';
 import Floater from 'react-floater';
 import "./Navbar.scss"
 import { useEffect, useRef, useState } from "react";

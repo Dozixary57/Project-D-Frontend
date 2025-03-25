@@ -1,0 +1,43 @@
+@import "../../../styles";
+
+.objectDescription {
+  border-radius: 0.2em;
+  padding: 0.25em;
+  background-color: $elementBackgroundColor;
+
+  &.descriptionData {}
+
+  .generalDataHeader {
+    font-size: 1.4em;
+    margin: 0;
+    text-indent: 0.5em;
+    padding: 0.6em;
+    border-radius: 0.1em;
+    background: linear-gradient(to right, rgba(0, 0, 0, 0.15) 0.1em, rgba(0, 0, 0, 0.2) 1em, transparent);
+  }
+
+  .generalDataContent {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5em;
+    padding: 0.5em;
+
+    .markdownEditor {
+      background-color: transparent;
+    }
+
+    .w-md-editor-toolbar {
+
+      background-color: rgba(black, 0.4);
+    }
+
+    .w-md-editor-content {
+      background-color: rgba(black, 0.6);
+    }
+
+    .wmde-markdown {
+      background-color: rgba(rgb(20, 20, 20), 0.6);
+    }
+  }
+
+}

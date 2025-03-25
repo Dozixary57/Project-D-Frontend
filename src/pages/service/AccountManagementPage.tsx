@@ -8,8 +8,8 @@ import { useSelector } from "react-redux";
 import { DateFormatter } from "../../tools/DataFormatters";
 import LoadingImage from "../../components/LoadingImage/LoadingImage";
 import { Link, Outlet } from "react-router-dom";
-import { IAccount } from "../../interfaces/IAccounts";
-import { CurrentUserPrivilege, GetCurrentUserId } from "../../components/GetUserData/GetUserData";
+import { IAccount } from "@interfaces/IAccounts";
+import { GetCurrentUserPrivileges, GetCurrentUserId } from "@tools/GetUserData";
 
 const AccountManagementPage = () => {
   const userPrivileges = useSelector((state: RootState) => state.userPrivileges);
@@ -57,7 +57,7 @@ const AccountManagementPage = () => {
               <input type="text" placeholder="Search..." />
             </div>
 
-            {CurrentUserPrivilege.isUserCreate() && <Link to="0" className="CreateNewAccount">
+            {GetCurrentUserPrivileges.isUserCreate() && <Link to="0" className="CreateNewAccount">
               <button>
                 Create new account
               </button>

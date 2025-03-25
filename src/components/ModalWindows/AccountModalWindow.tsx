@@ -6,7 +6,7 @@ import AccountService from '../../backend/services/accountService';
 import { InputValueToTimestamp, TimestampToInputValue } from '../../tools/DataFormatters';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../ReduxStore/store';
-import { GetCurrentUserId, CurrentUserPrivilege } from '../GetUserData/GetUserData';
+import { GetCurrentUserId, GetCurrentUserPrivileges } from '@tools/GetUserData';
 import LoadingImage from '../LoadingImage/LoadingImage';
 import AuthService from '../../backend/services/authService';
 
@@ -110,7 +110,7 @@ const AccountModalWindow = () => {
 
   //
   useEffect(() => {
-    if (!CurrentUserPrivilege.isUserEdit() || isCurrentUser || inFormAccountDetails?.Status === "Deleted") {
+    if (!GetCurrentUserPrivileges.isUserEdit() || isCurrentUser || inFormAccountDetails?.Status === "Deleted") {
       setInputIsDisabled(true);
     } else {
       setInputIsDisabled(false);
@@ -462,10 +462,10 @@ const AccountModalWindow = () => {
                         && inFormAccountDetails?.Privileges.map((privilege) =>
                           <p
                             key={privilege._id}
-                            draggable={!isCurrentUser && CurrentUserPrivilege.isUserPrivilegesManaging() && inFormAccountDetails.Status !== 'Deleted' && userPrivileges.map((privilege: IPrivileges) => privilege.Title).includes(privilege.Title) ? true : false}
+                            draggable={!isCurrentUser && GetCurrentUserPrivileges.isUserPrivilegesManaging() && inFormAccountDetails.Status !== 'Deleted' && userPrivileges.map((privilege: IPrivileges) => privilege.Title).includes(privilege.Title) ? true : false}
                             onDragStart={(e) => dragStartHandler(e, privilege)}
                             onDragEnd={(e) => dragEndHandler(e)}
-                            className={!isCurrentUser && CurrentUserPrivilege.isUserPrivilegesManaging() && inFormAccountDetails.Status !== 'Deleted' && userPrivileges.map((privilege: IPrivileges) => privilege.Title).includes(privilege.Title) ? 'available' : 'unavailable'}
+                            className={!isCurrentUser && GetCurrentUserPrivileges.isUserPrivilegesManaging() && inFormAccountDetails.Status !== 'Deleted' && userPrivileges.map((privilege: IPrivileges) => privilege.Title).includes(privilege.Title) ? 'available' : 'unavailable'}
                           >
                             {privilege.Title}
                           </p>
@@ -478,7 +478,7 @@ const AccountModalWindow = () => {
                     </div>
                   </div>
                   {userPrivileges
-                    && CurrentUserPrivilege.isUserPrivilegesManaging()
+                    && GetCurrentUserPrivileges.isUserPrivilegesManaging()
                     && !isCurrentUser
                     && inFormAccountDetails?.Status !== 'Deleted'
                     && <div className='available-privileges'>
@@ -514,7 +514,7 @@ const AccountModalWindow = () => {
                 }
                 {!isCurrentUser &&
                   <div className="action-buttons">
-                    {CurrentUserPrivilege.isUserStatusManaging() &&
+                    {GetCurrentUserPrivileges.isUserStatusManaging() &&
                       <>
                         <button
                           className={inFormAccountDetails?.Status === 'Frozen' ? 'activate-button' : 'freeze-button'}
@@ -542,14 +542,14 @@ const AccountModalWindow = () => {
                         && inFormAccountDetails?.Status === 'Deleted'
                         &&
                         <>
-                          {CurrentUserPrivilege.isUserRestore() && <button
+                          {GetCurrentUserPrivileges.isUserRestore() && <button
                             className='restore-button'
                             onClick={() => restoreAccount()}
                           >
                             Restore account
                           </button>}
 
-                          {CurrentUserPrivilege.isUserDeletePermanently() && <button
+                          {GetCurrentUserPrivileges.isUserDeletePermanently() && <button
                             className='delete-permanently-button'
                             onClick={() => deleteAccount()}
                           >
@@ -557,7 +557,7 @@ const AccountModalWindow = () => {
                           </button>}
                         </>
                       }
-                      {CurrentUserPrivilege.isUserDeletePreliminarily()
+                      {GetCurrentUserPrivileges.isUserDeletePreliminarily()
                         && ParamId !== '0'
                         && inFormAccountDetails?.Status !== 'Deleted'
                         &&

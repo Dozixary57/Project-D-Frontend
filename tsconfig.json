@@ -12,6 +12,7 @@
       "@services/*": ["backend/services/*"],
       "@interfaces/*": ["interfaces/*"],
       "@images/*": ["images/*"],
+      "@tools/*": ["tools/*"],
     },
     "allowJs": true,
     "skipLibCheck": true,
