@@ -1,21 +1,60 @@
 import { RootState, store } from "../../../ReduxStore/store";
-import { useSelector } from "react-redux";
-import style from "./EditingActionsComponent.module.scss";
+import { useDispatch, useSelector } from "react-redux";
+import "./EditingActionsComponent.scss";
 import { GetCurrentUserPrivileges } from '@tools/GetUserData';
+import { useEffect, useState } from "react";
+import { handleEditChanges } from "@tools/HandleEditChanges";
+import ObjectService from "@services/objectService";
 
 const EditingActionsComponent = () => {
   const isAuthorized = useSelector((state: RootState) => state.isAuthorized);
-  const isEditingMode = useSelector((state: RootState) => state.isEditingMode); 
+  const editingState = useSelector((state: RootState) => state.editingState);
+  const objectInfoPageEditingStates = useSelector((state: RootState) => state.objectInfoPageEditingStates);
+  const [hasChanges, setHasChanges] = useState(Object.values(objectInfoPageEditingStates).some(value => value === true));
+  const dispatch = useDispatch();
+
+  const newObjectInfoData = useSelector((state: RootState) => state.newObjectInfoData);
+
+  useEffect(() => {
+    setHasChanges(Object.values(objectInfoPageEditingStates).some(value => value === true));
+  }, [objectInfoPageEditingStates]);
 
   return (
-    (isAuthorized && GetCurrentUserPrivileges.isObjectEdit() && isEditingMode) &&
-    <div className={style.editingActionsPanel}>
-      <button onClick={() => store.dispatch({ type: 'IS_EDITING_MODE', payload: false })}>
-        Cancel
-      </button>
-      <button>
-        Save
-      </button>
+    (isAuthorized && GetCurrentUserPrivileges.isObjectEdit() && editingState !== 'INACTIVE') &&
+    <div className="editingActionsPanel">
+      {/* <div className="actionsGroup">
+        <button
+          className="cancelBtn"
+          onClick={() => handleUndoChanges(dispatch)}
+        >
+          <img src={require('@images/UndoIcon.png')} />
+          <p>Cancel</p>
+        </button>
+      </div> */}
+      <div className="actionsGroup">
+        <button className="deleteBtn">
+          <img src={require('@images/BinIcon.png')} />
+          <p>Delete</p>
+        </button>
+      </div>
+      <div className="actionsGroup">
+        <button
+          className="discardBtn"
+          onClick={() => handleEditChanges(dispatch).discardAllChangesWithConfirmation()}
+          disabled={!hasChanges}
+        >
+          <img src={require('@images/NoIcon.png')} />
+          <p>Discard all changes</p>
+        </button>
+        <button
+          className="saveBtn"
+          onClick={() => ObjectService.updateObjectData(newObjectInfoData)}
+          disabled={!hasChanges}
+        >
+          <img src={require('@images/YesIcon.png')} />
+          <p>Save</p>
+        </button>
+      </div>
     </div>
   );
 };

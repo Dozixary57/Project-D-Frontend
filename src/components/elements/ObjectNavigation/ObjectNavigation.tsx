@@ -1,8 +1,9 @@
 import { useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { store, RootState } from "../../../ReduxStore/store";
 import "./ObjectNavigation.scss"
+import { handleEditChanges } from '@tools/HandleEditChanges';
 
 export const DataForNavigation = () => {
   const location = useLocation();
@@ -40,6 +41,9 @@ export const PrevButton = () => {
   const navigate = useNavigate();
   const titles = useSelector((state: RootState) => state.navigationItemsList);
   const currentIndex = useSelector((state: RootState) => state.itemObjectsNavigationIndex);
+  const editingState = useSelector((state: RootState) => state.editingState);
+  const dispatch = useDispatch();
+
 
   const prevNavigation = () => {
 
@@ -57,7 +61,14 @@ export const PrevButton = () => {
   };
 
   if (titles.length >= 2) {
-    return <button onClick={prevNavigation} className="ObjectNavigationButtons ObjectNavigationLeftButton">{"<"}</button>;
+    return <button
+      onClick={() => {
+        if (editingState === 'INACTIVE') { dispatch({ type: 'START_EDITING' }); prevNavigation() }
+        else if (editingState === 'ACTIVE') { dispatch({ type: 'STOP_EDITING' }); prevNavigation(); }
+        else if (handleEditChanges(dispatch).exitEditingModeWithConfirmation()) setTimeout(() => prevNavigation(), 0);
+      }}
+      className="ObjectNavigationButtons ObjectNavigationLeftButton"
+    > {"<"}</button >;
   } else {
     return (<div style={{ width: '2em' }}></div>)
   }
@@ -67,6 +78,8 @@ export const NextButton = () => {
   const navigate = useNavigate();
   const titles = useSelector((state: RootState) => state.navigationItemsList);
   const currentIndex = useSelector((state: RootState) => state.itemObjectsNavigationIndex);
+  const editingState = useSelector((state: RootState) => state.editingState);
+  const dispatch = useDispatch();
 
   const nextNavigation = () => {
     if (titles.length < 2) {
@@ -87,7 +100,14 @@ export const NextButton = () => {
   };
 
   if (titles.length >= 2) {
-    return <button onClick={nextNavigation} className="ObjectNavigationButtons ObjectNavigationRightButton">{">"}</button>;
+    return <button
+      onClick={() => {
+        if (editingState === 'INACTIVE') { dispatch({ type: 'START_EDITING' }); nextNavigation() }
+        else if (editingState === 'ACTIVE') { dispatch({ type: 'STOP_EDITING' }); nextNavigation(); }
+        else if (handleEditChanges(dispatch).exitEditingModeWithConfirmation()) setTimeout(() => nextNavigation(), 0);
+      }}
+      className="ObjectNavigationButtons ObjectNavigationRightButton"
+    >{">"}</button>;
   } else {
     return (<div style={{ width: '2em' }}></div>)
   }

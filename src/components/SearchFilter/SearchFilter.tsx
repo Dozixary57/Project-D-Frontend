@@ -2,7 +2,7 @@ import "./SearchFilter.scss"
 import { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import { RootState, store } from "../../ReduxStore/store";
-import itemService from "../../backend/services/itemService";
+import itemService from "@services/objectService";
 import searchTitleId from "../../ReduxStore/Reducers/searchTitleId";
 
 export function SearchFilter({ data }: { data: any }) {

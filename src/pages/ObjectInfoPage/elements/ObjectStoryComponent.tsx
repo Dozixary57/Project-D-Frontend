@@ -1,12 +1,12 @@
 import { RootState, store } from "../../../ReduxStore/store";
 import { useDispatch, useSelector } from "react-redux";
-import "./ObjectDescriptionComponent.scss";
+import "./ObjectStoryComponent.scss";
 import { GetCurrentUserPrivileges } from '@tools/GetUserData';
 import StyledMarkdown from '@components/StyledMarkdown';
 import MDEditor, { commands } from '@uiw/react-md-editor';
 import { useEffect, useState } from "react";
 
-const ObjectDescriptionComponent = ({ description }: { description: string }) => {
+const ObjectStoryComponent = ({ story }: { story: string }) => {
   const isAuthorized = useSelector((state: RootState) => state.isAuthorized);
   const editingState = useSelector((state: RootState) => state.editingState);
   const dispatch = useDispatch();
@@ -15,42 +15,38 @@ const ObjectDescriptionComponent = ({ description }: { description: string }) =>
   const objectInfoPageEditingStates = useSelector((state: RootState) => state.objectInfoPageEditingStates);
 
   useEffect(() => {
-    if (newObjectInfoData !== null && newObjectInfoData?.Description !== description) {
+    if (newObjectInfoData !== null && newObjectInfoData?.Lore !== story) {
       store.dispatch({
         type: 'OBJECT_INFO_PAGE_EDITING_STATES',
         payload: {
-          description: true
+          story: true
         }
       })
     } else {
       store.dispatch({
         type: 'OBJECT_INFO_PAGE_EDITING_STATES',
         payload: {
-          description: false
+          story: false
         }
       })
     }
   }, [newObjectInfoData]);
 
-  useEffect(() => {
-    console.log(editingState)
-  }, [editingState]);
-
   const discardChanges = () => {
-    dispatch({ type: 'NEW_OBJECT_INFO_DATA', payload: { ...newObjectInfoData, Description: description } })
-    dispatch({ type: 'OBJECT_INFO_PAGE_EDITING_STATES', payload: { description: false } })
+    dispatch({ type: 'NEW_OBJECT_INFO_DATA', payload: { ...newObjectInfoData, Lore: story } })
+    dispatch({ type: 'OBJECT_INFO_PAGE_EDITING_STATES', payload: { story: false } })
   }
 
   return (
-    <div className="objectDescription">
+    <div className="objectStory">
       <div className="generalDataHeaderWrapper">
-        <h2 className="generalDataHeader">Description</h2>
+        <h2 className="generalDataHeader">Story</h2>
         {isAuthorized && GetCurrentUserPrivileges.isObjectEdit() && (editingState === 'MODIFIED' || editingState === 'ACTIVE') &&
           <button
-            title={objectInfoPageEditingStates.description ? 'Undo changes' : 'No changes to undo'}
-            className={`undoChangesButton ${objectInfoPageEditingStates.description ? 'active' : 'inactive'}`}
+            title={objectInfoPageEditingStates.story ? 'Undo changes' : 'No changes to undo'}
+            className={`undoChangesButton ${objectInfoPageEditingStates.story ? 'active' : 'inactive'}`}
             onClick={() => discardChanges()}
-            disabled={!objectInfoPageEditingStates.description}
+            disabled={!objectInfoPageEditingStates.story}
           >
             <img src={require('@images/UndoIcon.png')} />
           </button>}
@@ -59,15 +55,15 @@ const ObjectDescriptionComponent = ({ description }: { description: string }) =>
         <div>
           {(isAuthorized && GetCurrentUserPrivileges.isObjectEdit() && editingState !== 'INACTIVE') ?
             <MDEditor
-              value={newObjectInfoData?.Description ?? ''}
+              value={newObjectInfoData?.Lore ?? ''}
               onChange={(value) => {
                 dispatch({
                   type: 'NEW_OBJECT_INFO_DATA',
                   payload: {
                     ...newObjectInfoData,
-                    Description: value
+                    Lore: value
                   }
-                })
+                });
               }}
               className="markdownEditor"
               commands={[
@@ -75,23 +71,21 @@ const ObjectDescriptionComponent = ({ description }: { description: string }) =>
                 commands.italic,
                 commands.strikethrough,
                 commands.divider,
-                // commands.link,
-                commands.unorderedListCommand,
-                commands.divider,
                 commands.quote,
               ]}
               preview="edit"
             />
             :
-            description ?
-              <StyledMarkdown>{description ?? ''}</StyledMarkdown>
+            story ?
+              <StyledMarkdown>{story ?? ''}</StyledMarkdown>
               :
-              <p className="noData">General description isn't written</p>
+              <p className="noData">Story isn't written...</p>
           }
         </div>
+
       </div>
-    </div>
+    </div >
   );
 };
 
-export default ObjectDescriptionComponent;
+export default ObjectStoryComponent;

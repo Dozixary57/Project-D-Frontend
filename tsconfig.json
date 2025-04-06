@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "target": "es5",
+    "target": "es2015",
     "lib": [
       "dom",
       "dom.iterable",
@@ -8,11 +8,21 @@
     ],
     "baseUrl": "./src",
     "paths": {
-      "@components/*": ["components/*"],
-      "@services/*": ["backend/services/*"],
-      "@interfaces/*": ["interfaces/*"],
-      "@images/*": ["images/*"],
-      "@tools/*": ["tools/*"],
+      "@components/*": [
+        "components/*"
+      ],
+      "@services/*": [
+        "backend/services/*"
+      ],
+      "@interfaces/*": [
+        "interfaces/*"
+      ],
+      "@images/*": [
+        "images/*"
+      ],
+      "@tools/*": [
+        "tools/*"
+      ],
     },
     "allowJs": true,
     "skipLibCheck": true,

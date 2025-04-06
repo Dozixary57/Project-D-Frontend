@@ -14,6 +14,9 @@ import userPrivileges from "./Reducers/userPrivileges";
 import fileUploadErrors from "./Reducers/fileUploadErrors";
 import isEditingMode from "./Reducers/isEditingMode";
 import editingState from "./Reducers/editingState";
+import objectInfoPageEditingStates from "./Reducers/objectInfoPageEditingStates";
+import objectInfoData from "./Reducers/objectInfoData";
+import newObjectInfoData from "./Reducers/newObjectInfoData";
 
 export const rootReducer = combineReducers({
     itemObjectsNavigationIndex,
@@ -30,4 +33,7 @@ export const rootReducer = combineReducers({
     fileUploadErrors,
     isEditingMode,
     editingState,
+    objectInfoPageEditingStates,
+    objectInfoData,
+    newObjectInfoData,
 });

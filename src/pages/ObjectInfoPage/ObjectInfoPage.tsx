@@ -1,12 +1,10 @@
-﻿import { useEffect, useState, useRef } from "react";
-import itemService from '@services/itemService';
+﻿import { useEffect } from "react";
+import ObjectService from '@services/objectService';
 import { useLocation, useParams } from 'react-router-dom';
 import { Helmet } from "react-helmet-async";
 import { Navbar } from "../../components/elements/navigation_bar/Navbar";
 import { DataForNavigation, PrevButton, NextButton } from "../../components/elements/ObjectNavigation/ObjectNavigation";
-import StyledMarkdown from "../../components/StyledMarkdown";
 import { ImagesAndVideosTabContent, SoundsTabContent } from "./elements/MediaSectionComponents";
-import { IObjectInfo } from '@interfaces/IObjectInfo';
 import VisualTabContent from "./elements/VisualTabContent";
 import PageHeaderComponent from "./elements/PageHeaderComponent";
 import style from "./ObjectInfoPage.module.scss"
@@ -16,59 +14,79 @@ import EditingActionsComponent from "./elements/EditingActionsComponent";
 import ObjectDescriptionComponent from "./elements/ObjectDescriptionComponent";
 import useNavigationBlock from "@tools/useNavigationBlock";
 import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "ReduxStore/store";
+import { RootState, store } from "ReduxStore/store";
+import ObjectStoryComponent from "./elements/ObjectStoryComponent";
+import { handleEditChanges } from "@tools/HandleEditChanges";
 
 const ObjectInfoPage = () => {
   const location = useLocation();
 
   const { titleId } = useParams<{ titleId: string }>();
-  const [objectInfo, setObjectInfo] = useState<IObjectInfo | null>(null);
+  const objectInfoData = useSelector((state: RootState) => state.objectInfoData);
 
+  const objectInfoPageEditingStates = useSelector((state: RootState) => state.objectInfoPageEditingStates);
   const editingState = useSelector((state: RootState) => state.editingState);
   const dispatch = useDispatch();
-  
-  const navigate = useNavigationBlock(editingState === 'MODIFIED');
+
+  useNavigationBlock(editingState === 'MODIFIED');
 
   useEffect(() => {
-    if (editingState === 'ACTIVE') dispatch({ type: 'STOP_EDITING' });
-  }, [location]);
+    const hasChanges = Object.values(objectInfoPageEditingStates).some(value => value === true);
 
+    if (hasChanges) {
+      store.dispatch({ type: 'CONTENT_MODIFIED' });
+    } else if (editingState === 'MODIFIED') {
+      store.dispatch({ type: 'START_EDITING' });
+    }
+
+    console.log(objectInfoPageEditingStates);
+  }, [objectInfoPageEditingStates]);
 
   useEffect(() => {
-    setObjectInfo(null);
-
-    const fetchData = async () => {
-      try {
-        const res = await itemService.getItemByTitle(titleId);
-
-        setObjectInfo(res);
-      } catch (error) {
-        if (error) throw error
-      }
-    };
-
-    fetchData();
+    handleEditChanges(dispatch).resetAllStatesByDefault();
+    try {
+      ObjectService.getObjectByTitle(titleId);
+    } catch (error) {
+      console.error(error);
+    }
   }, [titleId]);
 
+  useEffect(() => {
+    dispatch({
+      type: 'NEW_OBJECT_INFO_DATA',
+      payload: objectInfoData
+    })
+  }, [objectInfoData]);
+
+  // !!!
+  useEffect(() => {
+    if (editingState !== 'MODIFIED') {
+      dispatch({
+        type: 'NEW_OBJECT_INFO_DATA',
+        payload: objectInfoData
+      });
+    }
+  }, [editingState]);
+  // !!!
+
   return (
-    (objectInfo) ? (
+    (objectInfoData) ? (
       <>
         <Helmet>
           <meta charSet="utf-8" />
-          <title>{`${objectInfo.Title} | DizaQute`}</title>
+          <title>{`${objectInfoData.Title} | DizaQute`}</title>
         </Helmet>
         <Navbar />
         <DataForNavigation />
         <main className={style.objectInfoPage}>
           <PrevButton />
           <div className={style.contentLayout}>
-            <PageHeaderComponent title={objectInfo.Title} category={objectInfo.Category} />
+            <PageHeaderComponent title={objectInfoData.Title} category={objectInfoData.Category} />
             <EditingActionsComponent />
             {/* <AuthorialInfoComponent data={objectInfo} /> */}
             <div className={style.content}>
               <div className={style.generalData}>
-                {/* <ObjectDescriptionComponent description={{ General: "2131", Authorial: "wqeqwe" }} /> */}
-                <ObjectDescriptionComponent description={objectInfo.Description} />
+                <ObjectDescriptionComponent description={objectInfoData.Description} />
                 <div className={`${style.acquisitionData} ${style.section}`}>
                   <h2 className={style.generalDataHeader}>Acquisition</h2>
                   <div className={style.generalDataContent}>
@@ -87,34 +105,25 @@ const ObjectInfoPage = () => {
                   </div>
                 </div>
 
-                <div className={`${style.storyData} ${style.section}`}>
-                  <h2 className={style.generalDataHeader}>Story</h2>
-                  <div className={style.generalDataContent}>
-                    {objectInfo.Lore ?
-                      <StyledMarkdown>{objectInfo.Lore}</StyledMarkdown>
-                      :
-                      <p className={style.noData}>Story isn't written...</p>
-                    }
-                  </div>
-                </div>
+                <ObjectStoryComponent story={objectInfoData.Lore} />
 
                 <div className={`${style.mediaData} ${style.section}`}>
                   <h2 className={style.generalDataHeader}>Media</h2>
                   <div className={style.generalDataContent}>
-                    <SoundsTabContent data={objectInfo.Media.Sounds} />
+                    <SoundsTabContent data={objectInfoData.Media.Sounds} />
                     <hr className={style.sectionSeparator} />
-                    <ImagesAndVideosTabContent data={objectInfo.Media.Images} />
+                    <ImagesAndVideosTabContent data={objectInfoData.Media.Images} />
                     <hr className={style.sectionSeparator} />
-                    <ImagesAndVideosTabContent data={objectInfo.Media.Videos} title="Video" />
+                    <ImagesAndVideosTabContent data={objectInfoData.Media.Videos} title="Video" />
                   </div>
                 </div>
               </div>
               <div className={style.visualAndDefinitionData}>
-                <VisualTabContent iconUrl={objectInfo.IconURL} modelUrl={objectInfo.ModelURL} />
+                <VisualTabContent iconUrl={objectInfoData.IconURL} modelUrl={objectInfoData.ModelURL} />
                 <DefinitionInfoComponent
                   defData={{
-                    ...objectInfo.Classification,
-                    Characteristics: objectInfo.Characteristics
+                    ...objectInfoData.Classification,
+                    Characteristics: objectInfoData.Characteristics
                   }}
                 />
               </div>

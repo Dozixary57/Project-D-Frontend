@@ -2,10 +2,7 @@ export interface IObjectInfo {
   _id: string;
   Category: string;
   Title: string;
-  Description: {
-    General: string;
-    Authorial: string;
-  };
+  Description: string;
   Lore: string;
   Classification: {
     Type: string;

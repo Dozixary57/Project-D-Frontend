@@ -1,10 +1,10 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { RootState } from "../../../ReduxStore/store";
+import { RootState, store } from "../../../ReduxStore/store";
 import { useDispatch, useSelector } from "react-redux";
 import style from "./PageHeaderComponent.module.scss";
 import { GetCurrentUserPrivileges } from '@tools/GetUserData';
-import { handleUndoChanges } from '@tools/HandleUndoChanges';
+import { handleEditChanges } from '@tools/HandleEditChanges';
 
 const PageHeaderComponent = ({ title, category = "" }: { title: string, category?: string }) => {
   const navigate = useNavigate();
@@ -14,22 +14,71 @@ const PageHeaderComponent = ({ title, category = "" }: { title: string, category
   const editingState = useSelector((state: RootState) => state.editingState);
   const dispatch = useDispatch();
 
+  const newObjectInfoData = useSelector((state: RootState) => state.newObjectInfoData);
+  const objectInfoPageEditingStates = useSelector((state: RootState) => state.objectInfoPageEditingStates);
+
   const [favoriteToggle, setFavoriteToggle] = useState(false);
+
+  useEffect(() => {
+    if (newObjectInfoData !== null && newObjectInfoData?.Title !== title) {
+      store.dispatch({
+        type: 'OBJECT_INFO_PAGE_EDITING_STATES',
+        payload: {
+          title: true
+        }
+      })
+    } else {
+      store.dispatch({
+        type: 'OBJECT_INFO_PAGE_EDITING_STATES',
+        payload: {
+          title: false
+        }
+      })
+    }
+  }, [newObjectInfoData]);
+
+  const discardChanges = () => {
+    dispatch({ type: 'NEW_OBJECT_INFO_DATA', payload: { ...newObjectInfoData, Title: title } })
+    dispatch({ type: 'OBJECT_INFO_PAGE_EDITING_STATES', payload: { title: false } })
+  }
 
   return (
     <div className={style.objectTitle}>
       <div className={style.backButton}>
         <button onClick={() => {
           if (editingState === 'MODIFIED') {
-            if (handleUndoChanges(dispatch)) return navigate('/Content/Items')
+            if (handleEditChanges(dispatch).exitEditingModeWithConfirmation())
+              return setTimeout(() => navigate('/Content/Items'), 0);
           }
           else navigate('/Content/Items');
         }
-          }>&lt;</button>
+        }>&lt;</button>
       </div>
 
       <div className={style.titleData}>
-        <h2>{title}</h2>
+        <div className={style.title}>
+          {(isAuthorized && GetCurrentUserPrivileges.isObjectEdit() && editingState !== 'INACTIVE') ?
+            <div className={style.editableTitle}>
+              <input
+                type="text"
+                value={newObjectInfoData?.Title || ""}
+                onChange={(e) => dispatch({ type: 'NEW_OBJECT_INFO_DATA', payload: { ...newObjectInfoData, Title: e.target.value } })}
+                defaultValue={title || ""}
+              />
+              <button
+                onClick={() => discardChanges()}
+                disabled={!objectInfoPageEditingStates.title}
+              >
+                <img
+                  src={require('@images/UndoIcon.png')}
+                  alt="SaveIcon"
+                />
+              </button>
+            </div>
+            :
+            <h2>{title}</h2>
+          }
+        </div>
         <button
           title={!isAuthorized ? 'Sign in to add to favorites' : favoriteToggle ? 'Remove from favorites' : 'Add to favorites'}
           className={style.favoriteButton}
@@ -52,7 +101,7 @@ const PageHeaderComponent = ({ title, category = "" }: { title: string, category
             onClick={() => {
               if (editingState === 'INACTIVE') dispatch({ type: 'START_EDITING' });
               else if (editingState === 'ACTIVE') dispatch({ type: 'STOP_EDITING' });
-              else handleUndoChanges(dispatch);
+              else handleEditChanges(dispatch).exitEditingModeWithConfirmation();
             }}>
             <img src={require('@images/EditingIcon.png')} alt="EditingIcon" />
           </button>
