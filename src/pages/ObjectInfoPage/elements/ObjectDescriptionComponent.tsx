@@ -44,8 +44,8 @@ const ObjectDescriptionComponent = ({ description }: { description: string }) =>
   return (
     <div className="objectDescription">
       <div className="generalDataHeaderWrapper">
-        <h2 className="generalDataHeader">Description</h2>
-        {isAuthorized && GetCurrentUserPrivileges.isObjectEdit() && (editingState === 'MODIFIED' || editingState === 'ACTIVE') &&
+        <h2 className={`generalDataHeader ${description || editingState !== 'INACTIVE' ? 'withData' : 'withoutData'}`}>Description</h2>
+        {isAuthorized && GetCurrentUserPrivileges.isObjectEdit() && editingState !== 'INACTIVE' ?
           <button
             title={objectInfoPageEditingStates.description ? 'Undo changes' : 'No changes to undo'}
             className={`undoChangesButton ${objectInfoPageEditingStates.description ? 'active' : 'inactive'}`}
@@ -53,42 +53,40 @@ const ObjectDescriptionComponent = ({ description }: { description: string }) =>
             disabled={!objectInfoPageEditingStates.description}
           >
             <img src={require('@images/UndoIcon.png')} />
-          </button>}
+          </button>
+          :
+          !description && <p className="noTextData">isn't written yet...</p>
+        }
       </div>
-      <div className="generalDataContent">
-        <div>
-          {(isAuthorized && GetCurrentUserPrivileges.isObjectEdit() && editingState !== 'INACTIVE') ?
-            <MDEditor
-              value={newObjectInfoData?.Description ?? ''}
-              onChange={(value) => {
-                dispatch({
-                  type: 'NEW_OBJECT_INFO_DATA',
-                  payload: {
-                    ...newObjectInfoData,
-                    Description: value
-                  }
-                })
-              }}
-              className="markdownEditor"
-              commands={[
-                commands.bold,
-                commands.italic,
-                commands.strikethrough,
-                commands.divider,
-                // commands.link,
-                commands.unorderedListCommand,
-                commands.divider,
-                commands.quote,
-              ]}
-              preview="edit"
-            />
-            :
-            description ?
-              <StyledMarkdown>{description ?? ''}</StyledMarkdown>
-              :
-              <p className="noData">General description isn't written</p>
-          }
-        </div>
+      <div className={`generalDataContent ${description && 'withData'}`}>
+        {(isAuthorized && GetCurrentUserPrivileges.isObjectEdit() && editingState !== 'INACTIVE') ?
+          <MDEditor
+            value={newObjectInfoData?.Description ?? ''}
+            onChange={(value) => {
+              dispatch({
+                type: 'NEW_OBJECT_INFO_DATA',
+                payload: {
+                  ...newObjectInfoData,
+                  Description: value
+                }
+              })
+            }}
+            className="markdownEditor"
+            commands={[
+              commands.bold,
+              commands.italic,
+              commands.strikethrough,
+              commands.divider,
+              // commands.link,
+              commands.unorderedListCommand,
+              commands.divider,
+              commands.quote,
+            ]}
+            preview="edit"
+          />
+          :
+          description && <StyledMarkdown>{description}</StyledMarkdown>
+        }
       </div>
     </div>
   );

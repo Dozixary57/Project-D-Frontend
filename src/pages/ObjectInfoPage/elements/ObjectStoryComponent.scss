@@ -12,15 +12,28 @@
     flex-direction: row;
     align-items: center;
 
+    .noTextData {
+      box-sizing: border-box;
+      width: 100%;
+      text-align: right;
+      padding-right: 1em;
+      margin: 0;
+    }
+
     .generalDataHeader {
       width: 100%;
       font-size: 1.4em;
       margin: 0;
       text-indent: 0.5em;
-      padding: 0.6em;
       border-radius: 0.1em;
       background: linear-gradient(to right, rgba(white, 0.0) 0.01em, rgba(white, 0.025) 0.8em, transparent);
-      // background: linear-gradient(to right, rgba(0, 0, 0, 0.15) 0.1em, rgba(0, 0, 0, 0.2) 1em, transparent);
+
+      &.withData {
+        padding: 0.6em;
+      }
+      &.withoutData {
+        padding: 0.1em 0.6em;
+      }
     }
 
     .undoChangesButton {
@@ -56,14 +69,16 @@
     display: flex;
     flex-direction: column;
     gap: 0.5em;
-    padding: 0.5em;
 
-    .noData {
+    &.withData {
+      padding: 0.5em;
+    }
+
+    .noDataMessage {
       width: 100%;
       text-align: center;
       margin: 0;
-      padding: 0.5em 0;
-    }    
+    }  
 
     .markdownEditor {
       background-color: transparent;

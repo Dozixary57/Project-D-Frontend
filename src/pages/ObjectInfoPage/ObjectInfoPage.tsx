@@ -17,6 +17,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState, store } from "ReduxStore/store";
 import ObjectStoryComponent from "./elements/ObjectStoryComponent";
 import { handleEditChanges } from "@tools/HandleEditChanges";
+import ObjectAcquisitionComponent from "./elements/ObjectAcquisitionComponent";
 
 const ObjectInfoPage = () => {
   const location = useLocation();
@@ -87,23 +88,20 @@ const ObjectInfoPage = () => {
             <div className={style.content}>
               <div className={style.generalData}>
                 <ObjectDescriptionComponent description={objectInfoData.Description} />
-                <div className={`${style.acquisitionData} ${style.section}`}>
+                {/* <div className={`${style.acquisitionData} ${style.section}`}>
                   <h2 className={style.generalDataHeader}>Acquisition</h2>
                   <div className={style.generalDataContent}>
-                    {/* {item.Acquisition ?
-                <StyledMarkdown>{item.Lore}</StyledMarkdown>
-                : */}
                     <p className={style.noData}>Acquisition is unknown...</p>
-                    {/* } */}
                   </div>
-                </div>
+                </div> */}
+                <ObjectAcquisitionComponent acquisition={objectInfoData.Acquisition} />
 
-                <div className={`${style.usedForData} ${style.section}`}>
+                {/* <div className={`${style.usedForData} ${style.section}`}>
                   <h2 className={style.generalDataHeader}>Used for</h2>
                   <div className={style.generalDataContent}>
                     <p className={style.noData}>Usage unknown...</p>
                   </div>
-                </div>
+                </div> */}
 
                 <ObjectStoryComponent story={objectInfoData.Lore} />
 

@@ -1,6 +1,6 @@
 @import "../../../styles";
 
-.objectDescription {
+.objectAcquisition {
   border-radius: 0.2em;
   padding: 0.25em;
   background-color: $elementBackgroundColor;
@@ -30,6 +30,7 @@
       &.withData {
         padding: 0.6em;
       }
+
       &.withoutData {
         padding: 0.1em 0.6em;
       }
@@ -77,7 +78,7 @@
       width: 100%;
       text-align: center;
       margin: 0;
-    }    
+    }
 
     .markdownEditor {
       background-color: transparent;

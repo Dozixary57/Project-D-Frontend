@@ -1,12 +1,12 @@
 import { RootState, store } from "../../../ReduxStore/store";
 import { useDispatch, useSelector } from "react-redux";
-import "./ObjectStoryComponent.scss";
+import "./ObjectAcquisitionComponent.scss";
 import { GetCurrentUserPrivileges } from '@tools/GetUserData';
 import StyledMarkdown from '@components/StyledMarkdown';
 import MDEditor, { commands } from '@uiw/react-md-editor';
 import { useEffect, useState } from "react";
 
-const ObjectStoryComponent = ({ story }: { story: string }) => {
+const ObjectAcquisitionComponent = ({ acquisition }: { acquisition: any }) => {
   const isAuthorized = useSelector((state: RootState) => state.isAuthorized);
   const editingState = useSelector((state: RootState) => state.editingState);
   const dispatch = useDispatch();
@@ -15,57 +15,57 @@ const ObjectStoryComponent = ({ story }: { story: string }) => {
   const objectInfoPageEditingStates = useSelector((state: RootState) => state.objectInfoPageEditingStates);
 
   useEffect(() => {
-    if (newObjectInfoData !== null && newObjectInfoData?.Lore !== story) {
+    if (newObjectInfoData !== null && newObjectInfoData?.Acquisition !== acquisition) {
       store.dispatch({
         type: 'OBJECT_INFO_PAGE_EDITING_STATES',
         payload: {
-          story: true
+          acquisition: true
         }
       })
     } else {
       store.dispatch({
         type: 'OBJECT_INFO_PAGE_EDITING_STATES',
         payload: {
-          story: false
+          acquisition: false
         }
       })
     }
   }, [newObjectInfoData]);
 
   const discardChanges = () => {
-    dispatch({ type: 'NEW_OBJECT_INFO_DATA', payload: { ...newObjectInfoData, Lore: story } })
-    dispatch({ type: 'OBJECT_INFO_PAGE_EDITING_STATES', payload: { story: false } })
+    dispatch({ type: 'NEW_OBJECT_INFO_DATA', payload: { ...newObjectInfoData, Acquisition: acquisition } })
+    dispatch({ type: 'OBJECT_INFO_PAGE_EDITING_STATES', payload: { acquisition: false } })
   }
 
   return (
-    <div className="objectStory">
+    <div className="objectAcquisition">
       <div className="generalDataHeaderWrapper">
-        <h2 className={`generalDataHeader ${story || editingState !== 'INACTIVE' ? 'withData' : 'withoutData'}`}>Story</h2>
+        <h2 className={`generalDataHeader ${acquisition || editingState !== 'INACTIVE' ? 'withData' : 'withoutData'}`}>Acquisition</h2>
         {isAuthorized && GetCurrentUserPrivileges.isObjectEdit() && editingState !== 'INACTIVE' ?
           <button
-            title={objectInfoPageEditingStates.story ? 'Undo changes' : 'No changes to undo'}
-            className={`undoChangesButton ${objectInfoPageEditingStates.story ? 'active' : 'inactive'}`}
+            title={objectInfoPageEditingStates.acquisition ? 'Undo changes' : 'No changes to undo'}
+            className={`undoChangesButton ${objectInfoPageEditingStates.acquisition ? 'active' : 'inactive'}`}
             onClick={() => discardChanges()}
-            disabled={!objectInfoPageEditingStates.story}
+            disabled={!objectInfoPageEditingStates.acquisition}
           >
             <img src={require('@images/UndoIcon.png')} />
           </button>
           :
-          !story && <p className="noTextData">isn't unknown yet...</p>
+          !acquisition && <p className="noTextData">isn't found yet...</p>
         }
       </div>
-      <div className={`generalDataContent ${story && 'withData'}`}>
+      <div className={`generalDataContent ${acquisition && 'withData'}`}>
         {(isAuthorized && GetCurrentUserPrivileges.isObjectEdit() && editingState !== 'INACTIVE') ?
           <MDEditor
-            value={newObjectInfoData?.Lore ?? ''}
+            value={newObjectInfoData?.Acquisition ?? ''}
             onChange={(value) => {
               dispatch({
                 type: 'NEW_OBJECT_INFO_DATA',
                 payload: {
                   ...newObjectInfoData,
-                  Lore: value
+                  Acquisition: value
                 }
-              });
+              })
             }}
             className="markdownEditor"
             commands={[
@@ -73,16 +73,19 @@ const ObjectStoryComponent = ({ story }: { story: string }) => {
               commands.italic,
               commands.strikethrough,
               commands.divider,
+              // commands.link,
+              commands.unorderedListCommand,
+              commands.divider,
               commands.quote,
             ]}
             preview="edit"
           />
           :
-          story && <StyledMarkdown>{story}</StyledMarkdown>
+          acquisition && <StyledMarkdown>{acquisition}</StyledMarkdown>
         }
       </div>
     </div>
   );
 };
 
-export default ObjectStoryComponent;
+export default ObjectAcquisitionComponent;
