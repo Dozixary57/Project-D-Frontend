@@ -77,7 +77,7 @@ const ImagesAndVideosTabContent = ({ data, title = "Image" }: { data: IMediaUnit
     if (showcaseRef.current) {
       const container = showcaseRef.current;
 
-      container.style.scrollSnapType = "x proximity";
+      container.style.scrollSnapType = "y proximity";
       Array.from(container.children).forEach((child) => {
         const button = child as HTMLElement;
         button.style.scrollSnapAlign = "center";

@@ -3,6 +3,7 @@ export interface IObjectInfo {
   Category: string;
   Title: string;
   Description: string;
+  Acquisition: any;
   Lore: string;
   Classification: {
     Type: string;

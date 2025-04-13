@@ -1,6 +1,5 @@
 ﻿import React, { useEffect, useState } from 'react';
 import { Route, Routes, useLocation, useNavigate } from 'react-router';
-import { AboutMePage } from './pages/AboutMePage';
 import { AboutPage } from './pages/AboutPage';
 import { AccountPage } from './pages/AccountPage';
 import { LoginPage } from './pages/LoginPage';
@@ -63,7 +62,6 @@ function App() {
       <Route path="/Login" element={<LoginPage />} />
       <Route path="/Signup" element={<SingupPage />} />
       <Route path="/About" element={<AboutPage />} />
-      <Route path="/About_me" element={<AboutMePage />} />
       <Route path="/Agreements" element={<AgreementsPage />} />
       <Route path="*" element={<NowherePage />} />
       <Route path="/TEST" element={<TestPage />} />
