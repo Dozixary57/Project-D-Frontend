@@ -308,3 +308,31 @@ $borderRadius: 0.2em;
     background: #aaa;
   }
 }
+
+// ELEMENTS FLEXIBILITY
+@mixin WidthFlexibility60 {
+  width: min(100%, max(60%, 30em));
+  box-sizing: border-box;
+  padding: 0.2em;
+}
+
+@mixin HeaderFontByWidthFlexibility {
+  font-size: clamp(0.7em, 1.1vw, 1.4em);
+}
+
+@mixin TextMediumFontByWidthFlexibility {
+  font-size: clamp(1em, 1.2vw, 1.2em);
+}
+
+@mixin TextFontByWidthFlexibility {
+  font-size: clamp(0.7em, 1vw, 1.2em);
+}
+
+@mixin ImageSizeByWidthFlexibility {
+  width: clamp(3em, 5vw, 5em);
+  height: clamp(3em, 5vw, 5em);
+}
+
+@mixin ButtonSizeByWidthFlexibility {
+  width: clamp(5em, 8vw, 8em);
+}

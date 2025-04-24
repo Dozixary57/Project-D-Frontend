@@ -1,0 +1,185 @@
+@import "../../../../_styles.scss";
+
+.WelcomeSection {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(to bottom,
+      #0036e6 0%,
+      #0086e6 25%,
+      #00ace6 100%);
+
+  .ProjectDescription {
+    position: relative;
+    @include WidthFlexibility60;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding-bottom: 5em;
+    gap: 1em;
+    z-index: 5;
+
+    >h1 {
+      box-sizing: border-box;
+      margin: 0;
+      width: 100%;
+      text-align: center;
+      color: white;
+      font-size: 1.4em;
+      padding: 0.25em 0;
+      border: 0.05em solid white;
+      border-radius: 0.2em;
+    }
+
+    >div:first-of-type {
+      box-sizing: border-box;
+      padding: 1em;
+      border: 0.1em solid white;
+      border-radius: 0.2em;
+      background: linear-gradient(to bottom, rgba(#0077e6, 0.75), rgba(#009ee6, 0.75));
+
+      p {
+        color: white;
+        @include TextFontByWidthFlexibility;
+      }
+    }
+
+    .NavButtons {
+      width: 100%;
+      display: grid;
+      grid-template-columns: 3fr 5fr;
+      gap: 1em;
+
+      button {
+        width: 100%;
+        color: white;
+        @include TextFontByWidthFlexibility;
+        font-family: 'F77 Minecraft', PressStart2P-Regular, 'Cascadia Mono', sans-serif;
+        padding: 0.5em 0;
+        border-radius: 0.2em;
+        border: 0.1em solid white;
+        outline: none;
+        background-color: transparent;
+        transition: all 100ms ease-in-out;
+        cursor: pointer;
+        background-color: rgba(#00a4e6, 0.75);
+
+        &:hover {
+          filter: brightness(1.15);
+        }
+      }
+    }
+  }
+
+  .DetailsElement {
+    position: absolute;
+    bottom: 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 0.2em 0.5em 0.2em 0;
+    border-radius: 0.2em;
+    margin-bottom: 1em;
+    gap: 1em;
+    z-index: 3;
+    outline: rgba(#00aae6, 0.1) 1em solid;
+    background-color: rgba(#00aae6, 0.95);
+    box-shadow: 0 0 1.5em 1.25em rgba(#00aae6, 0.95);
+
+    >img {
+      width: 2em;
+      height: 2em;
+      filter: invert(100%) sepia(0%) saturate(0%) hue-rotate(93deg) brightness(103%) contrast(103%);
+      animation: arrowAnimation 2.25s ease-in-out infinite;
+    }
+
+    @keyframes arrowAnimation {
+      0% {
+        transform: translateY(-1em);
+      }
+
+      50% {
+        transform: translateY(1em);
+      }
+
+      100% {
+        transform: translateY(-1em);
+      }
+    }
+
+    >p {
+      margin: 0;
+      color: white;
+      font-size: 0.9em;
+      font-family: 'F77 Minecraft', PressStart2P-Regular, 'Cascadia Mono', sans-serif;
+    }
+  }
+
+  .CloudsAndStarsElement {
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: 130%;
+    image-rendering: pixelated;
+    will-change: transform;
+    overflow: hidden;
+    z-index: 2;
+
+    .Stars {
+      position: absolute;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background: url("~@images/backgrounds/Stars.png") repeat-x;
+      background-size: 40em;
+    }
+
+    .Front {
+      position: absolute;
+      top: 55%;
+      left: -10vw;
+      width: 120vw;
+      height: 100%;
+      background: url("~@images/backgrounds/CloudsFront.png") repeat-x center;
+      background-size: 30em;
+      animation: BackgroundCloudsAnim 160s linear infinite;
+    }
+
+    .Middle {
+      position: absolute;
+      top: 60%;
+      left: -10vw;
+      width: 120vw;
+      height: 100%;
+      background: url("~@images/backgrounds/CloudsMiddle.png") repeat-x center;
+      background-size: 30em;
+      animation: BackgroundCloudsAnim 300s linear infinite;
+    }
+
+    .Back {
+      position: absolute;
+      top: 50%;
+      left: -10vw;
+      width: 120vw;
+      height: 100%;
+      background: url("~@images/backgrounds/CloudsBack.png") repeat-x center;
+      background-size: 30em;
+      animation: BackgroundCloudsAnim 200s linear infinite;
+    }
+
+    @keyframes BackgroundCloudsAnim {
+      0% {
+        background-position: -110vw 0;
+      }
+
+      100% {
+        background-position: 110vw 0;
+      }
+    }
+  }
+}

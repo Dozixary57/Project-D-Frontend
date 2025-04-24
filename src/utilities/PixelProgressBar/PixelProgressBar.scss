@@ -1,0 +1,49 @@
+.ProgressBarWrapper {
+  image-rendering: pixelated;
+  width: 100%;
+  height: 24px;
+
+  .ProgressBarFrame {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+
+    .ProgressBarStart {
+      width: 8px;
+      height: 100%;
+      background: url("./start.png") no-repeat left;
+      background-size: contain;
+    }
+
+    .ProgressBarMiddle {
+      flex: 1;
+      background: url("./middle.png") repeat-x center;
+      background-size: auto 100%;
+    }
+
+    .ProgressBarEnd {
+      width: 8px;
+      height: 100%;
+      background: url("./end.png") no-repeat right;
+      background-size: contain;
+    }
+
+    .ProgressBarScale {
+      position: absolute;
+      top: 0;
+      width: 8px;
+      height: 100%;
+      background: url("./scale.png") no-repeat center;
+      background-size: contain;
+      pointer-events: none;
+    }
+      }
+  
+  // .progress-fill {
+  //   background: url("./fill.png") repeat-x;
+  //   height: 100%;
+  //   image-rendering: pixelated;
+  // }
+}

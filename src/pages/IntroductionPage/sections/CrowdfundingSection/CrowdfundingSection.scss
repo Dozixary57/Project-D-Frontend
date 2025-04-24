@@ -1,0 +1,78 @@
+@import "~@_styles";
+
+.CrowdfundingSection {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: url("~@images/backgrounds/stone.png") repeat center;
+  background-size: 8em;
+
+  .CrowdfundingElement {
+    @include WidthFlexibility60;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75em;
+
+    .CrowdfundingHeader {
+      box-sizing: border-box;
+      width: 100%;
+      color: white;
+      margin: 0;
+      text-align: center;
+      padding: 0.25em 0;
+      border-radius: 0.15em;
+      border: 0.05em solid rgba(white, 0.15);
+      box-shadow: 0 0 0.5em 0.25em rgba(0, 0, 0, 0.35);
+      background-color: rgba(black, 0.3);
+    }
+
+    .CrowdfundingDescription {
+      color: white;
+      text-align: justify;
+      padding: 0.75em;
+      border-radius: 0.2em;
+      border: 0.1em solid rgba(white, 0.15);
+      box-shadow: 0 0 0.5em 0.25em rgba(0, 0, 0, 0.35);
+      background-color: rgba(black, 0.3);
+
+      >h5 {
+        margin: 0;
+        font-size: 1em;
+      }
+
+      p {
+        @include TextFontByWidthFlexibility;
+      }
+    }
+
+    .NavButtons {
+      width: 100%;
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+      gap: 1em;
+
+      >a {
+        width: 100%;
+
+        >button {
+          width: 100%;
+          box-sizing: border-box;
+          color: white;
+          padding: 0.5em;
+          @include TextFontByWidthFlexibility;
+          font-family: 'F77 Minecraft', PressStart2P-Regular, 'Cascadia Mono', sans-serif;
+          border-radius: 0.2em;
+          outline: none;
+          border: 0.1em solid rgba(white, 0.15);
+          box-shadow: 0 0 0.5em 0.25em rgba(0, 0, 0, 0.35);
+          background-color: rgba(black, 0.3);
+          cursor: pointer;
+        }
+      }
+    }
+  }
+}
