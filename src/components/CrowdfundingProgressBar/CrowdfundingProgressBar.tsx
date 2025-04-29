@@ -2,6 +2,7 @@ import { ToRoman } from "@tools/TextFormatter";
 import "./CrowdfundingProgressBar.scss";
 import { useState, useEffect } from "react";
 import StyledMarkdown from "@components/StyledMarkdown";
+import axios from "axios";
 
 interface CrowdfundingState {
   current: number;
@@ -10,30 +11,77 @@ interface CrowdfundingState {
   stageGoal: { title: string; description: string }[];
 }
 
+interface Segment {
+  start: number;
+  end: number;
+}
+
 let globalState: CrowdfundingState = {
-  current: 0,
-  final: 100,
-  stages: [],
-  stageGoal: []
+  current: 7527,
+  final: 1000000,
+  stages: [100000, 150000, 200000, 500000],
+  stageGoal: [
+    {
+      title: 'Stage I — Prototyping',
+      description: 'The goal of this funding phase is to create a technical prototype. This includes building out the core gameplay mechanics, outlining basic interaction logic, and forming a foundational version of the project for initial testing and concept validation.',
+    },
+    {
+      title: 'Stage II — Pre-Production',
+      description: 'Funds raised during this stage will support preparations for full-scale development: producing documented design decisions, developing an initial visual style, and building essential tools such as a basic level editor to streamline future production.',
+    },
+    {
+      title: 'Stage III — Playable Demo',
+      description: 'This phase aims to deliver a playable demo. Funding will be used to develop a vertical slice — a limited yet functional segment of the game including visuals, audio, and a basic UI — to showcase the atmosphere and core gameplay elements.',
+    },
+    {
+      title: 'Stage IV — Content Expansion',
+      description: 'The objective here is to expand the game’s content. The funding will help add new levels and characters, enhance graphics, enrich the soundtrack and interface, and implement more complex gameplay systems and interactions.',
+    },
+    {
+      title: 'Stage V — Full Release Version',
+      description: 'The final milestone is the completion and release of the full version of the game. The budget will cover polishing the game, bug fixing, integrating all components, performance optimization, and preparing for distribution on target platforms.',
+    }
+  ]
+
 };
 
-function updateGlobalState(newState: Partial<CrowdfundingState>) {
+const updateGlobalState = (newState: Partial<CrowdfundingState>) => {
   globalState = { ...globalState, ...newState };
-}
+};
 
-function computeSegments(stages: number[], final: number): { start: number; end: number }[] {
+const computeSegments = (stages: number[], final: number): Segment[] => {
   const allPoints = [0, ...stages, final];
-  const segments = [];
+  return allPoints.slice(0, -1).map((start, i) => ({
+    start,
+    end: allPoints[i + 1]
+  }));
+};
 
-  for (let i = 0; i < allPoints.length - 1; i++) {
-    segments.push({
-      start: allPoints[i],
-      end: allPoints[i + 1]
-    });
-  }
+const getActiveSegmentInfo = (state = globalState) => {
+  const { current, final, stages } = state;
+  const segments = computeSegments(stages, final);
+  
+  let activeIndex = segments.findIndex(({ end }) => current < end);
+  if (activeIndex === -1) activeIndex = segments.length - 1;
+  
+  const { start, end } = segments[activeIndex];
+  const segmentLength = end - start;
+  const relativeProgress = Math.max(0, Math.min(current - start, segmentLength));
+  const progressPercent = (relativeProgress / segmentLength) * 100;
+  
+  return { activeIndex, start, end, segmentLength, relativeProgress, progressPercent, segments };
+};
 
-  return segments;
-}
+const useSyncedState = <T,>(selector: (state: CrowdfundingState) => T, interval = 100): T => {
+  const [value, setValue] = useState<T>(selector(globalState));
+  
+  useEffect(() => {
+    const intervalId = setInterval(() => setValue(selector(globalState)), interval);
+    return () => clearInterval(intervalId);
+  }, []);
+  
+  return value;
+};
 
 interface CrowdfundingProgressBarProps {
   currentValue?: number;
@@ -43,105 +91,82 @@ interface CrowdfundingProgressBarProps {
 }
 
 export const CrowdfundingProgressBar: React.FC<CrowdfundingProgressBarProps> = ({
-  currentValue = 0,
-  finalValue = 100,
-  stagesValue = [],
-  stageGoalValue = []
+  currentValue,
+  finalValue,
+  stagesValue,
+  stageGoalValue
 }) => {
+  const [crowdfundingCurrentValue, setCrowdfundingCurrentValue] = useState<number | undefined>(currentValue);
+
   useEffect(() => {
-    // const actualCurrent = currentValue > finalValue ? finalValue : currentValue;
-    
+    const fetchData = async () => {
+      try {
+        const response = await axios.get("http://localhost:7000/Crowdfunding");
+        setCrowdfundingCurrentValue(response.data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    fetchData();
+  }, []);
+
+  useEffect(() => {
     updateGlobalState({
-      current: currentValue,
-      final: finalValue,
-      stages: stagesValue,
-      stageGoal: stageGoalValue
+      current: currentValue ?? crowdfundingCurrentValue ?? globalState.current,
+      final: finalValue ?? globalState.final,
+      stages: stagesValue ?? globalState.stages,
+      stageGoal: stageGoalValue ?? globalState.stageGoal
     });
-  }, [currentValue, finalValue, stagesValue, stageGoalValue]);
-  
+  }, [currentValue, finalValue, stagesValue, stageGoalValue, crowdfundingCurrentValue]);
+
   return null;
 };
 
-function getTitleText(): string {
-  const { current, final, stages, stageGoal } = globalState;
-  const segments = computeSegments(stages, final);
+export const CrowdfundingStageTitle = () => {
+  const { activeIndex } = useSyncedState(getActiveSegmentInfo, 1000);
+  return globalState.stageGoal[activeIndex]?.title ?? "Текущая стадия разработки";
+};
 
-  let activeIndex = segments.findIndex(({ start, end }) => current < end);
-  if (activeIndex === -1) {
-    activeIndex = segments.length - 1;
-  }
+export const CrowdfundingStageProgress = () => {
+  const { progressPercent } = useSyncedState(getActiveSegmentInfo);
+  return progressPercent.toString();
+};
 
-  return stageGoal[activeIndex]?.title ?? "Текущая стадия разработки";
-}
+export const CrowdfundingStageCurrentValue = () => {
+  const { relativeProgress } = useSyncedState(getActiveSegmentInfo);
+  return relativeProgress;
+};
 
-function getDescriptionText(): string {
-  const { current, final, stages, stageGoal } = globalState;
-  const segments = computeSegments(stages, final);
-
-  let activeIndex = segments.findIndex(({ start, end }) => current < end);
-  if (activeIndex === -1) {
-    activeIndex = segments.length - 1;
-  }
-
-  return stageGoal[activeIndex]?.description ?? 
-    "Сбор средств на поддержку разработки игры и ее продвижение: покрытие затрат на производство, улучшение игрового процесса, тестирование, а также техническую и художественную составляющие. Независимо от текущего этапа разработки, ваше участие приближает к завершению создания проекта и выпуску качественного игрового продукта.";
-}
+export const CrowdfundingStageFinalValue = () => {
+  const { segmentLength } = useSyncedState(getActiveSegmentInfo);
+  return segmentLength.toLocaleString("ru");
+};
 
 const CrowdfundingStageGoalTitle: React.FC = () => {
-  const [title, setTitle] = useState<string>(getTitleText());
-  
-  useEffect(() => {
-    const intervalId = setInterval(() => {
-      setTitle(getTitleText());
-    }, 100);
-    
-    return () => clearInterval(intervalId);
-  }, []);
-  
+  const { activeIndex } = useSyncedState(getActiveSegmentInfo, 1000);
+  const title = globalState.stageGoal[activeIndex]?.title ?? "Текущая стадия разработки";
   return <StyledMarkdown>{title}</StyledMarkdown>;
 };
 
 const CrowdfundingStageGoalDescription: React.FC = () => {
-  const [description, setDescription] = useState<string>(getDescriptionText());
-  
-  useEffect(() => {
-    const intervalId = setInterval(() => {
-      setDescription(getDescriptionText());
-    }, 100);
-    
-    return () => clearInterval(intervalId);
-  }, []);
-  
+  const { activeIndex } = useSyncedState(getActiveSegmentInfo, 1000);
+  const description = globalState.stageGoal[activeIndex]?.description ?? 
+    "Сбор средств на поддержку разработки игры и ее продвижение: покрытие затрат на производство, улучшение игрового процесса, тестирование, а также техническую и художественную составляющие. Независимо от текущего этапа разработки, ваше участие приближает к завершению создания проекта и выпуску качественного игрового продукта.";
   return <StyledMarkdown>{description}</StyledMarkdown>;
 };
 
 export const CrowdfundingStageGoal: React.FC & {
   Title: React.FC;
   Description: React.FC;
-  getTitleText: () => string;
-  getDescriptionText: () => string;
-} = () => {
-  return null;
-};
+} = () => null;
 
 CrowdfundingStageGoal.Title = CrowdfundingStageGoalTitle;
 CrowdfundingStageGoal.Description = CrowdfundingStageGoalDescription;
-CrowdfundingStageGoal.getTitleText = getTitleText;
-CrowdfundingStageGoal.getDescriptionText = getDescriptionText;
 
 export const CrowdfundingRoadmap: React.FC = () => {
-  const [state, setState] = useState<CrowdfundingState>(globalState);
-  
-  useEffect(() => {
-    const intervalId = setInterval(() => {
-      setState({...globalState});
-    }, 100);
-    
-    return () => clearInterval(intervalId);
-  }, []);
-  
-  const { current, final, stages } = state;
-  const segments = computeSegments(stages, final);
+  const state = useSyncedState(() => globalState);
+  const { segments } = getActiveSegmentInfo(state);
+  const { current } = state;
 
   return (
     <div className="CrowdfundingRoadmap">
@@ -153,10 +178,7 @@ export const CrowdfundingRoadmap: React.FC = () => {
         return (
           <div key={index} className="RoadmapStage">
             <div className="ProgressTrack">
-              <div
-                className="ProgressValue"
-                style={{ width: `${width}%` }}
-              />
+              <div className="ProgressValue" style={{ width: `${width}%` }} />
               <p className="StageNumber">{ToRoman(index + 1)}</p>
             </div>
             <p className="StageFinalValue">{end.toLocaleString("ru")}</p>
@@ -168,29 +190,8 @@ export const CrowdfundingRoadmap: React.FC = () => {
 };
 
 export const CrowdfundingStage: React.FC = () => {
-  const [state, setState] = useState<CrowdfundingState>(globalState);
-  
-  useEffect(() => {
-    const intervalId = setInterval(() => {
-      setState({...globalState});
-    }, 100);
-    
-    return () => clearInterval(intervalId);
-  }, []);
-  
-  const { current, final, stages } = state;
-  const segments = computeSegments(stages, final);
-
-  let activeIndex = segments.findIndex(({ start, end }) => current < end);
-  if (activeIndex === -1) {
-    activeIndex = segments.length - 1;
-  }
-
-  const { start, end } = segments[activeIndex];
-  const segmentLength = end - start;
-
-  const relativeProgress = Math.max(0, Math.min(current - start, segmentLength));
-  const progressPercent = (relativeProgress / segmentLength) * 100;
+  const state = useSyncedState(() => globalState);
+  const { activeIndex, relativeProgress, progressPercent, segmentLength } = getActiveSegmentInfo(state);
 
   return (
     <div className="CrowdfundingStage">
@@ -210,7 +211,7 @@ export const CrowdfundingStage: React.FC = () => {
       </div>
       <div className="CurrentValue">
         <h4>Total funds raised:</h4>
-        <p>{current.toLocaleString("ru")} p.</p>
+        <p>{state.current.toLocaleString("ru")} p.</p>
       </div>
     </div>
   );

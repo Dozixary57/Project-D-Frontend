@@ -316,6 +316,16 @@ $borderRadius: 0.2em;
   padding: 0.2em;
 }
 
+@mixin HeightFlexibility {
+  min-height: fit-content;
+  height: 100vh;
+  max-height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: normal;
+}
+
 @mixin HeaderFontByWidthFlexibility {
   font-size: clamp(0.7em, 1.1vw, 1.4em);
 }

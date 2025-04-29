@@ -1,0 +1,60 @@
+.CrowdfundingSection {
+  margin-top: 1em;
+  width: 100%;
+  height: auto;
+  background-color: rgba(black, 0.1);
+
+  .CrowdfundingHeader {
+    margin: 0;
+    text-indent: 1em;
+    padding: 0.4em 0;
+    border-top: 0.15em rgba(black, 0.2) solid;
+    border-bottom: 0.15em rgba(black, 0.2) solid;
+  }
+
+  .CrowdfundingContent {
+    display: flex;
+    flex-direction: column;
+    padding: 0.25em;
+    gap: 0.75em;
+  
+    .CrowdfundingDescription {
+      border-radius: 0.2em;
+      border: 0.1em rgba(white, 0.1) solid;
+      padding: 0.5em;
+      background-color: rgba(white, 0.01);
+  
+      >h5 {
+        margin: 0;
+        font-size: 1em;
+      }
+  
+      p {
+        font-size: 0.8em;
+      }
+    }
+  
+    >a {
+      width: 100%;
+  
+      >button {
+        width: 100%;
+        box-sizing: border-box;
+        color: white;
+        padding: 0.75em 0;
+        font-size: 0.9em;
+        font-family: 'F77 Minecraft', PressStart2P-Regular, 'Cascadia Mono', sans-serif;
+        border-radius: 0.2em;
+        outline: none;
+        border: 0.1em solid rgba(white, 0.15);
+        background-color: rgba(white, 0.05);
+        transition: all 0.3s ease-out;
+        cursor: pointer;
+
+        &:hover {
+          background-color: rgba(white, 0.1);
+        }
+      }
+    }  
+  }
+}

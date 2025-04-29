@@ -3,11 +3,9 @@ import { Route, Routes, useLocation, useNavigate } from 'react-router';
 import { AboutPage } from '@pages/AboutPage';
 import { AccountPage } from '@pages/AccountPage';
 import { LoginPage } from '@pages/LoginPage';
-import { CreaturesPage } from '@pages/CreaturesPage';
 import { ContentPage } from '@pages/ContentPage';
-import { HomePage } from '@pages/HomePage';
+import { HomePage } from '@pages/HomePage/HomePage';
 import { ItemsPage } from '@pages/ItemsPage';
-import { LocationsPage } from '@pages/LocationsPage';
 import { NewsPage } from '@pages/NewsPage';
 import { NowherePage } from '@pages/NowherePage';
 import ObjectInfoPage from '@pages/ObjectInfoPage/ObjectInfoPage';
@@ -53,8 +51,6 @@ function App() {
       <Route path="/Content" element={<ContentPage />} />
       <Route path="/Content/Items" element={<ItemsPage />} />
       <Route path="/Content/Item/:titleId" element={<ObjectInfoPage />} />
-      <Route path="/Content/Creatures" element={<CreaturesPage />} />
-      <Route path="/Content/Locations" element={<LocationsPage />} />
       <Route path="/News" element={<NewsFeedPage />} >
         <Route path=":titleId" element={<NewsOverlay />} />
       </Route>

@@ -3,10 +3,11 @@ import { Link } from "react-router-dom";
 import style from "./CrowdfundingSection.module.scss";
 
 const CrowdfundingSection = ({ targetOfScroll }: { targetOfScroll: React.RefObject<HTMLDivElement> }) => {
+
   return (
-    <div ref={targetOfScroll} className={style.CrowdfundingSection}>
-      <div className={style.CrowdfundingElement}>
-        <h3 className={style.CrowdfundingHeader}>Support the project</h3>
+    <div className={style.CrowdfundingSection} ref={targetOfScroll}>
+      <h3 className={style.CrowdfundingHeader}>Support the project</h3>
+      <div className={style.CrowdfundingContent}>
         <div className={style.CrowdfundingDescription}>
           <h5>
             <CrowdfundingStageGoal.Title />
@@ -17,14 +18,9 @@ const CrowdfundingSection = ({ targetOfScroll }: { targetOfScroll: React.RefObje
         <CrowdfundingProgressBar />
         <CrowdfundingRoadmap />
         <CrowdfundingStage />
-        <div className={style.NavButtons}>
-          <Link to="/Home">
-            <button>Home page</button>
-          </Link>
-          <Link to="/Support">
-            <button>Make a donation</button>
-          </Link>
-        </div>
+        <Link to="/Support">
+          <button>Make a donation</button>
+        </Link>
       </div>
     </div>
   )
