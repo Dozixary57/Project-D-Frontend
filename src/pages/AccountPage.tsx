@@ -1,9 +1,9 @@
 import { Helmet } from "react-helmet-async";
 import "./AccountPage.scss"
 import { url } from "inspector";
-import { Username } from "../components/Username";
 import { Link } from "react-router-dom";
-import { Navbar } from "../components/elements/navigation_bar/Navbar";
+import { Navbar } from "@components/Navbar/Navbar";
+import { GetUsername } from "@tools/GetUserData";
 
 const AccountPage = () => {
     return (
@@ -20,7 +20,7 @@ const AccountPage = () => {
                     </div>
                     <div className="ProfileIcon">
                         <div className="ProfileUsername">
-                            <p><Username /></p>
+                            <p><GetUsername /></p>
                             <div className="ProfileProgress">
                                 <p>X+</p>
                             </div>

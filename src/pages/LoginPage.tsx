@@ -1,5 +1,5 @@
 import { Helmet } from "react-helmet-async";
-import { Navbar } from "../components/elements/navigation_bar/Navbar";
+import { Navbar } from "@components/Navbar/Navbar";
 import "./LoginPage.scss"
 import { useEffect, useState } from "react";
 import authService from "../backend/services/authService";

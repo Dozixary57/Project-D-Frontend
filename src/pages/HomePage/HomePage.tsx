@@ -1,5 +1,5 @@
 import { Helmet } from "react-helmet-async";
-import { Navbar } from "@components/elements/navigation_bar/Navbar";
+import { Navbar } from "@components/Navbar/Navbar";
 import "./HomePage.scss"
 import { Footer } from "@components/Footer/Footer";
 import MainShowcase from "./components/MainShowcase/MainShowcase";

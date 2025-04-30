@@ -9,6 +9,8 @@ module.exports = {
       '@interfaces': path.resolve(__dirname, 'src/interfaces'),
       '@images': path.resolve(__dirname, 'src/images'),
       '@tools': path.resolve(__dirname, 'src/tools'),
+      '@utilities': path.resolve(__dirname, 'src/utilities'),
+      '@ReduxStore': path.resolve(__dirname, 'src/ReduxStore'),
       '@_styles': path.resolve(__dirname, 'src/_styles'),
     },
   },

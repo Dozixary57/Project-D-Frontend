@@ -26,6 +26,12 @@
       "@tools/*": [
         "tools/*"
       ],
+      "@utilities/*": [
+        "utilities/*"
+      ],
+      "@ReduxStore/*": [
+        "ReduxStore/*"
+      ],
     },
     "allowJs": true,
     "skipLibCheck": true,

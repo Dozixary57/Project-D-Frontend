@@ -2,7 +2,7 @@
 import ObjectService from '@services/objectService';
 import { useLocation, useParams } from 'react-router-dom';
 import { Helmet } from "react-helmet-async";
-import { Navbar } from "../../components/elements/navigation_bar/Navbar";
+import { Navbar } from "@components/Navbar/Navbar";
 import { DataForNavigation, PrevButton, NextButton } from "../../components/elements/ObjectNavigation/ObjectNavigation";
 import { ImagesAndVideosTabContent, SoundsTabContent } from "./elements/MediaSectionComponents";
 import VisualTabContent from "./elements/VisualTabContent";

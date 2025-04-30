@@ -1,5 +1,5 @@
 import { Helmet } from "react-helmet-async";
-import { Navbar } from "../components/elements/navigation_bar/Navbar";
+import { Navbar } from "@components/Navbar/Navbar";
 import "./NewsFeedPage.scss"
 import { useEffect, useRef, useState } from "react";
 import newsService from "../backend/services/newsService";

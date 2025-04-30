@@ -1,6 +1,52 @@
 import { jwtDecode } from 'jwt-decode';
 import { IAccount, IPrivileges } from '@interfaces/IAccounts';
+import { useEffect, useState } from 'react';
 
+export function GetUsername() {
+  const [username, setUsername] = useState<string>('');
+
+  useEffect(() => {
+    function handleTokenChange() {
+      setUsername(GetCurrentUserAccessTokenPayload()?.Username ?? '');
+    }
+
+    window.addEventListener('storage', handleTokenChange);
+
+    handleTokenChange();
+
+    return () => {
+      window.removeEventListener('storage', handleTokenChange);
+    };
+  }, []);
+
+  return (
+    <>{username}</>
+  );
+}
+
+export function GetNavUsername() {
+  const [username, setUsername] = useState<string>('');
+
+  useEffect(() => {
+    function handleTokenChange() {
+      setUsername(GetCurrentUserAccessTokenPayload()?.Username ?? '');
+    }
+
+    window.addEventListener('storage', handleTokenChange);
+
+    handleTokenChange();
+
+    return () => {
+      window.removeEventListener('storage', handleTokenChange);
+    };
+  }, []);
+
+  const displayUsername = username?.length > 9 ? `${username.slice(0, 8)}...` : username;
+
+  return (
+    <>{displayUsername}</>
+  );
+}
 export const GetCurrentUserAccessTokenString = (): string | null => {
   const token = localStorage.getItem('AccessToken');
   return token && token.length > 0 ? JSON.parse(token) : null;
