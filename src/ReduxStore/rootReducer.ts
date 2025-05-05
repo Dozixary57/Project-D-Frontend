@@ -17,6 +17,8 @@ import editingState from "./Reducers/editingState";
 import objectInfoPageEditingStates from "./Reducers/objectInfoPageEditingStates";
 import objectInfoData from "./Reducers/objectInfoData";
 import newObjectInfoData from "./Reducers/newObjectInfoData";
+import objectsCountList from "./Reducers/objectsCountList";
+import objectsFilteredResult from "./Reducers/objects/objectsFilteredResult";
 
 export const rootReducer = combineReducers({
     itemObjectsNavigationIndex,
@@ -36,4 +38,6 @@ export const rootReducer = combineReducers({
     objectInfoPageEditingStates,
     objectInfoData,
     newObjectInfoData,
+    objectsCountList,
+    objectsFilteredResult,
 });

@@ -1,28 +1,25 @@
-import { IObjectInfo } from '@interfaces/IObjectInfo';
+import { IObjectInfo } from '@interfaces/IObjectsData';
 import { GetCurrentUserAccessTokenString } from '@tools/GetUserData';
 import { handleEditChanges } from '@tools/HandleEditChanges';
 import axios from 'axios';
 import { store } from 'ReduxStore/store';
 
-const ObjectService = {
-  getItems: async () => {
+const ObjectsService = {
+  getObjects: async (collection: string) => {
     let result: any[] = [];
-    await axios.get('/Items', { timeout: 5000 })
+    await axios.get(`/${collection}`, { timeout: 5000 })
       .then((res) => {
         result = res.data || [];
       })
       .catch(error => {
-        if (error.code === 'ECONNABORTED') {
-          // Обработка ошибки таймаута    
-        } else {
-          // Обработка других ошибок сети
-        }
+        console.log(error);
       });
     return result;
   },
-  getObjectByTitle: async (titleId: string | undefined) => {
+  getObjectByTitle: async (collection: string, titleId: string | undefined) => {
     try {
-      await axios.get(`/Item/${titleId}`).then((res) => {
+      console.log(`${collection} - ${titleId}`)
+      await axios.get(`/${collection}/${titleId}`).then((res) => {
         if (res.data) {
           store.dispatch({
             type: 'OBJECT_INFO_DATA',
@@ -80,7 +77,28 @@ const ObjectService = {
   getItemCoverUrl: async (titleId: string | undefined) => {
     let res = await axios.get(`/GridFS/Cover/${titleId}`);
     return res.data;
-  }
+  },
+
+  getObjectsCountList: async () => {
+    try {
+      await axios.get(`${process.env.REACT_APP_DATA_API}/Objects/CountList`)
+        .then((res) => {
+          store.dispatch({
+            type: 'OBJECTS_COUNT_LIST',
+            payload: res.data
+          })
+        }).catch(error => {
+          console.log(error);
+        });
+    } catch (error) {
+      console.log(error);
+    } finally {
+      store.dispatch({
+        type: 'IS_LOADING_STATE',
+        payload: false
+      })
+    }
+  },
 }
 
-export default ObjectService;
+export default ObjectsService;

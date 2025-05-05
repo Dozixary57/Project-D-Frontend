@@ -44,6 +44,15 @@ footer {
     >a {
       text-decoration: none;
 
+      &:hover {
+        text-decoration: underline #AAA 0.1em;
+        text-underline-offset: 0.1em;
+
+        >p {
+          color: white;
+        }
+      }
+
       >p {
         margin: 0;
         color: #AAA;

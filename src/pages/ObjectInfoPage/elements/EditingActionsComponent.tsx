@@ -4,7 +4,7 @@ import "./EditingActionsComponent.scss";
 import { GetCurrentUserPrivileges } from '@tools/GetUserData';
 import { useEffect, useState } from "react";
 import { handleEditChanges } from "@tools/HandleEditChanges";
-import ObjectService from "@services/objectService";
+import ObjectsService from "@services/ObjectsService";
 
 const EditingActionsComponent = () => {
   const isAuthorized = useSelector((state: RootState) => state.isAuthorized);
@@ -48,7 +48,7 @@ const EditingActionsComponent = () => {
         </button>
         <button
           className="saveBtn"
-          onClick={() => ObjectService.updateObjectData(newObjectInfoData)}
+          onClick={() => ObjectsService.updateObjectData(newObjectInfoData)}
           disabled={!hasChanges}
         >
           <img src={require('@images/YesIcon.png')} />

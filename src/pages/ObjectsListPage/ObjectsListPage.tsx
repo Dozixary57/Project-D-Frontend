@@ -1,19 +1,19 @@
 ﻿import { Helmet } from "react-helmet-async";
 import { Navbar } from "@components/Navbar/Navbar";
-import "./ItemsPage.scss"
-import { SearchFilter } from "../components/SearchFilter/SearchFilter";
+import { SearchFilter } from "@components/SearchFilter/SearchFilter";
+import "./ObjectsListPage.scss"
 
 import ParallaxTilt from 'react-parallax-tilt'
 import React, { useEffect, useRef, useState } from "react";
-import itemService from "@services/objectService";
+import ObjectsService from "@services/ObjectsService";
 import { Link } from "react-router-dom";
-import dataLoadingSprite from "../images/DataLoadingSprite.webp";
-import { RootState, store } from "../ReduxStore/store";
+import dataLoadingSprite from "@images/DataLoadingSprite.webp";
+import { RootState, store } from "@ReduxStore/store";
 import { useSelector } from "react-redux";
-import filteredItemsData from "../ReduxStore/Reducers/filteredItemsData";
+// import filteredItemsData from "@ReduxStore/Reducers/filteredItemsData";
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
-import LoadingProgressBar, { ProgressBarHandle } from '../components/LoadingProgressBar/LoadingProgressBar';
-// import LoadingImage from "../components/LoadingImage/LoadingImage";
+import LoadingProgressBar, { ProgressBarHandle } from '@components/LoadingProgressBar/LoadingProgressBar';
+import { useLastUrlSegment } from "@utilities/useLastUrlSegment";
 
 interface Items {
   _id: string;
@@ -22,24 +22,25 @@ interface Items {
   IconURL: string;
 }
 
-const ItemsPage = () => {
-  const [isLoading, setIsLoading] = useState(false);
+const ObjectsListPage = () => {
+  const lastUrlSegment = useLastUrlSegment();
 
+  const [isLoading, setIsLoading] = useState(false);
   const filteredItems = useSelector((state: RootState) => state.filteredItemsData);
 
-  const fetchData = async () => {
+  const fetchData = async (collection: string) => {
     setIsLoading(true);
 
     store.dispatch({
       type: 'ITEMS_DATA',
-      payload: await itemService.getItems()
+      payload: await ObjectsService.getObjects(collection)
     })
 
     setIsLoading(false);
   };
 
   useEffect(() => {
-    fetchData();
+    fetchData(lastUrlSegment || '');
   }, [])
 
   const progressBarRef = useRef<ProgressBarHandle>(null);
@@ -78,7 +79,7 @@ const ItemsPage = () => {
                   classNames="CardOfItem"
                 >
                   <Link
-                    to={`/Content/Item/${item.Title.replace(/ /g, '_')}`}
+                    to={`/Content/Items/${item.Title.replace(/ /g, '_')}`}
                     className="LinkStyle"
                   >
                     <div className="CardOfItem">
@@ -96,7 +97,7 @@ const ItemsPage = () => {
                             src={
                               item.IconURL
                                 ? item.IconURL
-                                : require('../images/objects/NoThumbnailObjectIcon.png')
+                                : require('@images/objects/NoThumbnailObjectIcon.png')
                             }
                             alt={filteredItems.Title}
                           />
@@ -114,8 +115,8 @@ const ItemsPage = () => {
             <div className="noDataContainer">
               <div>
                 <p>Data could not be retrieved from the server.</p>
-                <button onClick={() => { fetchData(); LoadingPB_Handle(); }}>
-                  <img src={require('../images/RetryIcon.png')} alt="RetryIcon" />
+                <button onClick={() => { fetchData(lastUrlSegment || ''); LoadingPB_Handle(); }}>
+                  <img src={require('@images/RetryIcon.png')} alt="RetryIcon" />
                 </button>
               </div>
             </div>
@@ -126,4 +127,4 @@ const ItemsPage = () => {
   )
 }
 
-export { ItemsPage };
+export default ObjectsListPage;

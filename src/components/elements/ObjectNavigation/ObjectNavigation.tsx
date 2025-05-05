@@ -57,7 +57,7 @@ export const PrevButton = () => {
       payload: newIndex
     })
 
-    navigate(`/Content/Item/${titles[newIndex]}`);
+    navigate(`/Content/Items/${titles[newIndex]}`);
   };
 
   if (titles.length >= 2) {
@@ -96,7 +96,7 @@ export const NextButton = () => {
       payload: newIndex
     })
 
-    navigate(`/Content/Item/${titles[newIndex]}`);
+    navigate(`/Content/Items/${titles[newIndex]}`);
   };
 
   if (titles.length >= 2) {

@@ -1,4 +1,4 @@
-import { IObjectInfo } from "@interfaces/IObjectInfo";
+import { IObjectInfo } from "@interfaces/IObjectsData";
 
 interface Action {
     type: string;

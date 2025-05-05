@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import StyledMarkdown from "../../../components/StyledMarkdown";
 import style from "./MediaSectionComponents.module.scss";
-import { IMediaUnit } from '@interfaces/IObjectInfo';
+import { IMediaUnit } from '@interfaces/IObjectsData';
 
 const SoundsTabContent = ({ data }: { data: IMediaUnit[] }) => {
   const [activeTab, setActiveTab] = useState(0);

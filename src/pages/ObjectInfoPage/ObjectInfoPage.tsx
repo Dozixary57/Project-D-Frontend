@@ -1,6 +1,5 @@
 ﻿import { useEffect } from "react";
-import ObjectService from '@services/objectService';
-import { useLocation, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { Helmet } from "react-helmet-async";
 import { Navbar } from "@components/Navbar/Navbar";
 import { DataForNavigation, PrevButton, NextButton } from "../../components/elements/ObjectNavigation/ObjectNavigation";
@@ -18,9 +17,11 @@ import { RootState, store } from "ReduxStore/store";
 import ObjectStoryComponent from "./elements/ObjectStoryComponent";
 import { handleEditChanges } from "@tools/HandleEditChanges";
 import ObjectAcquisitionComponent from "./elements/ObjectAcquisitionComponent";
+import { usePenultimateUrlSegment } from "@utilities/useLastUrlSegment";
+import ObjectsService from "@services/ObjectsService";
 
 const ObjectInfoPage = () => {
-  const location = useLocation();
+  const penultimateSegment = usePenultimateUrlSegment();
 
   const { titleId } = useParams<{ titleId: string }>();
   const objectInfoData = useSelector((state: RootState) => state.objectInfoData);
@@ -46,7 +47,8 @@ const ObjectInfoPage = () => {
   useEffect(() => {
     handleEditChanges(dispatch).resetAllStatesByDefault();
     try {
-      ObjectService.getObjectByTitle(titleId);
+      console.log(penultimateSegment || '')
+      ObjectsService.getObjectByTitle(penultimateSegment || '', titleId);
     } catch (error) {
       console.error(error);
     }
@@ -132,7 +134,7 @@ const ObjectInfoPage = () => {
         <Footer />
       </>
     ) : (
-      <p>No items found</p>
+      <p>No object found</p>
     )
   )
 }

@@ -3,9 +3,7 @@ import { Route, Routes, useLocation, useNavigate } from 'react-router';
 import { AboutPage } from '@pages/AboutPage';
 import { AccountPage } from '@pages/AccountPage';
 import { LoginPage } from '@pages/LoginPage';
-import { ContentPage } from '@pages/ContentPage';
 import { HomePage } from '@pages/HomePage/HomePage';
-import { ItemsPage } from '@pages/ItemsPage';
 import { NewsPage } from '@pages/NewsPage';
 import { NowherePage } from '@pages/NowherePage';
 import ObjectInfoPage from '@pages/ObjectInfoPage/ObjectInfoPage';
@@ -27,6 +25,8 @@ import { FileManagementPage } from '@pages/service/FileManagementPage';
 import { FileManagementPage_Avatars } from '@pages/service/FileManagementPage_Avatars';
 import ManagementFileModalWindow from '@components/ModalWindows/ManagementFileModalWindow';
 import UploadFileModalWindow from '@components/ModalWindows/UploadFileModalWindow';
+import ObjectsHubPage from '@pages/ObjectsHubPage/ObjectsHubPage';
+import ObjectsListPage from '@pages/ObjectsListPage/ObjectsListPage';
 
 function App() {
   const navigate = useNavigate();
@@ -48,9 +48,9 @@ function App() {
     <Routes>
       <Route path="/" element={<IntroductionPage />} />
       <Route path="/Home" element={<HomePage />} />
-      <Route path="/Content" element={<ContentPage />} />
-      <Route path="/Content/Items" element={<ItemsPage />} />
-      <Route path="/Content/Item/:titleId" element={<ObjectInfoPage />} />
+      <Route path="/Content" element={<ObjectsHubPage />} />
+      <Route path="/Content/Items" element={<ObjectsListPage />} />
+      <Route path="/Content/Items/:titleId" element={<ObjectInfoPage />} />
       <Route path="/News" element={<NewsFeedPage />} >
         <Route path=":titleId" element={<NewsOverlay />} />
       </Route>
