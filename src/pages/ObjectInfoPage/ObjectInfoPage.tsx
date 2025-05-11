@@ -14,11 +14,14 @@ import ObjectDescriptionComponent from "./elements/ObjectDescriptionComponent";
 import useNavigationBlock from "@tools/useNavigationBlock";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState, store } from "ReduxStore/store";
-import ObjectStoryComponent from "./elements/ObjectStoryComponent";
+import ObjectLoreComponent from "./elements/ObjectLoreComponent";
 import { handleEditChanges } from "@tools/HandleEditChanges";
 import ObjectAcquisitionComponent from "./elements/ObjectAcquisitionComponent";
 import { usePenultimateUrlSegment } from "@utilities/useLastUrlSegment";
 import ObjectsService from "@services/ObjectsService";
+import { selectEditingFlags, selectEditingState } from "@ReduxStore/Reducers/editing/actions/editingModeSelectors";
+import { EditingModeState, setEditingModeFlag, setEditingState } from "@ReduxStore/Reducers/editing/actions/editingMode";
+import { setFormObjectData } from "@ReduxStore/Reducers/editing/data/formObjectData";
 
 const ObjectInfoPage = () => {
   const penultimateSegment = usePenultimateUrlSegment();
@@ -26,51 +29,27 @@ const ObjectInfoPage = () => {
   const { titleId } = useParams<{ titleId: string }>();
   const objectInfoData = useSelector((state: RootState) => state.objectInfoData);
 
-  const objectInfoPageEditingStates = useSelector((state: RootState) => state.objectInfoPageEditingStates);
-  const editingState = useSelector((state: RootState) => state.editingState);
   const dispatch = useDispatch();
 
-  useNavigationBlock(editingState === 'MODIFIED');
+  const editingModeFlags = useSelector(selectEditingFlags);
+  const editingModeState = useSelector(selectEditingState);
+
+  // !!!
+  useEffect(() => {
+    console.log(editingModeFlags);
+    console.log(editingModeState);
+  }, [editingModeFlags, editingModeState]);
+  // !!!
+
+  useNavigationBlock(editingModeState === 'MODIFIED');
 
   useEffect(() => {
-    const hasChanges = Object.values(objectInfoPageEditingStates).some(value => value === true);
-
-    if (hasChanges) {
-      store.dispatch({ type: 'CONTENT_MODIFIED' });
-    } else if (editingState === 'MODIFIED') {
-      store.dispatch({ type: 'START_EDITING' });
-    }
-
-    console.log(objectInfoPageEditingStates);
-  }, [objectInfoPageEditingStates]);
-
-  useEffect(() => {
-    handleEditChanges(dispatch).resetAllStatesByDefault();
-    try {
-      console.log(penultimateSegment || '')
-      ObjectsService.getObjectByTitle(penultimateSegment || '', titleId);
-    } catch (error) {
-      console.error(error);
-    }
+    ObjectsService.getObjectByTitle(penultimateSegment || '', titleId);
   }, [titleId]);
 
   useEffect(() => {
-    dispatch({
-      type: 'NEW_OBJECT_INFO_DATA',
-      payload: objectInfoData
-    })
+    dispatch(setFormObjectData(objectInfoData));
   }, [objectInfoData]);
-
-  // !!!
-  useEffect(() => {
-    if (editingState !== 'MODIFIED') {
-      dispatch({
-        type: 'NEW_OBJECT_INFO_DATA',
-        payload: objectInfoData
-      });
-    }
-  }, [editingState]);
-  // !!!
 
   return (
     (objectInfoData) ? (
@@ -90,12 +69,6 @@ const ObjectInfoPage = () => {
             <div className={style.content}>
               <div className={style.generalData}>
                 <ObjectDescriptionComponent description={objectInfoData.Description} />
-                {/* <div className={`${style.acquisitionData} ${style.section}`}>
-                  <h2 className={style.generalDataHeader}>Acquisition</h2>
-                  <div className={style.generalDataContent}>
-                    <p className={style.noData}>Acquisition is unknown...</p>
-                  </div>
-                </div> */}
                 <ObjectAcquisitionComponent acquisition={objectInfoData.Acquisition} />
 
                 {/* <div className={`${style.usedForData} ${style.section}`}>
@@ -105,25 +78,27 @@ const ObjectInfoPage = () => {
                   </div>
                 </div> */}
 
-                <ObjectStoryComponent story={objectInfoData.Lore} />
+                <ObjectLoreComponent lore={objectInfoData.Lore ?? ''} />
 
                 <div className={`${style.mediaData} ${style.section}`}>
-                  <h2 className={style.generalDataHeader}>Media</h2>
+                  <h2 className={style.generalDataHeader} onClick={() => dispatch(setEditingState(EditingModeState.INACTIVE))}>Media</h2>
                   <div className={style.generalDataContent}>
-                    <SoundsTabContent data={objectInfoData.Media.Sounds} />
+                    <SoundsTabContent data={objectInfoData.Media?.Sounds ?? []} />
                     <hr className={style.sectionSeparator} />
-                    <ImagesAndVideosTabContent data={objectInfoData.Media.Images} />
+                    <ImagesAndVideosTabContent data={objectInfoData.Media?.Images ?? []} />
                     <hr className={style.sectionSeparator} />
-                    <ImagesAndVideosTabContent data={objectInfoData.Media.Videos} title="Video" />
+                    <ImagesAndVideosTabContent data={objectInfoData.Media?.Videos ?? []} title="Video" />
                   </div>
                 </div>
               </div>
               <div className={style.visualAndDefinitionData}>
-                <VisualTabContent iconUrl={objectInfoData.IconURL} modelUrl={objectInfoData.ModelURL} />
+                <VisualTabContent iconUrl={objectInfoData.IconURL} modelUrl={objectInfoData.ModelURL ?? ''} />
                 <DefinitionInfoComponent
                   defData={{
                     ...objectInfoData.Classification,
-                    Characteristics: objectInfoData.Characteristics
+                    Type: objectInfoData.Classification?.Type ?? '',
+                    Characteristics: objectInfoData.Characteristics ?? [],
+                    Subclass: objectInfoData.Classification?.Subclass ?? ''
                   }}
                 />
               </div>

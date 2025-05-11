@@ -8,6 +8,14 @@
     box-sizing: border-box;
     padding: 0.5em;
 
+    .NoFilteredResults {
+      width: 100%;
+      text-align: center;
+      border-radius: 0.1em;
+      padding: 1em 0;
+      background-color: rgba(black, 0.2);
+    }
+
     .SectionGallery {
       width: 100%;
       display: grid;
@@ -104,6 +112,7 @@
 
           >p {
             margin: 0;
+            user-select: none;
           }
 
           > p:nth-of-type(1) {

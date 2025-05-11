@@ -1,36 +1,40 @@
-import { RootState, store } from "../../../ReduxStore/store";
+import { RootState } from "@ReduxStore/store";
 import { useDispatch, useSelector } from "react-redux";
 import "./EditingActionsComponent.scss";
 import { GetCurrentUserPrivileges } from '@tools/GetUserData';
-import { useEffect, useState } from "react";
 import { handleEditChanges } from "@tools/HandleEditChanges";
 import ObjectsService from "@services/ObjectsService";
+import { selectEditingState } from "@ReduxStore/Reducers/editing/actions/editingModeSelectors";
+import { EditingModeState, setEditingState } from "@ReduxStore/Reducers/editing/actions/editingMode";
+import { resetEditableFormObjectData } from "@ReduxStore/Reducers/editing/data/formObjectData";
 
 const EditingActionsComponent = () => {
   const isAuthorized = useSelector((state: RootState) => state.isAuthorized);
-  const editingState = useSelector((state: RootState) => state.editingState);
-  const objectInfoPageEditingStates = useSelector((state: RootState) => state.objectInfoPageEditingStates);
-  const [hasChanges, setHasChanges] = useState(Object.values(objectInfoPageEditingStates).some(value => value === true));
+
   const dispatch = useDispatch();
 
-  const newObjectInfoData = useSelector((state: RootState) => state.newObjectInfoData);
+  const editingModeState = useSelector(selectEditingState);
 
-  useEffect(() => {
-    setHasChanges(Object.values(objectInfoPageEditingStates).some(value => value === true));
-  }, [objectInfoPageEditingStates]);
+  const formObjectData = useSelector((state: RootState) => state.formObjectData.editable);
 
   return (
-    (isAuthorized && GetCurrentUserPrivileges.isObjectEdit() && editingState !== 'INACTIVE') &&
+    (isAuthorized && GetCurrentUserPrivileges.isObjectEdit() && editingModeState !== 'INACTIVE') &&
     <div className="editingActionsPanel">
-      {/* <div className="actionsGroup">
+      <div className="actionsGroup">
         <button
           className="cancelBtn"
-          onClick={() => handleUndoChanges(dispatch)}
+          onClick={() => {
+            if (editingModeState !== 'MODIFIED') {
+              dispatch(setEditingState(EditingModeState.INACTIVE))
+            } else {
+              handleEditChanges(dispatch).exitEditingModeWithConfirmation()
+            }
+          }}
         >
           <img src={require('@images/UndoIcon.png')} />
           <p>Cancel</p>
         </button>
-      </div> */}
+      </div>
       <div className="actionsGroup">
         <button className="deleteBtn">
           <img src={require('@images/BinIcon.png')} />
@@ -40,16 +44,19 @@ const EditingActionsComponent = () => {
       <div className="actionsGroup">
         <button
           className="discardBtn"
-          onClick={() => handleEditChanges(dispatch).discardAllChangesWithConfirmation()}
-          disabled={!hasChanges}
+          onClick={() => {
+            handleEditChanges(dispatch).discardAllChangesWithConfirmation();
+            dispatch(resetEditableFormObjectData())
+          }}
+          disabled={editingModeState !== 'MODIFIED'}
         >
           <img src={require('@images/NoIcon.png')} />
           <p>Discard all changes</p>
         </button>
         <button
           className="saveBtn"
-          onClick={() => ObjectsService.updateObjectData(newObjectInfoData)}
-          disabled={!hasChanges}
+          onClick={() => ObjectsService.updateObjectData('Items', formObjectData)}
+          disabled={editingModeState !== 'MODIFIED'}
         >
           <img src={require('@images/YesIcon.png')} />
           <p>Save</p>

@@ -1,16 +1,16 @@
-import { RootState } from "@ReduxStore/store";
+import { RootState, store } from "@ReduxStore/store";
 import { useDispatch, useSelector } from "react-redux";
-import "./ObjectAcquisitionComponent.scss";
+import "./ObjectLoreComponent.scss";
 import { GetCurrentUserPrivileges } from '@tools/GetUserData';
 import StyledMarkdown from '@components/StyledMarkdown';
 import MDEditor, { commands } from '@uiw/react-md-editor';
-import { useEffect } from "react";
-import { selectEditingFlags, selectEditingState } from "@ReduxStore/Reducers/editing/actions/editingModeSelectors";
+import { useEffect, useState } from "react";
 import { setEditingModeFlag } from "@ReduxStore/Reducers/editing/actions/editingMode";
 import { updateEditableFormObjectData } from "@ReduxStore/Reducers/editing/data/formObjectData";
+import { selectEditingFlags, selectEditingState } from "@ReduxStore/Reducers/editing/actions/editingModeSelectors";
 import { hasTextMeaningfulChange } from "@tools/EditingDataComparer";
 
-const ObjectAcquisitionComponent = ({ acquisition }: { acquisition: any }) => {
+const ObjectStoryComponent = ({ lore }: { lore: string }) => {
   const isAuthorized = useSelector((state: RootState) => state.isAuthorized);
   const dispatch = useDispatch();
 
@@ -21,57 +21,54 @@ const ObjectAcquisitionComponent = ({ acquisition }: { acquisition: any }) => {
 
   useEffect(() => {
     dispatch(setEditingModeFlag({
-      key: 'acquisition',
-      value: hasTextMeaningfulChange(acquisition, formObjectData?.Acquisition)
-    }))
+      key: 'lore',
+      value: hasTextMeaningfulChange(lore, formObjectData?.Lore)
+    }));
   }, [formObjectData]);
 
   const discardChanges = () => {
-    dispatch(updateEditableFormObjectData({ Acquisition: acquisition }));
-    dispatch(setEditingModeFlag({ key: 'acquisition', value: false }))
+    dispatch(updateEditableFormObjectData({ Lore: lore }));
+    dispatch(setEditingModeFlag({ key: 'lore', value: false }))
   }
 
   return (
-    <div className="objectAcquisition">
+    <div className="objectStory">
       <div className="generalDataHeaderWrapper">
-        <h2 className={`generalDataHeader ${acquisition || editingModeState !== 'INACTIVE' ? 'withData' : 'withoutData'}`}>Acquisition</h2>
+        <h2 className={`generalDataHeader ${lore || editingModeState !== 'INACTIVE' ? 'withData' : 'withoutData'}`}>Story</h2>
         {isAuthorized && GetCurrentUserPrivileges.isObjectEdit() && editingModeState !== 'INACTIVE' ?
           <button
-            title={editingModeFlag.acquisition ? 'Undo changes' : 'No changes to undo'}
-            className={`undoChangesButton ${editingModeFlag.acquisition ? 'active' : 'inactive'}`}
+            title={editingModeFlag.lore ? 'Undo changes' : 'No changes to undo'}
+            className={`undoChangesButton ${editingModeFlag.lore ? 'active' : 'inactive'}`}
             onClick={() => discardChanges()}
-            disabled={!editingModeFlag.acquisition}
+            disabled={!editingModeFlag.lore}
           >
             <img src={require('@images/UndoIcon.png')} />
           </button>
           :
-          !acquisition && <p className="noTextData">isn't found yet...</p>
+          !lore && <p className="noTextData">isn't unknown yet...</p>
         }
       </div>
-      <div className={`generalDataContent ${acquisition && 'withData'}`}>
+      <div className={`generalDataContent ${lore ? 'withData' : ''}`}>
         {(isAuthorized && GetCurrentUserPrivileges.isObjectEdit() && editingModeState !== 'INACTIVE') ?
           <MDEditor
-            value={formObjectData?.Acquisition ?? ''}
-            onChange={(value) => dispatch(updateEditableFormObjectData({ Acquisition: value ?? '' }))}
+            value={formObjectData?.Lore ?? ''}
+            onChange={(value) => dispatch(updateEditableFormObjectData({ Lore: value ?? '' }))}
             className="markdownEditor"
             commands={[
               commands.bold,
               commands.italic,
               commands.strikethrough,
               commands.divider,
-              // commands.link,
-              commands.unorderedListCommand,
-              commands.divider,
               commands.quote,
             ]}
             preview="edit"
           />
           :
-          acquisition && <StyledMarkdown>{acquisition}</StyledMarkdown>
+          lore && <StyledMarkdown>{lore}</StyledMarkdown>
         }
       </div>
     </div>
   );
 };
 
-export default ObjectAcquisitionComponent;
+export default ObjectStoryComponent;

@@ -58,8 +58,8 @@ const SinglePropUnit = ({ propUnits }: { propUnits: Record<string, string>[] }) 
   return (
     <>
       {propUnits && propUnits.map((propUnit: Record<string, string>, index) => (
-        <div className="defUnitContainer">
-          <div key={index} className="defPropUnit">
+        <div key={index} className="defUnitContainer">
+          <div className="defPropUnit">
             {Object.entries(propUnit).length === 1 ? (
               <>
                 <div className="propTitle">
@@ -76,8 +76,8 @@ const SinglePropUnit = ({ propUnits }: { propUnits: Record<string, string>[] }) 
               <p>Missing...</p>
             )}
           </div>
-        </div>
-      ))}
+        </div>))
+      }
     </>
   );
 };

@@ -8,14 +8,14 @@ interface ObjectsState {
   objectsData: any[];
   filterTitleQuery: string | null;
   filterParamsList: FilterParams | null;
-  isFilterByCategory: boolean;
+  filterByCategory: string[] | null;
 }
 
 const initialState: ObjectsState = {
   objectsData: [],
   filterTitleQuery: null,
   filterParamsList: null,
-  isFilterByCategory: false
+  filterByCategory: null
 };
 
 const objectsSlice = createSlice({
@@ -31,8 +31,8 @@ const objectsSlice = createSlice({
     setFilterParamsList(state, action: PayloadAction<FilterParams | null>) {
       state.filterParamsList = action.payload;
     },
-    setIsFilterByCategory(state, action: PayloadAction<boolean>) {
-      state.isFilterByCategory = action.payload;
+    setFilterByCategory(state, action: PayloadAction<string[] | null>) {
+      state.filterByCategory = action.payload;
     }
   }
 });
@@ -41,7 +41,7 @@ export const {
   setObjectsData,
   setFilterTitleQuery,
   setFilterParamsList,
-  setIsFilterByCategory,
+  setFilterByCategory,
 } = objectsSlice.actions;
 
 export default objectsSlice.reducer;

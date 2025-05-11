@@ -1,12 +1,15 @@
 import { useEffect, useState } from "react";
 import "./ObjectsSearcher.scss"
 import CollapsibleWrapper from "@utilities/CollapsibleWrapper";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@ReduxStore/store";
 import { IObjectsCountList } from "@interfaces/IObjectsData";
+import { setFilterByCategory, setFilterParamsList, setObjectsData } from "@ReduxStore/Reducers/objects/objectsFilteredResult";
 
 const ObjectsSearcher = () => {
   const objectsCountList: IObjectsCountList = useSelector((state: RootState) => state.objectsCountList);
+
+  const dispatch = useDispatch();
 
   const [searchQuery, setSearchQuery] = useState<{ queryId: string, queryTitle: string }>({
     queryId: '',
@@ -16,7 +19,7 @@ const ObjectsSearcher = () => {
   const [titleIdSearchToggle, setTitleIdSearchToggle] = useState<"byTitle" | "byId">("byTitle");
   const [filterPanelToggle, setFilterPanelToggle] = useState(false);
 
-  const [selectOptions, setSelectOptions] = useState<{ value: string, label: string, disabled: boolean }[]>([{ value: 'none', label: 'None', disabled: true }]);
+  const [selectOptions, setSelectOptions] = useState<{ value: string, label: string, disabled: boolean }[]>([{ value: 'all', label: 'All', disabled: true }]);
   const [selectedOption, setSelectedOption] = useState<{ value: string, label: string } | null>(selectOptions[0]);
 
   useEffect(() => {
@@ -46,16 +49,41 @@ const ObjectsSearcher = () => {
   }, [objectsCountList]);
 
   const [isFilterActive, setIsFilterActive] = useState(false);
+
   useEffect(() => {
-    if (selectedOption?.value === selectOptions[0].value) {
-      setIsFilterActive(false);
+    const selectedValue = selectedOption?.value;
+    const hasParams = !!(searchQuery.queryId || searchQuery.queryTitle);
+    const hasCategory = !!(selectedValue && selectedValue !== 'all');
+
+    // dispatch(setObjectsData(
+    //   ObjectsService.getObjectsByCategories("Items")
+    // ));
+
+
+    if (hasParams) {
+      const filterParams: { ID?: number; Title?: string } = {};
+
+      if (searchQuery.queryId) {
+        filterParams.ID = Number(searchQuery.queryId);
+      }
+
+      if (searchQuery.queryTitle) {
+        filterParams.Title = searchQuery.queryTitle;
+      }
+
+      dispatch(setFilterParamsList(filterParams));
     } else {
-      setIsFilterActive(true);
+      dispatch(setFilterParamsList(null));
     }
-  }, [selectedOption]);
-  const handleResetFilter = () => {
-    setSelectedOption(selectOptions[0]);
-  };
+
+    if (hasCategory) {
+      dispatch(setFilterByCategory([String(selectedValue)]));
+    } else {
+      dispatch(setFilterByCategory([]));
+    }
+
+    setIsFilterActive(hasCategory);
+  }, [selectedOption, searchQuery]);
 
   return (
     <div className="OBJECTS_SEARCHER">
@@ -101,8 +129,6 @@ const ObjectsSearcher = () => {
             <label>{titleIdSearchToggle === "byTitle" ? 'Title' : 'ID'}</label>
           </button>
         </div>
-
-
         <button
           className={`FilterPanelToggle ${filterPanelToggle ? 'active' : ''}`}
           onClick={() => setFilterPanelToggle(prev => !prev)}
@@ -156,7 +182,7 @@ const ObjectsSearcher = () => {
           </div>
           <button
             className="ResetFilter"
-            onClick={handleResetFilter}
+            onClick={() => setSelectedOption(selectOptions[0])}
             disabled={!isFilterActive}
           >Reset</button>
         </div>

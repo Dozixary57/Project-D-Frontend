@@ -1,9 +1,11 @@
 import { useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { store, RootState } from "../../../ReduxStore/store";
+import { store, RootState } from "@ReduxStore/store";
 import "./ObjectNavigation.scss"
 import { handleEditChanges } from '@tools/HandleEditChanges';
+import { selectEditingState } from '@ReduxStore/Reducers/editing/actions/editingModeSelectors';
+import { EditingModeState, setEditingState } from '@ReduxStore/Reducers/editing/actions/editingMode';
 
 export const DataForNavigation = () => {
   const location = useLocation();
@@ -41,9 +43,8 @@ export const PrevButton = () => {
   const navigate = useNavigate();
   const titles = useSelector((state: RootState) => state.navigationItemsList);
   const currentIndex = useSelector((state: RootState) => state.itemObjectsNavigationIndex);
-  const editingState = useSelector((state: RootState) => state.editingState);
+  const editingModeState = useSelector(selectEditingState);
   const dispatch = useDispatch();
-
 
   const prevNavigation = () => {
 
@@ -63,8 +64,8 @@ export const PrevButton = () => {
   if (titles.length >= 2) {
     return <button
       onClick={() => {
-        if (editingState === 'INACTIVE') { dispatch({ type: 'START_EDITING' }); prevNavigation() }
-        else if (editingState === 'ACTIVE') { dispatch({ type: 'STOP_EDITING' }); prevNavigation(); }
+        if (editingModeState === 'INACTIVE') { prevNavigation() }
+        else if (editingModeState === 'ACTIVE') { dispatch(setEditingState(EditingModeState.INACTIVE)); prevNavigation(); }
         else if (handleEditChanges(dispatch).exitEditingModeWithConfirmation()) setTimeout(() => prevNavigation(), 0);
       }}
       className="ObjectNavigationButtons ObjectNavigationLeftButton"
@@ -78,7 +79,7 @@ export const NextButton = () => {
   const navigate = useNavigate();
   const titles = useSelector((state: RootState) => state.navigationItemsList);
   const currentIndex = useSelector((state: RootState) => state.itemObjectsNavigationIndex);
-  const editingState = useSelector((state: RootState) => state.editingState);
+  const editingModeState = useSelector(selectEditingState);
   const dispatch = useDispatch();
 
   const nextNavigation = () => {
@@ -102,8 +103,8 @@ export const NextButton = () => {
   if (titles.length >= 2) {
     return <button
       onClick={() => {
-        if (editingState === 'INACTIVE') { dispatch({ type: 'START_EDITING' }); nextNavigation() }
-        else if (editingState === 'ACTIVE') { dispatch({ type: 'STOP_EDITING' }); nextNavigation(); }
+        if (editingModeState === 'INACTIVE') { nextNavigation() }
+        else if (editingModeState === 'ACTIVE') { dispatch(setEditingState(EditingModeState.INACTIVE)); nextNavigation(); }
         else if (handleEditChanges(dispatch).exitEditingModeWithConfirmation()) setTimeout(() => nextNavigation(), 0);
       }}
       className="ObjectNavigationButtons ObjectNavigationRightButton"
@@ -111,5 +112,4 @@ export const NextButton = () => {
   } else {
     return (<div style={{ width: '2em' }}></div>)
   }
-
 };

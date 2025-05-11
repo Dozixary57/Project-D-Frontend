@@ -18,7 +18,6 @@ const ObjectsService = {
   },
   getObjectByTitle: async (collection: string, titleId: string | undefined) => {
     try {
-      console.log(`${collection} - ${titleId}`)
       await axios.get(`/${collection}/${titleId}`).then((res) => {
         if (res.data) {
           store.dispatch({
@@ -35,7 +34,7 @@ const ObjectsService = {
       })
     }
   },
-  updateObjectData: async (data: IObjectInfo | null) => {
+  updateObjectData: async (collection: string, data: IObjectInfo | null) => {
     if (!data) return;
 
     store.dispatch({
@@ -48,9 +47,8 @@ const ObjectsService = {
       // 'Authorization': 'Bearer ' + GetCurrentUserAccessTokenString()
     };
     try {
-      await axios.put(`${process.env.REACT_APP_DATA_API}/Object/Update`, data, { headers, timeout: 5000 })
+      await axios.put(`${process.env.REACT_APP_DATA_API}/${collection}/Update`, data, { headers, timeout: 5000 })
         .then((res) => {
-          handleEditChanges(store.dispatch).resetAllStatesByDefault();
           if (res.data) {
             store.dispatch({
               type: 'OBJECT_INFO_DATA',
@@ -97,6 +95,19 @@ const ObjectsService = {
         type: 'IS_LOADING_STATE',
         payload: false
       })
+    }
+  },
+  getObjectsSelectCategories: async () => {
+    try {
+      let result: { value: string, label: string }[] | null = null;
+      await axios.get(`${process.env.REACT_APP_DATA_API}/Objects/SelectCategories`)
+        .then((res) => {
+          result = res.data;
+        });
+      return result;
+    } catch (error) {
+      console.log(error);
+      return null;
     }
   },
 }

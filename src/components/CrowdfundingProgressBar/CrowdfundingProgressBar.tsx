@@ -101,7 +101,7 @@ export const CrowdfundingProgressBar: React.FC<CrowdfundingProgressBarProps> = (
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get("http://localhost:7000/Crowdfunding");
+        const response = await axios.get("http://localhost:5000/Crowdfunding");
         setCrowdfundingCurrentValue(response.data);
       } catch (error) {
         console.error(error);

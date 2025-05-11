@@ -12,13 +12,11 @@ import isLoadingState from "./Reducers/isLoadingState";
 import isAuthorized from "./Reducers/isAuthorized";
 import userPrivileges from "./Reducers/userPrivileges";
 import fileUploadErrors from "./Reducers/fileUploadErrors";
-import isEditingMode from "./Reducers/isEditingMode";
-import editingState from "./Reducers/editingState";
-import objectInfoPageEditingStates from "./Reducers/objectInfoPageEditingStates";
 import objectInfoData from "./Reducers/objectInfoData";
-import newObjectInfoData from "./Reducers/newObjectInfoData";
 import objectsCountList from "./Reducers/objectsCountList";
 import objectsFilteredResult from "./Reducers/objects/objectsFilteredResult";
+import editingMode from "./Reducers/editing/actions/editingMode";
+import formObjectData from "./Reducers/editing/data/formObjectData";
 
 export const rootReducer = combineReducers({
     itemObjectsNavigationIndex,
@@ -33,11 +31,9 @@ export const rootReducer = combineReducers({
     isAuthorized,
     userPrivileges,
     fileUploadErrors,
-    isEditingMode,
-    editingState,
-    objectInfoPageEditingStates,
     objectInfoData,
-    newObjectInfoData,
+    formObjectData,
     objectsCountList,
     objectsFilteredResult,
+    editingMode,
 });
