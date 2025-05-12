@@ -17,7 +17,7 @@ interface Segment {
 }
 
 let globalState: CrowdfundingState = {
-  current: 7527,
+  current: 0,
   final: 1000000,
   stages: [100000, 150000, 200000, 500000],
   stageGoal: [
@@ -60,26 +60,26 @@ const computeSegments = (stages: number[], final: number): Segment[] => {
 const getActiveSegmentInfo = (state = globalState) => {
   const { current, final, stages } = state;
   const segments = computeSegments(stages, final);
-  
+
   let activeIndex = segments.findIndex(({ end }) => current < end);
   if (activeIndex === -1) activeIndex = segments.length - 1;
-  
+
   const { start, end } = segments[activeIndex];
   const segmentLength = end - start;
   const relativeProgress = Math.max(0, Math.min(current - start, segmentLength));
   const progressPercent = (relativeProgress / segmentLength) * 100;
-  
+
   return { activeIndex, start, end, segmentLength, relativeProgress, progressPercent, segments };
 };
 
 const useSyncedState = <T,>(selector: (state: CrowdfundingState) => T, interval = 100): T => {
   const [value, setValue] = useState<T>(selector(globalState));
-  
+
   useEffect(() => {
     const intervalId = setInterval(() => setValue(selector(globalState)), interval);
     return () => clearInterval(intervalId);
   }, []);
-  
+
   return value;
 };
 
@@ -100,14 +100,14 @@ export const CrowdfundingProgressBar: React.FC<CrowdfundingProgressBarProps> = (
 
   useEffect(() => {
     const fetchData = async () => {
-      try {
-        const response = await axios.get("http://localhost:5000/Crowdfunding");
-        setCrowdfundingCurrentValue(response.data);
-      } catch (error) {
-        console.error(error);
-      }
+      const response = await axios.get("http://localhost:5000/Crowdfunding");
+      setCrowdfundingCurrentValue(response.data);
     };
+
     fetchData();
+
+    const intervalId = setInterval(fetchData, 5000);
+    return () => clearInterval(intervalId);
   }, []);
 
   useEffect(() => {
@@ -150,7 +150,7 @@ const CrowdfundingStageGoalTitle: React.FC = () => {
 
 const CrowdfundingStageGoalDescription: React.FC = () => {
   const { activeIndex } = useSyncedState(getActiveSegmentInfo, 1000);
-  const description = globalState.stageGoal[activeIndex]?.description ?? 
+  const description = globalState.stageGoal[activeIndex]?.description ??
     "Сбор средств на поддержку разработки игры и ее продвижение: покрытие затрат на производство, улучшение игрового процесса, тестирование, а также техническую и художественную составляющие. Независимо от текущего этапа разработки, ваше участие приближает к завершению создания проекта и выпуску качественного игрового продукта.";
   return <StyledMarkdown>{description}</StyledMarkdown>;
 };

@@ -1,0 +1,165 @@
+@import "~@_styles";
+
+.DONATION_PAGE {
+  @include BasePageTemplate;
+  margin: 6em 0 3em 0 !important;
+  height: 30em;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  .CrowdfundingElement {
+    @include WidthFlexibility60;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75em;
+
+    .CrowdfundingHeader {
+      box-sizing: border-box;
+      width: 100%;
+      color: white;
+      margin: 0;
+      text-align: center;
+      padding: 0.25em 0;
+      border-radius: 0.15em;
+      border: 0.05em solid rgba(white, 0.15);
+      box-shadow: 0 0 0.5em 0.25em rgba(0, 0, 0, 0.35);
+      background-color: rgba(black, 0.3);
+    }
+
+    .CrowdfundingDescription {
+      color: white;
+      text-align: justify;
+      padding: 0.75em;
+      border-radius: 0.2em;
+      border: 0.1em solid rgba(white, 0.15);
+      box-shadow: 0 0 0.5em 0.25em rgba(0, 0, 0, 0.35);
+      background-color: rgba(black, 0.3);
+
+      >h5 {
+        margin: 0;
+        font-size: 1em;
+      }
+
+      p {
+        @include TextFontByWidthFlexibility;
+      }
+    }
+
+    .NavButtons {
+      width: 100%;
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+      gap: 1em;
+
+      >a {
+        width: 100%;
+
+        >button {
+          width: 100%;
+          box-sizing: border-box;
+          color: white;
+          padding: 0.5em;
+          @include TextFontByWidthFlexibility;
+          font-family: 'F77 Minecraft', PressStart2P-Regular, 'Cascadia Mono', sans-serif;
+          border-radius: 0.2em;
+          outline: none;
+          border: 0.1em solid rgba(white, 0.15);
+          box-shadow: 0 0 0.5em 0.25em rgba(0, 0, 0, 0.35);
+          background-color: rgba(black, 0.3);
+          cursor: pointer;
+        }
+      }
+    }
+  }
+
+  .UserContribution {
+    margin: 2em 0;
+    @include WidthFlexibility60;
+    box-sizing: border-box;
+    color: #AAA;
+    text-align: center;
+    padding: 0.5em 0;
+    background-color: rgba(black, 0.15);
+  }
+
+  .MakeDonation {
+    @include WidthFlexibility60;
+    height: auto;
+
+    .ActionStatus {
+      margin: 0;
+      width: 100%;
+      color: transparent;
+      text-align: center;
+      padding: 0.5em 0;
+      font-size: 0.9em;
+
+      &.isProcessing {
+        color: #AAA;
+      }
+    }
+
+    .DonationInput {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: stretch;
+      gap: 0.5em;
+
+      >input {
+        width: 7em;
+        font-size: 1em;
+        color: #AAA;
+        text-align: center;
+        @include defaultFontFamily;
+        border: none;
+        border-radius: 0.05em;
+        outline: 0.1em solid rgba(white, 0.2);
+        background-color: rgba(black, 0.2);
+        transition: all 0.1s ease-in-out;
+
+        &:focus {
+          outline: 0.15em solid rgba(white, 0.5);
+        }
+      }
+
+      >button {
+        width: 100%;
+        @include defaultFontFamily;
+        font-size: 1em;
+        color: #AAA;
+        padding: 0.75em 0;
+        border-radius: 0.05em;
+        border: none;
+        background-color: rgba(white, 0.05);
+        transition: all 0.1s ease-in-out;
+
+        &:hover:not(:disabled) {
+          color: white;
+          background-color: rgba(white, 0.1);
+          cursor: pointer;
+        }
+
+        &:disabled {
+          background-color: rgba(black, 0.2);
+          cursor: not-allowed;
+        }
+      }
+    }
+
+    .DonationDescription {
+      margin: 0;
+      width: 100%;
+      color: #AAA;
+      font-size: 0.9em;
+      text-align: justify;
+      line-height: 1.25;
+      padding: 0.5em 0;
+    }
+  }
+}

@@ -52,7 +52,7 @@ export const GetCurrentUserAccessTokenString = (): string | null => {
   return token && token.length > 0 ? JSON.parse(token) : null;
 };
 
-const GetCurrentUserAccessTokenPayload = (): IAccount | null => {
+export const GetCurrentUserAccessTokenPayload = (): IAccount | null => {
   const tokenString = GetCurrentUserAccessTokenString();
   return tokenString ? jwtDecode<IAccount>(tokenString) : null;
 };

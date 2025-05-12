@@ -27,6 +27,7 @@ import ManagementFileModalWindow from '@components/ModalWindows/ManagementFileMo
 import UploadFileModalWindow from '@components/ModalWindows/UploadFileModalWindow';
 import ObjectsHubPage from '@pages/ObjectsHubPage/ObjectsHubPage';
 import ObjectsListPage from '@pages/ObjectsListPage/ObjectsListPage';
+import DonationPage from '@pages/DonationPage/DonationPage';
 
 function App() {
   const navigate = useNavigate();
@@ -67,6 +68,8 @@ function App() {
         <Route path="/Account/Profile" element={<AccountPage />} />
       }
 
+      <Route path="/Donation" element={<DonationPage />} />
+
       {isAuthorized
         && ["UserEdit", "UserDeletePreliminarily", "UserDeletePermanently", "UserCreate", "UserPrivilegesManaging", "UserStatusManaging"].some(privilege =>
           userPrivileges?.some(userPrivilege => userPrivilege.Title === privilege)
@@ -88,7 +91,6 @@ function App() {
             </Route>
           </>
         )}
-
     </Routes>
   )
 }

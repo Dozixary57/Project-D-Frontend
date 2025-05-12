@@ -1,8 +1,12 @@
 import { CrowdfundingProgressBar, CrowdfundingRoadmap, CrowdfundingStage, CrowdfundingStageGoal } from "@components/CrowdfundingProgressBar/CrowdfundingProgressBar";
 import { Link } from "react-router-dom";
 import style from "./CrowdfundingSection.module.scss";
+import { useSelector } from "react-redux";
+import { RootState } from "@ReduxStore/store";
 
 const CrowdfundingSection = ({ targetOfScroll }: { targetOfScroll: React.RefObject<HTMLDivElement> }) => {
+  const isAuthorized = useSelector((state: RootState) => state.isAuthorized);
+
   return (
     <div ref={targetOfScroll} className={style.CrowdfundingSection}>
       <div className={style.CrowdfundingElement}>
@@ -21,7 +25,7 @@ const CrowdfundingSection = ({ targetOfScroll }: { targetOfScroll: React.RefObje
           <Link to="/Home">
             <button>Home page</button>
           </Link>
-          <Link to="/Support">
+          <Link to={isAuthorized ? "/Donation" : "/Login"}>
             <button>Make a donation</button>
           </Link>
         </div>
