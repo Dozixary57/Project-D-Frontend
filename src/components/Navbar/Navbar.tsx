@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import Floater from 'react-floater';
 import { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
@@ -242,17 +243,19 @@ const AccountNavButton = ({ isMinimized = false, iconStyles }: { isMinimized?: b
 }
 
 export function Navbar() {
+  const { t } = useTranslation();
+
   const isAuthorized = useSelector((state: RootState) => state.isAuthorized);
   const [isOverflowing, setIsOverflowing] = useState(false);
 
-  const [navbarData] = useState<readonly INavbarData[]>([
+  const navbarData: readonly INavbarData[] = [
     {
-      title: "Home",
+      title: t("navbar.home"),
       icon: require('@images/HomeIcon.png'),
       link: "/Home",
     },
     {
-      title: "Content",
+      title: t("navbar.content"),
       icon: require('@images/ContentIcon.png'),
       link: "/Content",
       submenu: [
@@ -271,7 +274,7 @@ export function Navbar() {
       ]
     },
     {
-      title: "News",
+      title: t("navbar.news"),
       icon: require('@images/NewsIcon.png'),
       link: "/News",
       submenu: [
@@ -286,7 +289,7 @@ export function Navbar() {
       ]
     },
     {
-      title: "Receive",
+      title: t("navbar.receive"),
       icon: require('@images/ReceiveIcon.png'),
       link: "/Receive",
       submenu: [
@@ -300,7 +303,7 @@ export function Navbar() {
         },
       ]
     },
-  ]);
+  ];
 
   const handleNavbarResize = () => {
     if (window.innerWidth < 1145) {
@@ -362,7 +365,7 @@ export function Navbar() {
         />
         :
         <SingleNavButton
-          title="Login"
+          title={t("navbar.login")}
           icon={require('@images/AuthIcon.png')}
           link="/Login"
           isMinimized={isOverflowing}

@@ -1,6 +1,5 @@
 import { Helmet } from "react-helmet-async";
 import "./AccountPage.scss"
-import { url } from "inspector";
 import { Link } from "react-router-dom";
 import { Navbar } from "@components/Navbar/Navbar";
 import { GetUsername } from "@tools/GetUserData";
@@ -26,18 +25,17 @@ const AccountPage = () => {
                             </div>
                             <div className="ProfileEdit">
                                 <button>
-                                    <img src={require('../images/EditingIcon.png')} />
+                                    <img src={require('@images/EditingIcon.png')} />
                                 </button>
                             </div>
                         </div>
                         <p className="ProfileStatus">Title</p>
-                        <img src={require('../images/ThePlagueDoctor.png')} />
-                        {/* <img src={require('../images/ProfileIconFrame.png')} /> */}
+                        <img src={require('@images/ThePlagueDoctor.png')} />
                     </div>
                     <div className="AccountSettings">
                         <Link to="/AccountSettings">
                             <button>
-                                <img src={require('../images/SettingsIcon.png')} />
+                                <img src={require('@images/SettingsIcon.png')} />
                             </button>
                         </Link>
                     </div>

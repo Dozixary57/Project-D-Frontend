@@ -1,0 +1,139 @@
+{
+  "navbar": {
+    "home": "Home",
+    "content": "Content",
+    "news": "News",
+    "receive": "Receive",
+    "login": "Login"
+  },
+  "login": {
+    "title": "Log In",
+    "usernameOrEmail": "Username or Email",
+    "password": "Password",
+    "forgotPassword": "Forgot password?",
+    "button": "Log In",
+    "signup": "Sign Up to account"
+  },
+  "signup": {
+    "title": "Sign Up",
+    "username": "Username",
+    "email": "Email",
+    "password": "Password",
+    "confirmPassword": "Confirm Password",
+    "dateOfBirth": "Date of Birth",
+    "button": "Sign Up",
+    "login": "Log in to account",
+    "agreement": "I agree to the terms of use"
+  },
+  "projectInfo": {
+    "aboutTheProject": "About the Project D",
+    "projectDescription": "The project is a crowdfunding-driven voxel-based open-world video game, where each playthrough generates a distinct environment thanks to procedural generation. Players explore diverse locations, gather resources, craft items, build structures, and upgrade a modular suit, tailoring their gameplay experience. The game seamlessly blends survival, creativity, and combat mechanics. Through crowdfunding, the community plays an active role in shaping the game — from voting on features to submitting suggestions — making the project a dynamic, collaborative venture between developers and players.",
+    "projectAspects": {
+      "procedural": {
+        "title": "Procedurally Generated Voxel World",
+        "description": "Every new session unfolds within a unique setting featuring randomly crafted terrains, biomes, and structures. The voxel system enables players to reshape and reconstruct the environment freely."
+      },
+      "crafting": {
+        "title": "Open Crafting and Building",
+        "description": "A flexible crafting and construction system allows players to combine resources and create anything — from simple shelters to intricate machinery — without relying on predefined templates."
+      },
+      "modularSuit": {
+        "title": "Modular Suit Enhancements",
+        "description": "Unlockable modules grant access to expanded capabilities such as enhanced defense, special abilities, increased inventory space, and access to previously unreachable zones."
+      },
+      "genreFusion": {
+        "title": "Genre Fusion in an Open World",
+        "description": "Survival, exploration, construction, and combat elements are harmoniously integrated into a dynamic setting filled with weather systems, threats, and hidden opportunities."
+      },
+      "communityDriven": {
+        "title": "Community-Driven Development",
+        "description": "Players actively contribute to the project’s evolution by submitting ideas, voting on new features, and gaining early access to updates, helping shape the direction of development."
+      },
+      "longTerm": {
+        "title": "Long-Term Support and Evolution",
+        "description": "Regular updates will introduce new content, expand gameplay systems, and incorporate community feedback, ensuring the game continues to grow and evolve over time."
+      }
+    }
+  },
+  "objectInfo": {
+    "sections": {
+      "description": "Description",
+      "acquisition": "Acquisition",
+      "lore": "Story",
+      "media": "Media",
+      "sounds": "Sounds",
+      "images": "Images",
+      "videos": "Videos",
+      "type": "Type",
+      "class": "Class",
+      "characteristics": "Characteristics"
+    },
+    "category": {
+      "items": "Item",
+      "creatures": "Creature",
+      "locations": "Location",
+      "blocks": "Block",
+      "mechanics": "Mechanic"
+    }
+  },
+  "crowdfunding": {
+    "title": "Support the project",
+    "stages": {
+      "stage1": {
+        "title": "Stage I — Prototyping",
+        "description": "The goal of this funding phase is to create a technical prototype. This includes building out the core gameplay mechanics, outlining basic interaction logic, and forming a foundational version of the project for initial testing and concept validation."
+      },
+      "stage2": {
+        "title": "Stage II — Pre-Production",
+        "description": "Funds raised during this stage will support preparations for full-scale development: producing documented design decisions, developing an initial visual style, and building essential tools such as a basic level editor to streamline future production."
+      },
+      "stage3": {
+        "title": "Stage III — Playable Demo",
+        "description": "This phase aims to deliver a playable demo. Funding will be used to develop a vertical slice — a limited yet functional segment of the game including visuals, audio, and a basic UI — to showcase the atmosphere and core gameplay elements."
+      },
+      "stage4": {
+        "title": "Stage IV — Content Expansion",
+        "description": "The objective here is to expand the game’s content. The funding will help add new levels and characters, enhance graphics, enrich the soundtrack and interface, and implement more complex gameplay systems and interactions."
+      },
+      "stage5": {
+        "title": "Stage V — Full Release Version",
+        "description": "The final milestone is the completion and release of the full version of the game. The budget will cover polishing the game, bug fixing, integrating all components, performance optimization, and preparing for distribution on target platforms."
+      }
+    },
+    "yourContribution": "Your contribution:",
+    "donateViaYooMoney": "Donate via YooMoney",
+    "makeAnotherDonation": "Make another donation via YooMoney",
+    "loginToDonate": "Login to donate",
+    "totalFundsRaised": "Total funds raised:",
+    "note": "Note: The donation amount must be between 100 and 100000 p. A 3.5% commission fee will be added to your donation amount."
+  },
+  "fag": {
+    "title": "FAQ",
+    "questions": {
+      "q1": {
+        "title": "What is crowdfunding for game development?",
+        "answer": ""
+      },
+      "q2": {
+        "title": "How can I contribute to the crowdfunding campaign?",
+        "answer": ""
+      },
+      "q3": {
+        "title": "What kind of rewards will I receive for contributing?",
+        "answer": ""
+      },
+      "q4": {
+        "title": "How will the collected funds be used?",
+        "answer": ""
+      },
+      "q5": {
+        "title": "Can I get a refund if I change my mind?",
+        "answer": ""
+      },
+      "q6": {
+        "title": "What happens if the funding goal is not reached?",
+        "answer": ""
+      }
+    }
+  }
+}

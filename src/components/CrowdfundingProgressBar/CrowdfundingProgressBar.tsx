@@ -3,6 +3,9 @@ import "./CrowdfundingProgressBar.scss";
 import { useState, useEffect } from "react";
 import StyledMarkdown from "@components/StyledMarkdown";
 import axios from "axios";
+import { t } from "i18next";
+import { useTranslation } from "react-i18next";
+
 
 interface CrowdfundingState {
   current: number;
@@ -22,27 +25,26 @@ let globalState: CrowdfundingState = {
   stages: [100000, 150000, 200000, 500000],
   stageGoal: [
     {
-      title: 'Stage I — Prototyping',
-      description: 'The goal of this funding phase is to create a technical prototype. This includes building out the core gameplay mechanics, outlining basic interaction logic, and forming a foundational version of the project for initial testing and concept validation.',
+      title: t('crowdfunding.stages.stage1.title'),
+      description: t('crowdfunding.stages.stage1.description'),
     },
     {
-      title: 'Stage II — Pre-Production',
-      description: 'Funds raised during this stage will support preparations for full-scale development: producing documented design decisions, developing an initial visual style, and building essential tools such as a basic level editor to streamline future production.',
+      title: t('crowdfunding.stages.stage2.title'),
+      description: t('crowdfunding.stages.stage2.description'),
     },
     {
-      title: 'Stage III — Playable Demo',
-      description: 'This phase aims to deliver a playable demo. Funding will be used to develop a vertical slice — a limited yet functional segment of the game including visuals, audio, and a basic UI — to showcase the atmosphere and core gameplay elements.',
+      title: t('crowdfunding.stages.stage3.title'),
+      description: t('crowdfunding.stages.stage3.description'),
     },
     {
-      title: 'Stage IV — Content Expansion',
-      description: 'The objective here is to expand the game’s content. The funding will help add new levels and characters, enhance graphics, enrich the soundtrack and interface, and implement more complex gameplay systems and interactions.',
+      title: t('crowdfunding.stages.stage4.title'),
+      description: t('crowdfunding.stages.stage4.description'),
     },
     {
-      title: 'Stage V — Full Release Version',
-      description: 'The final milestone is the completion and release of the full version of the game. The budget will cover polishing the game, bug fixing, integrating all components, performance optimization, and preparing for distribution on target platforms.',
+      title: t('crowdfunding.stages.stage5.title'),
+      description: t('crowdfunding.stages.stage5.description'),
     }
   ]
-
 };
 
 const updateGlobalState = (newState: Partial<CrowdfundingState>) => {
@@ -100,8 +102,13 @@ export const CrowdfundingProgressBar: React.FC<CrowdfundingProgressBarProps> = (
 
   useEffect(() => {
     const fetchData = async () => {
-      const response = await axios.get("http://localhost:5000/Crowdfunding");
-      setCrowdfundingCurrentValue(response.data);
+      try {
+        const response = await axios.get("http://localhost:5000/Crowdfunding");
+        setCrowdfundingCurrentValue(response.data);
+      } catch (error) {
+        console.error("Error fetching crowdfunding data:", error);
+        setCrowdfundingCurrentValue(undefined);
+      }
     };
 
     fetchData();
@@ -190,6 +197,8 @@ export const CrowdfundingRoadmap: React.FC = () => {
 };
 
 export const CrowdfundingStage: React.FC = () => {
+  const { t } = useTranslation();
+
   const state = useSyncedState(() => globalState);
   const { activeIndex, relativeProgress, progressPercent, segmentLength } = getActiveSegmentInfo(state);
 
@@ -210,7 +219,7 @@ export const CrowdfundingStage: React.FC = () => {
         </div>
       </div>
       <div className="CurrentValue">
-        <h4>Total funds raised:</h4>
+        <h4>{t("crowdfunding.totalFundsRaised")}</h4>
         <p>{state.current.toLocaleString("ru")} p.</p>
       </div>
     </div>

@@ -1,6 +1,6 @@
-@import "../styles";
+﻿@import "~@_styles";
 
-.SIGN_UP_PAGE {
+.LOG_IN_PAGE {
   width: 100%;
   height: 100vh;
   display: flex;
@@ -54,7 +54,6 @@
         }
       }
       
-
       .formFields {
         display: flex;
         flex-direction: column;
@@ -89,14 +88,6 @@
               pointer-events: none;
               transition: all 0.1s ease-in-out;
     
-              > span {
-                position: absolute;
-                color: red;
-                padding-left: 0.2em;
-                margin-top: -0.02em;
-                margin-left: 0.1em;
-                transform: rotate(-50deg);
-              }
             }
     
             > input {
@@ -137,6 +128,21 @@
               filter: invert(71%) sepia(1%) saturate(1280%) hue-rotate(44deg) brightness(97%) contrast(90%);
             }
           }  
+        }
+        .RestoreAccount {
+          text-decoration: none;
+          width: 100%;
+          justify-content: center;
+          display: flex;
+          padding: 0.5em 0;
+
+          > p {
+            width: fit-content;
+            margin: 0;
+            padding: 0.2em 0.5em;
+            border-radius: 0.2em;
+            background-color: rgba(white, 0.025);
+          }
         }
         .dataSubmit {
           width: 100%;
@@ -246,10 +252,10 @@
 }
 
 .FilterOptionOn {
-  background: url("../images/CheckboxOnIcon.png") no-repeat center;
+  background: url("~@images/CheckboxOnIcon.png") no-repeat center;
   background-size: cover;
 }
 .FilterOptionOff {
-  background: url("../images/CheckboxOffIcon.png") no-repeat center;
+  background: url("~@images/CheckboxOffIcon.png") no-repeat center;
   background-size: cover;
 }

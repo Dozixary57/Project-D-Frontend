@@ -15,15 +15,16 @@ import useNavigationBlock from "@tools/useNavigationBlock";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState, store } from "ReduxStore/store";
 import ObjectLoreComponent from "./elements/ObjectLoreComponent";
-import { handleEditChanges } from "@tools/HandleEditChanges";
 import ObjectAcquisitionComponent from "./elements/ObjectAcquisitionComponent";
 import { usePenultimateUrlSegment } from "@utilities/useLastUrlSegment";
 import ObjectsService from "@services/ObjectsService";
 import { selectEditingFlags, selectEditingState } from "@ReduxStore/Reducers/editing/actions/editingModeSelectors";
-import { EditingModeState, setEditingModeFlag, setEditingState } from "@ReduxStore/Reducers/editing/actions/editingMode";
 import { setFormObjectData } from "@ReduxStore/Reducers/editing/data/formObjectData";
+import { useTranslation } from 'react-i18next';
 
 const ObjectInfoPage = () => {
+    const { t } = useTranslation();
+
   const penultimateSegment = usePenultimateUrlSegment();
 
   const { titleId } = useParams<{ titleId: string }>();
@@ -81,7 +82,7 @@ const ObjectInfoPage = () => {
                 <ObjectLoreComponent lore={objectInfoData.Lore ?? ''} />
 
                 <div className={`${style.mediaData} ${style.section}`}>
-                  <h2 className={style.generalDataHeader} onClick={() => dispatch(setEditingState(EditingModeState.INACTIVE))}>Media</h2>
+                  <h2 className={style.generalDataHeader}>{t('objectInfo.sections.media')}</h2>
                   <div className={style.generalDataContent}>
                     <SoundsTabContent data={objectInfoData.Media?.Sounds ?? []} />
                     <hr className={style.sectionSeparator} />

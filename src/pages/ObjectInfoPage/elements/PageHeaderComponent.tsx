@@ -11,8 +11,11 @@ import { updateEditableFormObjectData } from '@ReduxStore/Reducers/editing/data/
 import { hasTextMeaningfulChange } from '@tools/EditingDataComparer';
 import StyledSelector from '@components/StyledSelector/StyledSelector';
 import ObjectsService from '@services/ObjectsService';
+import { useTranslation } from 'react-i18next';
 
 const PageHeaderComponent = ({ title, category }: { title: string, category?: string }) => {
+  const { t } = useTranslation();
+
   const navigate = useNavigate();
 
   const isAuthorized = useSelector((state: RootState) => state.isAuthorized);
@@ -151,7 +154,8 @@ const PageHeaderComponent = ({ title, category }: { title: string, category?: st
             </button>
           </>
           :
-          <p>{category ? (category.endsWith('s') ? category.slice(0, -1) : category) : ''}</p>
+          // <p>{category ? (category.endsWith('s') ? category.slice(0, -1) : category) : ''}</p>
+          <p>{category ? t(`objectInfo.category.${category.toLowerCase()}`) : ''}</p>
         }
       </div>
 

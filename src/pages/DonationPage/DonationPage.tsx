@@ -8,8 +8,11 @@ import style from "./DonationPage.module.scss";
 import { useSelector } from "react-redux";
 import { RootState } from "@ReduxStore/store";
 import PaymentService from "@services/PaymentService";
+import { useTranslation } from "react-i18next";
 
 const DonationPage = () => {
+  const { t } = useTranslation();
+
   const navigate = useNavigate();
   const isAuthorized = useSelector((state: RootState) => state.isAuthorized);
 
@@ -93,7 +96,7 @@ const DonationPage = () => {
       <Navbar />
       <main className={style.DONATION_PAGE}>
         <div className={style.CrowdfundingElement}>
-          <h3 className={style.CrowdfundingHeader}>Support the project</h3>
+          <h3 className={style.CrowdfundingHeader}>{t('crowdfunding.title')}</h3>
           <div className={style.CrowdfundingDescription}>
             <h5>
               <CrowdfundingStageGoal.Title />
@@ -105,7 +108,7 @@ const DonationPage = () => {
           <CrowdfundingRoadmap />
           <CrowdfundingStage />
         </div>
-        {userContribution > 0 && <p className={style.UserContribution}>Your contribution: {userContribution.toLocaleString('ru-RU')} RUB</p>}
+        {userContribution > 0 && <p className={style.UserContribution}>{t('crowdfunding.yourContribution')} {userContribution.toLocaleString('ru-RU')} руб.</p>}
         <div className={style.MakeDonation}>
           <p className={`${style.ActionStatus} ${isPaymentProcessing || isPaymentSuccessful ? style.isProcessing : ''}`}>
             {isPaymentSuccessful ? "Donation is successful!" : isPaymentProcessing ? "Donation is pending..." : ""}
@@ -148,11 +151,11 @@ const DonationPage = () => {
               onClick={() => { if (isAuthorized) { handlePayment(); } else { navigate('/Login'); } }}
               disabled={isPaymentProcessing}
             >
-              {!isAuthorized ? "Login to donate" : isPaymentSuccessful ? "Make another donation via YooKassa" : "Donation via YooKassa"}
+              {!isAuthorized ? t('crowdfunding.loginToDonate') : isPaymentSuccessful ? t('crowdfunding.makeAnotherDonation') : t('crowdfunding.donateViaYooMoney')}
             </button>
           </div>
           <p className={style.DonationDescription}>
-            Note: The donation amount must be between 100 and 100000 p. A 3.5% commission fee will be added to your donation amount.
+            {t('crowdfunding.note')}
           </p>
         </div>
       </main>

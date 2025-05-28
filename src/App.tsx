@@ -1,20 +1,16 @@
 ﻿import React, { useEffect, useState } from 'react';
 import { Route, Routes, useLocation, useNavigate } from 'react-router';
-import { AboutPage } from '@pages/AboutPage';
-import { AccountPage } from '@pages/AccountPage';
-import { LoginPage } from '@pages/LoginPage';
+import { AccountPage } from '@pages/AccountPage/AccountPage';
+import { LoginPage } from '@pages/LoginPage/LoginPage';
 import { HomePage } from '@pages/HomePage/HomePage';
-import { NewsPage } from '@pages/NewsPage';
-import { NowherePage } from '@pages/NowherePage';
+import { NowherePage } from '@pages/NowherePage/NowherePage';
 import ObjectInfoPage from '@pages/ObjectInfoPage/ObjectInfoPage';
-import { ReceivePage } from '@pages/ReceivePage';
-import { TestPage } from '@pages/TESTpage';
-import { Spoiler } from '@pages/Teaser';
-import { AgreementsPage } from "@pages/AgreementsPage";
-import { SingupPage } from "@pages/SignupPage";
+import { ReceivePage } from '@pages/ReceivePage/ReceivePage';
+import { AgreementsPage } from "@pages/AgreementsPage/AgreementsPage";
+import { SingupPage } from "@pages/SignupPage/SignupPage";
 import { IntroductionPage } from "@pages/IntroductionPage/IntroductionPage";
-import { NewsFeedPage } from '@pages/NewsFeedPage';
-import { NewsOverlay } from '@pages/NewsOverlay';
+import { NewsFeedPage } from '@pages/NewsFeedPage/NewsFeedPage';
+import { NewsOverlay } from '@pages/NewsFeedPage/elements/NewsOverlay';
 import AuthService from '@services/authService';
 import { RootState } from './ReduxStore/store';
 import { useSelector } from 'react-redux';
@@ -58,11 +54,8 @@ function App() {
       <Route path="/Receive" element={<ReceivePage />} />
       <Route path="/Login" element={<LoginPage />} />
       <Route path="/Signup" element={<SingupPage />} />
-      <Route path="/About" element={<AboutPage />} />
       <Route path="/Agreements" element={<AgreementsPage />} />
       <Route path="*" element={<NowherePage />} />
-      <Route path="/TEST" element={<TestPage />} />
-      <Route path="/📦" element={<Spoiler />} />
 
       {isAuthorized &&
         <Route path="/Account/Profile" element={<AccountPage />} />

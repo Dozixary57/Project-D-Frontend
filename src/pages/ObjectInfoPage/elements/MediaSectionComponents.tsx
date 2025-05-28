@@ -1,9 +1,12 @@
 import { useEffect, useRef, useState } from "react";
-import StyledMarkdown from "../../../components/StyledMarkdown";
+import StyledMarkdown from "@components/StyledMarkdown";
 import style from "./MediaSectionComponents.module.scss";
 import { IMediaUnit } from '@interfaces/IObjectsData';
+import { useTranslation } from 'react-i18next';
 
 const SoundsTabContent = ({ data }: { data: IMediaUnit[] }) => {
+  const { t } = useTranslation();
+
   const [activeTab, setActiveTab] = useState(0);
 
   const mediaListRef = useRef<HTMLDivElement | null>(null);
@@ -21,7 +24,7 @@ const SoundsTabContent = ({ data }: { data: IMediaUnit[] }) => {
   if (data && data.length > 0) {
     return (
       <div className={style.sectionOfMedia}>
-        <h3 className={style.sectionHeader}>Sounds</h3>
+        <h3 className={style.sectionHeader}>{t('objectInfo.sections.sounds')}</h3>
         <div className={`${style.sectionContent} ${style.soundsSection}`}>
           <div
             ref={mediaListRef}
@@ -69,6 +72,8 @@ const SoundsTabContent = ({ data }: { data: IMediaUnit[] }) => {
 };
 
 const ImagesAndVideosTabContent = ({ data, title = "Image" }: { data: IMediaUnit[], title?: string }) => {
+    const { t } = useTranslation();
+
   const [activeTab, setActiveTab] = useState(0);
 
   const showcaseRef = useRef<HTMLDivElement | null>(null);
@@ -104,7 +109,7 @@ const ImagesAndVideosTabContent = ({ data, title = "Image" }: { data: IMediaUnit
   if (data && data.length > 0) {
     return (
       <div className={style.sectionOfMedia}>
-        <h3 className={style.sectionHeader}>{title[0].toUpperCase() + title.slice(1)}</h3>
+        <h3 className={style.sectionHeader}>{t(`objectInfo.sections.${title.toLowerCase()}`)}</h3>
         <div className={`${style.sectionContent} ${style.imagesSection}`}>
           <div ref={showcaseRef} className={`${style.mediaList} ${style.imagesAndVideosList}`}>
             {data.map((image: IMediaUnit, index: number) => (

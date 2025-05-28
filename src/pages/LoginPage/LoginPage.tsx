@@ -1,8 +1,9 @@
 import { Helmet } from "react-helmet-async";
+import { useTranslation } from 'react-i18next';
 import { Navbar } from "@components/Navbar/Navbar";
 import "./LoginPage.scss"
 import { useEffect, useState } from "react";
-import authService from "../backend/services/authService";
+import authService from "@services/authService";
 import { Link, useNavigate } from "react-router-dom";
 // import { GoogleReCaptcha } from "react-google-recaptcha-v3";
 
@@ -12,6 +13,7 @@ interface IErrorMessages {
 }
 
 const LoginPage = () => {
+  const { t } = useTranslation();
   //  const [captchaToken, setCaptchaToken] = useState('');
   const [authMessage, setAuthMessage] = useState<string | null>(null);
 
@@ -108,38 +110,38 @@ const LoginPage = () => {
         ) : (
           <form onSubmit={handleSubmit}>
             <fieldset>
-              <legend>Log In</legend>
+              <legend>{t('login.title')}</legend>
               <div className="formFields">
                 <div className="dataField">
                   <p style={{ maxHeight: fieldErrorMessages?.usernameEmailErrMsg ? '2em' : '0' }}>{fieldErrorMessages?.usernameEmailErrMsg}</p>
                   <div className="inputField">
                     <input type="text" name="username" value={usernameEmail} onChange={(event) => setUsernameEmail(event.target.value)} placeholder=" " />
-                    <label>Username or Email</label>
+                    <label>{t('login.usernameOrEmail')}</label>
                   </div>
                 </div>
                 <div className="dataField">
                   <p style={{ maxHeight: fieldErrorMessages?.passwordErrMsg ? '2em' : '0' }}>{fieldErrorMessages?.passwordErrMsg}</p>
                   <div className="inputField">
                     <input type="password" name="password" value={password} onChange={(event) => setPassword(event.target.value)} placeholder=" " />
-                    <label>Password</label>
+                    <label>{t('login.password')}</label>
                   </div>
                 </div>
                 {/* <GoogleReCaptcha onVerify={token => setCaptchaToken(token)} /> */}
                 <div className="dataSubmit">
-                  <input type="submit" value="Log In" />
+                  <input type="submit" value={t('login.button')} />
                 </div>
                 <Link to="/Restore_account" className="RestoreAccount">
-                  <p>Forgot password?</p>
+                  <p>{t('login.forgotPassword')}</p>
                 </Link>
-                <hr />
+                {/* <hr />
                 <div className="externalAuthorization">
                   <button type="button" className="gAuthorization">
-                    <img src={require("../images/Google.png")} alt="G" />
+                    <img src={require("@images/Google.png")} alt="G" />
                   </button>
-                </div>
+                </div> */}
                 <hr />
                 <Link to="/Signup">
-                  Sign Up to account
+                  {t('login.signup')}
                 </Link>
               </div>
             </fieldset>

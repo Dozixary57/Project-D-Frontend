@@ -1,43 +1,49 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./AboutTheProjectSection.scss"
-import { title } from "process";
-
+import { useTranslation } from 'react-i18next';
+import i18n from "i18n";
 
 const AboutTheProjectSection = () => {
+  const { t } = useTranslation();
+
   const [projectInfo, setProjectInfo] = useState<string>(
-    "The project is a crowdfunding-driven voxel-based open-world video game, where each playthrough generates a distinct environment thanks to procedural generation. Players explore diverse locations, gather resources, craft items, build structures, and upgrade a modular suit, tailoring their gameplay experience. The game seamlessly blends survival, creativity, and combat mechanics. Through crowdfunding, the community plays an active role in shaping the game — from voting on features to submitting suggestions — making the project a dynamic, collaborative venture between developers and players."
+    t('projectInfo.projectDescription')
   );
 
-  const [projectAspects, setProjectAspects] = useState<{ title: string, description: string }[]>([
+  useEffect(() => {
+    setProjectInfo(t('projectInfo.projectDescription'));
+  }, [i18n.language]);
+
+  const projectAspects = [
     {
-      title: "Procedurally Generated Voxel World",
-      description: "Every new session unfolds within a unique setting featuring randomly crafted terrains, biomes, and structures. The voxel system enables players to reshape and reconstruct the environment freely."
+      title: t("projectInfo.projectAspects.procedural.title"),
+      description: t("projectInfo.projectAspects.procedural.description")
     },
     {
-      title: "Open Crafting and Building",
-      description: "A flexible crafting and construction system allows players to combine resources and create anything — from simple shelters to intricate machinery — without relying on predefined templates."
+      title: t("projectInfo.projectAspects.crafting.title"),
+      description: t("projectInfo.projectAspects.crafting.description")
     },
     {
-      title: "Modular Suit Enhancements",
-      description: "Unlockable modules grant access to expanded capabilities such as enhanced defense, special abilities, increased inventory space, and access to previously unreachable zones."
+      title: t("projectInfo.projectAspects.modularSuit.title"),
+      description: t("projectInfo.projectAspects.modularSuit.description")
     },
     {
-      title: "Genre Fusion in an Open World",
-      description: "Survival, exploration, construction, and combat elements are harmoniously integrated into a dynamic setting filled with weather systems, threats, and hidden opportunities."
+      title: t("projectInfo.projectAspects.genreFusion.title"),
+      description: t("projectInfo.projectAspects.genreFusion.description")
     },
     {
-      title: "Community-Driven Development",
-      description: "Players actively contribute to the project’s evolution by submitting ideas, voting on new features, and gaining early access to updates, helping shape the direction of development."
+      title: t("projectInfo.projectAspects.communityDriven.title"),
+      description: t("projectInfo.projectAspects.communityDriven.description")
     },
     {
-      title: "Long-Term Support and Evolution",
-      description: "Regular updates will introduce new content, expand gameplay systems, and incorporate community feedback, ensuring the game continues to grow and evolve over time."
+      title: t("projectInfo.projectAspects.longTerm.title"),
+      description: t("projectInfo.projectAspects.longTerm.description")
     }
-  ]);
+  ];
 
   return (
     <div className="AboutTheProjectSection">
-      <h3 className="Title">About the Project D</h3>
+      <h3 className="Title">{t('projectInfo.aboutTheProject')}</h3>
       <div className="Content">
         <p className="Genres">
           <span>survival</span> <span>adventure</span> <span>sandbox</span> <span>open world</span> <span>procedural generation</span> <span>crafting</span> <span>building</span> <span>action</span> <span>science fiction</span>

@@ -1,13 +1,11 @@
 import { IObjectInfo } from '@interfaces/IObjectsData';
-import { GetCurrentUserAccessTokenString } from '@tools/GetUserData';
-import { handleEditChanges } from '@tools/HandleEditChanges';
 import axios from 'axios';
 import { store } from 'ReduxStore/store';
 
 const ObjectsService = {
   getObjects: async (collection: string) => {
     let result: any[] = [];
-    await axios.get(`/${collection}`, { timeout: 5000 })
+    await axios.get(`${process.env.REACT_APP_DATA_API}/${collection}`, { timeout: 5000 })
       .then((res) => {
         result = res.data || [];
       })
@@ -18,7 +16,7 @@ const ObjectsService = {
   },
   getObjectByTitle: async (collection: string, titleId: string | undefined) => {
     try {
-      await axios.get(`/${collection}/${titleId}`).then((res) => {
+      await axios.get(`${process.env.REACT_APP_DATA_API}/${collection}/${titleId}`).then((res) => {
         if (res.data) {
           store.dispatch({
             type: 'OBJECT_INFO_DATA',

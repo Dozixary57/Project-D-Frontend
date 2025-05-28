@@ -1,34 +1,41 @@
 import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import style from "./Footer.module.scss"
 
 export function Footer() {
+  const { t, i18n } = useTranslation();
+
+  const handleLanguageChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    i18n.changeLanguage(e.target.value);
+  };
+
   return (
     <footer className={style.footer}>
       <div className={style.language}>
-        <select>
-          <option>English</option>
-          <option disabled>Русский</option>
+        <select value={i18n.language} onChange={handleLanguageChange}>
+          <option value="en">English</option>
+          <option value="ru">Русский</option>
         </select>
       </div>
       <div className={style.navigation}>
         <Link to="/">
-          <p>Home</p>
+          <p>{t('navbar.home')}</p>
         </Link>
         <Link to="/Content/Items">
-          <p>Content</p>
+          <p>{t('navbar.content')}</p>
         </Link>
         <Link to="/News">
-          <p>News</p>
+          <p>{t('navbar.news')}</p>
         </Link>
         <Link to="/Receive">
-          <p>Receive</p>
+          <p>{t('navbar.receive')}</p>
         </Link>
-        <Link to="/About">
-          <p>About</p>
+        {/* <Link to="/About">
+          <p>{t('navbar.about')}</p>
         </Link>
         <Link to="/Contact">
-          <p>Contact</p>
-        </Link>
+          <p>{t('navbar.contact')}</p>
+        </Link> */}
       </div>
       {/* <div className={style.socialMedia}>
         <Link to="https://www.youtube.com/">

@@ -9,8 +9,11 @@ import { selectEditingFlags, selectEditingState } from "@ReduxStore/Reducers/edi
 import { setEditingModeFlag } from "@ReduxStore/Reducers/editing/actions/editingMode";
 import { updateEditableFormObjectData } from "@ReduxStore/Reducers/editing/data/formObjectData";
 import { hasTextMeaningfulChange } from "@tools/EditingDataComparer";
+import { useTranslation } from 'react-i18next';
 
 const ObjectAcquisitionComponent = ({ acquisition }: { acquisition: any }) => {
+  const { t } = useTranslation();
+
   const isAuthorized = useSelector((state: RootState) => state.isAuthorized);
   const dispatch = useDispatch();
 
@@ -34,7 +37,7 @@ const ObjectAcquisitionComponent = ({ acquisition }: { acquisition: any }) => {
   return (
     <div className="objectAcquisition">
       <div className="generalDataHeaderWrapper">
-        <h2 className={`generalDataHeader ${acquisition || editingModeState !== 'INACTIVE' ? 'withData' : 'withoutData'}`}>Acquisition</h2>
+        <h2 className={`generalDataHeader ${acquisition || editingModeState !== 'INACTIVE' ? 'withData' : 'withoutData'}`}>{t('objectInfo.sections.acquisition')}</h2>
         {isAuthorized && GetCurrentUserPrivileges.isObjectEdit() && editingModeState !== 'INACTIVE' ?
           <button
             title={editingModeFlag.acquisition ? 'Undo changes' : 'No changes to undo'}

@@ -9,8 +9,11 @@ import { setEditingModeFlag } from "@ReduxStore/Reducers/editing/actions/editing
 import { updateEditableFormObjectData } from "@ReduxStore/Reducers/editing/data/formObjectData";
 import { selectEditingFlags, selectEditingState } from "@ReduxStore/Reducers/editing/actions/editingModeSelectors";
 import { hasTextMeaningfulChange } from "@tools/EditingDataComparer";
+import { useTranslation } from 'react-i18next';
 
 const ObjectStoryComponent = ({ lore }: { lore: string }) => {
+  const { t } = useTranslation();
+
   const isAuthorized = useSelector((state: RootState) => state.isAuthorized);
   const dispatch = useDispatch();
 
@@ -34,7 +37,7 @@ const ObjectStoryComponent = ({ lore }: { lore: string }) => {
   return (
     <div className="objectStory">
       <div className="generalDataHeaderWrapper">
-        <h2 className={`generalDataHeader ${lore || editingModeState !== 'INACTIVE' ? 'withData' : 'withoutData'}`}>Story</h2>
+        <h2 className={`generalDataHeader ${lore || editingModeState !== 'INACTIVE' ? 'withData' : 'withoutData'}`}>{t('objectInfo.sections.lore')}</h2>
         {isAuthorized && GetCurrentUserPrivileges.isObjectEdit() && editingModeState !== 'INACTIVE' ?
           <button
             title={editingModeFlag.lore ? 'Undo changes' : 'No changes to undo'}
