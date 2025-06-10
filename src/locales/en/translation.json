@@ -4,7 +4,18 @@
     "content": "Content",
     "news": "News",
     "receive": "Receive",
-    "login": "Login"
+    "login": "Login",
+    "submenu": {
+      "content": {
+        "items": "Items",
+        "characters": "Characters",
+        "locations": "Locations"
+      },
+      "account": {
+        "settings": "Settings",
+        "logout": "Logout"
+      }
+    }
   },
   "login": {
     "title": "Log In",

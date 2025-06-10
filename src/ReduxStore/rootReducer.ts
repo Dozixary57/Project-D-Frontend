@@ -14,9 +14,10 @@ import userPrivileges from "./Reducers/userPrivileges";
 import fileUploadErrors from "./Reducers/fileUploadErrors";
 import objectInfoData from "./Reducers/objectInfoData";
 import objectsCountList from "./Reducers/objectsCountList";
-import objectsFilteredResult from "./Reducers/objects/objectsFilteredResult";
+import objectsFilteredResult from "./Reducers/filtering/objectsFilteredResult";
 import editingMode from "./Reducers/editing/actions/editingMode";
 import formObjectData from "./Reducers/editing/data/formObjectData";
+import objectsListData from "./Reducers/data/objectsListData";
 
 export const rootReducer = combineReducers({
     itemObjectsNavigationIndex,
@@ -36,4 +37,5 @@ export const rootReducer = combineReducers({
     objectsCountList,
     objectsFilteredResult,
     editingMode,
+    objectsListData,
 });

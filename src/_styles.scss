@@ -1,7 +1,24 @@
+@mixin ButtonWithIcon($fileName, $rotate: 0deg, $applyFilter: true) {
+  background-image: url("~@images/icons/#{$fileName}.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  transform: rotate(#{$rotate});
+
+  @if $applyFilter {
+    filter: invert(73%) sepia(0%) saturate(2455%) hue-rotate(195deg) brightness(93%) contrast(89%);
+  }
+}
+
 @mixin BasePageTemplate {
   justify-self: center;
   margin: 4em 0 0 0;
   width: min(100%, max(60%, 30em));
+}
+
+@mixin BackgroundStone {
+  background: url("~@images/backgrounds/stone.png") repeat center;
+  background-size: 7em;
 }
 
 $baseTextColor: #AAA;

@@ -1,4 +1,5 @@
 footer {
+  position: relative;
   width: 100%;
   box-sizing: border-box;
 
@@ -14,6 +15,11 @@ footer {
   border-top-right-radius: 0.2em;
 
   background: rgba(0, 0, 0, 0.2);
+
+  &.minimized {
+    position: fixed;
+    bottom: 0;
+  }
 
   .language {
     >select {

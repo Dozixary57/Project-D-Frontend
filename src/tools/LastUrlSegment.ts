@@ -19,3 +19,17 @@ export const usePenultimateUrlSegment = (): string | null => {
   const segments = pathname.split('/').filter(Boolean);
   return segments.length > 1 ? segments[segments.length - 2] : null;
 };
+
+
+
+export const getLastUrlSegment = (): string | null => {
+  const pathname = window.location.pathname;
+  const segments = pathname.split('/').filter(Boolean);
+  return segments.length > 0 ? segments[segments.length - 1] : null;
+};
+
+export const getPenultimateUrlSegment = (): string | null => {
+  const pathname = window.location.pathname;
+  const segments = pathname.split('/').filter(Boolean);
+  return segments.length > 1 ? segments[segments.length - 2] : null;
+};

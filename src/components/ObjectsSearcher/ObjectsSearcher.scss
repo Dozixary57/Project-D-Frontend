@@ -15,21 +15,29 @@
     padding: 0 0.75em;
     gap: 0.5em;
 
-    .SearchTitle {
-      margin: 0;
-      word-break: normal;
-      font-size: 1.2em;
-      padding: 0;
-    }
+    .SearchHeader {
+      height: 100%;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: 0.5em;
 
-    .Separator {
-      margin: 0;
-      box-sizing: border-box;
-      width: 0.15em;
-      padding: 0;
-      height: 70%;
-      border: none;
-      background-color: #AAA;
+      .SearchTitle {
+        margin: 0;
+        word-break: normal;
+        font-size: 1.2em;
+        padding: 0;
+      }
+
+      .Separator {
+        margin: 0;
+        box-sizing: border-box;
+        width: 0.15em;
+        padding: 0;
+        height: 70%;
+        border: none;
+        background-color: #AAA;
+      }
     }
 
     .SearchLineWithMode {
@@ -147,6 +155,10 @@
         &:disabled {
           background-color: rgba(white, 0.1);
           cursor: not-allowed;
+
+          >label {
+            cursor: not-allowed;
+          }
         }
 
         &:hover:not(:disabled) {

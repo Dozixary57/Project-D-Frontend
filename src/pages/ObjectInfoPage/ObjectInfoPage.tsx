@@ -2,7 +2,7 @@
 import { useParams } from 'react-router-dom';
 import { Helmet } from "react-helmet-async";
 import { Navbar } from "@components/Navbar/Navbar";
-import { DataForNavigation, PrevButton, NextButton } from "../../components/elements/ObjectNavigation/ObjectNavigation";
+import { DataForNavigation, PrevButton, NextButton } from "@components/ObjectNavigation/ObjectNavigation";
 import { ImagesAndVideosTabContent, SoundsTabContent } from "./elements/MediaSectionComponents";
 import VisualTabContent from "./elements/VisualTabContent";
 import PageHeaderComponent from "./elements/PageHeaderComponent";
@@ -16,7 +16,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState, store } from "ReduxStore/store";
 import ObjectLoreComponent from "./elements/ObjectLoreComponent";
 import ObjectAcquisitionComponent from "./elements/ObjectAcquisitionComponent";
-import { usePenultimateUrlSegment } from "@utilities/useLastUrlSegment";
+import { usePenultimateUrlSegment } from "@tools/LastUrlSegment";
 import ObjectsService from "@services/ObjectsService";
 import { selectEditingFlags, selectEditingState } from "@ReduxStore/Reducers/editing/actions/editingModeSelectors";
 import { setFormObjectData } from "@ReduxStore/Reducers/editing/data/formObjectData";

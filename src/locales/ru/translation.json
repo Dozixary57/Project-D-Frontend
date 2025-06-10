@@ -4,7 +4,18 @@
     "content": "Контент",
     "news": "Новости",
     "receive": "Скачать",
-    "login": "Вход"
+    "login": "Вход",
+    "submenu": {
+      "content": {
+        "items": "Предметы",
+        "characters": "Существа",
+        "locations": "Локации"
+      },
+      "account": {
+        "settings": "Настройки",
+        "logout": "Выйти"
+      }
+    }
   },
   "login": {
     "title": "Вход",

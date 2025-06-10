@@ -1,7 +1,6 @@
 import { Helmet } from "react-helmet-async";
 import { Navbar } from "@components/Navbar/Navbar";
 import "./ObjectsHubPage.scss";
-import ObjectsSearcher from "./ObjectsSearcher/ObjectsSearcher";
 import { Footer } from "@components/Footer/Footer";
 import { Link } from "react-router-dom";
 import { CellStyledAmountWithShadow, CellStyledTitleWithShadow } from "@utilities/StylizedText";
@@ -9,9 +8,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@ReduxStore/store";
 import { useEffect, useState } from "react";
 import ObjectsService from "@services/ObjectsService";
-import { selectFilteredObjects, selectIsFiltered } from "@ReduxStore/Reducers/objects/selectFilteredObjects";
+import { selectFilteredObjects, selectIsFiltered } from "@ReduxStore/Reducers/filtering/selectFilteredObjects";
 // import { setFilterParamsList, setFilterTitleQuery, setFilterByCategory, setObjectsData } from "@ReduxStore/Reducers/objects/objectsFilteredResult";
 import CollapsibleWrapper from "@utilities/CollapsibleWrapper";
+import ObjectsSearcher from "@components/ObjectsSearcher/ObjectsSearcher";
 
 const ObjectsHubPage = () => {
   const objectsCountList = useSelector((state: RootState) => state.objectsCountList);
@@ -26,8 +26,6 @@ const ObjectsHubPage = () => {
       [categoryName]: !currentValue
     }));
   };
-
-  const dispatch = useDispatch();
 
   useEffect(() => {
     ObjectsService.getObjectsCountList();

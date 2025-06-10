@@ -1,14 +1,12 @@
 ﻿import React, { useEffect, useState } from 'react';
 import { Route, Routes, useLocation, useNavigate } from 'react-router';
 import { AccountPage } from '@pages/AccountPage/AccountPage';
-import { LoginPage } from '@pages/LoginPage/LoginPage';
-import { HomePage } from '@pages/HomePage/HomePage';
+import { LoginPage } from '@pages/AuthPages/LoginPage';
+import { SignupPage } from "@pages/AuthPages/SignupPage";
+import HomePage from '@pages/HomePage/HomePage';
 import { NowherePage } from '@pages/NowherePage/NowherePage';
 import ObjectInfoPage from '@pages/ObjectInfoPage/ObjectInfoPage';
-import { ReceivePage } from '@pages/ReceivePage/ReceivePage';
 import { AgreementsPage } from "@pages/AgreementsPage/AgreementsPage";
-import { SingupPage } from "@pages/SignupPage/SignupPage";
-import { IntroductionPage } from "@pages/IntroductionPage/IntroductionPage";
 import { NewsFeedPage } from '@pages/NewsFeedPage/NewsFeedPage';
 import { NewsOverlay } from '@pages/NewsFeedPage/elements/NewsOverlay';
 import AuthService from '@services/authService';
@@ -23,7 +21,13 @@ import ManagementFileModalWindow from '@components/ModalWindows/ManagementFileMo
 import UploadFileModalWindow from '@components/ModalWindows/UploadFileModalWindow';
 import ObjectsHubPage from '@pages/ObjectsHubPage/ObjectsHubPage';
 import ObjectsListPage from '@pages/ObjectsListPage/ObjectsListPage';
-import DonationPage from '@pages/DonationPage/DonationPage';
+import ReceivePage from '@pages/ReceivePage/ReceivePage';
+import OverviewPage from '@pages/OverviewPage/OverviewPage';
+import MainLayout from 'layouts/MainLayout';
+import AuthLayout from 'layouts/AuthLayout';
+import { ProjectVisionPage } from '@pages/VisionPage/ProjectVisionPage';
+import ListComponent from 'layouts/inner/ListComponent';
+import ContentModalWindow from '@components/ModalWindows/ContentModalWindow';
 
 function App() {
   const navigate = useNavigate();
@@ -43,8 +47,23 @@ function App() {
 
   return (
     <Routes>
-      <Route path="/" element={<IntroductionPage />} />
-      <Route path="/Home" element={<HomePage />} />
+      <Route path="/" element={<OverviewPage />} />
+
+      <Route element={<MainLayout />}>
+        <Route path="/Home" element={<HomePage />} />
+        <Route element={<ListComponent />}>
+          <Route path="/Vision" element={<ProjectVisionPage />}>
+            <Route path=":titleId" element={<ContentModalWindow />} />
+          </Route>
+        </Route>
+      </Route>
+
+      <Route element={<AuthLayout />}>
+        <Route path="/Login" element={<LoginPage />} />
+        <Route path="/Signup" element={<SignupPage />} />
+      </Route>
+
+
       <Route path="/Content" element={<ObjectsHubPage />} />
       <Route path="/Content/Items" element={<ObjectsListPage />} />
       <Route path="/Content/Items/:titleId" element={<ObjectInfoPage />} />
@@ -52,16 +71,12 @@ function App() {
         <Route path=":titleId" element={<NewsOverlay />} />
       </Route>
       <Route path="/Receive" element={<ReceivePage />} />
-      <Route path="/Login" element={<LoginPage />} />
-      <Route path="/Signup" element={<SingupPage />} />
       <Route path="/Agreements" element={<AgreementsPage />} />
       <Route path="*" element={<NowherePage />} />
 
       {isAuthorized &&
         <Route path="/Account/Profile" element={<AccountPage />} />
       }
-
-      <Route path="/Donation" element={<DonationPage />} />
 
       {isAuthorized
         && ["UserEdit", "UserDeletePreliminarily", "UserDeletePermanently", "UserCreate", "UserPrivilegesManaging", "UserStatusManaging"].some(privilege =>

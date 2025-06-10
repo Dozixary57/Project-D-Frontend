@@ -7,6 +7,7 @@ import { RootState } from "@ReduxStore/store";
 import authService from "@services/authService";
 import { IPrivileges } from "@interfaces/IAccounts";
 import { GetNavUsername } from "@tools/GetUserData";
+import { useLastUrlSegment } from "@tools/LastUrlSegment";
 import "./Navbar.scss"
 
 interface INavbarData {
@@ -130,6 +131,7 @@ const GroupNavButton = ({ title, icon, link, submenu, isMinimized = false, iconS
 }
 
 const AccountNavButton = ({ isMinimized = false, iconStyles }: { isMinimized?: boolean, iconStyles?: React.CSSProperties }) => {
+  const { t } = useTranslation();
   const userPrivileges = useSelector((state: RootState) => state.userPrivileges) as IPrivileges[] | [];
 
   const containerRef = useRef<HTMLDivElement>(null);
@@ -196,14 +198,9 @@ const AccountNavButton = ({ isMinimized = false, iconStyles }: { isMinimized?: b
         content={
           <div className="submenuLayout" onMouseEnter={() => setIsActiveSubmenu(true)} onMouseLeave={() => setIsActiveSubmenu(false)}>
             <div className="submenu" style={{ width: submenuWidth }}>
-              <Link to="/Account/Profile">
-                <div>
-                  <p>Profile</p>
-                </div>
-              </Link>
               <Link to="/Account/Settings">
                 <div>
-                  <p>Settings</p>
+                  <p>{t("navbar.submenu.account.settings")}</p>
                 </div>
               </Link>
               {userPrivileges && ["UserEdit", "UserDelete", "UserCreate", "UserPrivilegesManaging"].some(privilege => userPrivileges.some(userPrivilege => userPrivilege.Title === privilege)
@@ -230,7 +227,7 @@ const AccountNavButton = ({ isMinimized = false, iconStyles }: { isMinimized?: b
               }
               <Link to="" onClick={() => authService.Logout()}>
                 <div>
-                  <p>Log out</p>
+                  <p>{t("navbar.submenu.account.logout")}</p>
                 </div>
               </Link>
             </div>
@@ -243,6 +240,7 @@ const AccountNavButton = ({ isMinimized = false, iconStyles }: { isMinimized?: b
 }
 
 export function Navbar() {
+  const lastSegment = useLastUrlSegment();
   const { t } = useTranslation();
 
   const isAuthorized = useSelector((state: RootState) => state.isAuthorized);
@@ -260,15 +258,15 @@ export function Navbar() {
       link: "/Content",
       submenu: [
         {
-          title: "Items",
+          title: t("navbar.submenu.content.items"),
           link: "/Content/Items",
         },
         {
-          title: "Creatures",
+          title: t("navbar.submenu.content.characters"),
           link: "/Content/Creatures",
         },
         {
-          title: "Locations",
+          title: t("navbar.submenu.content.locations"),
           link: "/Content/Locations",
         },
       ]
@@ -277,31 +275,11 @@ export function Navbar() {
       title: t("navbar.news"),
       icon: require('@images/NewsIcon.png'),
       link: "/News",
-      submenu: [
-        {
-          title: "NewsPage1",
-          link: "/News1",
-        },
-        {
-          title: "NewsPage2",
-          link: "/News2",
-        },
-      ]
     },
     {
       title: t("navbar.receive"),
       icon: require('@images/ReceiveIcon.png'),
       link: "/Receive",
-      submenu: [
-        {
-          title: "Receive Page1",
-          link: "/Receive1",
-        },
-        {
-          title: "Receive Page2",
-          link: "/Receive2",
-        },
-      ]
     },
   ];
 
@@ -367,7 +345,7 @@ export function Navbar() {
         <SingleNavButton
           title={t("navbar.login")}
           icon={require('@images/AuthIcon.png')}
-          link="/Login"
+          link={lastSegment === 'Login'? '/Signup' : '/Login'}
           isMinimized={isOverflowing}
           iconStyles={{ transform: "scale(0.95)" }}
         />

@@ -4,7 +4,7 @@ import { jwtDecode } from "jwt-decode";
 
 const AuthService = {
   Login: async (usernameEmail: string, password: string) => {
-    let result: any[] = [];
+    let result: any;
     const data = {
       UsernameEmail: usernameEmail,
       Password: password
@@ -17,9 +17,9 @@ const AuthService = {
         if (res.data.accessToken) {
           localStorage.setItem('AccessToken', JSON.stringify(res.data.accessToken))
           const { accessToken, ...resData } = res.data;
-          result = resData || [];
+          result = resData || {};
         }
-        result = res.data || [];
+        result = res.data || {};
         if (res?.status === 200) {
           store.dispatch({
             type: 'IS_AUTHORIZED',
@@ -50,7 +50,7 @@ const AuthService = {
     return result;
   },
   Signup: async (username: string, email: string, dateOfBirth: string, password: string, captchaToken: string) => {
-    let result: any[] = [];
+    let result: any;
     const data = {
       Username: username,
       Email: email,
@@ -66,9 +66,9 @@ const AuthService = {
         if (res.data.accessToken) {
           localStorage.setItem('AccessToken', JSON.stringify(res.data.accessToken))
           const { accessToken, ...resData } = res.data;
-          result = resData || [];
+          result = resData || {};
         } else {
-          result = res.data || [];
+          result = res.data || {};
         }
         if (res?.status === 200) {
           store.dispatch({
@@ -76,9 +76,6 @@ const AuthService = {
             payload: true
           });
         }
-        // console.log(res)
-        // console.log(res.data)
-        // console.log(res.data.accessToken)
       }).catch(error => {
         if (error.code === 'ECONNABORTED') {
           // Обработка ошибки таймаута    

@@ -1,4 +1,4 @@
-import "./IntroductionPage.scss";
+import "./OverviewPage.scss";
 import { Helmet } from "react-helmet-async";
 import { useEffect, useRef, useState } from "react";
 import { ToTopArrow } from "@components/ToUpArrow/ToTopArrow";
@@ -6,7 +6,7 @@ import WelcomeSection from "./sections/WelcomeSection/WelcomeSection";
 import ProjectContentSection from "./sections/ProjectContentSection/ProjectContentSection";
 import CrowdfundingSection from "./sections/CrowdfundingSection/CrowdfundingSection";
 
-const IntroductionPage = () => {
+const OverviewPage = () => {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const scrollingRef = useRef<boolean>(false);
   const scrollTimeoutRef = useRef<NodeJS.Timeout | null>(null);
@@ -163,4 +163,4 @@ const IntroductionPage = () => {
   )
 }
 
-export { IntroductionPage };
+export default OverviewPage;

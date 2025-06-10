@@ -1,11 +1,10 @@
-import { Helmet } from "react-helmet-async";
 import { useTranslation } from 'react-i18next';
-import { Navbar } from "@components/Navbar/Navbar";
-import "./LoginPage.scss"
 import { useEffect, useState } from "react";
 import authService from "@services/authService";
 import { Link, useNavigate } from "react-router-dom";
 // import { GoogleReCaptcha } from "react-google-recaptcha-v3";
+import styles from "./AuthStyles.module.scss"
+import { useLastUrlSegment } from '@tools/LastUrlSegment';
 
 interface IErrorMessages {
   usernameEmailErrMsg: string | null;
@@ -18,6 +17,7 @@ const LoginPage = () => {
   const [authMessage, setAuthMessage] = useState<string | null>(null);
 
   const navigate = useNavigate();
+  const lastSegment = useLastUrlSegment();
 
   const [usernameEmail, setUsernameEmail] = useState('');
 
@@ -96,59 +96,44 @@ const LoginPage = () => {
   };
 
   return (
-    <>
-      <Helmet>
-        <meta charSet="utf-8" />
-        <title>Log In | DizaQute</title>
-      </Helmet>
-      <Navbar />
-      <main className="LOG_IN_PAGE">
-        {authMessage ? (
-          <div className="authMessage">
-            <p>{authMessage}</p>
-          </div>
-        ) : (
-          <form onSubmit={handleSubmit}>
-            <fieldset>
-              <legend>{t('login.title')}</legend>
-              <div className="formFields">
-                <div className="dataField">
-                  <p style={{ maxHeight: fieldErrorMessages?.usernameEmailErrMsg ? '2em' : '0' }}>{fieldErrorMessages?.usernameEmailErrMsg}</p>
-                  <div className="inputField">
-                    <input type="text" name="username" value={usernameEmail} onChange={(event) => setUsernameEmail(event.target.value)} placeholder=" " />
-                    <label>{t('login.usernameOrEmail')}</label>
-                  </div>
-                </div>
-                <div className="dataField">
-                  <p style={{ maxHeight: fieldErrorMessages?.passwordErrMsg ? '2em' : '0' }}>{fieldErrorMessages?.passwordErrMsg}</p>
-                  <div className="inputField">
-                    <input type="password" name="password" value={password} onChange={(event) => setPassword(event.target.value)} placeholder=" " />
-                    <label>{t('login.password')}</label>
-                  </div>
-                </div>
-                {/* <GoogleReCaptcha onVerify={token => setCaptchaToken(token)} /> */}
-                <div className="dataSubmit">
-                  <input type="submit" value={t('login.button')} />
-                </div>
-                <Link to="/Restore_account" className="RestoreAccount">
-                  <p>{t('login.forgotPassword')}</p>
-                </Link>
-                {/* <hr />
-                <div className="externalAuthorization">
-                  <button type="button" className="gAuthorization">
-                    <img src={require("@images/Google.png")} alt="G" />
-                  </button>
-                </div> */}
-                <hr />
-                <Link to="/Signup">
-                  {t('login.signup')}
-                </Link>
+    <div className={styles.AUTH_FORM}>
+      {!authMessage ?
+        <form onSubmit={handleSubmit}>
+          <fieldset>
+            <legend>{lastSegment === 'Login' ? t('login.title') : t('signup.title')}</legend>
+            <div className={styles.dataField}>
+              <p style={{ maxHeight: fieldErrorMessages?.usernameEmailErrMsg ? '2em' : '0' }}>{fieldErrorMessages?.usernameEmailErrMsg}</p>
+              <div className={styles.inputField}>
+                <input type="text" name="username" value={usernameEmail} onChange={(event) => setUsernameEmail(event.target.value)} placeholder=" " />
+                <label>{t('login.usernameOrEmail')}</label>
               </div>
-            </fieldset>
-          </form>
-        )}
-      </main>
-    </>
+            </div>
+            <div className={styles.dataField}>
+              <p style={{ maxHeight: fieldErrorMessages?.passwordErrMsg ? '2em' : '0' }}>{fieldErrorMessages?.passwordErrMsg}</p>
+              <div className={styles.inputField}>
+                <input type="password" name="password" value={password} onChange={(event) => setPassword(event.target.value)} placeholder=" " />
+                <label>{t('login.password')}</label>
+              </div>
+            </div>
+            {/* <GoogleReCaptcha onVerify={token => setCaptchaToken(token)} /> */}
+            <div className={styles.dataSubmit}>
+              <input type="submit" value={t('login.button')} />
+            </div>
+            {/* <Link to="/Restore_account">
+              <p className={styles.RestoreAccount}>{t('login.forgotPassword')}</p>
+            </Link> */}
+            <hr />
+            <Link to="/Signup">
+              <p className={styles.ChangeAuthForm}>{t('login.signup')}</p>
+            </Link>
+          </fieldset>
+        </form>
+        :
+        <div className={styles.authMessage}>
+          <p>{authMessage}</p>
+        </div>
+      }
+    </div>
   )
 }
 

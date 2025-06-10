@@ -1,26 +1,61 @@
 import { useEffect, useState } from "react";
-import "./ObjectsSearcher.scss"
 import CollapsibleWrapper from "@utilities/CollapsibleWrapper";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@ReduxStore/store";
 import { IObjectsCountList } from "@interfaces/IObjectsData";
-import { setFilterByCategory, setFilterParamsList, setObjectsData } from "@ReduxStore/Reducers/objects/objectsFilteredResult";
+import { setFilterByCategory, setFilterParamsList, setObjectsData } from "@ReduxStore/Reducers/filtering/objectsFilteredResult";
+import "./ObjectsSearcher.scss"
 
-const ObjectsSearcher = () => {
-  const objectsCountList: IObjectsCountList = useSelector((state: RootState) => state.objectsCountList);
-
+const ObjectsSearcher = ({
+  Title = "Search",
+  Query = { queryId: '', queryTitle: '' },
+  Available = false,
+  FilterPanelOpen = false,
+  TitleVisible = true,
+  SearchModeToggleVisible = false,
+  FilterPanelToggleVisible = false,
+}: {
+  Title?: string,
+  Query?: {
+    queryId: string,
+    queryTitle: string
+  },
+  Available?: boolean,
+  FilterPanelOpen?: boolean,
+  TitleVisible?: boolean,
+  SearchModeToggleVisible?: boolean,
+  FilterPanelToggleVisible?: boolean
+}) => {
   const dispatch = useDispatch();
 
-  const [searchQuery, setSearchQuery] = useState<{ queryId: string, queryTitle: string }>({
-    queryId: '',
-    queryTitle: ''
-  });
-  const [isSearchAvailable, setIsSearchAvailable] = useState(false);
+  // Search Availability & Filter Panel Toggle
+  const [isSearchAvailable, setIsSearchAvailable] = useState(Available);
+  const [filterPanelToggle, setFilterPanelToggle] = useState(FilterPanelOpen);
+
+  // Search Query
+  const [searchQuery, setSearchQuery] = useState<{ queryId: string, queryTitle: string }>(Query);
+
+  // Search Mode Toggle
   const [titleIdSearchToggle, setTitleIdSearchToggle] = useState<"byTitle" | "byId">("byTitle");
-  const [filterPanelToggle, setFilterPanelToggle] = useState(false);
+
+  const [isTitleVisible, setIsTitleVisible] = useState(TitleVisible);
+  const [isSearchModeToggleVisible, setIsSearchModeToggleVisible] = useState(SearchModeToggleVisible);
+  const [isFilterPanelToggleVisible, setIsFilterPanelToggleVisible] = useState(FilterPanelToggleVisible);
+
+
+
+  const objectsCountList: IObjectsCountList = useSelector((state: RootState) => state.objectsCountList);
+
+
+
 
   const [selectOptions, setSelectOptions] = useState<{ value: string, label: string, disabled: boolean }[]>([{ value: 'all', label: 'All', disabled: true }]);
   const [selectedOption, setSelectedOption] = useState<{ value: string, label: string } | null>(selectOptions[0]);
+
+  // 
+  useEffect(() => {
+    dispatch({ type: 'OBJECTS_COUNT_LIST', payload: null });
+  }, [])
 
   useEffect(() => {
     const options = [{ value: 'all', label: 'All', disabled: false },];
@@ -88,8 +123,10 @@ const ObjectsSearcher = () => {
   return (
     <div className="OBJECTS_SEARCHER">
       <div className="SearchPanel">
-        <h3 className="SearchTitle">Search</h3>
-        <hr className="Separator" />
+        {isTitleVisible && <div className="SearchHeader">
+          <h3 className="SearchTitle">{Title}</h3>
+          <hr className="Separator" />
+        </div>}
         <div className="SearchLineWithMode">
           <div className="SearchLineContainer">
             <input
@@ -118,7 +155,7 @@ const ObjectsSearcher = () => {
               disabled={titleIdSearchToggle === "byTitle" ? !searchQuery.queryTitle : !searchQuery.queryId || !isSearchAvailable}
             />
           </div>
-          <button
+          {isSearchModeToggleVisible && <button
             className="SearchModeToggleButton"
             onClick={() => setTitleIdSearchToggle(prev => prev === "byTitle" ? "byId" : "byTitle")}
             onMouseDown={(event) => event.preventDefault()}
@@ -127,15 +164,15 @@ const ObjectsSearcher = () => {
           >
             <img src={require('@images/ToggleArrows.png')} alt="Toggle button" />
             <label>{titleIdSearchToggle === "byTitle" ? 'Title' : 'ID'}</label>
-          </button>
+          </button>}
         </div>
-        <button
+        {isFilterPanelToggleVisible && <button
           className={`FilterPanelToggle ${filterPanelToggle ? 'active' : ''}`}
           onClick={() => setFilterPanelToggle(prev => !prev)}
           disabled={!isSearchAvailable}
         >
           <img src={require('@images/SearchFilterSettingsIcon.png')} alt="FilterTool" />
-        </button>
+        </button>}
       </div>
       <CollapsibleWrapper isOpen={filterPanelToggle}>
         <div className='FilterPanel'>

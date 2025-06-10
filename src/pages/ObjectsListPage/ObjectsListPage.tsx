@@ -13,7 +13,7 @@ import { useSelector } from "react-redux";
 // import filteredItemsData from "@ReduxStore/Reducers/filteredItemsData";
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
 import LoadingProgressBar, { ProgressBarHandle } from '@components/LoadingProgressBar/LoadingProgressBar';
-import { useLastUrlSegment } from "@utilities/useLastUrlSegment";
+import { useLastUrlSegment } from "@tools/LastUrlSegment";
 
 interface Items {
   _id: string;

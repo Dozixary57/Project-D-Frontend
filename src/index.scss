@@ -1,3 +1,5 @@
+@import "~@_styles";
+
 html {
   color: #AAA;
   font-family: 'F77 Minecraft', PressStart2P-Regular, 'Cascadia Mono', sans-serif;
@@ -5,13 +7,14 @@ html {
   hyphens: auto;
   overflow-wrap: break-word;
   word-break: break-word;
-  white-space: normal;      
-}
+  white-space: normal;
 
-body {
-  margin: 0;
-  /* padding: 0 calc(2vw - (100vw - 100%)) 0 0; */
-  background-color: #2a1e16;
+  body {
+    margin: 0;
+    /* padding: 0 calc(2vw - (100vw - 100%)) 0 0; */
+    background-color: #2a1e16;
+    @include BackgroundStone;
+  }
 }
 
 /* ::-webkit-scrollbar-track {
