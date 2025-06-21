@@ -108,7 +108,6 @@ const ReceivePage = () => {
           <CrowdfundingRoadmap />
           <CrowdfundingStage />
         </div>
-        {userContribution > 0 && <p className={style.UserContribution}>{t('crowdfunding.yourContribution')} {userContribution.toLocaleString('ru-RU')} руб.</p>}
         <div className={style.MakeDonation}>
           <p className={`${style.ActionStatus} ${isPaymentProcessing || isPaymentSuccessful ? style.isProcessing : ''}`}>
             {isPaymentSuccessful ? "Donation is successful!" : isPaymentProcessing ? "Donation is pending..." : ""}

@@ -3,17 +3,21 @@ import { Outlet } from 'react-router-dom';
 import { Footer } from '@components/Footer/Footer';
 import styles from './LayoutsStyle.module.scss';
 import { ProjectVisionPanel } from '@pages/VisionPage/ProjectVisionPage';
-import { useLastUrlSegment } from '@tools/LastUrlSegment';
+import { useUrlSegment } from '@tools/UrlSegments';
+import { useEffect } from 'react';
 
 const MainLayout = () => {
-  const lastSegment = useLastUrlSegment();
+  const urlSegment = useUrlSegment(0);
+  const excludedUrlSegments = ['Vision'];
 
   return (
     <div className={styles.MAIN_LAYOUT}>
       <Navbar />
       <main>
         <Outlet />
-        {lastSegment !== 'Vision' && lastSegment !== 'Login' && <ProjectVisionPanel />}
+        {urlSegment !== null && !excludedUrlSegments.includes(urlSegment) &&
+          <ProjectVisionPanel />
+        }
       </main>
       <Footer />
     </div>

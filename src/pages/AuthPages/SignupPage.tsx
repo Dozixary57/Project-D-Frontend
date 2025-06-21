@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 // import {GoogleReCaptchaProvider, GoogleReCaptcha} from "react-google-recaptcha-v3";
 // import "./SignupPage.scss"
 import styles from "./AuthStyles.module.scss"
-import { useLastUrlSegment } from '@tools/LastUrlSegment';
+import { useLastUrlSegment } from '@tools/UrlSegments';
 
 interface IErrorMessages {
   usernameErrMsg: string | null;

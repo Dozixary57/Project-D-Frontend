@@ -11,7 +11,7 @@ const SoundsTabContent = ({ data }: { data: IMediaUnit[] }) => {
 
   const mediaListRef = useRef<HTMLDivElement | null>(null);
 
-  const [soundVolume, setSoundVolume] = useState(0.25);
+  const [soundVolume, setSoundVolume] = useState(0.15);
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
   useEffect(() => {

@@ -30,33 +30,25 @@ export const Footer = () => {
         <Link to="/Receive">
           <p>{t('navbar.receive')}</p>
         </Link>
-        {/* <Link to="/About">
-          <p>{t('navbar.about')}</p>
+        <Link to="/Legal">
+          <p>Legal</p>
         </Link>
-        <Link to="/Contact">
-          <p>{t('navbar.contact')}</p>
-        </Link> */}
       </div>
-      {/* <div className={style.socialMedia}>
-        <Link to="https://www.youtube.com/">
-          <img src={require("@images/YoutubeIcon.png")} alt="youtube" />
-        </Link>
-      </div> */}
-      <div className={style.company}>
+      {/* <div className={style.company}>
         <img src={require("@images/StudioLogo.png")} alt="studio logo" />
         <p>© 2025 Quantum Chance Studio, Inc.</p>
-      </div>
+      </div> */}
       <div className={style.line}>
         <hr />
       </div>
       <div className={style.copyright}>
-        <Link to="/Privacy_policy">
+        <Link to="/Legal/Privacy_policy">
           <p>Privacy Policy</p>
         </Link>
-        <Link to="/Terms_of_service">
+        <Link to="/Legal/Terms_of_service">
           <p>Terms of Service</p>
         </Link>
-        <Link to="/Cookie_policy">
+        <Link to="/Legal/Cookie_policy">
           <p>Cookie Policy</p>
         </Link>
       </div>

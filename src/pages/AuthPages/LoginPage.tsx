@@ -4,7 +4,7 @@ import authService from "@services/authService";
 import { Link, useNavigate } from "react-router-dom";
 // import { GoogleReCaptcha } from "react-google-recaptcha-v3";
 import styles from "./AuthStyles.module.scss"
-import { useLastUrlSegment } from '@tools/LastUrlSegment';
+import { useLastUrlSegment } from '@tools/UrlSegments';
 
 interface IErrorMessages {
   usernameEmailErrMsg: string | null;

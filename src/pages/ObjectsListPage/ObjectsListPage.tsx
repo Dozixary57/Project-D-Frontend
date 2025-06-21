@@ -12,8 +12,10 @@ import { RootState, store } from "@ReduxStore/store";
 import { useSelector } from "react-redux";
 // import filteredItemsData from "@ReduxStore/Reducers/filteredItemsData";
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
-import LoadingProgressBar, { ProgressBarHandle } from '@components/LoadingProgressBar/LoadingProgressBar';
-import { useLastUrlSegment } from "@tools/LastUrlSegment";
+import { useLastUrlSegment } from "@tools/UrlSegments";
+import ObjectsSearcher from "@components/ObjectsSearcher/ObjectsSearcher";
+import PageHelmet from "@components/PageHelmet/PageHelmet";
+import { Footer } from "@components/Footer/Footer";
 
 interface Items {
   _id: string;
@@ -29,6 +31,7 @@ const ObjectsListPage = () => {
   const filteredItems = useSelector((state: RootState) => state.filteredItemsData);
 
   const fetchData = async (collection: string) => {
+    console.log(collection)
     setIsLoading(true);
 
     store.dispatch({
@@ -43,23 +46,17 @@ const ObjectsListPage = () => {
     fetchData(lastUrlSegment || '');
   }, [])
 
-  const progressBarRef = useRef<ProgressBarHandle>(null);
-
-  const LoadingPB_Handle = () => {
-    progressBarRef.current?.startProgress();
-  };
-
+  useEffect(() => {
+    console.log(filteredItems);
+  }, [filteredItems])
 
   return (
     <>
-      <Helmet>
-        <meta charSet="utf-8" />
-        <title>DizaQute | Items</title>
-      </Helmet>
-      <LoadingProgressBar ref={progressBarRef} />
+      <PageHelmet title={lastUrlSegment || "Objects"} />
       <Navbar />
       <main className="ItemPageMain">
         <SearchFilter data={{ title: 'Items' }} />
+        {/* <ObjectsSearcher /> */}
 
         {isLoading ? (
           <div className="noDataContainer">
@@ -115,7 +112,7 @@ const ObjectsListPage = () => {
             <div className="noDataContainer">
               <div>
                 <p>Data could not be retrieved from the server.</p>
-                <button onClick={() => { fetchData(lastUrlSegment || ''); LoadingPB_Handle(); }}>
+                <button onClick={() => fetchData(lastUrlSegment || '')}>
                   <img src={require('@images/RetryIcon.png')} alt="RetryIcon" />
                 </button>
               </div>
@@ -123,6 +120,7 @@ const ObjectsListPage = () => {
           )
         )}
       </main>
+      <Footer />
     </>
   )
 }

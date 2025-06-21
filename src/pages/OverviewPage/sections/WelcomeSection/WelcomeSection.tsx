@@ -1,19 +1,21 @@
 import StyledMarkdown from "@components/StyledMarkdown";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import ParallaxWrapper from "utilities/ParallaxWrapper";
 import "./WelcomeSection.scss";
+import { useTranslation } from "react-i18next";
+import i18n from "i18n";
 
 const WelcomeSection = ({ scrollToTarget }: { scrollToTarget: () => void }) => {
+  const { t } = useTranslation();
+
   const [projectDescription, setProjectDescription] = useState(
-    `After an unexpected failure and a resonance jump caused by a malfunction in your experimental suit, you find yourself stranded on an uncharted planet—lost far beyond the known universe. You are an engineer of the future, a specialist in advanced technologies. Now, you're alone in a hostile, unpredictable world. All you have left is the modular suit you spent years developing. It is now your only hope for survival.
-        
-  But this suit is more than just armor. It's an adaptive system designed to evolve alongside your needs and environment. Upgrade its core systems, install new modules, and unlock powerful abilities—ranging from thermal protection in frozen biomes to advanced sensors, manipulators, and tools capable of reshaping the world around you. Every upgrade is a step forward: toward survival, exploration, and uncovering the secrets of this strange planet.
-        
-  Gather resources, build shelters, craft tools, and interact with a world teeming with unknown lifeforms. This planet reacts to your presence, adapts to your actions, and challenges you in ever-changing ways. Each zone is a distinct ecosystem with its own rules and threats. Every discovery is a key to understanding where you are… and how to get back home.
-  ⠀ 
-  >Here, science becomes your shield, and creativity your means of survival. Your mind, your suit, and your ingenuity are all that stand between you—and oblivion.`
+    t('overviewPage.mainDescription')
   );
+
+  useEffect(() => {
+    setProjectDescription(t('overviewPage.mainDescription'));
+  }, [i18n.language]);
 
   return (
     <div className="WelcomeSection">
@@ -24,17 +26,21 @@ const WelcomeSection = ({ scrollToTarget }: { scrollToTarget: () => void }) => {
         </StyledMarkdown>
         <div className="NavButtons">
           <Link to="/Home">
-            <button>Home page</button>
+            <button>
+              {t('overviewPage.buttons.home')}
+            </button>
           </Link>
           <Link to="">
-            <button onClick={scrollToTarget}>Support the project</button>
+            <button onClick={scrollToTarget}>
+              {t('overviewPage.buttons.support')}
+            </button>
           </Link>
         </div>
       </div>
 
       <div className="DetailsElement">
         <img src={require('@images/decorations/ArrowDown.png')} />
-        <p>More details</p>
+        <p>{t('overviewPage.moreDetails')}</p>
       </div>
 
       {/* Background */}

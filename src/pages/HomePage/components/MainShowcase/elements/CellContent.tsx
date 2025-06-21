@@ -195,15 +195,17 @@ const CellContent = ({
       <LinkWrapper link={currentData?.link}>
         {currentData?.title && <p className="DataTitle">{currentData.title}</p>}
         <div className="CellContent" key={transitionKey}>
-          {currentData?.image && <img
-            src={currentData?.image ?? require('@images/main_showcase/StandBy.png')}
-            alt={title || ""}
-            style={{
-              ...currentData?.style,
-              zIndex: 1
-            }}
-            className={`CellImage current ${isTransitioning ? (direction === 'right' ? 'slide-in-right' : 'slide-in-left') : ''}`}
-          />}
+          {currentData?.image &&
+            <img
+              src={currentData?.image ?? require('@images/main_showcase/StandBy.png')}
+              alt={title || ""}
+              style={{
+                ...currentData?.style,
+                zIndex: 1
+              }}
+              className={`CellImage current ${isTransitioning ? (direction === 'right' ? 'slide-in-right' : 'slide-in-left') : ''}`}
+            />
+          }
 
           {isTransitioning && prevData && (
             <img

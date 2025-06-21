@@ -2,8 +2,6 @@
 
 .RECEIVE_PAGE {
   @include BasePageTemplate;
-  margin: 6em 0 3em 0 !important;
-  height: 30em;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -78,7 +76,7 @@
   }
 
   .UserContribution {
-    margin: 2em 0;
+    margin: 1.5em 0;
     @include WidthFlexibility60;
     box-sizing: border-box;
     color: #AAA;
@@ -88,6 +86,9 @@
   }
 
   .MakeDonation {
+    //
+    margin-bottom: 5em;
+    //
     @include WidthFlexibility60;
     height: auto;
 

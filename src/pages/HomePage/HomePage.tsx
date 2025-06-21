@@ -22,13 +22,12 @@ const HomePage = () => {
   }
 
   return (
-    <div>
+    <>
       <PageHelmet title="Home" />
       <MainShowcase scrollToFAG={() => scrollToElement(FAGSectionRef)} scrollToCrowdfunding={() => scrollToElement(CrowdfundingSectionRef)} />
       <AboutTheProjectSection />
-      <CrowdfundingSection targetOfScroll={CrowdfundingSectionRef} />
       <FAGSection targetOfScroll={FAGSectionRef} />
-    </div>
+    </>
   )
 }
 

@@ -16,7 +16,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState, store } from "ReduxStore/store";
 import ObjectLoreComponent from "./elements/ObjectLoreComponent";
 import ObjectAcquisitionComponent from "./elements/ObjectAcquisitionComponent";
-import { usePenultimateUrlSegment } from "@tools/LastUrlSegment";
+import { usePenultimateUrlSegment } from "@tools/UrlSegments";
 import ObjectsService from "@services/ObjectsService";
 import { selectEditingFlags, selectEditingState } from "@ReduxStore/Reducers/editing/actions/editingModeSelectors";
 import { setFormObjectData } from "@ReduxStore/Reducers/editing/data/formObjectData";

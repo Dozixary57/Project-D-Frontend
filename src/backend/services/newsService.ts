@@ -9,9 +9,9 @@ const NewsService = {
         result = res.data || [];
       }).catch(error => {
         if (error.code === 'ECONNABORTED') {
-          // Обработка ошибки таймаута    
+          // ...    
         } else {
-          // Обработка других ошибок сети
+          // ...    
         }
       }).finally(() => {
         store.dispatch({
@@ -28,9 +28,9 @@ const NewsService = {
         result = res.data || [];
       }).catch(error => {
         if (error.code === 'ECONNABORTED') {
-          // Обработка ошибки таймаута    
+          // ...    
         } else {
-          // Обработка других ошибок сети
+          // ...    
         }
       }).finally(() => {
         store.dispatch({
@@ -47,9 +47,9 @@ const NewsService = {
         result = res.data || null;
       }).catch(error => {
         if (error.code === 'ECONNABORTED') {
-          // Обработка ошибки таймаута    
+          // ...    
         } else {
-          // Обработка других ошибок сети
+          // ...    
         }
       }).finally(() => {
         store.dispatch({

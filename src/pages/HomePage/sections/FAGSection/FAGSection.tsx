@@ -2,38 +2,33 @@ import { useEffect, useRef, useState } from "react";
 import "./FAGSection.scss"
 import { useTranslation } from "react-i18next";
 
-interface IFAGsData {
-  question: string;
-  answer: string;
-}
-
 const FAGSection = ({ targetOfScroll }: { targetOfScroll: React.RefObject<HTMLDivElement> }) => {
   const { t } = useTranslation();
 
   const FAGs = [
     {
       question: t('faq.q1.title'),
-      answer: "Crowdfunding for a game project is a method of raising funds where supporters contribute financially to various stages of development. In return, they receive exclusive rewards and benefits, such as access to beta versions and unique in-game items."
+      answer: t('faq.q1.answer')
     },
     {
       question: t('faq.q2.title'),
-      answer: "To make a contribution, simply register on our platform, select the appropriate funding stage, and choose the amount you wish to invest. Multiple payment options are available for your convenience."
+      answer: t('faq.q2.answer')
     },
     {
       question: t('faq.q3.title'),
-      answer: "Depending on your contribution tier, you may receive exclusive in-game items, digital currency, early access to game builds, unique characters, and special achievements."
+      answer: t('faq.q3.answer')
     },
     {
       question: t('faq.q4.title'),
-      answer: "Funds will be allocated toward game development, graphic improvements, content creation, and server infrastructure. We regularly share detailed expenditure reports on our platform."
+      answer: t('faq.q4.answer')
     },
     {
       question: t('faq.q5.title'),
-      answer: "Refunds are available within 14 days of making a contribution, provided that the project has not yet been completed."
+      answer: t('faq.q5.answer')
     },
     {
       question: t('faq.q6.title'),
-      answer: "If the project fails to meet its funding goal, all contributions will be fully refunded to participants, and the project will either be suspended or canceled."
+      answer: t('faq.q6.answer')
     }
   ];
 

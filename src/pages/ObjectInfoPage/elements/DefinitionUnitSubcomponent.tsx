@@ -69,7 +69,7 @@ const SinglePropUnit = ({ propUnits }: { propUnits: Record<string, string>[] }) 
                 <div className="propValue">
                   <p>{typeof Object.values(propUnit)[0] === 'string' || typeof Object.values(propUnit)[0] === 'number'
                     ? Object.values(propUnit)[0]
-                    : "Missing..."}</p>
+                    : "Missing.."}</p>
                 </div>
               </>
             ) : (

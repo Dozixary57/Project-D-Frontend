@@ -2,15 +2,15 @@ import { IIdeaInfo } from "@interfaces/ideas/IIdeaInfo";
 
 interface Action {
   type: string;
-  payload: IIdeaInfo[] | null;
+  payload: any;
 }
 
-const initialState: IIdeaInfo[] | null = null;
+const initialState: any = null;
 
 export default function objectsListData(
-  state: IIdeaInfo[] | null = initialState,
+  state: any = initialState,
   action: Action
-): IIdeaInfo[] | null {
+): any {
   switch (action.type) {
     case 'OBJECTS_LIST_DATA':
       return action.payload;

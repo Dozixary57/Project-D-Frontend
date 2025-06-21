@@ -1,54 +1,46 @@
 import { CrowdfundingProgressBar, CrowdfundingStageCurrentValue, CrowdfundingStageFinalValue, CrowdfundingStageProgress, CrowdfundingStageTitle } from "@components/CrowdfundingProgressBar/CrowdfundingProgressBar";
 import CellContent from "./elements/CellContent";
 import "./MainShowcase.scss";
+import { useEffect, useState } from "react";
+import { INews } from "@interfaces/INews";
+import NewsService from "@services/newsService";
 
 const MainShowcase = ({ scrollToFAG, scrollToCrowdfunding }: { scrollToFAG: () => void, scrollToCrowdfunding: () => void }) => {
+
+  const [newsData, setNewsData] = useState<INews[]>([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const res = await NewsService.getAllNews();
+      setNewsData(res);
+    }
+
+    fetchData();
+  }, [])
 
   return (
     <div className="MainShowcase">
       <CrowdfundingProgressBar />
       <CellContent
         title="News"
-        data={[
-          {
-            title: "News 1",
-            image: "https://placehold.co/10x10",
-            link: "/News"
-          },
-          {
-            title: "News 2",
-            image: "https://placehold.co/20x20",
-            link: "/News"
-          },
-          {
-            title: "News 3",
-            image: "https://placehold.co/30x30",
-            link: "/News"
-          },
-          {
-            title: "News 4",
-            image: "https://placehold.co/40x40",
-            link: "/News"
-          },
-          {
-            title: "News 5",
-            image: "https://placehold.co/50x50",
-            link: "/News"
-          }
-        ]}
+        data={(newsData || []).map((news: INews) => ({
+          title: news.Title,
+          image: news.CoverURL ? news.CoverURL : news.Type ? require(`@images/${news.Type}Cover.png`) : null,
+          link: `/News/${news._id}`
+        }))}
         withControl={true}
         className="NewsCell"
       />
       <CellContent
-        title="Crowdfunding"
+        title="Game progress"
         data={[
           {
-            title: CrowdfundingStageTitle(),
+            title: "Prototype",
             image: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAAXNSR0IArs4c6QAAAAtJREFUCJljYAACAAAFAAFiVTKIAAAAAElFTkSuQmCC",
             style: {
-              width: `${CrowdfundingStageProgress() || 0}%`,
+              width: "1%",
               outline: "none",
-              backgroundColor: "#0081a1",
+              backgroundColor: "#000000",
             }
           }
         ]}
@@ -70,16 +62,16 @@ const MainShowcase = ({ scrollToFAG, scrollToCrowdfunding }: { scrollToFAG: () =
         className="ContentCell"
       />
       <CellContent
-        title="Social Media"
-        data={[
-          {
-            title: "Telegram",
-            image: "https://imgs.search.brave.com/MDmwwD61VwG8Ng9r2BROfR5JBV9zUpZAGlOrY98MlsU/rs:fit:500:0:0:0/g:ce/aHR0cHM6Ly91cGxv/YWQud2lraW1lZGlh/Lm9yZy93aWtpcGVk/aWEvY29tbW9ucy84/LzgyL1RlbGVncmFt/X2xvZ28uc3Zn",
-            style: {
-              padding: "0.5em"
-            }
-          }
-        ]}
+        title="Social media"
+        // data={[
+        //   {
+        //     title: "Telegram",
+        //     image: "https://imgs.search.brave.com/MDmwwD61VwG8Ng9r2BROfR5JBV9zUpZAGlOrY98MlsU/rs:fit:500:0:0:0/g:ce/aHR0cHM6Ly91cGxv/YWQud2lraW1lZGlh/Lm9yZy93aWtpcGVk/aWEvY29tbW9ucy84/LzgyL1RlbGVncmFt/X2xvZ28uc3Zn",
+        //     style: {
+        //       padding: "0.5em"
+        //     }
+        //   }
+        // ]}
         className="SocialMediaCell"
       />
       <CellContent

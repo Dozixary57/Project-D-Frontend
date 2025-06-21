@@ -1,40 +1,41 @@
-import { useEffect, useRef } from "react";
-import { Outlet, useNavigate, useParams } from "react-router";
-import PageHelmet from "@components/PageHelmet/PageHelmet";
+import { useEffect } from "react";
+import { useNavigate } from "react-router";
 import styles from "./ContentModalWindow.module.scss";
 
-const ContentModalWindow = () => {
+const ContentModalWindow = ({ children }: { children: React.ReactNode }) => {
   const navigate = useNavigate();
 
-  const { titleId } = useParams<{ titleId: string }>();
+  // const overlayContentHeightRef = useRef<HTMLDivElement | null>(null);
+  // document.documentElement.style.setProperty('--overlay-content-height', `0px`);
 
-  const overlayContentHeightRef = useRef<HTMLDivElement | null>(null);
-  document.documentElement.style.setProperty('--overlay-content-height', `0px`);
+  // useEffect(() => {
+  //   if (overlayContentHeightRef.current) {
+  //     const height = overlayContentHeightRef.current.scrollHeight;
+  //     document.documentElement.style.setProperty('--overlay-content-height', `${height}px`);
+  //   }
+  //   return () => {
+  //     document.documentElement.style.setProperty('--overlay-content-height', `auto`);
+  //   };
+  // }, [overlayContentHeightRef]);
 
   useEffect(() => {
-    if (overlayContentHeightRef.current) {
-      const height = overlayContentHeightRef.current.scrollHeight;
-      document.documentElement.style.setProperty('--overlay-content-height', `${height}px`);
-    }
+    document.body.style.overflow = 'hidden';
+
     return () => {
-      document.documentElement.style.setProperty('--overlay-content-height', `auto`);
+      document.body.style.overflow = '';
     };
-  }, [overlayContentHeightRef]);
+  }, []);
 
   return (
-    <>
-      <PageHelmet title={titleId ? titleId : "Idea of the Project"} />
-      <div className={styles.CONTENT_MODAL_WINDOW} onClick={() => navigate(-1)}>
-        <div className={styles.MODAL_WINDOW_LAYOUT}>
-          <hr />
-          <Outlet />
-          {/* <div className="MODAL_WINDOW_CONTENT">
-            <Outlet />
-          </div> */}
-          <hr />
-        </div>
+    <div className={styles.CONTENT_MODAL_WINDOW} onClick={() => navigate('..')}>
+      <hr />
+      <div className={styles.MODAL_WINDOW_DATA}
+        // ref={overlayContentHeightRef}
+        onClick={(e) => e.stopPropagation()}>
+        {children}
       </div>
-    </>
+      <hr />
+    </div>
   )
 }
 

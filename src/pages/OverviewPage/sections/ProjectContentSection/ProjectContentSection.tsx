@@ -1,64 +1,67 @@
 import { Link } from "react-router-dom";
 import "./ProjectContentSection.scss"
+import { useTranslation } from "react-i18next";
 
 const ProjectContentSection = () => {
+  const { t } = useTranslation();
+
   return (
     <div className="ProjectContentSection">
       <div className="ContentDescription">
         <div>
-          <img src={require('@images/objects/ThumbnailObjectIcon.png')} />
+          <img src={require('@images/static/ExploreTheWorldAndAdapt.png')} />
           <div>
-            <h4>Explore the world and adapt</h4>
-            <p>Venture through diverse zones and adjust to their unique challenges — every region demands a tailored strategy.</p>
+            <h4>{t('overviewPage.aspects.a1.title')}</h4>
+            <p>{t('overviewPage.aspects.a1.description')}</p>
           </div>
         </div>
         <div>
-          <img src={require('@images/objects/ThumbnailObjectIcon.png')} />
+          <img src={require('@images/static/GatherResourcesForSurvival.png')} />
           <div>
-            <h4>Gather resources for survival</h4>
-            <p>Scan your surroundings, collect valuable materials and rare components — these form the backbone of crafting, construction, and upgrades.</p>
+            <h4>{t('overviewPage.aspects.a2.title')}</h4>
+            <p>{t('overviewPage.aspects.a2.description')}</p>
           </div>
         </div>
         <div>
-          <img src={require('@images/objects/ThumbnailObjectIcon.png')} />
+          <img src={require('@images/static/DevelopAndUtilizeTechnologies.png')} />
           <div>
-            <h4>Develop and utilize technologies</h4>
-            <p>Invent tools, gadgets, and essential items that assist you in both surviving and pushing further into the unknown.</p>
+            <h4>{t('overviewPage.aspects.a3.title')}</h4>
+            <p>{t('overviewPage.aspects.a3.description')}</p>
           </div>
         </div>
         <div>
-          <img src={require('@images/objects/ThumbnailObjectIcon.png')} />
+          <img src={require('@images/static/ExperimentWithSuitModules.png')} />
           <div>
-            <h4>Experiment with suit modules</h4>
-            <p>Mix and enhance different modules to create your own unique playstyle — from agile scouts to combat engineers.</p>
+            <h4>{t('overviewPage.aspects.a4.title')}</h4>
+            <p>{t('overviewPage.aspects.a4.description')}</p>
           </div>
         </div>
         <div>
-          <img src={require('@images/objects/ThumbnailObjectIcon.png')} />
+          <img src={require('@images/static/UncoverAbandonedStructures.png')} />
           <div>
-            <h4>Uncover abandoned structures</h4>
-            <p>Delve into ancient complexes and reveal their secrets, but proceed with caution — not everything inside welcomes visitors.</p>
+            <h4>{t('overviewPage.aspects.a5.title')}</h4>
+            <p>{t('overviewPage.aspects.a5.description')}</p>
           </div>
         </div>
         <div>
-          <img src={require('@images/objects/ThumbnailObjectIcon.png')} />
+          <img src={require('@images/static/BuildWithoutBoundaries.png')} />
           <div>
-            <h4>Build without boundaries</h4>
-            <p>Design bases, platforms, workshops, and entire settlements. Your imagination is the ultimate tool.</p>
+            <h4>{t('overviewPage.aspects.a6.title')}</h4>
+            <p>{t('overviewPage.aspects.a6.description')}</p>
           </div>
         </div>
         <div>
-          <img src={require('@images/objects/ThumbnailObjectIcon.png')} />
+          <img src={require('@images/static/SurviveAndFindYourWayHome.png')} />
           <div>
-            <h4>Survive and find your way home</h4>
-            <p>Manage resources carefully, avoid lurking threats, and uncover the path that leads off the planet, one step at a time.</p>
+            <h4>{t('overviewPage.aspects.a7.title')}</h4>
+            <p>{t('overviewPage.aspects.a7.description')}</p>
           </div>
         </div>
         <div>
           <Link to="/Content">
             <div>
-              <h4>And so much more</h4>
-              <p>Discover deeper insights into the world, its inhabitants, and many other survival elements by diving into the details.</p>
+              <h4>{t('overviewPage.aspects.a8.title')}</h4>
+              <p>{t('overviewPage.aspects.a8.description')}</p>
             </div>
             <button>
               <img src={require('@images/NextIcon.png')} />

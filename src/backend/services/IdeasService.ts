@@ -26,25 +26,28 @@ const IdeasService = {
     }
     return result;
   },
-  // getObjectByTitle: async (collection: string, titleId: string | undefined) => {
-  //   try {
-  //     await axios.get(`${process.env.REACT_APP_DATA_API}/${collection}/${titleId}`).then((res) => {
-  //       if (res.data) {
-  //         store.dispatch({
-  //           type: 'OBJECT_INFO_DATA',
-  //           payload: res.data
-  //         })
-  //       }
-  //     });
-  //   } catch (error) {
-  //     console.log(error);
-  //     store.dispatch({
-  //       type: 'OBJECT_INFO_DATA',
-  //       payload: null
-  //     })
-  //   }
-  // },
-  submitIdeaVote: async (ideaId: string, vote: 1 | -1 | null) => {
+  getIdeaById: async (ideaId: string) => {
+    let result: any = {};
+
+    const headers = {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + GetCurrentUserAccessTokenString()
+    };
+
+    try {
+      await axios.get(`${process.env.REACT_APP_DATA_API}/Idea/${ideaId}`, { headers, timeout: 5000 })
+        .then((res) => {
+          result = res.data || {};
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    } catch (error) {
+      console.log(error);
+    }
+    return result;
+  },
+  submitIdeaVote: async (ideaId: string, vote: 1 | -1) => {
     await AuthService.isAuth();
 
     const headers = {

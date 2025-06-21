@@ -9,7 +9,7 @@ const NowherePage = () => {
                 <title>DizaQute | Page not found</title>
             </Helmet>
             <Navbar />
-            <p>Данной страницы не существует.</p>
+            <p>Currently, this page does not exist.</p>
         </>
     )
 }

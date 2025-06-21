@@ -5,6 +5,7 @@
   border-radius: 0.2em;
 
   .GridOfItems {
+    margin-bottom: 50vh;
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(8em, 1fr));
     grid-template-rows: repeat(auto-fit, minmax(8em, 1fr));

@@ -13,7 +13,6 @@ const ToTopArrow = () => {
     };
 
     useEffect(() => {
-      // При прокрутке колесика мыши вниз отменяем прокрутку наверх
       const handleScroll = (event: { deltaY: number; }) => {
         if (event.deltaY > 0) {
           scrollingToTop.current = false;
@@ -22,7 +21,6 @@ const ToTopArrow = () => {
 
       window.addEventListener('wheel', handleScroll);
 
-      // Удаляем обработчик события при размонтировании компонента
       return () => {
         window.removeEventListener('wheel', handleScroll);
       };
@@ -30,7 +28,7 @@ const ToTopArrow = () => {
 
     return(
         <button onClick={() => {scrollingToTop.current = true; scrollToTop();}} className="TO_TOP_ARROW">
-            <img src={require('../../images/ArrowDown.png')} alt="ToUpArrow" />
+            <img src={require('@images/ArrowDown.png')} alt="ToUpArrow" />
         </button>
     )
 }

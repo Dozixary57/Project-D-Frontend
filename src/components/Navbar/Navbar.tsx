@@ -7,7 +7,7 @@ import { RootState } from "@ReduxStore/store";
 import authService from "@services/authService";
 import { IPrivileges } from "@interfaces/IAccounts";
 import { GetNavUsername } from "@tools/GetUserData";
-import { useLastUrlSegment } from "@tools/LastUrlSegment";
+import { useLastUrlSegment } from "@tools/UrlSegments";
 import "./Navbar.scss"
 
 interface INavbarData {

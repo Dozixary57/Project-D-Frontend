@@ -90,12 +90,10 @@ const FileService = {
   //   let cancelTokenSource: any = null;
 
   //   return async () => {
-  //     // Если есть предыдущий источник отмены, отмените предыдущий запрос
   //     if (cancelTokenSource) {
-  //       cancelTokenSource.cancel('Запрос отменен из-за нового запроса.');
+  //       cancelTokenSource.cancel('Request canceled due to new request.');
   //     }
 
-  //     // Создайте новый источник отмены
   //     cancelTokenSource = axios.CancelToken.source();
 
   //     let result: any = null;
@@ -113,7 +111,7 @@ const FileService = {
   //       })
   //       .catch(error => {
   //         if (axios.isCancel(error)) {
-  //           console.log('Запрос отменен:', error.message);
+  //           console.log('Request canceled:', error.message);
   //         } else {
   //           console.log(error);
   //         }
@@ -136,7 +134,6 @@ const FileService = {
 
       await axios.post(`${process.env.REACT_APP_AUTH_API}/Avatars`, data, { headers: headers, timeout: 5000 })
         .then((res) => {
-          // console.log(res);
           result = res.data || null;
         }).catch(error => {
           console.log(error);

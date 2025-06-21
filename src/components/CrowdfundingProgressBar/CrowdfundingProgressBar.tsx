@@ -99,6 +99,7 @@ export const CrowdfundingProgressBar: React.FC<CrowdfundingProgressBarProps> = (
   stageGoalValue
 }) => {
   const [crowdfundingCurrentValue, setCrowdfundingCurrentValue] = useState<number | undefined>(currentValue);
+  const { i18n, t } = useTranslation();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -118,20 +119,43 @@ export const CrowdfundingProgressBar: React.FC<CrowdfundingProgressBarProps> = (
   }, []);
 
   useEffect(() => {
+    const translatedStageGoals = [
+      {
+        title: t('crowdfunding.stages.stage1.title'),
+        description: t('crowdfunding.stages.stage1.description'),
+      },
+      {
+        title: t('crowdfunding.stages.stage2.title'),
+        description: t('crowdfunding.stages.stage2.description'),
+      },
+      {
+        title: t('crowdfunding.stages.stage3.title'),
+        description: t('crowdfunding.stages.stage3.description'),
+      },
+      {
+        title: t('crowdfunding.stages.stage4.title'),
+        description: t('crowdfunding.stages.stage4.description'),
+      },
+      {
+        title: t('crowdfunding.stages.stage5.title'),
+        description: t('crowdfunding.stages.stage5.description'),
+      }
+    ];
+
     updateGlobalState({
       current: currentValue ?? crowdfundingCurrentValue ?? globalState.current,
       final: finalValue ?? globalState.final,
       stages: stagesValue ?? globalState.stages,
-      stageGoal: stageGoalValue ?? globalState.stageGoal
+      stageGoal: stageGoalValue ?? translatedStageGoals
     });
-  }, [currentValue, finalValue, stagesValue, stageGoalValue, crowdfundingCurrentValue]);
+  }, [currentValue, finalValue, stagesValue, stageGoalValue, crowdfundingCurrentValue, i18n.language, t]);
 
   return null;
 };
 
 export const CrowdfundingStageTitle = () => {
   const { activeIndex } = useSyncedState(getActiveSegmentInfo, 1000);
-  return globalState.stageGoal[activeIndex]?.title ?? "Текущая стадия разработки";
+  return globalState.stageGoal[activeIndex]?.title ?? "The current stage of development";
 };
 
 export const CrowdfundingStageProgress = () => {
@@ -151,14 +175,14 @@ export const CrowdfundingStageFinalValue = () => {
 
 const CrowdfundingStageGoalTitle: React.FC = () => {
   const { activeIndex } = useSyncedState(getActiveSegmentInfo, 1000);
-  const title = globalState.stageGoal[activeIndex]?.title ?? "Текущая стадия разработки";
+  const title = globalState.stageGoal[activeIndex]?.title ?? "The current stage of development";
   return <StyledMarkdown>{title}</StyledMarkdown>;
 };
 
 const CrowdfundingStageGoalDescription: React.FC = () => {
   const { activeIndex } = useSyncedState(getActiveSegmentInfo, 1000);
   const description = globalState.stageGoal[activeIndex]?.description ??
-    "Сбор средств на поддержку разработки игры и ее продвижение: покрытие затрат на производство, улучшение игрового процесса, тестирование, а также техническую и художественную составляющие. Независимо от текущего этапа разработки, ваше участие приближает к завершению создания проекта и выпуску качественного игрового продукта.";
+    "The description of the current stage of development";
   return <StyledMarkdown>{description}</StyledMarkdown>;
 };
 
@@ -208,7 +232,7 @@ export const CrowdfundingStage: React.FC = () => {
         <div className="ProgressTrack">
           <div className="ProgressValue" style={{ width: `${progressPercent}%` }}>
             <div className="Floater">
-              <p>{relativeProgress.toLocaleString("ru")} р.</p>
+              <p>{relativeProgress.toLocaleString("ru")} rub.</p>
             </div>
           </div>
           <p>stage {ToRoman(activeIndex + 1)}</p>

@@ -5,9 +5,10 @@ import { RootState } from "@ReduxStore/store";
 import { IObjectsCountList } from "@interfaces/IObjectsData";
 import { setFilterByCategory, setFilterParamsList, setObjectsData } from "@ReduxStore/Reducers/filtering/objectsFilteredResult";
 import "./ObjectsSearcher.scss"
+import { useTranslation } from "react-i18next";
 
 const ObjectsSearcher = ({
-  Title = "Search",
+  Title = 'Search',
   Query = { queryId: '', queryTitle: '' },
   Available = false,
   FilterPanelOpen = false,
@@ -26,6 +27,7 @@ const ObjectsSearcher = ({
   SearchModeToggleVisible?: boolean,
   FilterPanelToggleVisible?: boolean
 }) => {
+  const { t } = useTranslation();
   const dispatch = useDispatch();
 
   // Search Availability & Filter Panel Toggle
@@ -144,7 +146,7 @@ const ObjectsSearcher = ({
                   }
                   : undefined
               }
-              placeholder={`Search by ${titleIdSearchToggle === "byTitle" ? ' [ title ]' : ' [ id ]'}`}
+              placeholder={`${t('searchComponent.searchPlaceholder.general')} ${titleIdSearchToggle === "byTitle" ? t('searchComponent.searchPlaceholder.title') : t('searchComponent.searchPlaceholder.id')}`}
               disabled={!isSearchAvailable}
               autoComplete="off"
             />

@@ -1,4 +1,14 @@
 {
+  "searchComponent": {
+    "search": "Search",
+    "title": "Title",
+    "id": "ID",
+    "searchPlaceholder": {
+      "general": "Search by",
+      "title": "[title]",
+      "id": "[id]"
+    }
+  },
   "navbar": {
     "home": "Home",
     "content": "Content",
@@ -118,33 +128,73 @@
     "totalFundsRaised": "Total funds raised:",
     "note": "Note: The donation amount must be between 100 and 100000 p. A 3.5% commission fee will be added to your donation amount."
   },
-  "fag": {
-    "title": "FAQ",
-    "questions": {
-      "q1": {
-        "title": "What is crowdfunding for game development?",
-        "answer": ""
-      },
-      "q2": {
-        "title": "How can I contribute to the crowdfunding campaign?",
-        "answer": ""
-      },
-      "q3": {
-        "title": "What kind of rewards will I receive for contributing?",
-        "answer": ""
-      },
-      "q4": {
-        "title": "How will the collected funds be used?",
-        "answer": ""
-      },
-      "q5": {
-        "title": "Can I get a refund if I change my mind?",
-        "answer": ""
-      },
-      "q6": {
-        "title": "What happens if the funding goal is not reached?",
-        "answer": ""
-      }
+  "faq": {
+    "q1": {
+      "title": "What is crowdfunding for game development?",
+      "answer": "Crowdfunding in game development is a fundraising approach where players and fans contribute voluntarily during different phases of production. In exchange, they receive special benefits — such as early access and unique in-game content."
+    },
+    "q2": {
+      "title": "How can I contribute to the crowdfunding campaign?",
+      "answer": "To participate, sign up on our platform, select the funding stage that suits you, and choose how much you'd like to contribute. We support several payment methods to ensure a seamless experience."
+    },
+    "q3": {
+      "title": "What rewards do I receive for contributing?",
+      "answer": "Your rewards depend on the tier you select. They may include rare in-game items, digital currency, early access to builds, exclusive characters, or achievements unavailable to others."
+    },
+    "q4": {
+      "title": "How will the raised funds be used?",
+      "answer": "The contributions are invested in development processes, including graphical enhancements, content creation, and server infrastructure. We provide transparent expense reports on our platform."
+    },
+    "q5": {
+      "title": "Can I get a refund if I change my mind?",
+      "answer": "Yes, refunds are available within 14 days of your contribution, provided the project hasn't been finalized yet."
+    },
+    "q6": {
+      "title": "What happens if the funding goal isn’t reached?",
+      "answer": "If the campaign doesn’t meet its target, all contributions will be fully refunded to supporters, and the project may be suspended or canceled."
     }
+  },
+  "overviewPage": {
+    "mainDescription": "After an unexpected failure and a resonance jump caused by a malfunction in your experimental suit, you find yourself stranded on an uncharted planet—lost far beyond the known universe. You are an engineer of the future, a specialist in advanced technologies. Now, you're alone in a hostile, unpredictable world. All you have left is the modular suit you spent years developing. It is now your only hope for survival.\n\nBut this suit is more than just armor. It's an adaptive system designed to evolve alongside your needs and environment. Upgrade its core systems, install new modules, and unlock powerful abilities—ranging from thermal protection in frozen biomes to advanced sensors, manipulators, and tools capable of reshaping the world around you. Every upgrade is a step forward: toward survival, exploration, and uncovering the secrets of this strange planet.\n\nGather resources, build shelters, craft tools, and interact with a world teeming with unknown lifeforms. This planet reacts to your presence, adapts to your actions, and challenges you in ever-changing ways. Each zone is a distinct ecosystem with its own rules and threats. Every discovery is a key to understanding where you are… and how to get back home.\n\n>Here, science becomes your shield, and creativity your means of survival. Your mind, your suit, and your ingenuity are all that stand between you—and oblivion",
+    "aspects": {
+      "a1": {
+        "title": "Explore the world and adapt",
+        "description": "Venture through diverse zones and adjust to their unique challenges — every region demands a tailored strategy"
+      },
+      "a2": {
+        "title": "Gather resources for survival",
+        "description": "Scan your surroundings, collect valuable materials and rare components — these form the backbone of crafting, construction, and upgrades"
+      },
+      "a3": {
+        "title": "Develop and utilize technologies",
+        "description": "Invent tools, gadgets, and essential items that assist you in both surviving and pushing further into the unknown"
+      },
+      "a4": {
+        "title": "Experiment with suit modules",
+        "description": "Mix and enhance different modules to create your own unique playstyle — from agile scouts to combat engineers"
+      },
+      "a5": {
+        "title": "Uncover abandoned structures",
+        "description": "Delve into ancient complexes and reveal their secrets, but proceed with caution — not everything inside welcomes visitors"
+      },
+      "a6": {
+        "title": "Build without boundaries",
+        "description": "Design bases, platforms, workshops, and entire settlements. Your imagination is the ultimate tool"
+      },
+      "a7": {
+        "title": "Survive and find your way home",
+        "description": "Manage resources carefully, avoid lurking threats, and uncover the path that leads off the planet, one step at a time"
+      },
+      "a8": {
+        "title": "And so much more",
+        "description": "Discover deeper insights into the world, its inhabitants, and many other survival elements by diving into the details"
+      }
+    },
+    "buttons": {
+      "home": "Home page",
+      "support": "Support the project",
+      "donate": "Make a donation"
+    },
+    "moreDetails": "More details"
   }
 }

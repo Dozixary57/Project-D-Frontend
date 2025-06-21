@@ -3,7 +3,7 @@ import { Outlet } from 'react-router-dom';
 import { FooterMinimized } from '@components/Footer/Footer';
 import styles from './LayoutsStyle.module.scss';
 import PageHelmet from '@components/PageHelmet/PageHelmet';
-import { useLastUrlSegment } from '@tools/LastUrlSegment';
+import { useLastUrlSegment } from '@tools/UrlSegments';
 
 const AuthLayout = () => {
   const lastSegment = useLastUrlSegment();

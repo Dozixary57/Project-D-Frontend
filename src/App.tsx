@@ -7,8 +7,8 @@ import HomePage from '@pages/HomePage/HomePage';
 import { NowherePage } from '@pages/NowherePage/NowherePage';
 import ObjectInfoPage from '@pages/ObjectInfoPage/ObjectInfoPage';
 import { AgreementsPage } from "@pages/AgreementsPage/AgreementsPage";
-import { NewsFeedPage } from '@pages/NewsFeedPage/NewsFeedPage';
-import { NewsOverlay } from '@pages/NewsFeedPage/elements/NewsOverlay';
+import NewsPage from '@pages/NewsPage/NewsPage';
+import NewsModalComponent from '@pages/NewsPage/elements/NewsModalComponent';
 import AuthService from '@services/authService';
 import { RootState } from './ReduxStore/store';
 import { useSelector } from 'react-redux';
@@ -28,6 +28,7 @@ import AuthLayout from 'layouts/AuthLayout';
 import { ProjectVisionPage } from '@pages/VisionPage/ProjectVisionPage';
 import ListComponent from 'layouts/inner/ListComponent';
 import ContentModalWindow from '@components/ModalWindows/ContentModalWindow';
+import VisionModalComponent from '@pages/VisionPage/VisionModalComponent/VisionModalComponent';
 
 function App() {
   const navigate = useNavigate();
@@ -50,12 +51,33 @@ function App() {
       <Route path="/" element={<OverviewPage />} />
 
       <Route element={<MainLayout />}>
+
         <Route path="/Home" element={<HomePage />} />
-        <Route element={<ListComponent />}>
-          <Route path="/Vision" element={<ProjectVisionPage />}>
-            <Route path=":titleId" element={<ContentModalWindow />} />
-          </Route>
+
+        <Route path="/Vision" element={
+          <ListComponent>
+            <ProjectVisionPage />
+          </ListComponent>
+        }>
+          <Route path=":titleId" element={
+            <ContentModalWindow>
+              <VisionModalComponent />
+            </ContentModalWindow>
+          } />
         </Route>
+
+        <Route path="/News" element={
+          <ListComponent>
+            <NewsPage />
+          </ListComponent>
+        } >
+          <Route path=":titleId" element={
+            <ContentModalWindow>
+              <NewsModalComponent />
+            </ContentModalWindow>
+          } />
+        </Route>
+
       </Route>
 
       <Route element={<AuthLayout />}>
@@ -67,9 +89,6 @@ function App() {
       <Route path="/Content" element={<ObjectsHubPage />} />
       <Route path="/Content/Items" element={<ObjectsListPage />} />
       <Route path="/Content/Items/:titleId" element={<ObjectInfoPage />} />
-      <Route path="/News" element={<NewsFeedPage />} >
-        <Route path=":titleId" element={<NewsOverlay />} />
-      </Route>
       <Route path="/Receive" element={<ReceivePage />} />
       <Route path="/Agreements" element={<AgreementsPage />} />
       <Route path="*" element={<NowherePage />} />

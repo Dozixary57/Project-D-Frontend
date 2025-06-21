@@ -21,7 +21,7 @@ const CrowdfundingSection = ({ targetOfScroll }: { targetOfScroll: React.RefObje
         <CrowdfundingProgressBar />
         <CrowdfundingRoadmap />
         <CrowdfundingStage />
-        <Link to={isAuthorized ? "/Donation" : "/Login"}>
+        <Link to={isAuthorized ? "/Receive" : "/Login"}>
           <button>Make a donation</button>
         </Link>
       </div>

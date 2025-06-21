@@ -2,9 +2,10 @@ import "./SearchFilter.scss"
 import { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import { RootState, store } from "../../ReduxStore/store";
+import { useTranslation } from "react-i18next";
 
 export function SearchFilter({ data }: { data: any }) {
-
+  const { t } = useTranslation();
   const itemsData = useSelector((state: RootState) => state.itemsData);
   const titleIdSearch = useSelector((state: RootState) => state.searchTitleId);
 
@@ -102,14 +103,14 @@ export function SearchFilter({ data }: { data: any }) {
         <p>{data.title}</p>
         <div className='SearchFilterElements'>
           <div className="SearchLine">
-            <input disabled={!searchAvailable} type="text" value={filteredTitleId} name="searchLine" onChange={(event) => setFilteredTitleId(event.target.value)} placeholder={`Item ${titleIdSearchToggle ? 'title' : 'id'}...`} autoComplete="off" />
+            <input disabled={!searchAvailable} type="text" value={filteredTitleId} name="searchLine" onChange={(event) => setFilteredTitleId(event.target.value)} placeholder={`${t('searchComponent.searchPlaceholder.general')} ${titleIdSearchToggle ? t('searchComponent.searchPlaceholder.title') : t('searchComponent.searchPlaceholder.id')}`} autoComplete="off" />
             <button className="SearchLineBtnClear" style={{ scale: filteredTitleId ? '1' : '0' }} onClick={() => setFilteredTitleId('')} />
 
             <label id="labelErrMessage">{searchErrMessage}</label>
           </div>
           <button disabled={!searchAvailable} onClick={() => setTitleIdSearchToggle(prev => !prev)}>
             <img src={require('../../images/ToggleArrows.png')} alt="ToggleArrows" />
-            <label>{titleIdSearchToggle ? 'Title' : 'ID'}</label>
+            <label>{titleIdSearchToggle ? t('searchComponent.title') : t('searchComponent.id')}</label>
           </button>
           <button disabled={!searchAvailable} onClick={() => setFilterPanel(prev => !prev)} className={filterPanel ? 'ActiveFilterTool' : 'InactiveFilterTool'}>
             <img src={require('../../images/SearchFilterSettingsIcon.png')} alt="FilterTool" />

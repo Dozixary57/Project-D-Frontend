@@ -33,9 +33,9 @@ const AuthService = {
           payload: false
         });
         if (error.code === 'ECONNABORTED') {
-          // Обработка ошибки таймаута    
+          // ...    
         } else {
-          // Обработка других ошибок сети
+          // ...    
         }
         if (error.response.data) {
           result = error.response.data;
@@ -46,7 +46,6 @@ const AuthService = {
         //     payload: false
         // })
       });
-    // console.log(result)       
     return result;
   },
   Signup: async (username: string, email: string, dateOfBirth: string, password: string, captchaToken: string) => {
@@ -78,9 +77,9 @@ const AuthService = {
         }
       }).catch(error => {
         if (error.code === 'ECONNABORTED') {
-          // Обработка ошибки таймаута    
+          // ...    
         } else {
-          // Обработка других ошибок сети
+          // ...    
         }
         console.log(error)
       }).finally(() => {

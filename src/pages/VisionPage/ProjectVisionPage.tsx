@@ -1,11 +1,11 @@
 import PageHelmet from "@components/PageHelmet/PageHelmet";
-import { Link } from "react-router-dom";
+import { Link, Outlet } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { RootState, store } from "@ReduxStore/store";
 import { useEffect, useState } from "react";
 import IdeasService from "@services/IdeasService";
 import LoadingSpriteDots from "@components/LoadingSprites/LoadingSpriteDots";
-// import ObjectsSearcher from "@components/ObjectsSearcher/ObjectsSearcher";
+import { IIdeaInfo } from "@interfaces/ideas/IIdeaInfo";
 import "./ProjectVisionPage.scss"
 
 const ProjectVisionPanel = () => {
@@ -28,6 +28,8 @@ const ProjectVisionPage = () => {
   const objectsListData = useSelector((state: RootState) => state.objectsListData);
 
   useEffect(() => {
+    store.dispatch({ type: 'OBJECTS_LIST_DATA', payload: null })
+
     const fetchData = async () => {
       store.dispatch({
         type: 'OBJECTS_LIST_DATA',
@@ -38,7 +40,7 @@ const ProjectVisionPage = () => {
     fetchData();
   }, []);
 
-  const handleVote = async (e: React.MouseEvent<HTMLButtonElement>, id: string, vote: 1 | -1 | null) => {
+  const handleVote = async (e: React.MouseEvent<HTMLButtonElement>, id: string, vote: 1 | -1) => {
     e.preventDefault();
     if (voteHandlingId) return;
 
@@ -47,9 +49,10 @@ const ProjectVisionPage = () => {
     await IdeasService.submitIdeaVote(id, vote)
       .then((res) => {
         if (res && res.updatedIdea) {
+          console.log(res.updatedIdea);
           store.dispatch({
             type: 'OBJECTS_LIST_DATA',
-            payload: objectsListData?.map(obj =>
+            payload: objectsListData?.map((obj: IIdeaInfo) =>
               obj._id === res.updatedIdea._id ? res.updatedIdea : obj
             )
           });
@@ -62,10 +65,11 @@ const ProjectVisionPage = () => {
 
   return (
     <>
+      <Outlet />
       <PageHelmet title="Vision of the Project" />
       <div className="PROJECT_VISION_DATA">
-        {objectsListData && objectsListData.map((item) => (
-          <Link to={`${item._id}`} key={item._id}>
+        {objectsListData && objectsListData.map((item: IIdeaInfo) => (
+          <Link to={`${item._id}`} state={{ objectData: item }} key={item._id}>
             <div className={`IdeaItem ${item.VoteValue && item.VoteValue > 0 ? 'Positive' : item.VoteValue && item.VoteValue < 0 ? 'Negative' : ''}`}>
               <div className="VoteControls" onClick={(e) => e.preventDefault()}>
                 <button
@@ -85,9 +89,14 @@ const ProjectVisionPage = () => {
                   disabled={!isAuthorized || voteHandlingId ? true : false}
                 />
               </div>
-              <div className="Description">
-                <p className="Title">{item.Title} <span>by {item.Author}</span></p>
-                <p className="Annotation">{item.Annotation}</p>
+              <div className="VoteDescription">
+                <div className="Description">
+                  <p className="Title">{item.Title} <span>by {item.Author}</span></p>
+                  <p className="Annotation">{item.Annotation}</p>
+                </div>
+                <div className="Tags">
+                  <p>Votes: {item.VoteAmount}</p>
+                </div>
               </div>
             </div>
           </Link>

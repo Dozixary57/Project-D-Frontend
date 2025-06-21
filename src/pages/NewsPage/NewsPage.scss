@@ -1,0 +1,197 @@
+@import "~@_styles";
+
+.NEWS_PAGE {
+  width: 100%;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5em;
+  background-color: rgba(black, 0.5);
+  gap: 1em;
+
+  >a {
+    color: #AAA;
+    text-decoration: none;
+
+    >article {
+      display: flex;
+      flex-direction: column;
+      border-radius: 0.15em;
+      background-color: transparent;
+      overflow-y: hidden;
+      transition: all 0.1s ease-in-out;
+
+      .NewsTitle {
+        align-self: center;
+        display: flex;
+        flex-direction: row;
+
+        >label {
+          align-self: center;
+          justify-self: center;
+          margin-right: 0.5em;
+          border-radius: 0.2em;
+          color: transparent;
+          background-color: transparent;
+          padding: 0.3em 0.3em 0.3em 0.5em;
+        }
+
+        >h3 {
+          justify-self: center;
+          margin: 0;
+          padding: 0.5em 0;
+          // background-color: rgba(black, 0.2);
+        }
+
+        >button {
+          align-self: center;
+          display: flex;
+          flex-direction: column;
+          margin-left: 0.25em;
+          width: 2.5em;
+          height: 2.5em;
+          border: none;
+          background-color: transparent;
+
+          >img {
+            align-self: center;
+            width: 2.25em;
+            filter: invert(84%) sepia(12%) saturate(3%) hue-rotate(321deg) brightness(82%) contrast(80%);
+          }
+        }
+
+        >button:hover {
+          cursor: pointer;
+        }
+      }
+
+      >img {
+        width: 100%;
+        box-sizing: border-box;
+        border-radius: 0.7em;
+        padding: 0 0.5em;
+        filter: saturate(75%);
+        transition: all 0.5s ease-in-out;
+      }
+
+      >p {
+        margin: 0;
+        padding: 0.5em;
+        text-align: justify;
+        text-indent: 1.5em;
+        line-height: 1.2em;
+      }
+
+      .AuthorNewsPublication {
+        word-spacing: 0.25em;
+        margin: 0.5em 1em;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+
+        >p {
+          margin: 0;
+        }
+      }
+
+    }
+
+    .ArticleAnnouncements {
+      filter: saturate(150%);
+      background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), linear-gradient(rgba(dodgerblue, 0.2), rgba(dodgerblue, 0.2));
+
+      .NewsTitle {
+
+        >label {
+          filter: brightness(120%) saturate(120%);
+          color: dodgerblue;
+          background-color: rgba(dodgerblue, 0.2);
+        }
+      }
+    }
+
+    .ArticleUpdates {
+      filter: saturate(150%);
+      background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), linear-gradient(rgba(20, 215, 0, 0.2), rgba(20, 215, 0, 0.2));
+
+      .NewsTitle {
+
+        >label {
+          filter: brightness(120%) saturate(120%);
+          color: rgb(20, 215, 0);
+          background-color: rgba(20, 215, 0, 0.2);
+        }
+      }
+    }
+
+    .ArticlePatches {
+      background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), linear-gradient(rgba(#ff8c00, 0.2), rgba(#ff8c00, 0.2));
+
+      .NewsTitle {
+
+        >label {
+          filter: brightness(120%) saturate(120%);
+          color: #ff8c00;
+          background-color: rgba(#ff8c00, 0.2);
+        }
+      }
+    }
+
+    .ArticleDevelopment {
+      background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), linear-gradient(rgba(blueviolet, 0.2), rgba(blueviolet, 0.2));
+
+      .NewsTitle {
+
+        >label {
+          filter: brightness(120%) saturate(120%);
+          color: rgb(165, 65, 255);
+          background-color: rgba(blueviolet, 0.2);
+        }
+      }
+    }
+
+    .ArticleActions {
+      background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), linear-gradient(rgba(#CCC, 0.2), rgba(#CCC, 0.2));
+
+      .NewsTitle {
+
+        >label {
+          filter: brightness(120%) saturate(120%);
+          color: #CCC;
+          background-color: rgba(#CCC, 0.2);
+        }
+      }
+
+    }
+
+    >article:hover {
+      box-shadow: 0 0 0 0.2em #AAA;
+    }
+  }
+}
+
+.NoRelevantData {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  >p {
+    margin: 0;
+    width: 90%;
+    text-align: center;
+    padding: 2em 0 1em 0;
+  }
+
+  >button {
+    @include defaultFontFamily;
+    color: #AAA;
+    font-size: 1.1em;
+    margin-bottom: 1em;
+    padding: 0.5em;
+    border: none;
+    border-radius: 0.2em;
+    background-color: rgba(black, 0.4);
+  }
+}
