@@ -4,9 +4,12 @@ import "./LegalPage.scss";
 const LegalPage = () => {
 
   return (
-    <div>
+    <>
       <PageHelmet title="Legal" />
-    </div>
+      <div className="LEGAL_PAGE">
+
+      </div>
+    </>
   )
 }
 

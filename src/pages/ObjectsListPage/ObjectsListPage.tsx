@@ -55,7 +55,7 @@ const ObjectsListPage = () => {
       <PageHelmet title={lastUrlSegment || "Objects"} />
       <Navbar />
       <main className="ItemPageMain">
-        <SearchFilter data={{ title: 'Items' }} />
+        {/* <SearchFilter data={{ title: 'Items' }} /> */}
         {/* <ObjectsSearcher /> */}
 
         {isLoading ? (

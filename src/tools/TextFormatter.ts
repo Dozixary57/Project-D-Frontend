@@ -24,3 +24,8 @@ export const ToRoman = (num: number): string => {
   }
   return result;
 }
+
+export const CapitalizeFirstLetter = (str: string): string => {
+  if (!str) return '';
+  return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+}

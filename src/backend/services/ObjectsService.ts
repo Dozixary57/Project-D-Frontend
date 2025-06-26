@@ -1,4 +1,6 @@
-import { IObjectInfo } from '@interfaces/IObjectsData';
+import { IObjectInfo, IObjectsCountList } from '@interfaces/IObjectsData';
+import { setObjectsData } from '@ReduxStore/Reducers/filtering/objectsFilteredResult';
+import { CapitalizeFirstLetter } from '@tools/TextFormatter';
 import axios from 'axios';
 import { store } from 'ReduxStore/store';
 
@@ -75,14 +77,35 @@ const ObjectsService = {
     return res.data;
   },
 
-  getObjectsCountList: async () => {
+  // getObjectsCountList: async () => {
+  //   try {
+  //     await axios.get(`${process.env.REACT_APP_DATA_API}/Objects/CountList`)
+  //       .then((res) => {
+  //         store.dispatch({
+  //           type: 'OBJECTS_COUNT_LIST',
+  //           payload: res.data
+  //         })
+  //       }).catch(error => {
+  //         console.log(error);
+  //       });
+  //   } catch (error) {
+  //     console.log(error);
+  //   } finally {
+  //     store.dispatch({
+  //       type: 'IS_LOADING_STATE',
+  //       payload: false
+  //     })
+  //   }
+  // },
+
+  getObjectsCount: async (collection: string) => {
     try {
-      await axios.get(`${process.env.REACT_APP_DATA_API}/Objects/CountList`)
+      await axios.get(`${process.env.REACT_APP_DATA_API}/Objects/Count/${collection}`)
         .then((res) => {
           store.dispatch({
             type: 'OBJECTS_COUNT_LIST',
-            payload: res.data
-          })
+            payload: { [collection]: res.data }
+          });
         }).catch(error => {
           console.log(error);
         });
@@ -95,6 +118,50 @@ const ObjectsService = {
       })
     }
   },
+
+  getObjectsByCategory: async (category: keyof IObjectsCountList) => {
+    try {
+      const categoryName = CapitalizeFirstLetter(category);
+      await axios.get(`${process.env.REACT_APP_DATA_API}/Objects/${categoryName}`)
+        .then((res) => {
+          if (res && res.data && res.data[categoryName]) {
+            store.dispatch(setObjectsData({
+              [categoryName]: res.data[categoryName]
+            }));
+          }
+        }).catch(error => {
+          console.log(error);
+        });
+    } catch (error) {
+      console.log(error);
+    }
+  },
+
+  getObjectsByCriteria: async (criteria: any) => {
+    try {
+      const headers = {
+        'Content-Type': 'application/json'
+      }
+
+      store.dispatch({ type: 'IS_LOCAL_LOADING_STATE', payload: true })
+
+      await axios.post(`${process.env.REACT_APP_DATA_API}/ObjectsByCriteria`, criteria, { headers })
+        .then((res) => {
+          if (res && res.data) {
+            store.dispatch(setObjectsData({
+              ...res.data
+            }));
+          }
+        }).catch(error => {
+          console.log(error);
+        });
+    } catch (error) {
+      console.log(error);
+    } finally {
+      store.dispatch({ type: 'IS_LOCAL_LOADING_STATE', payload: false })
+    }
+  },
+
   getObjectsSelectCategories: async () => {
     try {
       let result: { value: string, label: string }[] | null = null;

@@ -1,13 +1,13 @@
 import ObjectsSearcher from '@components/ObjectsSearcher/ObjectsSearcher';
 import styles from './ComponentsStyle.module.scss';
 
-const ListComponent = ({ children }: { children: React.ReactNode }) => {
+const GridComponent = ({ children }: { children: React.ReactNode }, { WithSearch = false }: { WithSearch: boolean }) => {
   return (
     <div className={styles.LIST_COMPONENT}>
-      <ObjectsSearcher />
+      {WithSearch && <ObjectsSearcher />}
       {children}
     </div>
   );
 }
 
-export default ListComponent;
+export default GridComponent;

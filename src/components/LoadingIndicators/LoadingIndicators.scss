@@ -1,0 +1,16 @@
+.LOCAL_LOADING_INDICATOR {
+  width: 100%;
+  height: 2em;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  border-radius: 0.1em;
+  background-color: rgba(black, 0.2);
+  overflow: hidden;
+
+  >img {
+    width: 3em;
+    filter: invert(73%) sepia(0%) saturate(2455%) hue-rotate(195deg) brightness(93%) contrast(89%);
+  }
+}

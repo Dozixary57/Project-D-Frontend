@@ -40,138 +40,6 @@
       }
     }
 
-    .SearchLineWithMode {
-      width: 100%;
-      display: flex;
-      flex-direction: row;
-      gap: 0.25em;
-
-      .SearchLineContainer {
-        position: relative;
-        width: 100%;
-        display: flex;
-        align-items: center;
-
-        .SearchLine {
-          width: 100%;
-          box-sizing: border-box;
-          font-family: 'F77 Minecraft', PressStart2P-Regular, 'Cascadia Mono', sans-serif;
-          color: #AAA;
-          font-size: 1em;
-          border-radius: 0.1em;
-          padding: 0.6em 2.15em 0.6em 0.4em;
-          border: 0;
-          outline: 0.1em solid transparent;
-          background-color: rgba(0, 0, 0, 0.2);
-          transition:
-            outline-color 0.1s ease-in-out,
-            background-color 0.1s ease-in-out;
-
-          &[type="number"]::-webkit-outer-spin-button,
-          &[type="number"]::-webkit-inner-spin-button {
-            -webkit-appearance: none;
-            margin: 0;
-          }
-
-          &[type="number"] {
-            -moz-appearance: textfield;
-          }
-
-          &:focus {
-            color: white;
-            border: none;
-            outline-color: #AAA;
-            background-color: rgba(0, 0, 0, 0.4);
-          }
-
-          &:focus::placeholder {
-            color: rgba(#AAA, 0.25);
-          }
-
-          &:disabled {
-            background-color: rgba(white, 0.1);
-            cursor: not-allowed;
-          }
-        }
-
-        >button {
-          position: absolute;
-          width: 2.4em;
-          height: 2.4em;
-          right: 0.4em;
-          border: none;
-          outline: 0.1em solid #AAA;
-          border-radius: 0.05em;
-          background-image: url("~@images/CloseIcon.png");
-          background-size: 1.8em;
-          background-position: center;
-          background-repeat: no-repeat;
-          background-color: transparent;
-          transform: scale(1);
-          opacity: 0.6;
-          transition: all 0.2s ease-in-out;
-
-          &:hover:not(:disabled) {
-            opacity: 1;
-            cursor: pointer;
-          }
-
-          &:disabled {
-            transform: scale(0);
-          }
-        }
-      }
-
-      .SearchModeToggleButton {
-        width: 6.5em;
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        justify-content: center;
-        color: #757575;
-        font-size: 0.85em;
-        font-family: 'F77 Minecraft', PressStart2P-Regular, 'Cascadia Mono', sans-serif;
-        border-radius: 0.1em;
-        border: none;
-        padding: 0 0.2em 0 0;
-        gap: 0.1em;
-        background-color: rgb(black, 0.2);
-        transition:
-          background-color 0.1s ease-in-out,
-          filter 0.075s ease-in-out;
-        cursor: pointer;
-
-        >img {
-          width: 1.5em;
-          filter: invert(45%) sepia(62%) saturate(6%) hue-rotate(70deg) brightness(89%) contrast(80%);
-        }
-
-        >label {
-          word-break: normal;
-          transform: translateY(0.05em);
-          cursor: pointer;
-        }
-
-        &:disabled {
-          background-color: rgba(white, 0.1);
-          cursor: not-allowed;
-
-          >label {
-            cursor: not-allowed;
-          }
-        }
-
-        &:hover:not(:disabled) {
-          color: white;
-          background-color: rgba(white, 0.05);
-
-          img {
-            filter: invert(100%) sepia(0%) saturate(1%) hue-rotate(160deg) brightness(104%) contrast(101%);
-          }
-        }
-      }
-    }
-
     .FilterPanelToggle {
       margin: 0;
       height: 3.15em;
@@ -214,82 +82,148 @@
       }
     }
   }
+}
 
-  .FilterPanel {
+.SEARCH_LINE_WITH_MODE {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  gap: 0.25em;
+
+  .SearchLineContainer {
+    position: relative;
+    width: 100%;
     display: flex;
-    flex-direction: column;
-    padding: 0 0.75em;
-    gap: 1em;
-    background-color: rgba(black, 0.1);
+    align-items: center;
 
-    .FilterItem {
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-      padding: 0.75em 0;
-      gap: 0.5em;
+    .SearchLine {
+      width: 100%;
+      box-sizing: border-box;
+      font-family: 'F77 Minecraft', PressStart2P-Regular, 'Cascadia Mono', sans-serif;
+      color: #AAA;
+      font-size: 1em;
+      border-radius: 0.1em;
+      padding: 0.6em 2.15em 0.6em 0.4em;
+      border: 0;
+      outline: 0.1em solid transparent;
+      background-color: rgba(0, 0, 0, 0.2);
+      transition:
+        outline-color 0.1s ease-in-out,
+        background-color 0.1s ease-in-out;
 
-      >p {
+      &[type="number"]::-webkit-outer-spin-button,
+      &[type="number"]::-webkit-inner-spin-button {
+        -webkit-appearance: none;
         margin: 0;
-        width: 55%;
       }
 
-      .CategoryOptions {
-        width: 45%;
-        display: flex;
-        flex-direction: column;
+      &[type="number"] {
+        -moz-appearance: textfield;
+      }
 
-        .Selector {
-          position: relative;
-          width: 100%;
-          color: #AAA;
-          @include defaultFontFamily;
-          text-align: center;
-          font-size: 0.9em;
-          margin: 0;
-          padding: 0.2em 0;
-          border: none;
-          outline: 0.1em solid transparent;
-          border-radius: 0.15em;
-          background-color: rgba(white, 0.1);
+      &:focus {
+        color: white;
+        border: none;
+        outline-color: #AAA;
+        background-color: rgba(0, 0, 0, 0.4);
+      }
 
-          &:focus {
-            outline-color: #AAA;
-          }
+      &:focus::placeholder {
+        color: rgba(#AAA, 0.25);
+      }
 
-          >option {
-            border-radius: 0;
-            background-color: #272727;
-          }
-        }
+      &:disabled {
+        background-color: rgba(white, 0.1);
+        cursor: not-allowed;
+      }
+    }
 
-        .OptionsList {
-          width: 100%;
-          display: flex;
-          flex-direction: column;
-          gap: 0.1em;
+    >button {
+      position: absolute;
+      width: 2.4em;
+      height: 2.4em;
+      right: 0.4em;
+      border: none;
+      outline: 0.1em solid #AAA;
+      border-radius: 0.05em;
+      background-image: url("~@images/CloseIcon.png");
+      background-size: 1.8em;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-color: transparent;
+      transform: scale(1);
+      opacity: 0.6;
+      transition: all 0.2s ease-in-out;
 
-          .Separator {
-            width: 100%;
-          }
+      &:hover:not(:disabled) {
+        opacity: 1;
+        cursor: pointer;
+      }
 
-          >div {
-            width: 100%;
-            display: flex;
-            flex-direction: row;
-            align-items: center;
-            gap: 0.5em;
-
-            >input {}
-
-            >label {
-              font-size: 0.9em;
-            }
-          }
-        }
+      &:disabled {
+        transform: scale(0);
       }
     }
   }
+
+  .SearchModeToggleButton {
+    width: 6.5em;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    color: #757575;
+    font-size: 0.85em;
+    font-family: 'F77 Minecraft', PressStart2P-Regular, 'Cascadia Mono', sans-serif;
+    border-radius: 0.1em;
+    border: none;
+    padding: 0 0.2em 0 0;
+    gap: 0.1em;
+    background-color: rgb(black, 0.2);
+    transition:
+      background-color 0.1s ease-in-out,
+      filter 0.075s ease-in-out;
+    cursor: pointer;
+
+    >img {
+      width: 1.5em;
+      filter: invert(45%) sepia(62%) saturate(6%) hue-rotate(70deg) brightness(89%) contrast(80%);
+    }
+
+    >label {
+      word-break: normal;
+      transform: translateY(0.05em);
+      cursor: pointer;
+    }
+
+    &:disabled {
+      background-color: rgba(white, 0.1);
+      cursor: not-allowed;
+
+      >label {
+        cursor: not-allowed;
+      }
+    }
+
+    &:hover:not(:disabled) {
+      color: white;
+      background-color: rgba(white, 0.05);
+
+      img {
+        filter: invert(100%) sepia(0%) saturate(1%) hue-rotate(160deg) brightness(104%) contrast(101%);
+      }
+    }
+  }
+}
+
+.FILTER_PANEL {
+  width: 100%;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  padding: 0 0.5em;
+  gap: 1em;
+  background-color: rgba(white, 0.025);
 
   .ResetFilter {
     width: 100%;
@@ -313,6 +247,74 @@
     &:disabled {
       background-color: rgba(red, 0.05);
       cursor: not-allowed;
+    }
+  }
+}
+
+.FILTER_ITEM {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  padding: 0.75em 0;
+  gap: 0.5em;
+
+  >p {
+    width: 45%;
+    margin: 0;
+  }
+
+  .CategoryOptions {
+    width: 55%;
+    display: flex;
+    flex-direction: column;
+
+    .Selector {
+      position: relative;
+      width: 100%;
+      color: #AAA;
+      @include defaultFontFamily;
+      text-align: center;
+      font-size: 0.9em;
+      margin: 0;
+      padding: 0.2em 0;
+      border: none;
+      outline: 0.1em solid transparent;
+      border-radius: 0.15em;
+      background-color: rgba(white, 0.1);
+
+      &:focus {
+        outline-color: #AAA;
+      }
+
+      >option {
+        border-radius: 0;
+        background-color: #272727;
+      }
+    }
+
+    .OptionsList {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 0.1em;
+
+      .Separator {
+        width: 100%;
+      }
+
+      >div {
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 0.5em;
+
+        >input {}
+
+        >label {
+          font-size: 0.9em;
+        }
+      }
     }
   }
 }

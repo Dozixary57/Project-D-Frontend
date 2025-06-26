@@ -18,6 +18,8 @@ import objectsFilteredResult from "./Reducers/filtering/objectsFilteredResult";
 import editingMode from "./Reducers/editing/actions/editingMode";
 import formObjectData from "./Reducers/editing/data/formObjectData";
 import objectsListData from "./Reducers/data/objectsListData";
+import isLocalLoadingState from "./Reducers/loading/isLocalLoadingState";
+import isGlobalLoadingState from "./Reducers/loading/isGlobalLoadingState";
 
 export const rootReducer = combineReducers({
     itemObjectsNavigationIndex,
@@ -38,4 +40,7 @@ export const rootReducer = combineReducers({
     objectsFilteredResult,
     editingMode,
     objectsListData,
+
+    isGlobalLoadingState,
+    isLocalLoadingState,
 });

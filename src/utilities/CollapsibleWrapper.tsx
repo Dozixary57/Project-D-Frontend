@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 
 interface CollapsibleWrapperProps {
+  type?: 'horizontal' | 'vertical';
   isOpen: boolean;
   children: React.ReactNode;
   duration?: number;
@@ -8,19 +9,20 @@ interface CollapsibleWrapperProps {
 }
 
 const CollapsibleWrapper: React.FC<CollapsibleWrapperProps> = ({
+  type = 'vertical',
   isOpen,
   children,
   duration = 300,
   classes,
 }) => {
   const contentRef = useRef<HTMLDivElement>(null);
-  const [maxHeight, setMaxHeight] = useState<string>('0px');
+  const [maxSize, setMaxSize] = useState<string>('0px');
   const [overflow, setOverflow] = useState<'hidden' | 'visible'>('hidden');
 
   useEffect(() => {
     if (contentRef.current) {
-      const scrollHeight = contentRef.current.scrollHeight;
-      setMaxHeight(isOpen ? `${scrollHeight}px` : '0px');
+      const scrollSize = type === 'vertical' ? contentRef.current.scrollHeight : contentRef.current.scrollWidth;
+      setMaxSize(isOpen ? `${scrollSize}px` : '0px');
 
       if (isOpen) {
         const timeout = setTimeout(() => {
@@ -32,13 +34,21 @@ const CollapsibleWrapper: React.FC<CollapsibleWrapperProps> = ({
         setOverflow('hidden');
       }
     }
-  }, [isOpen, children, duration]);
+  }, [isOpen, children, duration, type]);
 
-  const transitionStyle: React.CSSProperties = {
-    maxHeight: maxHeight,
-    overflow: overflow,
-    transition: `max-height ${duration}ms ease`,
-  };
+  const transitionStyle: React.CSSProperties =
+    type === 'vertical'
+      ? {
+        maxHeight: maxSize,
+        overflow,
+        transition: `max-height ${duration}ms ease`,
+      }
+      : {
+        maxWidth: maxSize,
+        overflow,
+        transition: `max-width ${duration}ms ease`,
+        whiteSpace: 'nowrap',
+      };
 
   return (
     <div style={transitionStyle}>

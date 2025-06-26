@@ -1,199 +1,153 @@
 @import "~@_styles";
 
 .OBJECTS_HUB_PAGE {
-  @include BasePageTemplate;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0.5em;
+}
 
-  .Content {
+.SECTION_GALLERY {
+  width: 100%;
+  display: grid;
+  aspect-ratio: 1/1;
+  grid-template-columns: repeat(17, 1fr);
+  grid-template-rows: repeat(17, 1fr);
+}
+
+.FILTERED_OBJECTS_LIST {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5em;
+
+  .CategorySection {
     width: 100%;
-    box-sizing: border-box;
-    padding: 0.5em;
+    background-color: rgba(black, 0.1);
 
-    .NoFilteredResults {
+    .SectionHeader {
       width: 100%;
-      text-align: center;
-      border-radius: 0.1em;
-      padding: 1em 0;
-      background-color: rgba(black, 0.2);
+      box-sizing: border-box;
+      display: grid;
+      grid-template-columns: 1fr auto auto;
+      align-items: center;
+      border-radius: 0.15em;
+      padding: 0.5em;
+      background-color: rgba(black, 0.1);
+      gap: 1em;
+      transition: background-color 0.1s ease-out;
+      cursor: pointer;
+
+      &:hover {
+        background-color: rgba(white, 0.05);
+      }
+
+      >p {
+        margin: 0;
+        user-select: none;
+      }
+
+      >p:nth-of-type(1) {
+        justify-self: start;
+      }
+
+      >p:nth-of-type(2),
+      >p:nth-of-type(3) {
+        justify-self: end;
+      }
     }
 
-    .SectionGallery {
-      width: 100%;
-      display: grid;
-      aspect-ratio: 1/1;
-      grid-template-columns: repeat(17, 1fr);
-      grid-template-rows: repeat(17, 1fr);
+    .SectionContent {
+      display: flex;
+      box-sizing: border-box;
+      flex-direction: column;
+      border-radius: 0.15em;
+      padding: 0.4em 0.25em;
+      gap: 0.5em;
 
       >a {
         width: 100%;
         color: #AAA;
         text-decoration: none;
 
-        >div {
-          position: relative;
-          width: 100%;
-          height: 100%;
-          border-radius: 0.1em;
-          outline: 0.2em solid transparent;
-          transition: outline 0.1s ease-in-out;
+        .SectionItem {
+          padding: 0.4em 0.5em;
+          outline: 0.1em solid transparent;
+          background-color: rgba(white, 0.1);
+          transition: outline-color 0.1s ease-out, background-color 0.1s ease-out;
 
           &:hover {
-            outline-color: white;
+            outline-color: rgba(white, 0.4);
+            background-color: rgba(white, 0.2);
           }
         }
-
-        &.ItemsLink {
-          grid-area: 1 / 1 / 5 / 5;
-        }
-
-        &.CreaturesLink {
-          grid-area: 1 / 13 / 7 / 18;
-        }
-
-        &.LocationsLink {
-          grid-area: 13 / 1 / 18 / 8;
-        }
-
-        &.MechanicsLink {
-          grid-area: 7 / 7 / 11 / 11;
-        }
-
-        &.BlocksLink {
-          grid-area: 1 / 7 / 4 / 10;
-        }
       }
 
-      .ItemsCell {
-        background-color: #5fcde4;
+      >.SectionItem {
+        font-size: 0.9em;
+        padding: 0.15em 0.4em;
+        background-color: rgba(black, 0.2);
       }
 
-      .CreaturesCell {
-        background-color: #3f3f74;
-      }
-
-      .LocationsCell {
-        background-color: #6abe30;
-      }
-
-      .MechanicsCell {
-        background-color: #ffc75f;
-      }
-
-      .BlocksCell {
-        background-color: #df7126;
-      }
-    }
-
-    .FilteredObjectsList {
-      width: 100%;
-      display: flex;
-      flex-direction: column;
-      gap: 0.5em;
-
-      .CategorySection {
+      .SectionItem {
         width: 100%;
-        background-color: rgba(black, 0.1);
+        box-sizing: border-box;
+        display: grid;
+        grid-auto-flow: column;
+        grid-auto-columns: max-content;
+        align-items: center;
+        border-radius: 0.05em;
+        gap: 0.5em;
 
-        .SectionHeader {
-          width: 100%;
-          box-sizing: border-box;
-          display: grid;
-          grid-template-columns: 1fr auto auto;
-          align-items: center;
-          border-radius: 0.15em;
-          padding: 0.5em;
-          background-color: rgba(black, 0.1);
-          gap: 1em;
-          transition: background-color 0.1s ease-out;
-          cursor: pointer;
-
-          &:hover {
-            background-color: rgba(white, 0.05);
-          }
-
-          >p {
-            margin: 0;
-            user-select: none;
-          }
-
-          > p:nth-of-type(1) {
-            justify-self: start;
-          }
-        
-          > p:nth-of-type(2),
-          > p:nth-of-type(3) {
-            justify-self: end;
-          }
+        >p {
+          margin: 0;
         }
-
-        .SectionContent {
-          display: flex;
-          box-sizing: border-box;
-          flex-direction: column;
-          border-radius: 0.15em;
-          padding: 0.4em 0.25em;
-          gap: 0.5em;
-
-          >a {
-            width: 100%;
-            color: #AAA;
-            text-decoration: none;
-
-            .SectionItem {
-              padding: 0.4em 0.5em;
-              outline: 0.1em solid transparent;
-              background-color: rgba(white, 0.1);
-              transition: outline-color 0.1s ease-out, background-color 0.1s ease-out;
-
-              &:hover {
-                outline-color: rgba(white, 0.4);
-                background-color: rgba(white, 0.2);
-              }
-            }
-          }
-
-          >.SectionItem {
-            font-size: 0.9em;
-            padding: 0.15em 0.4em;
-            background-color: rgba(black, 0.2);
-          }
-
-          .SectionItem {
-            width: 100%;
-            box-sizing: border-box;
-            display: grid;
-            grid-auto-flow: column;
-            grid-auto-columns: max-content;
-            align-items: center;
-            border-radius: 0.05em;
-            gap: 0.5em;
-
-            >p {
-              margin: 0;
-            }
-          }
-        }
-
-        // .SectionContent {
-        //   display: flex;
-        //   box-sizing: border-box;
-        //   flex-direction: column;
-        //   border-radius: 0.15em;
-        //   padding: 0.25em;
-        //   gap: 0.5em;
-
-        //   .SectionItem {
-        //     width: 100%;
-        //     margin: 0;
-        //     box-sizing: border-box;
-        //     display: flex;
-        //     flex-direction: row;
-        //     justify-content: space-between;
-        //     align-items: center;
-        //     border-radius: 0.05em;
-        //     background-color: rgba(white, 0.1);
-        //   }  
-        // }
       }
     }
   }
+}
+
+.HUB_UNIT {
+  width: 100%;
+  grid-area: var(--grid-area);
+  background-color: rgba(var(--element-color), 0.2);
+  outline: 0 solid transparent;
+  transition: outline 100ms ease-in-out;
+
+  &:hover:not(.NoData) {
+    outline: 0.1em solid rgba(var(--element-color), 0.75);
+  }
+
+  &.NoData {
+    filter: grayscale(1);
+    pointer-events: none;
+    user-select: none;
+  }
+
+  .UnitData {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    >img {
+      width: 100%;
+      height: 100%;
+      aspect-ratio: 1 / 1;
+      object-fit: contain;
+      box-sizing: border-box;
+      padding: 0.5em;
+    }
+  }
+}
+
+.NO_FILTERED_OBJECTS {
+  margin: 0;
+  width: 100%;
+  text-align: center;
+  border-radius: 0.1em;
+  padding: 0.5em 0;
+  background-color: rgba(black, 0.2);
 }

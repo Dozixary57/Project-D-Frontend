@@ -6,7 +6,7 @@ import { ProjectVisionPanel } from '@pages/VisionPage/ProjectVisionPage';
 import { useUrlSegment } from '@tools/UrlSegments';
 import { useEffect } from 'react';
 
-const MainLayout = () => {
+const MainLayout = ({ children }: { children?: React.ReactNode }) => {
   const urlSegment = useUrlSegment(0);
   const excludedUrlSegments = ['Vision'];
 
@@ -14,10 +14,10 @@ const MainLayout = () => {
     <div className={styles.MAIN_LAYOUT}>
       <Navbar />
       <main>
-        <Outlet />
         {urlSegment !== null && !excludedUrlSegments.includes(urlSegment) &&
           <ProjectVisionPanel />
         }
+        {children ? children : <Outlet />}
       </main>
       <Footer />
     </div>

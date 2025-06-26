@@ -1,6 +1,48 @@
 import { createSelector } from "@reduxjs/toolkit";
 import { RootState } from "@ReduxStore/store";
 
+const applyFilters = (
+  obj: Record<string, any>,
+  filterTitleQuery: string | null,
+  filterParamsList: Record<string, any> | null
+): boolean => {
+  const matchesTitle =
+    !filterTitleQuery || obj.Title?.toLowerCase().includes(filterTitleQuery.toLowerCase());
+
+  const matchesParams =
+    !filterParamsList ||
+    Object.entries(filterParamsList).every(([paramKey, paramValue]) => {
+      if (paramValue === null) return true;
+
+      const actualKey = Object.keys(obj).find(
+        objKey => objKey.toLowerCase() === paramKey.toLowerCase()
+      );
+
+      if (!actualKey) return false;
+
+      const objValue = obj[actualKey];
+
+      if (Array.isArray(paramValue)) {
+        if (typeof objValue === "string") {
+          return paramValue.some(
+            val =>
+              typeof val === "string" &&
+              objValue.toLowerCase().includes(val.toString().toLowerCase())
+          );
+        }
+        return paramValue.includes(objValue);
+      }
+
+      if (typeof objValue === "string" && typeof paramValue === "string") {
+        return objValue.toLowerCase().includes(paramValue.toLowerCase());
+      }
+
+      return objValue === paramValue;
+    });
+
+  return matchesTitle && matchesParams;
+};
+
 export const selectFilteredObjects = createSelector(
   [
     (state: RootState) => state.objectsFilteredResult.objectsData,
@@ -9,67 +51,30 @@ export const selectFilteredObjects = createSelector(
     (state: RootState) => state.objectsFilteredResult.filterByCategory
   ],
   (objectsData, filterTitleQuery, filterParamsList, filterByCategory) => {
-    const applyFilters = (obj: any) => {
-      const matchesTitle =
-        !filterTitleQuery || obj.Title?.toLowerCase().includes(filterTitleQuery.toLowerCase());
+    const result: Record<string, any[]> = {};
 
-      const matchesParams =
-        !filterParamsList ||
-        Object.entries(filterParamsList).every(([paramKey, paramValue]) => {
-          if (paramValue === null) return true;
+    const categoriesToProcess =
+      filterByCategory && filterByCategory.length > 0
+        ? Object.keys(objectsData).filter(category =>
+          filterByCategory.some(filter =>
+            filter.toLowerCase() === category.toLowerCase()
+          )
+        )
+        : Object.keys(objectsData);
 
-          const actualKey = Object.keys(obj).find(
-            objKey => objKey.toLowerCase() === paramKey.toLowerCase()
-          );
+    categoriesToProcess.forEach(category => {
+      const entries = objectsData[category];
+      if (Array.isArray(entries)) {
+        const filtered = entries.filter(obj =>
+          applyFilters(obj, filterTitleQuery, filterParamsList)
+        );
+        if (filtered.length > 0) {
+          result[category] = filtered;
+        }
+      }
+    });
 
-          if (!actualKey) return false;
-
-          const objValue = obj[actualKey];
-
-          if (Array.isArray(paramValue)) {
-            if (typeof objValue === 'string') {
-              return paramValue.some(val => 
-                typeof val === 'string' && 
-                objValue.toLowerCase().includes(val.toString().toLowerCase())
-              );
-            }
-            return paramValue.includes(objValue);
-          } 
-          
-          if (typeof objValue === 'string' && typeof paramValue === 'string') {
-            return objValue.toLowerCase().includes(paramValue.toLowerCase());
-          }
-          
-          return objValue === paramValue;
-        });
-
-      return matchesTitle && matchesParams;
-    };
-
-    if (filterByCategory !== null) {
-      const resultWithCategories = objectsData.map(categoryObj => {
-        const categoryNames = Object.keys(categoryObj);
-        const categoriesToProcess = filterByCategory.length > 0
-          ? categoryNames.filter(name =>
-            filterByCategory.some(category =>
-              category.toLowerCase() === name.toLowerCase()))
-          : categoryNames;
-        const processedCategories: Record<string, any[]> = {};
-        categoriesToProcess.forEach(categoryName => {
-          if (categoryObj[categoryName]) {
-            const filteredItems = Array.isArray(categoryObj[categoryName])
-              ? categoryObj[categoryName].filter(applyFilters)
-              : [];
-            if (filteredItems.length > 0) {
-              processedCategories[categoryName] = filteredItems;
-            }
-          }
-        });
-        return Object.keys(processedCategories).length ? processedCategories : null;
-      }).filter(Boolean);
-      return resultWithCategories;
-    }
-    return objectsData.filter(applyFilters);
+    return result;
   }
 );
 
@@ -81,11 +86,8 @@ export const selectIsFiltered = createSelector(
   ],
   (filterTitleQuery, filterParamsList, filterByCategory) => {
     const hasTitle = typeof filterTitleQuery === 'string' && filterTitleQuery.trim() !== '';
-    const hasParams =
-      filterParamsList !== null &&
-      Object.keys(filterParamsList).length > 0;
-
-    const hasCategoryFilter = filterByCategory !== null && filterByCategory.length > 0;
+    const hasParams = !!filterParamsList && Object.keys(filterParamsList).length > 0;
+    const hasCategoryFilter = !!filterByCategory && filterByCategory.length > 0;
 
     return hasTitle || hasParams || hasCategoryFilter;
   }

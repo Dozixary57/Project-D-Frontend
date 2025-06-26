@@ -29,6 +29,9 @@ import { ProjectVisionPage } from '@pages/VisionPage/ProjectVisionPage';
 import ListComponent from 'layouts/inner/ListComponent';
 import ContentModalWindow from '@components/ModalWindows/ContentModalWindow';
 import VisionModalComponent from '@pages/VisionPage/VisionModalComponent/VisionModalComponent';
+import LegalPage from '@pages/LegalPage/LegalPage';
+import CommonLayout from 'layouts/CommonLayout';
+import GridComponent from 'layouts/inner/GridComponent';
 
 function App() {
   const navigate = useNavigate();
@@ -51,7 +54,6 @@ function App() {
       <Route path="/" element={<OverviewPage />} />
 
       <Route element={<MainLayout />}>
-
         <Route path="/Home" element={<HomePage />} />
 
         <Route path="/Vision" element={
@@ -77,16 +79,27 @@ function App() {
             </ContentModalWindow>
           } />
         </Route>
-
       </Route>
+
+      <Route path="/Content" element={
+        <MainLayout>
+          <ObjectsHubPage />
+        </MainLayout>
+      } />
 
       <Route element={<AuthLayout />}>
         <Route path="/Login" element={<LoginPage />} />
         <Route path="/Signup" element={<SignupPage />} />
       </Route>
 
+      <Route element={<CommonLayout />}>
+        <Route path="/Legal" element={
+          <GridComponent>
+            <LegalPage />
+          </GridComponent>
+        } />
+      </Route>
 
-      <Route path="/Content" element={<ObjectsHubPage />} />
       <Route path="/Content/Items" element={<ObjectsListPage />} />
       <Route path="/Content/Items/:titleId" element={<ObjectInfoPage />} />
       <Route path="/Receive" element={<ReceivePage />} />

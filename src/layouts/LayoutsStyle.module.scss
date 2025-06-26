@@ -1,17 +1,17 @@
 .MAIN_LAYOUT {
   width: 100%;
-  height: 100%;
+  height: 100vh;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
   align-items: center;
-
   padding: 0 0.2em;
+  overflow-y: scroll;
 
   >main {
+    width: min(100%, max(60%, 50em));
+    flex: 1;
     margin: 4em 0 0 0;
-    width: min(100%, max(60%, 30em));
-    padding: 0 1em;
   }
 }
 
